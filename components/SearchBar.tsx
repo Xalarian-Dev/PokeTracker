@@ -65,7 +65,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const [isFiltersExpanded, setIsFiltersExpanded] = useState(true);
 
   const handleGameClick = (gameId: string) => {
-    setSelectedGame(prev => (prev === gameId ? null : gameId));
+    // FIX: The prop type for `setSelectedGame` does not accept a function.
+    // Changed to a direct value update using the `selectedGame` prop.
+    setSelectedGame(selectedGame === gameId ? null : gameId);
   };
 
   const handleFilterClick = (type: 'gen' | 'region', value: number | string) => {
