@@ -1,0 +1,5 @@
+{
+  "name": "Traqueur de Shiny Pokémon",
+  "description": "Une application web pour aider les chasseurs de Pokémon shiny à suivre leur progression. Listez tous les Pokémon, marquez ceux que vous avez capturés en version shiny et sauvegardez votre progression localement dans votre navigateur.",
+  "requestFramePermissions": []
+}

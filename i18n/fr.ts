@@ -1,0 +1,55 @@
+
+import { pokemon as pokemonFR } from './pokemon-fr';
+
+export const ui = {
+    loading: "Chargement...",
+    welcome_trainer: "Bienvenue, Dresseur !",
+    login_prompt: "Entrez votre nom pour commencer votre chasse aux shiny.",
+    username_placeholder: "Sacha de Bourg Palette",
+    start_hunt: "Commencer la chasse",
+    disclaimer: "Note : Ceci est une simulation. Votre progression est sauvegardée localement dans votre navigateur et n'est pas stockée sur un serveur.",
+    trainer: "Dresseur",
+    logout: "Déconnexion",
+    shiny_tracker_title: "Traqueur de Shiny",
+    shinydex_progress: "Progression de votre ShinyDex",
+    shiny_pokemon_caught: "Pokémon shiny capturés",
+    search_placeholder: "Rechercher par nom ou N°...",
+    show_only_shiny: "Afficher uniquement les shiny",
+    show_missing_shiny: "Afficher les shiny manquants",
+    hide_regional_forms: "Cacher les formes régionales",
+    all_generations: "Toutes",
+    generation_short: "Gén",
+    filter_by_game: "Filtrer par disponibilité en jeu :",
+    no_pokemon_found: "Aucun Pokémon ne correspond à votre recherche.",
+    trainer_data_loading: "Chargement des données du dresseur...",
+    pokemon_shown: "{count} Pokémon affichés",
+    collapse_filters: "Replier les filtres",
+    expand_filters: "Déplier les filtres",
+};
+
+export const games: Record<string, string> = {
+    'rb': 'Rouge / Bleu',
+    'ye': 'Jaune',
+    'gs': 'Or / Argent',
+    'c': 'Cristal',
+    'rs': 'Rubis / Saphir',
+    'e': 'Émeraude',
+    'frlg': 'Rouge Feu / Vert Feuille',
+    'dp': 'Diamant / Perle',
+    'pt': 'Platine',
+    'hgss': 'Or HeartGold / Argent SoulSilver',
+    'bw': 'Noir / Blanc',
+    'bw2': 'Noir 2 / Blanc 2',
+    'xy': 'X / Y',
+    'oras': 'Rubis Oméga / Saphir Alpha',
+    'sm': 'Soleil / Lune',
+    'usum': 'Ultra-Soleil / Ultra-Lune',
+    'lgpe': 'Let\'s Go Pikachu / Évoli',
+    'swsh': 'Épée / Bouclier',
+    'bdsp': 'Diamant Étincelant / Perle Scintillante',
+    'la': 'Légendes : Arceus',
+    'sv': 'Écarlate / Violet',
+    'lza': 'Légendes : Z-A',
+};
+
+export const pokemon: Record<string, string> = pokemonFR;
