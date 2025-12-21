@@ -25,6 +25,12 @@ export const ui = {
     pokemon_shown: "{count} Pokémon affichés",
     collapse_filters: "Replier les filtres",
     expand_filters: "Déplier les filtres",
+    regions: {
+        'Alola': 'Alola',
+        'Galar': 'Galar',
+        'Hisui': 'Hisui',
+        'Paldea': 'Paldéa',
+    }
 };
 
 export const games: Record<string, string> = {

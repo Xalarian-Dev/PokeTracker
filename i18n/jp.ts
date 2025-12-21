@@ -25,6 +25,12 @@ export const ui = {
     pokemon_shown: "{count} 匹のポケモンを表示中",
     collapse_filters: "フィルターを閉じる",
     expand_filters: "フィルターを開く",
+    regions: {
+        'Alola': 'アローラ',
+        'Galar': 'ガラル',
+        'Hisui': 'ヒスイ',
+        'Paldea': 'パルデア',
+    }
 };
 
 export const games: Record<string, string> = {

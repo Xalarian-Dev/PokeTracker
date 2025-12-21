@@ -18,6 +18,7 @@ interface LanguageContextType {
   getPokemonName: (id: string) => string;
   getGameName: (id: string) => string;
   getGameList: () => Record<string, string>;
+  getRegionName: (id: string) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -61,6 +62,12 @@ export const LanguageProvider = ({ children }: React.PropsWithChildren) => {
     return translations[language].games;
   }
 
+  const getRegionName = (id: string): string => {
+    // @ts-ignore - regions might not exist yet on all translation objects during migration
+    const regions = translations[language].ui.regions || translations['en'].ui.regions;
+    return regions[id] || id;
+  };
+
   const contextValue = useMemo(() => ({
     language,
     setLanguage: handleSetLanguage,
@@ -68,6 +75,7 @@ export const LanguageProvider = ({ children }: React.PropsWithChildren) => {
     getPokemonName,
     getGameName,
     getGameList,
+    getRegionName,
   }), [language, t]);
 
   return (

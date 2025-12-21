@@ -8,21 +8,21 @@ const getSpriteUrl = (id: number, shiny: boolean = false) => {
 };
 
 const createPokemon = (id: number, name: string, generation: number): Pokemon => ({
-    id: id.toString(),
-    name,
-    generation,
-    sprite: getSpriteUrl(id),
-    shinySprite: getSpriteUrl(id, true)
+  id: id.toString(),
+  name,
+  generation,
+  sprite: getSpriteUrl(id),
+  shinySprite: getSpriteUrl(id, true)
 });
 
 const createRegionalPokemon = (pokedexId: number, name: string, generation: number, region: string, form: string, spriteId: number): Pokemon => {
   return {
-      id: `${pokedexId}-${form}`, // Internal App ID
-      name,
-      generation,
-      region,
-      sprite: `${HOME_SPRITE_BASE_URL}${spriteId}.png`,
-      shinySprite: `${HOME_SPRITE_BASE_URL}shiny/${spriteId}.png`,
+    id: `${pokedexId}-${form}`, // Internal App ID
+    name,
+    generation,
+    region,
+    sprite: `${HOME_SPRITE_BASE_URL}${spriteId}.png`,
+    shinySprite: `${HOME_SPRITE_BASE_URL}shiny/${spriteId}.png`,
   };
 };
 
