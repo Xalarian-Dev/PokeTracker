@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, forwardRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface SearchBarProps {
@@ -14,12 +15,13 @@ interface SearchBarProps {
   setActiveFilter: (filter: { type: 'gen' | 'region'; value: string | number } | null) => void;
   selectedGame: string | null;
   setSelectedGame: (game: string | null) => void;
+  onMajorFilterChange: () => void;
 }
 
 const FilterButton: React.FC<{
     label: string;
     isActive: boolean;
-    onClick: () => void;
+    onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }> = ({ label, isActive, onClick }) => {
     const baseClasses = "px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-yellow-500";
     const activeClasses = "bg-yellow-400 text-gray-900";
@@ -39,47 +41,52 @@ const GameButton: React.FC<{
     gameId: string;
     label: string;
     isSelected: boolean;
-    onClick: (gameId: string) => void;
+    onClick: (event: React.MouseEvent<HTMLButtonElement>, gameId: string) => void;
 }> = ({ gameId, label, isSelected, onClick }) => {
     const baseClasses = "px-3 py-1.5 text-xs font-medium rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500";
     const activeClasses = "bg-blue-500 text-white";
     const inactiveClasses = "bg-gray-700 hover:bg-gray-600 text-white";
     return (
-         <button onClick={() => onClick(gameId)} className={`${baseClasses} ${isSelected ? activeClasses : inactiveClasses}`}>
+         <button onClick={(e) => onClick(e, gameId)} className={`${baseClasses} ${isSelected ? activeClasses : inactiveClasses}`}>
             {label}
         </button>
     )
 }
 
 
-const SearchBar: React.FC<SearchBarProps> = ({ 
+const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> = ({ 
     searchTerm, setSearchTerm, 
     showOnlyShiny, setShowOnlyShiny, 
     showMissingShiny, setShowMissingShiny,
     hideRegionalForms, setHideRegionalForms,
     activeFilter, setActiveFilter,
-    selectedGame, setSelectedGame
-}) => {
+    selectedGame, setSelectedGame,
+    onMajorFilterChange
+}, ref) => {
   const { t, getGameList } = useLanguage();
   const gameList = getGameList();
   const [isFiltersExpanded, setIsFiltersExpanded] = useState(true);
 
-  const handleGameClick = (gameId: string) => {
-    // FIX: The prop type for `setSelectedGame` does not accept a function.
-    // Changed to a direct value update using the `selectedGame` prop.
+  const handleGameClick = (event: React.MouseEvent<HTMLButtonElement>, gameId: string) => {
+    event.preventDefault();
+    (event.currentTarget as HTMLButtonElement).blur();
     setSelectedGame(selectedGame === gameId ? null : gameId);
+    onMajorFilterChange();
   };
 
-  const handleFilterClick = (type: 'gen' | 'region', value: number | string) => {
+  const handleFilterClick = (event: React.MouseEvent<HTMLButtonElement>, type: 'gen' | 'region', value: number | string) => {
+    event.preventDefault();
+    (event.currentTarget as HTMLButtonElement).blur();
     if (activeFilter?.type === type && activeFilter?.value === value) {
         setActiveFilter(null);
     } else {
         setActiveFilter({ type, value });
     }
+    onMajorFilterChange();
   };
 
   return (
-    <div className="sticky top-16 z-40 mb-8 flex flex-col bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-lg">
+    <div ref={ref} className="sticky top-16 z-40 mb-8 flex flex-col bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-lg">
         <div className="p-4 flex flex-col gap-4">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="relative flex-grow w-full sm:w-auto">
@@ -140,7 +147,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
                                     key={`gen-${gen}`} 
                                     label={`${t('generation_short')} ${gen}`}
                                     isActive={activeFilter?.type === 'gen' && activeFilter?.value === gen}
-                                    onClick={() => handleFilterClick('gen', gen)}
+                                    onClick={(e) => handleFilterClick(e, 'gen', gen)}
                                 />
                             );
                         })}
@@ -149,7 +156,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
                                 key={`region-${region}`}
                                 label={region}
                                 isActive={activeFilter?.type === 'region' && activeFilter?.value === region}
-                                onClick={() => handleFilterClick('region', region)}
+                                onClick={(e) => handleFilterClick(e, 'region', region)}
                             />
                         ))}
                     </div>
@@ -190,4 +197,4 @@ const SearchBar: React.FC<SearchBarProps> = ({
   );
 };
 
-export default SearchBar;
+export default forwardRef(SearchBar);

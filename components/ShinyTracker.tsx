@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useLayoutEffect } from 'react';
 import type { Pokemon, User } from '../types';
 import Header from './Header';
 import SearchBar from './SearchBar';
@@ -22,9 +22,34 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, pokemonList
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<{ type: 'gen' | 'region'; value: string | number } | null>(null);
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
+  const [scrollTrigger, setScrollTrigger] = useState(0);
   const { t } = useLanguage();
+  const didMount = useRef(false);
+  const searchBarRef = useRef<HTMLDivElement>(null);
+  const searchBarInitialTop = useRef(0);
 
   const storageKey = `shinyTrackerData_${user.username}`;
+  
+  useLayoutEffect(() => {
+    if (searchBarRef.current) {
+      searchBarInitialTop.current = searchBarRef.current.offsetTop;
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    if (didMount.current) {
+        if (searchBarInitialTop.current > 0) {
+            const headerHeight = 64; // Corresponds to h-16 in Tailwind (4rem = 64px)
+            const targetScrollY = searchBarInitialTop.current - headerHeight;
+            window.scrollTo({
+                top: targetScrollY,
+                behavior: 'smooth',
+            });
+        }
+    } else {
+        didMount.current = true;
+    }
+  }, [scrollTrigger]);
 
   useEffect(() => {
     try {
@@ -106,6 +131,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, pokemonList
         </div>
       
         <SearchBar 
+          ref={searchBarRef}
           searchTerm={searchTerm} 
           setSearchTerm={setSearchTerm} 
           showOnlyShiny={showOnlyShiny}
@@ -118,6 +144,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, pokemonList
           setActiveFilter={setActiveFilter}
           selectedGame={selectedGame}
           setSelectedGame={setSelectedGame}
+          onMajorFilterChange={() => setScrollTrigger(st => st + 1)}
         />
         
         {!loading && filteredPokemon.length > 0 && (
@@ -143,7 +170,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, pokemonList
         )}
 
         {!loading && filteredPokemon.length === 0 && (
-            <div className="text-center py-16">
+             <div className="text-center py-16">
                 <p className="text-xl text-gray-500">{t('no_pokemon_found')}</p>
             </div>
         )}
