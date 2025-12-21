@@ -11,7 +11,7 @@ export const ui = {
     trainer: "Dresseur",
     logout: "Déconnexion",
     shiny_tracker_title: "Traqueur de Shiny",
-    shinydex_progress: "Progression de votre ShinyDex",
+    shinydex_progress: "Progression de votre BITE ShinyDex",
     shiny_pokemon_caught: "Pokémon shiny capturés",
     search_placeholder: "Rechercher par nom ou N°...",
     show_only_shiny: "Afficher uniquement les shiny",
