@@ -24,7 +24,7 @@ const gameColorMap: Record<string, { keys: [string, string]; colors: [string, st
   'oras': { keys: ['or', 'as'], colors: ['bg-red-800/50', 'bg-blue-800/50'] },
   'sm': { keys: ['su', 'm'], colors: ['bg-orange-500/50', 'bg-purple-900/50'] },
   'usum': { keys: ['us', 'um'], colors: ['bg-orange-500/50', 'bg-purple-900/50'] },
-  'lgpe': { keys: ['lgp', 'lge'], colors: ['bg-yellow-700/50', 'bg-amber-800/50'] },
+  'lgpe': { keys: ['lgp', 'lge'], colors: ['bg-yellow-400/50', 'bg-amber-800/50'] },
   'swsh': { keys: ['sw', 'sh'], colors: ['bg-cyan-800/50', 'bg-fuchsia-800/50'] },
   'bdsp': { keys: ['bd', 'sp'], colors: ['bg-sky-800/50', 'bg-pink-800/50'] },
   'sv': { keys: ['sc', 'v'], colors: ['bg-red-700/50', 'bg-purple-800/50'] }
