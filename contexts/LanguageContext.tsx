@@ -1,14 +1,15 @@
-
 import React, { createContext, useState, useContext, useEffect, useMemo } from 'react';
 import * as frTranslations from '../i18n/fr';
 import * as enTranslations from '../i18n/en';
+import * as jpTranslations from '../i18n/jp';
 
-const translations = { 
-    fr: frTranslations, 
-    en: enTranslations 
+const translations = {
+  fr: frTranslations,
+  en: enTranslations,
+  jp: jpTranslations
 };
 
-type Language = 'fr' | 'en';
+type Language = 'fr' | 'en' | 'jp';
 
 interface LanguageContextType {
   language: Language;
@@ -22,12 +23,12 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider = ({ children }: React.PropsWithChildren) => {
-  const [language, setLanguage] = useState<Language>('fr');
+  const [language, setLanguage] = useState<Language>('en');
 
   useEffect(() => {
     const storedLang = localStorage.getItem('shinyTrackerLang');
-    if (storedLang === 'fr' || storedLang === 'en') {
-      setLanguage(storedLang);
+    if (storedLang === 'fr' || storedLang === 'en' || storedLang === 'jp') {
+      setLanguage(storedLang as Language);
     }
   }, []);
 
@@ -39,9 +40,9 @@ export const LanguageProvider = ({ children }: React.PropsWithChildren) => {
   const t = (key: keyof typeof frTranslations.ui, replacements?: Record<string, string | number>): string => {
     let translation = translations[language].ui[key] || translations['en'].ui[key];
     if (replacements) {
-        Object.keys(replacements).forEach(rKey => {
-            translation = translation.replace(`{${rKey}}`, String(replacements[rKey]));
-        });
+      Object.keys(replacements).forEach(rKey => {
+        translation = translation.replace(`{${rKey}}`, String(replacements[rKey]));
+      });
     }
     return translation;
   };
@@ -50,7 +51,7 @@ export const LanguageProvider = ({ children }: React.PropsWithChildren) => {
     const key = id as keyof typeof frTranslations.pokemon;
     return translations[language].pokemon[key] || `Pokémon #${id}`;
   };
-  
+
   const getGameName = (id: string): string => {
     const key = id as keyof typeof frTranslations.games;
     return translations[language].games[key] || id;
