@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { SignInButton, SignOutButton, useUser } from '@clerk/clerk-react';
 import type { User } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
 import { LuxuryBallIcon, MasterBallIcon, FranceFlag, UKFlag, JapanFlag } from './Icons';
@@ -11,6 +12,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ user, onLogout, onLoginClick }) => {
+  const { user: clerkUser } = useUser();
   const { language, setLanguage, t } = useLanguage();
 
   const langButtonClasses = (lang: 'fr' | 'en' | 'jp') =>
@@ -30,9 +32,9 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onLoginClick }) => {
             <h1 className="text-xl font-bold text-yellow-400">{t('shiny_tracker_title')}</h1>
           </div>
           <div className="flex items-center space-x-4">
-            {user && (
+            {clerkUser && (
               <span className="hidden sm:block text-gray-300">
-                {t('trainer')}: <span className="font-semibold text-white">{user.username}</span>
+                {t('trainer')}: <span className="font-semibold text-white">{clerkUser.username || clerkUser.firstName || 'Trainer'}</span>
               </span>
             )}
             <div className="flex items-center space-x-2 bg-gray-900/50 p-1 rounded-lg">
@@ -58,20 +60,22 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onLoginClick }) => {
                 <JapanFlag className="w-6 h-4 shadow-sm" />
               </button>
             </div>
-            {user ? (
-              <button
-                onClick={onLogout}
-                className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm"
-              >
-                {t('logout')}
-              </button>
+            {clerkUser ? (
+              <SignOutButton>
+                <button
+                  className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm"
+                >
+                  {t('logout')}
+                </button>
+              </SignOutButton>
             ) : (
-              <button
-                onClick={onLoginClick}
-                className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg transition-colors text-sm"
-              >
-                {t('login')}
-              </button>
+              <SignInButton mode="modal">
+                <button
+                  className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg transition-colors text-sm"
+                >
+                  {t('login')}
+                </button>
+              </SignInButton>
             )}
           </div>
         </div>

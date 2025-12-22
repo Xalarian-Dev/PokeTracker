@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useMemo, useRef, useLayoutEffect } from 'react';
+import { useUser } from '@clerk/clerk-react';
 import type { Pokemon, User } from '../types';
 import Header from './Header';
 import SearchBar from './SearchBar';
@@ -8,6 +9,13 @@ import RandomHuntSidePanel from './RandomHuntSidePanel';
 import ConfirmationModal from './ConfirmationModal';
 import { POKEMON_AVAILABILITY, GAME_GROUP_MAP } from '../data/games';
 import { useLanguage } from '../contexts/LanguageContext';
+import {
+  fetchShinyPokemon,
+  addShinyPokemon,
+  removeShinyPokemon,
+  subscribeToShinyChanges,
+  migrateLocalStorageToSupabase
+} from '../services/supabase';
 
 interface ShinyTrackerProps {
   user: User | null;
@@ -17,6 +25,7 @@ interface ShinyTrackerProps {
 }
 
 const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClick, pokemonList }) => {
+  const { user: clerkUser } = useUser();
   const [shinyPokemons, setShinyPokemons] = useState<Set<string>>(new Set());
   const [searchTerm, setSearchTerm] = useState('');
   const [showOnlyShiny, setShowOnlyShiny] = useState(false);
@@ -39,8 +48,10 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
   const didMount = useRef(false);
   const searchBarRef = useRef<HTMLDivElement>(null);
   const searchBarInitialTop = useRef(0);
+  const realtimeChannelRef = useRef<any>(null);
 
   const storageKey = user ? `shinyTrackerData_${user.username}` : null;
+  const userId = clerkUser?.id;
 
   useLayoutEffect(() => {
     if (searchBarRef.current) {
@@ -51,7 +62,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
   useLayoutEffect(() => {
     if (didMount.current) {
       if (searchBarInitialTop.current > 0) {
-        const headerHeight = 64; // Corresponds to h-16 in Tailwind (4rem = 64px)
+        const headerHeight = 64;
         const targetScrollY = searchBarInitialTop.current - headerHeight;
         window.scrollTo({
           top: targetScrollY,
@@ -63,53 +74,139 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
     }
   }, [scrollTrigger]);
 
+  // Load data on mount
   useEffect(() => {
-    if (!storageKey) {
-      setLoading(false);
-      setShinyPokemons(new Set());
-      return;
-    }
+    const loadData = async () => {
+      setLoading(true);
 
-    try {
-      const storedData = localStorage.getItem(storageKey);
-      if (storedData) {
-        setShinyPokemons(new Set(JSON.parse(storedData)));
+      if (!userId) {
+        // Guest mode: use localStorage
+        if (storageKey) {
+          try {
+            const storedData = localStorage.getItem(storageKey);
+            if (storedData) {
+              setShinyPokemons(new Set(JSON.parse(storedData)));
+            }
+          } catch (error) {
+            console.error("Failed to load from localStorage", error);
+          }
+        }
+        setLoading(false);
+        return;
       }
-    } catch (error) {
-      console.error("Failed to load shiny data from localStorage", error);
-    } finally {
-      setLoading(false);
-    }
-  }, [storageKey]);
 
+      // Authenticated: use Supabase
+      try {
+        const shinies = await fetchShinyPokemon(userId);
+        setShinyPokemons(shinies);
+
+        // Check for localStorage migration
+        if (storageKey) {
+          const localData = localStorage.getItem(storageKey);
+          if (localData) {
+            const localShinyIds = JSON.parse(localData);
+            if (localShinyIds.length > 0 && shinies.size === 0) {
+              // Prompt for migration
+              const shouldMigrate = window.confirm(
+                t('migrate_local_data') ||
+                "You have local data. Would you like to sync it to the cloud?"
+              );
+
+              if (shouldMigrate) {
+                await migrateLocalStorageToSupabase(userId, localShinyIds);
+                const updatedShinies = await fetchShinyPokemon(userId);
+                setShinyPokemons(updatedShinies);
+                localStorage.removeItem(storageKey);
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Failed to load from Supabase", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, [userId, storageKey]);
+
+  // Real-time subscription for authenticated users
   useEffect(() => {
-    if (!loading && storageKey) {
+    if (!userId) return;
+
+    const channel = subscribeToShinyChanges(userId, (payload) => {
+      console.log('Real-time update:', payload);
+
+      if (payload.eventType === 'INSERT') {
+        setShinyPokemons(prev => new Set([...prev, payload.new.pokemon_id]));
+      } else if (payload.eventType === 'DELETE') {
+        setShinyPokemons(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(payload.old.pokemon_id);
+          return newSet;
+        });
+      }
+    });
+
+    realtimeChannelRef.current = channel;
+
+    return () => {
+      channel.unsubscribe();
+    };
+  }, [userId]);
+
+  // Save to localStorage for guests
+  useEffect(() => {
+    if (!loading && storageKey && !userId) {
       try {
         localStorage.setItem(storageKey, JSON.stringify(Array.from(shinyPokemons)));
       } catch (error) {
-        console.error("Failed to save shiny data to localStorage", error);
+        console.error("Failed to save to localStorage", error);
       }
     }
-  }, [shinyPokemons, storageKey, loading]);
+  }, [shinyPokemons, storageKey, loading, userId]);
 
-  const toggleShiny = (pokemonId: string) => {
-    if (!user) {
-      // Guest mode: Read-only or transient? 
-      // For now, let's just ignore or maybe alert.
-      // Or keep it transient? If transient, user might lose data.
-      // Better to require login.
-      if (onLoginClick) onLoginClick();
+  const toggleShiny = async (pokemonId: string) => {
+    // Guest mode: Allow playing with localStorage
+    if (!userId) {
+      setShinyPokemons(prev => {
+        const newSet = new Set(prev);
+        if (newSet.has(pokemonId)) {
+          newSet.delete(pokemonId);
+        } else {
+          newSet.add(pokemonId);
+        }
+        return newSet;
+      });
       return;
     }
-    setShinyPokemons(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(pokemonId)) {
-        newSet.delete(pokemonId);
+
+    // Authenticated: use Supabase
+    try {
+      const isCurrentlyShiny = shinyPokemons.has(pokemonId);
+
+      if (isCurrentlyShiny) {
+        // Optimistic update
+        setShinyPokemons(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(pokemonId);
+          return newSet;
+        });
+
+        await removeShinyPokemon(userId, pokemonId);
       } else {
-        newSet.add(pokemonId);
+        // Optimistic update
+        setShinyPokemons(prev => new Set([...prev, pokemonId]));
+
+        await addShinyPokemon(userId, pokemonId);
       }
-      return newSet;
-    });
+    } catch (error) {
+      console.error('Error toggling shiny:', error);
+      // Revert optimistic update on error
+      const shinies = await fetchShinyPokemon(userId);
+      setShinyPokemons(shinies);
+    }
   };
 
   const filteredPokemon = useMemo(() => {
@@ -142,11 +239,6 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
   const progress = totalPokemon > 0 ? (shinyCount / totalPokemon) * 100 : 0;
 
   const handleMarkAll = () => {
-    if (!user) {
-      if (onLoginClick) onLoginClick();
-      return;
-    }
-
     setConfirmModal({
       isOpen: true,
       message: t('mark_all_confirm') || "Are you sure?",
@@ -162,11 +254,6 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
   };
 
   const handleUnmarkAll = () => {
-    if (!user) {
-      if (onLoginClick) onLoginClick();
-      return;
-    }
-
     setConfirmModal({
       isOpen: true,
       message: t('unmark_all_confirm') || "Are you sure?",

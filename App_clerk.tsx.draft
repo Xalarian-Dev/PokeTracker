@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useMemo } from 'react';
+
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { ClerkProvider, SignedIn, SignedOut, useUser } from '@clerk/clerk-react';
 import LoginScreen from './components/LoginScreen';
 import ShinyTracker from './components/ShinyTracker';
@@ -17,7 +18,7 @@ const AppContent = () => {
     if (!clerkUser) return null;
     return {
       email: clerkUser.primaryEmailAddress?.emailAddress || '',
-      username: clerkUser.username || clerkUser.firstName || clerkUser.id,
+      username: clerkUser.username || clerkUser.id,
       passwordHash: '', // Not needed with Clerk
     };
   }, [clerkUser]);
@@ -30,7 +31,7 @@ const AppContent = () => {
   }, [getPokemonName]);
 
   const handleLogout = useCallback(() => {
-    // Clerk handles logout via SignOutButton in Header
+    // Clerk handles logout via SignOutButton
     setShowLogin(false);
   }, []);
 
@@ -69,10 +70,9 @@ const AppContent = () => {
   );
 };
 
-
 const App = () => {
   return (
-    <ClerkProvider
+    <ClerkProvider 
       publishableKey={clerkPublishableKey}
       appearance={clerkAppearance}
     >
