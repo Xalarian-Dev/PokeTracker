@@ -1,6 +1,6 @@
 
 import { POKEMON_LIST } from '../data/pokemon';
-import { GAME_LIST } from '../data/games';
+import { GAME_LIST, INDIVIDUAL_GAME_LIST } from '../data/games';
 
 export const ui = {
     loading: "Loading...",
@@ -48,10 +48,23 @@ export const ui = {
     login_success: "Login successful",
     register_success: "Registration successful",
     auth_error: "Authentication error",
-    event_item_required: "Event Item may be required"
+    event_item_required: "Event Item may be required",
+    available_in: "Available in",
+    reroll: "Reroll",
+    what_do_we_hunt: "What do we hunt?",
+    lets_go: "Let's Go",
+    no_huntable_pokemon: "It seems you have no huntable Pokémon left.",
+    mark_all: "Mark All",
+    unmark_all: "Unmark All",
+    confirm_action: "Confirm Action",
+    mark_all_confirm: "Are you sure you want to mark all displayed Pokémon as shiny?",
+    unmark_all_confirm: "Are you sure you want to unmark all displayed Pokémon?",
+    yes: "Yes",
+    no: "No"
 };
 
 export const games: Record<string, string> = GAME_LIST;
+export const gameVersions: Record<string, string> = INDIVIDUAL_GAME_LIST;
 
 export const pokemon: Record<string, string> = POKEMON_LIST.reduce((acc, p) => {
     acc[p.id.toString()] = p.name;

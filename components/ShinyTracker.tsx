@@ -4,6 +4,8 @@ import type { Pokemon, User } from '../types';
 import Header from './Header';
 import SearchBar from './SearchBar';
 import PokemonCard from './PokemonCard';
+import RandomHuntSidePanel from './RandomHuntSidePanel';
+import ConfirmationModal from './ConfirmationModal';
 import { POKEMON_AVAILABILITY, GAME_GROUP_MAP } from '../data/games';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -24,6 +26,15 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
   const [activeFilter, setActiveFilter] = useState<{ type: 'gen' | 'region'; value: string | number } | null>(null);
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
   const [scrollTrigger, setScrollTrigger] = useState(0);
+  const [isRandomHuntOpen, setIsRandomHuntOpen] = useState(false);
+
+  // Confirmation Modal State
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    message: string;
+    onConfirm: () => void;
+  }>({ isOpen: false, message: '', onConfirm: () => { } });
+
   const { t } = useLanguage();
   const didMount = useRef(false);
   const searchBarRef = useRef<HTMLDivElement>(null);
@@ -130,10 +141,66 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
   const totalPokemon = pokemonList.length;
   const progress = totalPokemon > 0 ? (shinyCount / totalPokemon) * 100 : 0;
 
+  const handleMarkAll = () => {
+    if (!user) {
+      if (onLoginClick) onLoginClick();
+      return;
+    }
+
+    setConfirmModal({
+      isOpen: true,
+      message: t('mark_all_confirm') || "Are you sure?",
+      onConfirm: () => {
+        setShinyPokemons(prev => {
+          const newSet = new Set(prev);
+          filteredPokemon.forEach(p => newSet.add(p.id));
+          return newSet;
+        });
+        setConfirmModal(prev => ({ ...prev, isOpen: false })); // Close modal after action
+      }
+    });
+  };
+
+  const handleUnmarkAll = () => {
+    if (!user) {
+      if (onLoginClick) onLoginClick();
+      return;
+    }
+
+    setConfirmModal({
+      isOpen: true,
+      message: t('unmark_all_confirm') || "Are you sure?",
+      onConfirm: () => {
+        setShinyPokemons(prev => {
+          const newSet = new Set(prev);
+          filteredPokemon.forEach(p => newSet.delete(p.id));
+          return newSet;
+        });
+        setConfirmModal(prev => ({ ...prev, isOpen: false })); // Close modal after action
+      }
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-gray-900 text-white relative">
       <Header user={user} onLogout={onLogout} onLoginClick={onLoginClick} />
-      <main className="container mx-auto px-4 py-8">
+
+      <ConfirmationModal
+        isOpen={confirmModal.isOpen}
+        onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={confirmModal.onConfirm}
+        message={confirmModal.message}
+      />
+
+      <RandomHuntSidePanel
+        pokemonList={pokemonList}
+        shinyPokemons={shinyPokemons}
+        isOpen={isRandomHuntOpen}
+        onOpen={() => setIsRandomHuntOpen(true)}
+        onClose={() => setIsRandomHuntOpen(false)}
+      />
+
+      <main className={`container mx-auto px-4 py-8 transition-all duration-300 ${isRandomHuntOpen || confirmModal.isOpen ? 'blur-sm pointer-events-none select-none' : ''}`}>
         <div className="bg-gray-800 rounded-lg p-6 mb-8 shadow-lg">
           <h2 className="text-2xl font-bold">{t('shinydex_progress')}</h2>
           <p className="text-gray-400">{shinyCount} / {totalPokemon} {t('shiny_pokemon_caught')}</p>
@@ -163,8 +230,24 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
         />
 
         {!loading && filteredPokemon.length > 0 && (
-          <div className="mb-4 text-gray-400 text-sm px-1">
-            {t('pokemon_shown', { count: filteredPokemon.length })}
+          <div className="mb-4 px-1 flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4">
+            <div className="text-gray-400 text-sm">
+              {t('pokemon_shown', { count: filteredPokemon.length })}
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={handleMarkAll}
+                className="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded shadow transition-colors"
+              >
+                {t('mark_all')}
+              </button>
+              <button
+                onClick={handleUnmarkAll}
+                className="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-white text-xs font-bold rounded shadow transition-colors"
+              >
+                {t('unmark_all')}
+              </button>
+            </div>
           </div>
         )}
 

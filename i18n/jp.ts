@@ -47,7 +47,19 @@ export const ui = {
     login_success: "ログイン成功",
     register_success: "登録成功",
     auth_error: "認証エラー",
-    event_item_required: "イベントアイテムが必要な場合があります"
+    event_item_required: "イベントアイテムが必要な場合があります",
+    available_in: "入手可能",
+    reroll: "リロール",
+    what_do_we_hunt: "何を狩る？",
+    lets_go: "レッツゴー",
+    no_huntable_pokemon: "狩れるポケモンが残っていないようです。",
+    mark_all: "すべてマーク",
+    unmark_all: "すべて解除",
+    confirm_action: "確認",
+    mark_all_confirm: "表示されているすべてのポケモンを色違いとしてマークしてもよろしいですか？",
+    unmark_all_confirm: "表示されているすべてのドリルのマークを解除してもよろしいですか？",
+    yes: "はい",
+    no: "いいえ"
 };
 
 export const games: Record<string, string> = {
@@ -73,6 +85,30 @@ export const games: Record<string, string> = {
     'la': 'LEGENDS アルセウス',
     'sv': 'スカーレット・バイオレット',
     'lza': 'LEGENDS Z-A',
+};
+
+export const gameVersions: Record<string, string> = {
+    'r': '赤', 'b': '緑',
+    'g': '金', 's': '銀',
+    'ru': 'ルビー', 'sa': 'サファイア',
+    'fr': 'ファイアレッド', 'lg': 'リーフグリーン',
+    'd': 'ダイヤモンド', 'p': 'パール',
+    'hg': 'ハートゴールド', 'ss': 'ソウルシルバー',
+    'bla': 'ブラック', 'w': 'ホワイト',
+    'bla2': 'ブラック2', 'w2': 'ホワイト2',
+    'x': 'X', 'y': 'Y',
+    'or': 'オメガルビー', 'as': 'アルファサファイア',
+    'su': 'サン', 'm': 'ムーン',
+    'us': 'ウルトラサン', 'um': 'ウルトラムーン',
+    'lgp': 'Let\'s Go! ピカチュウ', 'lge': 'Let\'s Go! イーブイ',
+    'sw': 'ソード', 'sh': 'シールド',
+    'swdlc1': 'ソード (鎧の孤島)', 'shdlc1': 'シールド (鎧の孤島)',
+    'swdlc2': 'ソード (冠の雪原)', 'shdlc2': 'シールド (冠の雪原)',
+    'bd': 'ブリリアントダイヤモンド', 'sp': 'シャイニングパール',
+    'lpa': 'LEGENDS アルセウス',
+    'sc': 'スカーレット', 'v': 'バイオレット',
+    'scdlc1': 'スカーレット (碧の仮面)', 'vdlc1': 'バイオレット (碧の仮面)',
+    'scdlc2': 'スカーレット (藍の円盤)', 'vdlc2': 'バイオレット (藍の円盤)',
 };
 
 export const pokemon: Record<string, string> = pokemonJP;

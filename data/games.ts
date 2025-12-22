@@ -24,6 +24,30 @@ export const GAME_LIST: Record<string, string> = {
     'lza': 'Legends: Z-A',
 };
 
+export const INDIVIDUAL_GAME_LIST: Record<string, string> = {
+    'r': 'Red', 'b': 'Blue',
+    'g': 'Gold', 's': 'Silver',
+    'ru': 'Ruby', 'sa': 'Sapphire',
+    'fr': 'FireRed', 'lg': 'LeafGreen',
+    'd': 'Diamond', 'p': 'Pearl',
+    'hg': 'HeartGold', 'ss': 'SoulSilver',
+    'bla': 'Black', 'w': 'White',
+    'bla2': 'Black 2', 'w2': 'White 2',
+    'x': 'X', 'y': 'Y',
+    'or': 'Omega Ruby', 'as': 'Alpha Sapphire',
+    'su': 'Sun', 'm': 'Moon',
+    'us': 'Ultra Sun', 'um': 'Ultra Moon',
+    'lgp': 'Let\'s Go Pikachu', 'lge': 'Let\'s Go Eevee',
+    'sw': 'Sword', 'sh': 'Shield',
+    'swdlc1': 'Sword (IoA)', 'shdlc1': 'Shield (IoA)',
+    'swdlc2': 'Sword (CT)', 'shdlc2': 'Shield (CT)',
+    'bd': 'Brilliant Diamond', 'sp': 'Shining Pearl',
+    'lpa': 'Legends: Arceus',
+    'sc': 'Scarlet', 'v': 'Violet',
+    'scdlc1': 'Scarlet (TM)', 'vdlc1': 'Violet (TM)',
+    'scdlc2': 'Scarlet (ID)', 'vdlc2': 'Violet (ID)',
+};
+
 export const GAME_GROUP_MAP: Record<string, string[]> = {
     'rb': ['r', 'b'],
     'ye': ['ye'],
@@ -60,7 +84,7 @@ export const SHINY_LOCKED_POKEMON: Record<string, string[]> = {
     'oras': ['382', '383', '384', '386'], // Kyogre, Groudon, Rayquaza, Deoxys
 
     // Génération VII
-    'sm': ['718', '785', '786', '787', '788', '789', '791', '792', '793', '794', '795', '796', '797', '798', '799', '800', '801', '802'], // Zygarde, Tapu Koko, Tapu Lele, Tapu Bulu, Tapu Fini, Cosmog, Solgaleo, Lunala, Nihilego, Buzzwole, Pheromosa, Xurkitree, Celesteela, Kartana, Guzzlord, Necrozma, Magearna, Marshadow
+    'sm': ['718', '785', '786', '787', '788', '789', '790', '791', '792', '793', '794', '795', '796', '797', '798', '799', '800', '801', '802'], // Zygarde, Tapu Koko, Tapu Lele, Tapu Bulu, Tapu Fini, Cosmog, Cosmoem, Solgaleo, Lunala, Nihilego, Buzzwole, Pheromosa, Xurkitree, Celesteela, Kartana, Guzzlord, Necrozma, Magearna, Marshadow
     'usum': ['718', '785', '786', '787', '788', '789', '790', '791', '792', '800'], // Zygarde, Tapu Koko, Tapu Lele, Tapu Bulu, Tapu Fini, Cosmog, Cosmoem, Solgaleo, Lunala, Necrozma (Ultra-Chimères NOT locked in USUM)
 
     // Génération VIII

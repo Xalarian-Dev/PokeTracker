@@ -47,7 +47,19 @@ export const ui = {
     login_success: "Connexion réussie",
     register_success: "Inscription réussie",
     auth_error: "Erreur d'authentification",
-    event_item_required: "Objet Événementiel peut être requis"
+    event_item_required: "Objet Événementiel peut être requis",
+    available_in: "Disponible dans",
+    reroll: "Relancer",
+    what_do_we_hunt: "On chasse quoi ?",
+    lets_go: "C'est parti !",
+    no_huntable_pokemon: "Il semblerait que vous n'ayez aucun Pokémon chassable.",
+    mark_all: "Tout marquer",
+    unmark_all: "Tout démarquer",
+    confirm_action: "Confirmer l'action",
+    mark_all_confirm: "Voulez-vous vraiment marquer tous les Pokémon affichés comme chromatiques ?",
+    unmark_all_confirm: "Voulez-vous vraiment démarquer tous les Pokémon affichés ?",
+    yes: "Oui",
+    no: "Non"
 };
 
 export const games: Record<string, string> = {
@@ -73,6 +85,30 @@ export const games: Record<string, string> = {
     'la': 'Légendes : Arceus',
     'sv': 'Écarlate / Violet',
     'lza': 'Légendes : Z-A',
+};
+
+export const gameVersions: Record<string, string> = {
+    'r': 'Rouge', 'b': 'Bleu',
+    'g': 'Or', 's': 'Argent',
+    'ru': 'Rubis', 'sa': 'Saphir',
+    'fr': 'Rouge Feu', 'lg': 'Vert Feuille',
+    'd': 'Diamant', 'p': 'Perle',
+    'hg': 'Or HeartGold', 'ss': 'Argent SoulSilver',
+    'bla': 'Noir', 'w': 'Blanc',
+    'bla2': 'Noir 2', 'w2': 'Blanc 2',
+    'x': 'X', 'y': 'Y',
+    'or': 'Rubis Oméga', 'as': 'Saphir Alpha',
+    'su': 'Soleil', 'm': 'Lune',
+    'us': 'Ultra-Soleil', 'um': 'Ultra-Lune',
+    'lgp': 'Let\'s Go Pikachu', 'lge': 'Let\'s Go Évoli',
+    'sw': 'Épée', 'sh': 'Bouclier',
+    'swdlc1': 'Épée (Isolarmure)', 'shdlc1': 'Bouclier (Isolarmure)',
+    'swdlc2': 'Épée (Couronneige)', 'shdlc2': 'Bouclier (Couronneige)',
+    'bd': 'Diamant Étincelant', 'sp': 'Perle Scintillante',
+    'lpa': 'Légendes : Arceus',
+    'sc': 'Écarlate', 'v': 'Violet',
+    'scdlc1': 'Écarlate (Masque)', 'vdlc1': 'Violet (Masque)',
+    'scdlc2': 'Écarlate (Disque)', 'vdlc2': 'Violet (Disque)',
 };
 
 export const pokemon: Record<string, string> = pokemonFR;

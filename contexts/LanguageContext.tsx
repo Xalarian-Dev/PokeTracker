@@ -65,6 +65,14 @@ export const LanguageProvider = ({ children }: React.PropsWithChildren) => {
   };
 
   const getGameName = (id: string): string => {
+    // Check individual versions first (e.g. 'sw' -> 'Sword')
+    // @ts-ignore
+    const versions = translations[language].gameVersions || translations['en'].gameVersions;
+    if (versions && versions[id]) {
+      return versions[id];
+    }
+
+    // Check game groups (e.g. 'swsh' -> 'Sword / Shield')
     const key = id as keyof typeof frTranslations.games;
     return translations[language].games[key] || id;
   };
