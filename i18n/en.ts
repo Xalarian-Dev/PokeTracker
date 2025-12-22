@@ -47,7 +47,8 @@ export const ui = {
     switch_to_login: "Already have an account? Login here",
     login_success: "Login successful",
     register_success: "Registration successful",
-    auth_error: "Authentication error"
+    auth_error: "Authentication error",
+    event_item_required: "Event Item may be required"
 };
 
 export const games: Record<string, string> = GAME_LIST;

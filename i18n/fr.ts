@@ -46,7 +46,8 @@ export const ui = {
     switch_to_login: "Déjà un compte ? Connectez-vous",
     login_success: "Connexion réussie",
     register_success: "Inscription réussie",
-    auth_error: "Erreur d'authentification"
+    auth_error: "Erreur d'authentification",
+    event_item_required: "Objet Événementiel peut être requis"
 };
 
 export const games: Record<string, string> = {

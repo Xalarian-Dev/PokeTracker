@@ -140,6 +140,14 @@ export const MegaDimensionIcon: React.FC<IconProps> = ({ className }) => (
   />
 );
 
+export const EventIcon: React.FC<IconProps> = ({ className }) => (
+  <img
+    src="/assets/event-icon.png"
+    alt="Event Item Required"
+    className={className}
+  />
+);
+
 export const LockIcon: React.FC<IconProps> = ({ className }) => (
   <svg
     viewBox="0 0 24 24"

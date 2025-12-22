@@ -46,7 +46,8 @@ export const ui = {
     switch_to_login: "すでにアカウントをお持ちですか？ログインはこちら",
     login_success: "ログイン成功",
     register_success: "登録成功",
-    auth_error: "認証エラー"
+    auth_error: "認証エラー",
+    event_item_required: "イベントアイテムが必要な場合があります"
 };
 
 export const games: Record<string, string> = {

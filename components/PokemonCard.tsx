@@ -2,8 +2,8 @@
 import React, { useMemo } from 'react';
 import type { Pokemon } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
-import { StarIcon, IsleOfArmorIcon, CrownTundraIcon, TealMaskIcon, IndigoDiskIcon, MegaDimensionIcon, LockIcon } from './Icons';
-import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON } from '../data/games';
+import { StarIcon, IsleOfArmorIcon, CrownTundraIcon, TealMaskIcon, IndigoDiskIcon, MegaDimensionIcon, LockIcon, EventIcon } from './Icons';
+import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON, EVENT_ITEM_POKEMON } from '../data/games';
 
 interface PokemonCardProps {
   pokemon: Pokemon;
@@ -131,6 +131,13 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
     return false;
   }, [pokemon.id, selectedGame]);
 
+  const hasEventItem = useMemo(() => {
+    if (selectedGame && EVENT_ITEM_POKEMON[selectedGame]) {
+      return EVENT_ITEM_POKEMON[selectedGame].includes(pokemon.id);
+    }
+    return false;
+  }, [pokemon.id, selectedGame]);
+
   return (
     <div className={cardClasses} onClick={() => onToggleShiny(pokemon.id)}>
       {isShiny && (
@@ -178,14 +185,31 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
           </span>
         </div>
       )}
-      {isLocked && (
-        <div className="absolute bottom-2 left-2 text-red-500/80 group-hover:text-red-500 transition-colors group/lock">
-          <LockIcon className="w-5 h-5" />
-          <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/lock:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
-            {t('shiny_lock')}
-          </span>
-        </div>
-      )}
+
+      {/* Status Icons Container (Bottom Left) */}
+      <div className="absolute bottom-2 left-2 flex flex-col items-start gap-1 z-10">
+
+        {/* Event Icon (Above Lock) */}
+        {hasEventItem && (
+          <div className="group/event relative">
+            <EventIcon className="w-5 h-5 drop-shadow-md" />
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/event:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+              {t('event_item_required')}
+            </span>
+          </div>
+        )}
+
+        {/* Lock Icon */}
+        {isLocked && (
+          <div className="group/lock relative text-red-500/80 group-hover:text-red-500 transition-colors">
+            <LockIcon className="w-5 h-5" />
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/lock:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+              {t('shiny_lock')}
+            </span>
+          </div>
+        )}
+      </div>
+
       <div className="w-24 h-24 flex items-center justify-center">
         <img
           src={isShiny ? pokemon.shinySprite : pokemon.sprite}

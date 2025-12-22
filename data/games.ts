@@ -101,6 +101,31 @@ export const SHINY_LOCKED_POKEMON: Record<string, string[]> = {
     ]
 };
 
+// Liste des Pokémon nécessitant un objet événementiel pour être accessibles
+export const EVENT_ITEM_POKEMON: Record<string, string[]> = {
+    // Génération II (Virtual Console)
+    'c': ['251'], // Celebi (GS Ball)
+
+    // Génération III
+    'rs': ['380', '381'], // Latias/Latios (Eon Ticket)
+    'frlg': ['249', '250', '386'], // Lugia/Ho-Oh (MysticTicket), Deoxys (Aurora Ticket)
+    'e': ['151', '249', '250', '380', '381', '386'], // Mew (Old Sea Map), Lugia/Ho-Oh (MysticTicket), Latias/Latios (Eon Ticket), Deoxys (Aurora Ticket)
+
+    // Génération IV
+    'pt': ['491', '492', '493'], // Darkrai (Member Card), Shaymin (Oak's Letter), Arceus (Azure Flute)
+    'hgss': ['380', '381'], // Latias/Latios (Enigma Stone)
+
+    // Génération V
+    'bw': ['494'], // Victini (Liberty Pass)
+    'bw2': ['494'], // Victini (Liberty Pass)
+
+    // Génération VIII
+    'bdsp': ['491', '492', '493'], // Darkrai (Member Card), Shaymin (Oak's Letter), Arceus (Azure Flute)
+
+    // Génération IX
+    'sv': ['1025'], // Pecharunt (Mythical Pecha Berry)
+};
+
 
 // Base de données de disponibilité des Pokémon par jeu
 export const POKEMON_AVAILABILITY: Record<string, string[]> = {
@@ -352,8 +377,8 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '246': ['g', 's', 'c', 'fr', 'lg', 'd', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'y', 'us', 'um', 'sh', 'bd', 'sc', 'lpza'],
     '247': ['g', 's', 'c', 'fr', 'lg', 'd', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'y', 'us', 'um', 'sh', 'bd', 'sc', 'lpza'],
     '248': ['g', 's', 'c', 'fr', 'lg', 'd', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'y', 'us', 'um', 'sh', 'bd', 'sc', 'lpza'],
-    '249': ['g', 's', 'c', 'hg', 'ss', 'as', 'shdlc2', 'sp'],
-    '250': ['g', 's', 'c', 'hg', 'ss', 'or', 'swdlc2', 'bd'],
+    '249': ['g', 's', 'c', 'fr', 'lg', 'e', 'hg', 'ss', 'as', 'shdlc2', 'sp'],
+    '250': ['g', 's', 'c', 'fr', 'lg', 'e', 'hg', 'ss', 'or', 'swdlc2', 'bd'],
     '251': ['c'],
     '252': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'bd', 'sp', 'lpzadlc1'],
     '253': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'bd', 'sp', 'lpzadlc1'],
@@ -483,8 +508,8 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '377': ['ru', 'sa', 'e', 'pt', 'bla2', 'w2', 'or', 'as', 'swdlc2', 'shdlc2', 'bd', 'sp'],
     '378': ['ru', 'sa', 'e', 'pt', 'w2', 'or', 'as', 'swdlc2', 'shdlc2', 'bd', 'sp'],
     '379': ['ru', 'sa', 'e', 'pt', 'bla2', 'or', 'as', 'swdlc2', 'shdlc2', 'bd', 'sp'],
-    '380': ['sa', 'e', 'hg', 'ss', 'w2', 'or', 'as', 'shdlc2', 'bd', 'sp', 'lpzadlc1'],
-    '381': ['ru', 'e', 'hg', 'ss', 'bla2', 'or', 'as', 'swdlc2', 'bd', 'sp', 'lpzadlc1'],
+    '380': ['ru', 'sa', 'e', 'hg', 'ss', 'w2', 'or', 'as', 'shdlc2', 'bd', 'sp', 'lpzadlc1'],
+    '381': ['ru', 'sa', 'e', 'hg', 'ss', 'bla2', 'or', 'as', 'swdlc2', 'bd', 'sp', 'lpzadlc1'],
     '382': ['sa', 'e', 'hg', 'as', 'shdlc2', 'bd', 'sp', 'lpzadlc1'],
     '383': ['ru', 'e', 'ss', 'or', 'swdlc2', 'bd', 'sp', 'lpzadlc1'],
     '384': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'bd', 'sp', 'lpzadlc1'],
