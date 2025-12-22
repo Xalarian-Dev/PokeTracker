@@ -104,3 +104,78 @@ export async function migrateLocalStorageToSupabase(
         throw error;
     }
 }
+
+/**
+ * User Preferences Types
+ */
+export interface UserPreferences {
+    user_id: string;
+    preferred_language: 'fr' | 'en' | 'jp';
+    owned_games: string[];
+}
+
+/**
+ * Get user preferences
+ */
+export async function getUserPreferences(userId: string): Promise<UserPreferences | null> {
+    const { data, error } = await supabase
+        .from('user_preferences')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+
+    if (error) {
+        if (error.code === 'PGRST116') {
+            // No preferences found, return null
+            return null;
+        }
+        console.error('Error fetching preferences:', error);
+        throw error;
+    }
+
+    return data;
+}
+
+/**
+ * Save user preferences (upsert)
+ */
+export async function saveUserPreferences(
+    userId: string,
+    language: 'fr' | 'en' | 'jp',
+    ownedGames: string[]
+): Promise<void> {
+    const { error } = await supabase
+        .from('user_preferences')
+        .upsert({
+            user_id: userId,
+            preferred_language: language,
+            owned_games: ownedGames,
+            updated_at: new Date().toISOString()
+        }, {
+            onConflict: 'user_id'
+        });
+
+    if (error) {
+        console.error('Error saving preferences:', error);
+        throw error;
+    }
+}
+
+/**
+ * Create default preferences for new user
+ */
+export async function createDefaultPreferences(userId: string): Promise<void> {
+    const { error } = await supabase
+        .from('user_preferences')
+        .insert({
+            user_id: userId,
+            preferred_language: 'fr',
+            owned_games: []
+        });
+
+    if (error && error.code !== '23505') {
+        // Ignore duplicate errors
+        console.error('Error creating default preferences:', error);
+        throw error;
+    }
+}

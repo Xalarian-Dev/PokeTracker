@@ -11,9 +11,11 @@ interface RandomHuntSidePanelProps {
     isOpen: boolean;
     onClose: () => void;
     onOpen: () => void;
+    userId?: string;
+    ownedGames?: string[];
 }
 
-const RandomHuntSidePanel: React.FC<RandomHuntSidePanelProps> = ({ pokemonList, shinyPokemons, isOpen, onClose, onOpen }) => {
+const RandomHuntSidePanel: React.FC<RandomHuntSidePanelProps> = ({ pokemonList, shinyPokemons, isOpen, onClose, onOpen, userId, ownedGames }) => {
     // const [isOpen, setIsOpen] = useState(false); // Lifted up
     const [result, setResult] = useState<{ pokemon: Pokemon; game: string } | null>(null);
     // Store the error KEY, not the translated string, so it updates with language changes
@@ -58,8 +60,14 @@ const RandomHuntSidePanel: React.FC<RandomHuntSidePanelProps> = ({ pokemonList, 
                     return !lockedIds.includes(randomPokemon.id);
                 });
 
-                if (unlockedGames.length > 0) {
-                    const randomGame = unlockedGames[Math.floor(Math.random() * unlockedGames.length)];
+                // Filter by owned games if user has specified them
+                let gamesToChooseFrom = unlockedGames;
+                if (ownedGames && ownedGames.length > 0) {
+                    gamesToChooseFrom = unlockedGames.filter(gameId => ownedGames.includes(gameId));
+                }
+
+                if (gamesToChooseFrom.length > 0) {
+                    const randomGame = gamesToChooseFrom[Math.floor(Math.random() * gamesToChooseFrom.length)];
                     validResult = { pokemon: randomPokemon, game: randomGame };
                 } else {
                     // Remove this candidate to avoid re-picking loop

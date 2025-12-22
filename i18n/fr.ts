@@ -59,7 +59,16 @@ export const ui = {
     mark_all_confirm: "Voulez-vous vraiment marquer tous les Pokémon affichés comme chromatiques ?",
     unmark_all_confirm: "Voulez-vous vraiment démarquer tous les Pokémon affichés ?",
     yes: "Oui",
-    no: "Non"
+    no: "Non",
+    profile: "Profil",
+    my_profile: "Mon Profil",
+    preferred_language: "Langue préférée",
+    owned_games: "Mes jeux possédés",
+    save_preferences: "Sauvegarder",
+    preferences_saved: "Préférences sauvegardées !",
+    select_all_games: "Tout sélectionner",
+    deselect_all_games: "Tout désélectionner",
+    back: "Retour"
 };
 
 export const games: Record<string, string> = {

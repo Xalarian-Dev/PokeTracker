@@ -60,7 +60,16 @@ export const ui = {
     mark_all_confirm: "Are you sure you want to mark all displayed Pokémon as shiny?",
     unmark_all_confirm: "Are you sure you want to unmark all displayed Pokémon?",
     yes: "Yes",
-    no: "No"
+    no: "No",
+    profile: "Profile",
+    my_profile: "My Profile",
+    preferred_language: "Preferred Language",
+    owned_games: "My Owned Games",
+    save_preferences: "Save Preferences",
+    preferences_saved: "Preferences saved successfully!",
+    select_all_games: "Select All",
+    deselect_all_games: "Deselect All",
+    back: "Back"
 };
 
 export const games: Record<string, string> = GAME_LIST;

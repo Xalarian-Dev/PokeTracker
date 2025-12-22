@@ -9,9 +9,10 @@ interface HeaderProps {
   user: User | null;
   onLogout: () => void;
   onLoginClick?: () => void;
+  onProfileClick?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ user, onLogout, onLoginClick }) => {
+const Header: React.FC<HeaderProps> = ({ user, onLogout, onLoginClick, onProfileClick }) => {
   const { user: clerkUser } = useUser();
   const { language, setLanguage, t } = useLanguage();
 
@@ -60,6 +61,15 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onLoginClick }) => {
                 <JapanFlag className="w-6 h-4 shadow-sm" />
               </button>
             </div>
+            {clerkUser && onProfileClick && (
+              <button
+                onClick={onProfileClick}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm flex items-center space-x-2"
+              >
+                <span>👤</span>
+                <span>{t('profile')}</span>
+              </button>
+            )}
             {clerkUser ? (
               <SignOutButton>
                 <button

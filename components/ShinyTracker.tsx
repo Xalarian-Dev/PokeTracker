@@ -14,17 +14,19 @@ import {
   addShinyPokemon,
   removeShinyPokemon,
   subscribeToShinyChanges,
-  migrateLocalStorageToSupabase
+  migrateLocalStorageToSupabase,
+  getUserPreferences
 } from '../services/supabase';
 
 interface ShinyTrackerProps {
   user: User | null;
   onLogout: () => void;
   onLoginClick?: () => void;
+  onProfileClick?: () => void;
   pokemonList: Pokemon[];
 }
 
-const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClick, pokemonList }) => {
+const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClick, onProfileClick, pokemonList }) => {
   const { user: clerkUser } = useUser();
   const [shinyPokemons, setShinyPokemons] = useState<Set<string>>(new Set());
   const [searchTerm, setSearchTerm] = useState('');
@@ -36,6 +38,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
   const [scrollTrigger, setScrollTrigger] = useState(0);
   const [isRandomHuntOpen, setIsRandomHuntOpen] = useState(false);
+  const [ownedGames, setOwnedGames] = useState<string[]>([]);
 
   // Confirmation Modal State
   const [confirmModal, setConfirmModal] = useState<{
@@ -99,6 +102,12 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
       try {
         const shinies = await fetchShinyPokemon(userId);
         setShinyPokemons(shinies);
+
+        // Load user preferences (owned games)
+        const prefs = await getUserPreferences(userId);
+        if (prefs && prefs.owned_games) {
+          setOwnedGames(prefs.owned_games);
+        }
 
         // Check for localStorage migration
         if (storageKey) {
@@ -270,7 +279,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
 
   return (
     <div className="min-h-screen bg-gray-900 text-white relative">
-      <Header user={user} onLogout={onLogout} onLoginClick={onLoginClick} />
+      <Header user={user} onLogout={onLogout} onLoginClick={onLoginClick} onProfileClick={onProfileClick} />
 
       <ConfirmationModal
         isOpen={confirmModal.isOpen}
@@ -285,6 +294,8 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
         isOpen={isRandomHuntOpen}
         onOpen={() => setIsRandomHuntOpen(true)}
         onClose={() => setIsRandomHuntOpen(false)}
+        userId={userId}
+        ownedGames={ownedGames}
       />
 
       <main className={`container mx-auto px-4 py-8 transition-all duration-300 ${isRandomHuntOpen || confirmModal.isOpen ? 'blur-sm pointer-events-none select-none' : ''}`}>

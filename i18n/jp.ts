@@ -59,7 +59,16 @@ export const ui = {
     mark_all_confirm: "表示されているすべてのポケモンを色違いとしてマークしてもよろしいですか？",
     unmark_all_confirm: "表示されているすべてのドリルのマークを解除してもよろしいですか？",
     yes: "はい",
-    no: "いいえ"
+    no: "いいえ",
+    profile: "プロフィール",
+    my_profile: "マイプロフィール",
+    preferred_language: "優先言語",
+    owned_games: "所有ゲーム",
+    save_preferences: "保存",
+    preferences_saved: "設定を保存しました！",
+    select_all_games: "すべて選択",
+    deselect_all_games: "すべて解除",
+    back: "戻る"
 };
 
 export const games: Record<string, string> = {
