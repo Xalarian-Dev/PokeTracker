@@ -37,7 +37,17 @@ export const ui = {
     dlc_crown_tundra: "Crown Tundra DLC",
     dlc_teal_mask: "The Teal Mask DLC",
     dlc_indigo_disk: "The Indigo Disk DLC",
-    dlc_mega_dimension: "Mega Dimension DLC"
+    dlc_mega_dimension: "Mega Dimension DLC",
+    email_placeholder: "Email Address",
+    password_placeholder: "Password",
+    identifier_placeholder: "Email or Username",
+    login: "Login",
+    register: "Register",
+    switch_to_register: "No account? Register here",
+    switch_to_login: "Already have an account? Login here",
+    login_success: "Login successful",
+    register_success: "Registration successful",
+    auth_error: "Authentication error"
 };
 
 export const games: Record<string, string> = GAME_LIST;

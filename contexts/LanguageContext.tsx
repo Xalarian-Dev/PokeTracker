@@ -24,14 +24,25 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider = ({ children }: React.PropsWithChildren) => {
-  const [language, setLanguage] = useState<Language>('en');
-
-  useEffect(() => {
+  const [language, setLanguage] = useState<Language>(() => {
+    // 1. Check local storage
     const storedLang = localStorage.getItem('shinyTrackerLang');
     if (storedLang === 'fr' || storedLang === 'en' || storedLang === 'jp') {
-      setLanguage(storedLang as Language);
+      return storedLang as Language;
     }
-  }, []);
+
+    // 2. Check browser language
+    const browserLang = navigator.language.toLowerCase();
+    if (browserLang.startsWith('fr')) {
+      return 'fr';
+    }
+    if (browserLang.startsWith('ja')) {
+      return 'jp';
+    }
+
+    // 3. Default
+    return 'en';
+  });
 
   const handleSetLanguage = (lang: Language) => {
     setLanguage(lang);

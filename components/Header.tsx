@@ -5,11 +5,12 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { LuxuryBallIcon, MasterBallIcon, FranceFlag, UKFlag, JapanFlag } from './Icons';
 
 interface HeaderProps {
-  user: User;
+  user: User | null;
   onLogout: () => void;
+  onLoginClick?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
+const Header: React.FC<HeaderProps> = ({ user, onLogout, onLoginClick }) => {
   const { language, setLanguage, t } = useLanguage();
 
   const langButtonClasses = (lang: 'fr' | 'en' | 'jp') =>
@@ -29,9 +30,11 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
             <h1 className="text-xl font-bold text-yellow-400">{t('shiny_tracker_title')}</h1>
           </div>
           <div className="flex items-center space-x-4">
-            <span className="hidden sm:block text-gray-300">
-              {t('trainer')}: <span className="font-semibold text-white">{user.username}</span>
-            </span>
+            {user && (
+              <span className="hidden sm:block text-gray-300">
+                {t('trainer')}: <span className="font-semibold text-white">{user.username}</span>
+              </span>
+            )}
             <div className="flex items-center space-x-2 bg-gray-900/50 p-1 rounded-lg">
               <button
                 onClick={() => setLanguage('en')}
@@ -55,12 +58,21 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
                 <JapanFlag className="w-6 h-4 shadow-sm" />
               </button>
             </div>
-            <button
-              onClick={onLogout}
-              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm"
-            >
-              {t('logout')}
-            </button>
+            {user ? (
+              <button
+                onClick={onLogout}
+                className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm"
+              >
+                {t('logout')}
+              </button>
+            ) : (
+              <button
+                onClick={onLoginClick}
+                className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg transition-colors text-sm"
+              >
+                {t('login')}
+              </button>
+            )}
           </div>
         </div>
       </div>

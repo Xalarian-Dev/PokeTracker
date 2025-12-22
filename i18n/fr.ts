@@ -36,7 +36,17 @@ export const ui = {
     dlc_crown_tundra: "DLC Les Terres Enneigées de la Couronne",
     dlc_teal_mask: "DLC Le Masque Turquoise",
     dlc_indigo_disk: "DLC Le Disque Indigo",
-    dlc_mega_dimension: "DLC Méga Dimension"
+    dlc_mega_dimension: "DLC Méga Dimension",
+    email_placeholder: "Adresse email",
+    password_placeholder: "Mot de passe",
+    identifier_placeholder: "Email ou Pseudo",
+    login: "Connexion",
+    register: "Inscription",
+    switch_to_register: "Pas de compte ? Inscrivez-vous",
+    switch_to_login: "Déjà un compte ? Connectez-vous",
+    login_success: "Connexion réussie",
+    register_success: "Inscription réussie",
+    auth_error: "Erreur d'authentification"
 };
 
 export const games: Record<string, string> = {

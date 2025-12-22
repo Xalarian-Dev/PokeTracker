@@ -36,7 +36,17 @@ export const ui = {
     dlc_crown_tundra: "冠の雪原",
     dlc_teal_mask: "碧の仮面",
     dlc_indigo_disk: "藍の円盤",
-    dlc_mega_dimension: "メガディメンション"
+    dlc_mega_dimension: "メガディメンション",
+    email_placeholder: "メールアドレス",
+    password_placeholder: "パスワード",
+    identifier_placeholder: "メールアドレスまたはユーザー名",
+    login: "ログイン",
+    register: "登録",
+    switch_to_register: "アカウントをお持ちでないですか？登録はこちら",
+    switch_to_login: "すでにアカウントをお持ちですか？ログインはこちら",
+    login_success: "ログイン成功",
+    register_success: "登録成功",
+    auth_error: "認証エラー"
 };
 
 export const games: Record<string, string> = {

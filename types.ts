@@ -10,4 +10,6 @@ export interface Pokemon {
 
 export interface User {
   username: string;
+  email: string;
+  passwordHash?: string; // Simulated security
 }
