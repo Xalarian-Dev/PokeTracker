@@ -99,3 +99,19 @@ export const JapanFlag: React.FC<IconProps> = ({ className }) => (
     <circle cx="1.5" cy="1" r="0.6" fill="#bc002d" />
   </svg>
 );
+
+export const IsleOfArmorIcon: React.FC<IconProps> = ({ className }) => (
+  <img
+    src="/assets/isle-of-armor.png"
+    alt="Isle of Armor DLC"
+    className={className}
+  />
+);
+
+export const CrownTundraIcon: React.FC<IconProps> = ({ className }) => (
+  <img
+    src="/assets/crown-tundra.png"
+    alt="Crown Tundra DLC"
+    className={className}
+  />
+);

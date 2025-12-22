@@ -1,7 +1,7 @@
 
 import React, { useMemo } from 'react';
 import type { Pokemon } from '../types';
-import { StarIcon } from './Icons';
+import { StarIcon, IsleOfArmorIcon, CrownTundraIcon } from './Icons';
 import { POKEMON_AVAILABILITY } from '../data/games';
 
 interface PokemonCardProps {
@@ -66,11 +66,38 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
     ${isShiny ? 'border-2 border-yellow-400' : 'border-2 border-transparent'}
   `;
 
+  // Check for DLC availability when swsh is selected
+  const hasDLC1 = useMemo(() => {
+    if (selectedGame === 'swsh') {
+      const availability = POKEMON_AVAILABILITY[pokemon.id] || [];
+      return availability.includes('swdlc1') || availability.includes('shdlc1');
+    }
+    return false;
+  }, [pokemon.id, selectedGame]);
+
+  const hasDLC2 = useMemo(() => {
+    if (selectedGame === 'swsh') {
+      const availability = POKEMON_AVAILABILITY[pokemon.id] || [];
+      return availability.includes('swdlc2') || availability.includes('shdlc2');
+    }
+    return false;
+  }, [pokemon.id, selectedGame]);
+
   return (
     <div className={cardClasses} onClick={() => onToggleShiny(pokemon.id)}>
       {isShiny && (
         <div className="absolute top-2 right-2 text-yellow-400">
           <StarIcon className="w-5 h-5" filled={true} />
+        </div>
+      )}
+      {hasDLC1 && (
+        <div className="absolute top-2 left-2">
+          <IsleOfArmorIcon className="w-6 h-6" />
+        </div>
+      )}
+      {hasDLC2 && (
+        <div className="absolute top-2 left-2" style={{ marginLeft: hasDLC1 ? '28px' : '0' }}>
+          <CrownTundraIcon className="w-6 h-6" />
         </div>
       )}
       <div className="w-24 h-24 flex items-center justify-center">
