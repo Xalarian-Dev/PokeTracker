@@ -12,7 +12,7 @@ interface PokemonCardProps {
   selectedGame: string | null;
 }
 
-const gameColorMap: Record<string, { keys: [string, string]; colors: [string, string] }> = {
+const gameColorMap: Record<string, { keys: [string | string[], string | string[]]; colors: [string, string] }> = {
   'rb': { keys: ['r', 'b'], colors: ['bg-red-900/50', 'bg-blue-900/50'] },
   'gs': { keys: ['g', 's'], colors: ['bg-yellow-600/50', 'bg-slate-500/50'] },
   'rs': { keys: ['ru', 'sa'], colors: ['bg-red-800/50', 'bg-blue-800/50'] },
@@ -26,9 +26,15 @@ const gameColorMap: Record<string, { keys: [string, string]; colors: [string, st
   'sm': { keys: ['su', 'm'], colors: ['bg-orange-500/50', 'bg-purple-900/50'] },
   'usum': { keys: ['us', 'um'], colors: ['bg-orange-500/50', 'bg-purple-900/50'] },
   'lgpe': { keys: ['lgp', 'lge'], colors: ['bg-yellow-400/50', 'bg-amber-800/50'] },
-  'swsh': { keys: ['sw', 'sh'], colors: ['bg-cyan-800/50', 'bg-fuchsia-800/50'] },
+  'swsh': {
+    keys: [['sw', 'swdlc1', 'swdlc2'], ['sh', 'shdlc1', 'shdlc2']],
+    colors: ['bg-cyan-600/50', 'bg-red-600/50']
+  },
   'bdsp': { keys: ['bd', 'sp'], colors: ['bg-sky-800/50', 'bg-pink-800/50'] },
-  'sv': { keys: ['sc', 'v'], colors: ['bg-red-700/50', 'bg-purple-800/50'] }
+  'sv': {
+    keys: [['sc', 'scdlc1', 'scdlc2'], ['v', 'vdlc1', 'vdlc2']],
+    colors: ['bg-red-700/50', 'bg-purple-800/50']
+  }
 };
 
 
@@ -48,8 +54,15 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
       const { keys, colors } = gameColorMap[selectedGame];
       const availability = POKEMON_AVAILABILITY[pokemon.id] || [];
 
-      const inGame1 = availability.includes(keys[0]);
-      const inGame2 = availability.includes(keys[1]);
+      const checkAvailability = (keyOrKeys: string | string[]) => {
+        if (Array.isArray(keyOrKeys)) {
+          return keyOrKeys.some(k => availability.includes(k));
+        }
+        return availability.includes(keyOrKeys);
+      };
+
+      const inGame1 = checkAvailability(keys[0]);
+      const inGame2 = checkAvailability(keys[1]);
 
       if (inGame1 && !inGame2) {
         return colors[0];
