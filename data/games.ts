@@ -25,11 +25,11 @@ export const GAME_LIST: Record<string, string> = {
 };
 
 export const INDIVIDUAL_GAME_LIST: Record<string, string> = {
-    'r': 'Red', 'b': 'Blue',
-    'g': 'Gold', 's': 'Silver',
-    'ru': 'Ruby', 'sa': 'Sapphire',
+    'r': 'Red', 'b': 'Blue', 'ye': 'Yellow',
+    'g': 'Gold', 's': 'Silver', 'c': 'Crystal',
+    'ru': 'Ruby', 'sa': 'Sapphire', 'e': 'Emerald',
     'fr': 'FireRed', 'lg': 'LeafGreen',
-    'd': 'Diamond', 'p': 'Pearl',
+    'd': 'Diamond', 'p': 'Pearl', 'pt': 'Platinum',
     'hg': 'HeartGold', 'ss': 'SoulSilver',
     'bla': 'Black', 'w': 'White',
     'bla2': 'Black 2', 'w2': 'White 2',

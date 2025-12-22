@@ -113,11 +113,11 @@ export const games: Record<string, string> = {
 };
 
 export const gameVersions: Record<string, string> = {
-    'r': 'Rouge', 'b': 'Bleu',
-    'g': 'Or', 's': 'Argent',
-    'ru': 'Rubis', 'sa': 'Saphir',
+    'r': 'Rouge', 'b': 'Bleu', 'ye': 'Jaune',
+    'g': 'Or', 's': 'Argent', 'c': 'Cristal',
+    'ru': 'Rubis', 'sa': 'Saphir', 'e': 'Émeraude',
     'fr': 'Rouge Feu', 'lg': 'Vert Feuille',
-    'd': 'Diamant', 'p': 'Perle',
+    'd': 'Diamant', 'p': 'Perle', 'pt': 'Platine',
     'hg': 'Or HeartGold', 'ss': 'Argent SoulSilver',
     'bla': 'Noir', 'w': 'Blanc',
     'bla2': 'Noir 2', 'w2': 'Blanc 2',
