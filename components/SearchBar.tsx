@@ -23,7 +23,7 @@ const FilterButton: React.FC<{
     isActive: boolean;
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }> = ({ label, isActive, onClick }) => {
-    const baseClasses = "px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-yellow-500";
+    const baseClasses = "px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-yellow-500";
     const activeClasses = "bg-yellow-400 text-gray-900";
     const inactiveClasses = "bg-gray-700 hover:bg-gray-600 text-white";
 
@@ -43,7 +43,7 @@ const GameButton: React.FC<{
     isSelected: boolean;
     onClick: (event: React.MouseEvent<HTMLButtonElement>, gameId: string) => void;
 }> = ({ gameId, label, isSelected, onClick }) => {
-    const baseClasses = "px-3 py-1.5 text-xs font-medium rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500";
+    const baseClasses = "px-2 py-1 text-xs font-medium rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500";
     const activeClasses = "bg-blue-500 text-white";
     const inactiveClasses = "bg-gray-700 hover:bg-gray-600 text-white";
     return (
@@ -86,9 +86,9 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
     };
 
     return (
-        <div ref={ref} className="sticky top-16 z-40 mb-8 flex flex-col bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-lg">
-            <div className="p-4 flex flex-col gap-4">
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div ref={ref} className="sticky top-16 z-40 mb-6 flex flex-col bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-lg">
+            <div className="p-3 flex flex-col gap-3">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
                     <div className="relative flex-grow w-full sm:w-auto">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <svg className="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -100,12 +100,12 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
                             placeholder={t('search_placeholder')}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-yellow-500 focus:border-yellow-500"
+                            className="w-full pl-10 pr-4 py-1.5 text-sm bg-gray-700 border border-gray-600 rounded-lg focus:ring-yellow-500 focus:border-yellow-500"
                         />
                     </div>
-                    <div className="flex flex-col gap-2 w-full sm:w-64">
+                    <div className="flex flex-col gap-1.5 w-full sm:w-64">
                         <div className="flex items-center justify-between">
-                            <label htmlFor="missing-shiny-filter" className="text-gray-300">{t('show_missing_shiny')}</label>
+                            <label htmlFor="missing-shiny-filter" className="text-sm text-gray-300">{t('show_missing_shiny')}</label>
                             <input
                                 type="checkbox"
                                 id="missing-shiny-filter"
@@ -115,7 +115,7 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
                             />
                         </div>
                         <div className="flex items-center justify-between">
-                            <label htmlFor="shiny-filter" className="text-gray-300">{t('show_only_shiny')}</label>
+                            <label htmlFor="shiny-filter" className="text-sm text-gray-300">{t('show_only_shiny')}</label>
                             <input
                                 type="checkbox"
                                 id="shiny-filter"
@@ -125,7 +125,7 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
                             />
                         </div>
                         <div className="flex items-center justify-between">
-                            <label htmlFor="regional-forms-filter" className="text-gray-300">{t('hide_regional_forms')}</label>
+                            <label htmlFor="regional-forms-filter" className="text-sm text-gray-300">{t('hide_regional_forms')}</label>
                             <input
                                 type="checkbox"
                                 id="regional-forms-filter"
@@ -138,8 +138,8 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
                 </div>
 
                 <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isFiltersExpanded ? 'max-h-[500px]' : 'max-h-0'}`}>
-                    <div className="flex flex-col gap-4 pt-4 border-t border-gray-700">
-                        <div className="flex items-center justify-center gap-2 flex-wrap">
+                    <div className="flex flex-col gap-3 pt-3 border-t border-gray-700">
+                        <div className="flex items-center justify-center gap-1.5 flex-wrap">
                             {[...Array(9)].map((_, i) => {
                                 const gen = i + 1;
                                 return (
@@ -163,9 +163,9 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
                         <hr className="border-gray-700" />
                         <div>
                             <div className="flex justify-between items-center mb-2">
-                                <h3 className="text-sm font-semibold text-gray-300">{t('filter_by_game')}</h3>
+                                <h3 className="text-xs font-semibold text-gray-300">{t('filter_by_game')}</h3>
                             </div>
-                            <div className="flex items-center justify-center gap-2 flex-wrap">
+                            <div className="flex items-center justify-center gap-1.5 flex-wrap">
                                 {Object.entries(gameList).map(([id, name]) => (
                                     <GameButton
                                         key={id}
@@ -183,11 +183,11 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
 
             <button
                 onClick={() => setIsFiltersExpanded(!isFiltersExpanded)}
-                className="w-full h-6 bg-gray-900/50 hover:bg-gray-700/80 rounded-b-lg flex items-center justify-center text-white focus:outline-none"
+                className="w-full h-5 bg-gray-900/50 hover:bg-gray-700/80 rounded-b-lg flex items-center justify-center text-white focus:outline-none"
                 aria-label={isFiltersExpanded ? t('collapse_filters') : t('expand_filters')}
             >
                 <svg
-                    className={`w-5 h-5 transition-transform duration-300 ${isFiltersExpanded ? 'rotate-180' : ''}`}
+                    className={`w-4 h-4 transition-transform duration-300 ${isFiltersExpanded ? 'rotate-180' : ''}`}
                     fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
                 >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>

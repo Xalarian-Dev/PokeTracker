@@ -33,7 +33,10 @@ export const ui = {
     },
     shiny_lock: "色違いロック",
     dlc_isle_of_armor: "鎧の孤島",
-    dlc_crown_tundra: "冠の雪原"
+    dlc_crown_tundra: "冠の雪原",
+    dlc_teal_mask: "碧の仮面",
+    dlc_indigo_disk: "藍の円盤",
+    dlc_mega_dimension: "メガディメンション"
 };
 
 export const games: Record<string, string> = {

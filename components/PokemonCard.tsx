@@ -2,7 +2,7 @@
 import React, { useMemo } from 'react';
 import type { Pokemon } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
-import { StarIcon, IsleOfArmorIcon, CrownTundraIcon, LockIcon } from './Icons';
+import { StarIcon, IsleOfArmorIcon, CrownTundraIcon, TealMaskIcon, IndigoDiskIcon, MegaDimensionIcon, LockIcon } from './Icons';
 import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON } from '../data/games';
 
 interface PokemonCardProps {
@@ -82,7 +82,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
   `;
 
   // Check for DLC availability when swsh is selected
-  const hasDLC1 = useMemo(() => {
+  const hasSWSHDLC1 = useMemo(() => {
     if (selectedGame === 'swsh') {
       const availability = POKEMON_AVAILABILITY[pokemon.id] || [];
       return availability.includes('swdlc1') || availability.includes('shdlc1');
@@ -90,10 +90,36 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
     return false;
   }, [pokemon.id, selectedGame]);
 
-  const hasDLC2 = useMemo(() => {
+  const hasSWSHDLC2 = useMemo(() => {
     if (selectedGame === 'swsh') {
       const availability = POKEMON_AVAILABILITY[pokemon.id] || [];
       return availability.includes('swdlc2') || availability.includes('shdlc2');
+    }
+    return false;
+  }, [pokemon.id, selectedGame]);
+
+  // Check for DLC availability when sv is selected
+  const hasSVDLC1 = useMemo(() => {
+    if (selectedGame === 'sv') {
+      const availability = POKEMON_AVAILABILITY[pokemon.id] || [];
+      return availability.includes('scdlc1') || availability.includes('vdlc1');
+    }
+    return false;
+  }, [pokemon.id, selectedGame]);
+
+  const hasSVDLC2 = useMemo(() => {
+    if (selectedGame === 'sv') {
+      const availability = POKEMON_AVAILABILITY[pokemon.id] || [];
+      return availability.includes('scdlc2') || availability.includes('vdlc2');
+    }
+    return false;
+  }, [pokemon.id, selectedGame]);
+
+  // Check for DLC availability when lza is selected
+  const hasLZADLC1 = useMemo(() => {
+    if (selectedGame === 'lza') {
+      const availability = POKEMON_AVAILABILITY[pokemon.id] || [];
+      return availability.includes('lpzadlc1');
     }
     return false;
   }, [pokemon.id, selectedGame]);
@@ -112,7 +138,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
           <StarIcon className="w-5 h-5" filled={true} />
         </div>
       )}
-      {hasDLC1 && (
+      {hasSWSHDLC1 && (
         <div className="absolute top-2 left-2 group/dlc1">
           <IsleOfArmorIcon className="w-6 h-6" />
           <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/dlc1:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
@@ -120,11 +146,35 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
           </span>
         </div>
       )}
-      {hasDLC2 && (
-        <div className="absolute top-2 left-2 group/dlc2" style={{ marginLeft: hasDLC1 ? '28px' : '0' }}>
+      {hasSWSHDLC2 && (
+        <div className="absolute top-2 left-2 group/dlc2" style={{ marginLeft: hasSWSHDLC1 ? '28px' : '0' }}>
           <CrownTundraIcon className="w-6 h-6" />
           <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/dlc2:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
             {t('dlc_crown_tundra')}
+          </span>
+        </div>
+      )}
+      {hasSVDLC1 && (
+        <div className="absolute top-2 left-2 group/svdlc1">
+          <TealMaskIcon className="w-6 h-6" />
+          <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/svdlc1:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
+            {t('dlc_teal_mask')}
+          </span>
+        </div>
+      )}
+      {hasSVDLC2 && (
+        <div className="absolute top-2 left-2 group/svdlc2" style={{ marginLeft: hasSVDLC1 ? '28px' : '0' }}>
+          <IndigoDiskIcon className="w-6 h-6" />
+          <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/svdlc2:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
+            {t('dlc_indigo_disk')}
+          </span>
+        </div>
+      )}
+      {hasLZADLC1 && (
+        <div className="absolute top-2 left-2 group/lzadlc1">
+          <MegaDimensionIcon className="w-12 h-6 -ml-1" />
+          <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/lzadlc1:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
+            {t('dlc_mega_dimension')}
           </span>
         </div>
       )}

@@ -116,6 +116,30 @@ export const CrownTundraIcon: React.FC<IconProps> = ({ className }) => (
   />
 );
 
+export const TealMaskIcon: React.FC<IconProps> = ({ className }) => (
+  <img
+    src="/assets/teal-mask.png"
+    alt="Teal Mask DLC"
+    className={className}
+  />
+);
+
+export const IndigoDiskIcon: React.FC<IconProps> = ({ className }) => (
+  <img
+    src="/assets/indigo-disk.png"
+    alt="Indigo Disk DLC"
+    className={className}
+  />
+);
+
+export const MegaDimensionIcon: React.FC<IconProps> = ({ className }) => (
+  <img
+    src="/assets/mega-dimension.png"
+    alt="Mega Dimension"
+    className={className}
+  />
+);
+
 export const LockIcon: React.FC<IconProps> = ({ className }) => (
   <svg
     viewBox="0 0 24 24"

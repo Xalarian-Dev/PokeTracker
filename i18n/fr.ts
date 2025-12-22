@@ -33,7 +33,10 @@ export const ui = {
     },
     shiny_lock: "Shiny Lock",
     dlc_isle_of_armor: "DLC L'île Solitaire de l'Armure",
-    dlc_crown_tundra: "DLC Les Terres Enneigées de la Couronne"
+    dlc_crown_tundra: "DLC Les Terres Enneigées de la Couronne",
+    dlc_teal_mask: "DLC Le Masque Turquoise",
+    dlc_indigo_disk: "DLC Le Disque Indigo",
+    dlc_mega_dimension: "DLC Méga Dimension"
 };
 
 export const games: Record<string, string> = {

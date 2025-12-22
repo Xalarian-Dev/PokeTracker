@@ -34,7 +34,10 @@ export const ui = {
     },
     shiny_lock: "Shiny Lock",
     dlc_isle_of_armor: "Isle of Armor DLC",
-    dlc_crown_tundra: "Crown Tundra DLC"
+    dlc_crown_tundra: "Crown Tundra DLC",
+    dlc_teal_mask: "The Teal Mask DLC",
+    dlc_indigo_disk: "The Indigo Disk DLC",
+    dlc_mega_dimension: "Mega Dimension DLC"
 };
 
 export const games: Record<string, string> = GAME_LIST;
