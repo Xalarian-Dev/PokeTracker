@@ -128,21 +128,42 @@ const RandomHuntSidePanel: React.FC<RandomHuntSidePanelProps> = ({ pokemonList, 
                         <div className="flex flex-col items-center text-center space-y-4 animate-in fade-in zoom-in duration-500">
                             <div className="w-32 h-32 relative group">
                                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                    {/* Sparkles */}
-                                    <svg className="absolute w-8 h-8 text-yellow-300 -top-2 -right-2 animate-[ping_1.5s_ease-out_infinite]" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
-                                    </svg>
-                                    <svg className="absolute w-6 h-6 text-yellow-200 bottom-0 -left-2 animate-[pulse_2s_ease-in-out_infinite]" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
-                                    </svg>
-                                    <svg className="absolute w-4 h-4 text-white top-0 left-0 animate-[bounce_3s_infinite]" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
-                                    </svg>
+                                    {/* Dynamic sparkles with random positions and animations */}
+                                    {[...Array(8)].map((_, i) => {
+                                        const positions = [
+                                            { top: '-10%', left: '90%' },
+                                            { top: '10%', left: '-10%' },
+                                            { top: '90%', left: '10%' },
+                                            { top: '90%', left: '90%' },
+                                            { top: '50%', left: '-15%' },
+                                            { top: '50%', left: '105%' },
+                                            { top: '-15%', left: '50%' },
+                                            { top: '105%', left: '50%' },
+                                        ];
+                                        const animations = ['ping', 'pulse', 'bounce'];
+                                        const sizes = ['w-6 h-6', 'w-8 h-8', 'w-5 h-5'];
+                                        const colors = ['text-yellow-300', 'text-yellow-200', 'text-white', 'text-yellow-400'];
+
+                                        return (
+                                            <svg
+                                                key={i}
+                                                className={`absolute ${sizes[i % sizes.length]} ${colors[i % colors.length]} animate-[${animations[i % animations.length]}_${1 + (i % 3) * 0.5}s_ease-in-out_infinite]`}
+                                                style={{
+                                                    ...positions[i],
+                                                    animationDelay: `${i * 0.2}s`,
+                                                }}
+                                                viewBox="0 0 24 24"
+                                                fill="currentColor"
+                                            >
+                                                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                                            </svg>
+                                        );
+                                    })}
                                 </div>
                                 <img
                                     src={result!.pokemon.shinySprite}
                                     alt={getPokemonName(result!.pokemon.id)}
-                                    className="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] z-10 relative"
+                                    className="max-w-full max-h-full object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] z-10 m-auto"
                                 />
                             </div>
                             <div>
