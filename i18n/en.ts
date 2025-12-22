@@ -69,7 +69,23 @@ export const ui = {
     preferences_saved: "Preferences saved successfully!",
     select_all_games: "Select All",
     deselect_all_games: "Deselect All",
-    back: "Back"
+    back: "Back",
+    gen: "Gen",
+    delete_account: "Delete Account",
+    delete_account_title: "Delete Account",
+    delete_account_warning: "Are you sure you want to delete your account? This will permanently remove:",
+    delete_account_data_1: "All your shiny Pokémon data",
+    delete_account_data_2: "Your preferences and settings",
+    delete_account_data_3: "Your account from our system",
+    delete_account_irreversible: "This action cannot be undone!",
+    cancel: "Cancel",
+    delete_forever: "Delete Forever",
+    deleting: "Deleting...",
+    game_selected: "game selected",
+    games_selected: "games selected",
+    display_name: "Display Name",
+    display_name_placeholder: "Enter your display name (optional)",
+    will_be_displayed: "will be displayed in the header"
 };
 
 export const games: Record<string, string> = GAME_LIST;

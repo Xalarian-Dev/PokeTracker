@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useUser } from '@clerk/clerk-react';
+import { useUser, useClerk } from '@clerk/clerk-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { getUserPreferences, saveUserPreferences } from '../services/supabase';
+import { getUserPreferences, saveUserPreferences, deleteUserData } from '../services/supabase';
 import { INDIVIDUAL_GAME_LIST } from '../data/games';
 import { UKFlag, FranceFlag, JapanFlag } from './Icons';
 
@@ -11,12 +11,16 @@ interface ProfilePageProps {
 
 const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
     const { user } = useUser();
+    const { signOut } = useClerk();
     const { language, setLanguage, t, getGameName } = useLanguage();
     const [selectedLanguage, setSelectedLanguage] = useState<'fr' | 'en' | 'jp'>(language);
     const [ownedGames, setOwnedGames] = useState<string[]>([]);
+    const [displayName, setDisplayName] = useState<string>('');
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState<string | null>(null);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [deleting, setDeleting] = useState(false);
 
     // Load user preferences
     useEffect(() => {
@@ -28,6 +32,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
                 if (prefs) {
                     setSelectedLanguage(prefs.preferred_language);
                     setOwnedGames(prefs.owned_games);
+                    setDisplayName(prefs.display_name || '');
                 }
             } catch (error) {
                 console.error('Error loading preferences:', error);
@@ -46,7 +51,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
         setMessage(null);
 
         try {
-            await saveUserPreferences(user.id, selectedLanguage, ownedGames);
+            await saveUserPreferences(user.id, selectedLanguage, ownedGames, displayName || undefined);
             setLanguage(selectedLanguage); // Update app language
             setMessage(t('preferences_saved'));
 
@@ -59,6 +64,27 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
             setMessage('Error saving preferences');
         } finally {
             setSaving(false);
+        }
+    };
+
+    const handleDeleteAccount = async () => {
+        if (!user?.id) return;
+
+        setDeleting(true);
+        try {
+            // Delete all user data from Supabase
+            await deleteUserData(user.id);
+
+            // Delete Clerk account
+            await user.delete();
+
+            // Sign out
+            await signOut();
+        } catch (error) {
+            console.error('Error deleting account:', error);
+            setMessage('Error deleting account');
+            setDeleting(false);
+            setShowDeleteConfirm(false);
         }
     };
 
@@ -88,6 +114,40 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
 
     return (
         <div className="min-h-screen bg-gray-900 text-white p-6">
+            {/* Delete Confirmation Modal */}
+            {showDeleteConfirm && (
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-gray-800 rounded-xl p-6 max-w-md w-full border border-red-500">
+                        <h3 className="text-xl font-bold text-red-500 mb-4">⚠️ {t('delete_account_title')}</h3>
+                        <p className="text-gray-300 mb-6">
+                            {t('delete_account_warning')}
+                        </p>
+                        <ul className="list-disc list-inside text-gray-400 mb-6 space-y-1">
+                            <li>{t('delete_account_data_1')}</li>
+                            <li>{t('delete_account_data_2')}</li>
+                            <li>{t('delete_account_data_3')}</li>
+                        </ul>
+                        <p className="text-red-400 font-bold mb-6">{t('delete_account_irreversible')}</p>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={() => setShowDeleteConfirm(false)}
+                                disabled={deleting}
+                                className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors disabled:opacity-50"
+                            >
+                                {t('cancel')}
+                            </button>
+                            <button
+                                onClick={handleDeleteAccount}
+                                disabled={deleting}
+                                className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors font-bold disabled:opacity-50"
+                            >
+                                {deleting ? t('deleting') : t('delete_forever')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="max-w-4xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-8">
@@ -111,6 +171,22 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
                             <p className="text-gray-400">{user?.primaryEmailAddress?.emailAddress}</p>
                         </div>
                     </div>
+                </div>
+
+                {/* Display Name */}
+                <div className="bg-gray-800 rounded-xl p-6 mb-6 border border-gray-700">
+                    <h3 className="text-lg font-bold mb-4">{t('display_name')}</h3>
+                    <input
+                        type="text"
+                        value={displayName}
+                        onChange={(e) => setDisplayName(e.target.value)}
+                        placeholder={t('display_name_placeholder')}
+                        maxLength={30}
+                        className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    />
+                    <p className="text-xs text-gray-400 mt-2">
+                        {displayName ? `"${displayName}"` : user?.username || user?.firstName || 'Your username'} {t('will_be_displayed')}
+                    </p>
                 </div>
 
                 {/* Language Selection */}
@@ -140,7 +216,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
                 </div>
 
                 {/* Owned Games */}
-                <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+                <div className="bg-gray-800 rounded-xl p-6 mb-6 border border-gray-700">
                     <div className="flex items-center justify-between mb-4">
                         <h3 className="text-lg font-bold">{t('owned_games')}</h3>
                         <div className="space-x-2">
@@ -178,26 +254,32 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
                     </div>
 
                     <p className="text-sm text-gray-400 mt-4">
-                        {ownedGames.length} {ownedGames.length === 1 ? 'game' : 'games'} selected
+                        {ownedGames.length} {ownedGames.length === 1 ? t('game_selected') : t('games_selected')}
                     </p>
                 </div>
 
-                {/* Save Button */}
-                <div className="mt-6 flex items-center justify-between">
-                    <div>
-                        {message && (
-                            <p className={`text-sm ${message.includes('Error') ? 'text-red-400' : 'text-green-400'}`}>
-                                {message}
-                            </p>
-                        )}
+                {/* Action Buttons */}
+                <div className="mt-6">
+                    {message && (
+                        <p className={`text-sm mb-3 ${message.includes('Error') ? 'text-red-400' : 'text-green-400'}`}>
+                            {message}
+                        </p>
+                    )}
+                    <div className="flex justify-between items-center">
+                        <button
+                            onClick={handleSave}
+                            disabled={saving}
+                            className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-bold transition-all"
+                        >
+                            {saving ? 'Saving...' : t('save_preferences')}
+                        </button>
+                        <button
+                            onClick={() => setShowDeleteConfirm(true)}
+                            className="px-3 py-1.5 text-xs bg-transparent hover:bg-red-600/10 border border-red-600/50 text-red-400/70 hover:text-red-400 rounded transition-all"
+                        >
+                            {t('delete_account')}
+                        </button>
                     </div>
-                    <button
-                        onClick={handleSave}
-                        disabled={saving}
-                        className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-bold transition-all"
-                    >
-                        {saving ? 'Saving...' : t('save_preferences')}
-                    </button>
                 </div>
             </div>
         </div>

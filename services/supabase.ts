@@ -112,6 +112,7 @@ export interface UserPreferences {
     user_id: string;
     preferred_language: 'fr' | 'en' | 'jp';
     owned_games: string[];
+    display_name?: string;
 }
 
 /**
@@ -142,7 +143,8 @@ export async function getUserPreferences(userId: string): Promise<UserPreference
 export async function saveUserPreferences(
     userId: string,
     language: 'fr' | 'en' | 'jp',
-    ownedGames: string[]
+    ownedGames: string[],
+    displayName?: string
 ): Promise<void> {
     const { error } = await supabase
         .from('user_preferences')
@@ -150,6 +152,7 @@ export async function saveUserPreferences(
             user_id: userId,
             preferred_language: language,
             owned_games: ownedGames,
+            display_name: displayName,
             updated_at: new Date().toISOString()
         }, {
             onConflict: 'user_id'
@@ -177,5 +180,33 @@ export async function createDefaultPreferences(userId: string): Promise<void> {
         // Ignore duplicate errors
         console.error('Error creating default preferences:', error);
         throw error;
+    }
+}
+
+/**
+ * Delete all user data from Supabase
+ * This removes all shiny pokemon and user preferences
+ */
+export async function deleteUserData(userId: string): Promise<void> {
+    // Delete shiny pokemon
+    const { error: shinyError } = await supabase
+        .from('shiny_pokemon')
+        .delete()
+        .eq('user_id', userId);
+
+    if (shinyError) {
+        console.error('Error deleting shiny pokemon:', shinyError);
+        throw shinyError;
+    }
+
+    // Delete user preferences
+    const { error: prefsError } = await supabase
+        .from('user_preferences')
+        .delete()
+        .eq('user_id', userId);
+
+    if (prefsError) {
+        console.error('Error deleting user preferences:', prefsError);
+        throw prefsError;
     }
 }

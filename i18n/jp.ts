@@ -68,7 +68,23 @@ export const ui = {
     preferences_saved: "設定を保存しました！",
     select_all_games: "すべて選択",
     deselect_all_games: "すべて解除",
-    back: "戻る"
+    back: "戻る",
+    gen: "世代",
+    delete_account: "アカウントを削除",
+    delete_account_title: "アカウントを削除",
+    delete_account_warning: "本当にアカウントを削除しますか？次のデータが完全に削除されます：",
+    delete_account_data_1: "すべての色違いポケモンデータ",
+    delete_account_data_2: "設定と環境設定",
+    delete_account_data_3: "システムからのアカウント",
+    delete_account_irreversible: "この操作は元に戻せません！",
+    cancel: "キャンセル",
+    delete_forever: "完全に削除",
+    deleting: "削除中...",
+    game_selected: "ゲームが選択されました",
+    games_selected: "ゲームが選択されました",
+    display_name: "表示名",
+    display_name_placeholder: "表示名を入力（任意）",
+    will_be_displayed: "がヘッダーに表示されます"
 };
 
 export const games: Record<string, string> = {

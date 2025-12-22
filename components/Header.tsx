@@ -10,9 +10,10 @@ interface HeaderProps {
   onLogout: () => void;
   onLoginClick?: () => void;
   onProfileClick?: () => void;
+  displayName?: string | null;
 }
 
-const Header: React.FC<HeaderProps> = ({ user, onLogout, onLoginClick, onProfileClick }) => {
+const Header: React.FC<HeaderProps> = ({ user, onLogout, onLoginClick, onProfileClick, displayName }) => {
   const { user: clerkUser } = useUser();
   const { language, setLanguage, t } = useLanguage();
 
@@ -35,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onLoginClick, onProfile
           <div className="flex items-center space-x-4">
             {clerkUser && (
               <span className="hidden sm:block text-gray-300">
-                {t('trainer')}: <span className="font-semibold text-white">{clerkUser.username || clerkUser.firstName || 'Trainer'}</span>
+                {t('trainer')}: <span className="font-semibold text-white">{displayName || clerkUser.username || clerkUser.firstName || 'Trainer'}</span>
               </span>
             )}
             <div className="flex items-center space-x-2 bg-gray-900/50 p-1 rounded-lg">

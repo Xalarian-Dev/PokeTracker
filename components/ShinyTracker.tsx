@@ -39,6 +39,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
   const [scrollTrigger, setScrollTrigger] = useState(0);
   const [isRandomHuntOpen, setIsRandomHuntOpen] = useState(false);
   const [ownedGames, setOwnedGames] = useState<string[]>([]);
+  const [displayName, setDisplayName] = useState<string | null>(null);
 
   // Confirmation Modal State
   const [confirmModal, setConfirmModal] = useState<{
@@ -67,10 +68,15 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
       if (searchBarInitialTop.current > 0) {
         const headerHeight = 64;
         const targetScrollY = searchBarInitialTop.current - headerHeight;
-        window.scrollTo({
-          top: targetScrollY,
-          behavior: 'smooth',
-        });
+        const currentScrollY = window.scrollY || window.pageYOffset;
+
+        // Only scroll if we're below the target position
+        if (currentScrollY > targetScrollY) {
+          window.scrollTo({
+            top: targetScrollY,
+            behavior: 'smooth',
+          });
+        }
       }
     } else {
       didMount.current = true;
@@ -107,6 +113,9 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
         const prefs = await getUserPreferences(userId);
         if (prefs && prefs.owned_games) {
           setOwnedGames(prefs.owned_games);
+        }
+        if (prefs && prefs.display_name) {
+          setDisplayName(prefs.display_name);
         }
 
         // Check for localStorage migration
@@ -279,7 +288,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
 
   return (
     <div className="min-h-screen bg-gray-900 text-white relative">
-      <Header user={user} onLogout={onLogout} onLoginClick={onLoginClick} onProfileClick={onProfileClick} />
+      <Header user={user} onLogout={onLogout} onLoginClick={onLoginClick} onProfileClick={onProfileClick} displayName={displayName} />
 
       <ConfirmationModal
         isOpen={confirmModal.isOpen}
