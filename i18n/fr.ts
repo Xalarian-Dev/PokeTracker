@@ -30,7 +30,10 @@ export const ui = {
         'Galar': 'Galar',
         'Hisui': 'Hisui',
         'Paldea': 'Paldéa',
-    }
+    },
+    shiny_lock: "Shiny Lock",
+    dlc_isle_of_armor: "DLC L'île Solitaire de l'Armure",
+    dlc_crown_tundra: "DLC Les Terres Enneigées de la Couronne"
 };
 
 export const games: Record<string, string> = {

@@ -30,7 +30,10 @@ export const ui = {
         'Galar': 'ガラル',
         'Hisui': 'ヒスイ',
         'Paldea': 'パルデア',
-    }
+    },
+    shiny_lock: "色違いロック",
+    dlc_isle_of_armor: "鎧の孤島",
+    dlc_crown_tundra: "冠の雪原"
 };
 
 export const games: Record<string, string> = {

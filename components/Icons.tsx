@@ -115,3 +115,14 @@ export const CrownTundraIcon: React.FC<IconProps> = ({ className }) => (
     className={className}
   />
 );
+
+export const LockIcon: React.FC<IconProps> = ({ className }) => (
+  <svg
+    viewBox="0 0 24 24"
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+  >
+    <path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm3 8H9V7a3 3 0 0 1 6 0z" />
+  </svg>
+);

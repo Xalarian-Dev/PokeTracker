@@ -31,7 +31,10 @@ export const ui = {
         'Galar': 'Galar',
         'Hisui': 'Hisui',
         'Paldea': 'Paldea',
-    }
+    },
+    shiny_lock: "Shiny Lock",
+    dlc_isle_of_armor: "Isle of Armor DLC",
+    dlc_crown_tundra: "Crown Tundra DLC"
 };
 
 export const games: Record<string, string> = GAME_LIST;

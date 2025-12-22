@@ -1,8 +1,9 @@
 
 import React, { useMemo } from 'react';
 import type { Pokemon } from '../types';
-import { StarIcon, IsleOfArmorIcon, CrownTundraIcon } from './Icons';
-import { POKEMON_AVAILABILITY } from '../data/games';
+import { useLanguage } from '../contexts/LanguageContext';
+import { StarIcon, IsleOfArmorIcon, CrownTundraIcon, LockIcon } from './Icons';
+import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON } from '../data/games';
 
 interface PokemonCardProps {
   pokemon: Pokemon;
@@ -32,6 +33,7 @@ const gameColorMap: Record<string, { keys: [string, string]; colors: [string, st
 
 
 const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShiny, selectedGame }) => {
+  const { t } = useLanguage();
   let formattedId: string;
   if (pokemon.id.includes('-')) {
     const [pokedexId, ...formParts] = pokemon.id.split('-');
@@ -83,6 +85,13 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
     return false;
   }, [pokemon.id, selectedGame]);
 
+  const isLocked = useMemo(() => {
+    if (selectedGame && SHINY_LOCKED_POKEMON[selectedGame]) {
+      return SHINY_LOCKED_POKEMON[selectedGame].includes(pokemon.id);
+    }
+    return false;
+  }, [pokemon.id, selectedGame]);
+
   return (
     <div className={cardClasses} onClick={() => onToggleShiny(pokemon.id)}>
       {isShiny && (
@@ -91,13 +100,27 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
         </div>
       )}
       {hasDLC1 && (
-        <div className="absolute top-2 left-2">
+        <div className="absolute top-2 left-2 group/dlc1">
           <IsleOfArmorIcon className="w-6 h-6" />
+          <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/dlc1:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
+            {t('dlc_isle_of_armor')}
+          </span>
         </div>
       )}
       {hasDLC2 && (
-        <div className="absolute top-2 left-2" style={{ marginLeft: hasDLC1 ? '28px' : '0' }}>
+        <div className="absolute top-2 left-2 group/dlc2" style={{ marginLeft: hasDLC1 ? '28px' : '0' }}>
           <CrownTundraIcon className="w-6 h-6" />
+          <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/dlc2:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
+            {t('dlc_crown_tundra')}
+          </span>
+        </div>
+      )}
+      {isLocked && (
+        <div className="absolute bottom-2 left-2 text-red-500/80 group-hover:text-red-500 transition-colors group/lock">
+          <LockIcon className="w-5 h-5" />
+          <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/lock:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
+            {t('shiny_lock')}
+          </span>
         </div>
       )}
       <div className="w-24 h-24 flex items-center justify-center">
