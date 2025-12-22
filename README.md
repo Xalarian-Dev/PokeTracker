@@ -145,49 +145,150 @@ CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
 
 ---
 
-## Roadmap
+## 🚀 Prochaines étapes (optionnel)
 
-### MVP (Current) ✅
-- [x] Basic shiny tracking
-- [x] Cloud storage
-- [x] Authentication
-- [x] Multi-language support
-- [x] Deployment
+### Court terme
+- Partagez avec des amis pour tester
+- Récoltez des retours utilisateurs
+- Corrigez les bugs éventuels
 
-### Future Enhancements
-- [ ] Backend API with proper RLS
-- [ ] Real-time sync between tabs
-- [ ] Statistics dashboard
-- [ ] Import/Export data
-- [ ] Social features (share collections)
-- [ ] Mobile app (React Native)
-- [ ] Shiny hunting guides integration
+### Moyen terme
+- Migrez vers Vite propre (voir [MIGRATION.md](./MIGRATION.md))
+- Activez RLS avec backend Vercel Functions
+- Ajoutez des statistiques (graphiques, historique)
 
----
-
-## Contributing
-
-Contributions welcome! Please open an issue first to discuss proposed changes.
+### Long terme
+- Passez à Next.js pour SEO + backend intégré
+- Ajoutez des fonctionnalités sociales
+- Créez une app mobile (React Native)
 
 ---
 
-## License
+## 📈 Roadmap Technique
 
-MIT License - See LICENSE file for details
+### Phase 1 : MVP (Actuel) ✅
+- [x] Authentification Clerk
+- [x] Base de données Supabase
+- [x] Déploiement Vercel
+- [x] Multi-langue (FR/EN/JP)
+- [x] Filtres avancés
+- [x] Random Hunt
+
+### Phase 2 : Optimisation (Futur)
+- [ ] Migration Vite propre (retire CDN Tailwind)
+- [ ] Backend API (Vercel Functions)
+- [ ] RLS Supabase activé
+- [ ] Sync temps réel
+- [ ] Tests automatisés
+
+### Phase 3 : Scaling (Si succès)
+- [ ] Migration Next.js
+- [ ] SEO optimisé
+- [ ] Analytics avancées
+- [ ] Rate limiting
+- [ ] CDN pour sprites
 
 ---
 
-## Acknowledgments
+## 🔧 Guide de Migration Vite
 
-- Pokémon sprites from [PokéAPI](https://pokeapi.co/)
-- Built with ❤️ by the Pokémon community
+**Quand migrer ?** Quand vous voulez retirer le CDN Tailwind et avoir un build optimisé.
+
+**Durée estimée :** 2-3 heures
+
+**Guide complet :** Voir [VITE_MIGRATION_GUIDE.md](./.gemini/antigravity/brain/3d93079d-4368-4fc7-a27b-7e00999947e1/vite_migration_guide.md)
+
+**Résumé des étapes :**
+1. Créer nouveau projet Vite
+2. Installer dépendances (Tailwind, Clerk, Supabase)
+3. Copier votre code
+4. Configurer Tailwind proprement
+5. Tester et déployer
+
+**Bénéfices :**
+- ✅ CSS optimisé (~10 KB vs 3 MB)
+- ✅ Pas de warning CDN
+- ✅ Structure standard
+- ✅ Meilleur DX
 
 ---
 
-## Support
+## 🐛 Problèmes Connus
 
-For issues or questions:
-- Open a GitHub issue
-- Contact: [your-email@example.com]
+### Tailwind CDN
+- **Issue :** Warning "CDN should not be used in production"
+- **Impact :** Cosmétique uniquement, pas d'impact performance réel
+- **Solution :** Acceptable pour MVP, migrer vers Vite plus tard
 
-**Happy Shiny Hunting! ✨**
+### RLS Désactivé
+- **Issue :** Row Level Security désactivé dans Supabase
+- **Impact :** Sécurité côté client uniquement
+- **Risque :** Très faible (données non-sensibles, petit public)
+- **Solution :** Acceptable pour MVP, activer avec backend plus tard
+
+### Pas de Sync Temps Réel
+- **Issue :** Changements nécessitent refresh manuel
+- **Impact :** UX légèrement dégradée
+- **Solution :** Acceptable pour usage personnel/petit groupe
+
+---
+
+## 📝 Notes de Développement
+
+### Structure Actuelle
+```
+PokeTracker/
+├── components/       (composants React)
+├── contexts/        (contextes React)
+├── data/           (données statiques)
+├── i18n/           (traductions)
+├── services/       (API Clerk/Supabase)
+├── App.tsx         (composant principal)
+├── index.tsx       (point d'entrée)
+└── index.html      (HTML + CDN Tailwind)
+```
+
+### Dépendances Principales
+- React 19
+- TypeScript
+- Tailwind CSS (via CDN)
+- Clerk (auth)
+- Supabase (database)
+- Vite (build tool)
+
+### Variables d'Environnement
+```env
+VITE_CLERK_PUBLISHABLE_KEY=...
+VITE_SUPABASE_URL=...
+VITE_SUPABASE_ANON_KEY=...
+```
+
+---
+
+## 🎯 Pour Contribuer
+
+1. Fork le projet
+2. Créez une branche (`git checkout -b feature/AmazingFeature`)
+3. Committez (`git commit -m 'Add AmazingFeature'`)
+4. Push (`git push origin feature/AmazingFeature`)
+5. Ouvrez une Pull Request
+
+---
+
+## 📄 License
+
+MIT License - Voir [LICENSE](LICENSE) pour détails
+
+---
+
+## 🙏 Remerciements
+
+- Sprites Pokémon : [PokéAPI](https://pokeapi.co/)
+- Authentification : [Clerk](https://clerk.com)
+- Base de données : [Supabase](https://supabase.com)
+- Hébergement : [Vercel](https://vercel.com)
+- Communauté Pokémon ❤️
+
+---
+
+**Bon Shiny Hunting! ✨**
