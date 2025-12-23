@@ -90,15 +90,15 @@ const RandomHuntSidePanel: React.FC<RandomHuntSidePanelProps> = ({ pokemonList, 
         <>
             <button
                 onClick={onOpen}
-                className={`fixed left-0 top-1/2 transform -translate-y-1/2 z-50 bg-gray-800 p-3 rounded-r-xl shadow-xl hover:bg-gray-700 transition-all duration-300 ${isOpen ? 'translate-x-[-100%]' : 'translate-x-0'}`}
+                className={`fixed left-0 top-1/2 transform -translate-y-1/2 z-[60] bg-yellow-400 hover:bg-yellow-500 text-gray-900 p-3 rounded-r-xl shadow-xl transition-all duration-300 ${isOpen ? 'translate-x-[-100%]' : 'translate-x-0'}`}
                 aria-label="Open Random Hunt"
             >
-                <DiceIcon className="w-8 h-8 text-white animate-pulse" />
+                <DiceIcon className="w-8 h-8 animate-pulse" />
             </button>
 
             {/* Side Panel */}
             <div
-                className={`fixed inset-y-0 left-0 bg-gray-900 border-r border-gray-700 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} w-80 flex flex-col`}
+                className={`fixed inset-y-0 left-0 bg-gray-900 border-r border-gray-700 shadow-2xl z-[60] transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} w-80 flex flex-col`}
             >
                 <div className="p-4 flex justify-between items-center border-b border-gray-700">
                     <h2 className="text-xl font-bold text-white flex items-center gap-2">
@@ -198,7 +198,7 @@ const RandomHuntSidePanel: React.FC<RandomHuntSidePanelProps> = ({ pokemonList, 
             {/* Overlay to close */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+                    className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[55]"
                     onClick={onClose}
                 />
             )}

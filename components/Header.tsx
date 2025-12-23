@@ -27,54 +27,54 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onLoginClick, onProfile
     <header className="bg-gray-800/80 backdrop-blur-sm shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center space-x-4">
-            <div className="flex-shrink-0 h-8 w-8">
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            <div className="flex-shrink-0 h-6 w-6 sm:h-8 sm:w-8">
               <MasterBallIcon className="w-full h-full" />
             </div>
-            <h1 className="text-xl font-bold text-yellow-400">{t('shiny_tracker_title')}</h1>
+            <h1 className="text-base sm:text-xl font-bold text-yellow-400">{t('shiny_tracker_title')}</h1>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             {clerkUser && (
-              <span className="hidden sm:block text-gray-300">
+              <span className="hidden md:block text-gray-300 text-sm">
                 {t('trainer')}: <span className="font-semibold text-white">{displayName || clerkUser.username || clerkUser.firstName || 'Trainer'}</span>
               </span>
             )}
-            <div className="flex items-center space-x-2 bg-gray-900/50 p-1 rounded-lg">
+            <div className="flex items-center space-x-1 sm:space-x-2 bg-gray-900/50 p-1 rounded-lg">
               <button
                 onClick={() => setLanguage('en')}
                 className={langButtonClasses('en')}
                 title="English"
               >
-                <UKFlag className="w-6 h-4 shadow-sm" />
+                <UKFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-sm" />
               </button>
               <button
                 onClick={() => setLanguage('fr')}
                 className={langButtonClasses('fr')}
                 title="Français"
               >
-                <FranceFlag className="w-6 h-4 shadow-sm" />
+                <FranceFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-sm" />
               </button>
               <button
                 onClick={() => setLanguage('jp')}
                 className={langButtonClasses('jp')}
                 title="日本語"
               >
-                <JapanFlag className="w-6 h-4 shadow-sm" />
+                <JapanFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-sm" />
               </button>
             </div>
             {clerkUser && onProfileClick && (
               <button
                 onClick={onProfileClick}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm flex items-center space-x-2"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-1.5 px-2 sm:py-2 sm:px-4 rounded-lg transition-colors text-xs sm:text-sm flex items-center space-x-1 sm:space-x-2"
               >
                 <span>👤</span>
-                <span>{t('profile')}</span>
+                <span className="hidden sm:inline">{t('profile')}</span>
               </button>
             )}
             {clerkUser ? (
               <SignOutButton>
                 <button
-                  className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm"
+                  className="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-1.5 sm:py-2 sm:px-4 rounded-lg transition-colors text-xs sm:text-sm whitespace-nowrap"
                 >
                   {t('logout')}
                 </button>
@@ -82,7 +82,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onLoginClick, onProfile
             ) : (
               <SignInButton mode="modal">
                 <button
-                  className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2 px-4 rounded-lg transition-colors text-sm"
+                  className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-1 px-1.5 sm:py-2 sm:px-4 rounded-lg transition-colors text-xs sm:text-sm whitespace-nowrap"
                 >
                   {t('login')}
                 </button>

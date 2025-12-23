@@ -103,7 +103,8 @@ export const ui = {
     optional: "optionnel",
     send: "Envoyer",
     sending: "Envoi...",
-    report: "Signaler"
+    report: "Signaler",
+    filters: "Filtres"
 };
 
 export const games: Record<string, string> = {

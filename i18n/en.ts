@@ -104,7 +104,8 @@ export const ui = {
     optional: "optional",
     send: "Send",
     sending: "Sending...",
-    report: "Report"
+    report: "Report",
+    filters: "Filters"
 };
 
 export const games: Record<string, string> = GAME_LIST;

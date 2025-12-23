@@ -103,7 +103,8 @@ export const ui = {
     optional: "任意",
     send: "送信",
     sending: "送信中...",
-    report: "報告"
+    report: "報告",
+    filters: "フィルター"
 };
 
 export const games: Record<string, string> = {

@@ -43,6 +43,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
   const [displayName, setDisplayName] = useState<string | null>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
   // Confirmation Modal State
   const [confirmModal, setConfirmModal] = useState<{
@@ -341,22 +342,75 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
           </div>
         </div>
 
-        <SearchBar
-          ref={searchBarRef}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          showOnlyShiny={showOnlyShiny}
-          setShowOnlyShiny={setShowOnlyShiny}
-          showMissingShiny={showMissingShiny}
-          setShowMissingShiny={setShowMissingShiny}
-          hideRegionalForms={hideRegionalForms}
-          setHideRegionalForms={setHideRegionalForms}
-          activeFilter={activeFilter}
-          setActiveFilter={setActiveFilter}
-          selectedGame={selectedGame}
-          setSelectedGame={setSelectedGame}
-          onMajorFilterChange={() => setScrollTrigger(st => st + 1)}
-        />
+        {/* Desktop SearchBar - hidden on mobile */}
+        <div className="hidden md:block">
+          <SearchBar
+            ref={searchBarRef}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            showOnlyShiny={showOnlyShiny}
+            setShowOnlyShiny={setShowOnlyShiny}
+            showMissingShiny={showMissingShiny}
+            setShowMissingShiny={setShowMissingShiny}
+            hideRegionalForms={hideRegionalForms}
+            setHideRegionalForms={setHideRegionalForms}
+            activeFilter={activeFilter}
+            setActiveFilter={setActiveFilter}
+            selectedGame={selectedGame}
+            setSelectedGame={setSelectedGame}
+            onMajorFilterChange={() => setScrollTrigger(st => st + 1)}
+          />
+        </div>
+
+        {/* Mobile Filter Modal */}
+        {isMobileFiltersOpen && (
+          <>
+            <div
+              className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[70]"
+              onClick={() => setIsMobileFiltersOpen(false)}
+            />
+            <div className="md:hidden fixed inset-0 bg-gray-900 z-[75] flex flex-col">
+              <div className="bg-gray-900 border-b border-gray-700 p-3 flex justify-between items-center flex-shrink-0">
+                <h2 className="text-lg font-bold text-white">{t('filters')}</h2>
+                <button
+                  onClick={() => setIsMobileFiltersOpen(false)}
+                  className="text-gray-400 hover:text-white text-2xl"
+                >
+                  ×
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-3">
+                <SearchBar
+                  ref={searchBarRef}
+                  searchTerm={searchTerm}
+                  setSearchTerm={setSearchTerm}
+                  showOnlyShiny={showOnlyShiny}
+                  setShowOnlyShiny={setShowOnlyShiny}
+                  showMissingShiny={showMissingShiny}
+                  setShowMissingShiny={setShowMissingShiny}
+                  hideRegionalForms={hideRegionalForms}
+                  setHideRegionalForms={setHideRegionalForms}
+                  activeFilter={activeFilter}
+                  setActiveFilter={setActiveFilter}
+                  selectedGame={selectedGame}
+                  setSelectedGame={setSelectedGame}
+                  onMajorFilterChange={() => setScrollTrigger(st => st + 1)}
+                />
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* Mobile Filter Button */}
+        <button
+          onClick={() => setIsMobileFiltersOpen(true)}
+          className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full shadow-lg z-50 flex items-center gap-2"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+          </svg>
+          <span>{t('filters')}</span>
+        </button>
 
         {!loading && filteredPokemon.length > 0 && (
           <div className="mb-4 px-1 flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4">
@@ -410,13 +464,13 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
       {/* Scroll to Top Button */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-6 right-6 bg-yellow-400 hover:bg-yellow-500 text-gray-900 rounded-full p-4 shadow-lg transition-all duration-300 z-50 ${showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16 pointer-events-none'
+        className={`fixed bottom-6 right-4 md:right-6 bg-yellow-400 hover:bg-yellow-500 text-gray-900 rounded-full p-3 sm:p-4 shadow-lg transition-all duration-300 z-50 ${showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16 pointer-events-none'
           }`}
         aria-label="Scroll to top"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
+          className="h-5 w-5 sm:h-6 sm:w-6"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -429,12 +483,12 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
       {/* Report/Feedback Button */}
       <button
         onClick={() => setIsFeedbackOpen(true)}
-        className="fixed bottom-6 left-6 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg transition-all duration-300 z-50 flex items-center gap-2"
+        className="fixed bottom-6 left-4 md:left-6 bg-red-600 hover:bg-red-700 text-white rounded-full px-3 py-2 sm:px-4 sm:py-3 shadow-lg transition-all duration-300 z-50 flex items-center justify-center gap-2"
         aria-label={t('report')}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
+          className="h-5 w-5"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -442,7 +496,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
         </svg>
-        <span className="hidden sm:inline font-bold">{t('report')}</span>
+        <span className="hidden sm:inline font-bold leading-none">{t('report')}</span>
       </button>
 
       {/* Feedback Modal */}
