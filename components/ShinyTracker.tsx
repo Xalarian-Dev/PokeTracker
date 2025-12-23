@@ -7,6 +7,7 @@ import SearchBar from './SearchBar';
 import PokemonCard from './PokemonCard';
 import RandomHuntSidePanel from './RandomHuntSidePanel';
 import ConfirmationModal from './ConfirmationModal';
+import FeedbackModal from './FeedbackModal';
 import { POKEMON_AVAILABILITY, GAME_GROUP_MAP } from '../data/games';
 import { useLanguage } from '../contexts/LanguageContext';
 import {
@@ -40,6 +41,8 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
   const [isRandomHuntOpen, setIsRandomHuntOpen] = useState(false);
   const [ownedGames, setOwnedGames] = useState<string[]>([]);
   const [displayName, setDisplayName] = useState<string | null>(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
 
   // Confirmation Modal State
   const [confirmModal, setConfirmModal] = useState<{
@@ -148,6 +151,17 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
 
     loadData();
   }, [userId, storageKey]);
+
+  // Detect scroll position for scroll-to-top button
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show button when scrolled down more than 300px
+      setShowScrollTop(window.scrollY > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Real-time subscription for authenticated users
   useEffect(() => {
@@ -286,6 +300,14 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
     });
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+
   return (
     <div className="min-h-screen bg-gray-900 text-white relative">
       <Header user={user} onLogout={onLogout} onLoginClick={onLoginClick} onProfileClick={onProfileClick} displayName={displayName} />
@@ -379,7 +401,55 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
             <p className="text-xl text-gray-500">{t('no_pokemon_found')}</p>
           </div>
         )}
+
+        <footer className="text-center py-8 mt-8 border-t border-gray-700">
+          <p className="text-xs text-gray-500">{t('pokemon_copyright')}</p>
+        </footer>
       </main>
+
+      {/* Scroll to Top Button */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-6 right-6 bg-yellow-400 hover:bg-yellow-500 text-gray-900 rounded-full p-4 shadow-lg transition-all duration-300 z-50 ${showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16 pointer-events-none'
+          }`}
+        aria-label="Scroll to top"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={3}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+        </svg>
+      </button>
+
+      {/* Report/Feedback Button */}
+      <button
+        onClick={() => setIsFeedbackOpen(true)}
+        className="fixed bottom-6 left-6 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg transition-all duration-300 z-50 flex items-center gap-2"
+        aria-label={t('report')}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        <span className="hidden sm:inline font-bold">{t('report')}</span>
+      </button>
+
+      {/* Feedback Modal */}
+      <FeedbackModal
+        isOpen={isFeedbackOpen}
+        onClose={() => setIsFeedbackOpen(false)}
+      />
     </div>
   );
 };

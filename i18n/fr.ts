@@ -84,7 +84,26 @@ export const ui = {
     games_selected: "jeux sélectionnés",
     display_name: "Nom d'affichage",
     display_name_placeholder: "Entrez votre nom d'affichage (optionnel)",
-    will_be_displayed: "sera affiché dans l'en-tête"
+    will_be_displayed: "sera affiché dans l'en-tête",
+    pokemon_copyright: "Les illustrations de Pokémon sont la propriété de Nintendo, Creatures Inc., GAME FREAK inc. ©1995-2025 The Pokémon Company",
+    feedback_title: "Signaler un problème",
+    feedback_description: "Aidez-nous à améliorer l'application en signalant des bugs, des Pokémon manquants ou en posant vos questions.",
+    feedback_category: "Catégorie",
+    feedback_missing_pokemon: "Pokémon manquant",
+    feedback_bug: "Bug",
+    feedback_question: "Question",
+    feedback_suggestion: "Suggestion",
+    feedback_other: "Autre",
+    feedback_email: "Votre email",
+    feedback_email_placeholder: "votre@email.com",
+    feedback_message: "Message",
+    feedback_message_placeholder: "Décrivez votre problème ou suggestion...",
+    feedback_success: "Merci ! Votre message a été envoyé.",
+    feedback_error: "Erreur lors de l'envoi. Veuillez réessayer.",
+    optional: "optionnel",
+    send: "Envoyer",
+    sending: "Envoi...",
+    report: "Signaler"
 };
 
 export const games: Record<string, string> = {

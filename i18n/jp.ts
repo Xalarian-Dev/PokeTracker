@@ -84,7 +84,26 @@ export const ui = {
     games_selected: "ゲームが選択されました",
     display_name: "表示名",
     display_name_placeholder: "表示名を入力（任意）",
-    will_be_displayed: "がヘッダーに表示されます"
+    will_be_displayed: "がヘッダーに表示されます",
+    pokemon_copyright: "ポケモンのイラストは任天堂・クリーチャーズ・ゲームフリークの所有物です ©1995-2025 株式会社ポケモン",
+    feedback_title: "問題を報告",
+    feedback_description: "バグ、不足しているポケモン、質問を報告して、アプリの改善にご協力ください。",
+    feedback_category: "カテゴリー",
+    feedback_missing_pokemon: "ポケモンが不足",
+    feedback_bug: "バグ",
+    feedback_question: "質問",
+    feedback_suggestion: "提案",
+    feedback_other: "その他",
+    feedback_email: "メールアドレス",
+    feedback_email_placeholder: "your@email.com",
+    feedback_message: "メッセージ",
+    feedback_message_placeholder: "問題や提案を説明してください...",
+    feedback_success: "ありがとうございます！メッセージが送信されました。",
+    feedback_error: "送信エラー。もう一度お試しください。",
+    optional: "任意",
+    send: "送信",
+    sending: "送信中...",
+    report: "報告"
 };
 
 export const games: Record<string, string> = {
