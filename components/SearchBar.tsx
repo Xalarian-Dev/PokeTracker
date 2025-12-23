@@ -44,7 +44,7 @@ const GameButton: React.FC<{
     isSelected: boolean;
     onClick: (event: React.MouseEvent<HTMLButtonElement>, gameId: string) => void;
 }> = ({ gameId, label, isSelected, onClick }) => {
-    const baseClasses = "px-2 py-1 text-xs font-medium rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500";
+    const baseClasses = "px-2 py-1 text-xs font-medium rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500 whitespace-nowrap";
     const activeClasses = "bg-blue-500 text-white";
     const inactiveClasses = "bg-gray-700 hover:bg-gray-600 text-white";
     return (
@@ -91,9 +91,9 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
     };
 
     return (
-        <div ref={ref} className="md:sticky md:top-16 z-40 mb-4">
+        <div ref={ref} className="md:sticky md:top-16 z-40 mb-4 w-full max-w-full">
             {/* Expanded state - full search bar - always visible in mobile modal */}
-            <div className="flex flex-col bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-lg">
+            <div className="flex flex-col bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-lg w-full max-w-full box-border">
                 <div className="p-2 flex flex-col gap-2">
                     {/* Search input */}
                     <div className="relative">

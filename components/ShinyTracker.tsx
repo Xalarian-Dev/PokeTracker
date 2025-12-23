@@ -164,6 +164,19 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Block body scroll when random hunt modal is open
+  useEffect(() => {
+    if (isRandomHuntOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isRandomHuntOpen]);
+
   // Real-time subscription for authenticated users
   useEffect(() => {
     if (!userId) return;
@@ -330,7 +343,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
         ownedGames={ownedGames}
       />
 
-      <main className={`container mx-auto px-4 py-8 transition-all duration-300 ${isRandomHuntOpen || confirmModal.isOpen ? 'blur-sm pointer-events-none select-none' : ''}`}>
+      <main className={`container mx-auto px-4 py-8 transition-all duration-300 ${confirmModal.isOpen || isFeedbackOpen ? 'blur-sm pointer-events-none select-none' : ''}`}>
         <div className="bg-gray-800 rounded-lg p-6 mb-8 shadow-lg">
           <h2 className="text-2xl font-bold">{t('shinydex_progress')}</h2>
           <p className="text-gray-400">{shinyCount} / {totalPokemon} {t('shiny_pokemon_caught')}</p>
@@ -369,7 +382,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
               className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[70]"
               onClick={() => setIsMobileFiltersOpen(false)}
             />
-            <div className="md:hidden fixed inset-0 bg-gray-900 z-[75] flex flex-col">
+            <div className="md:hidden fixed inset-0 bg-gray-900 z-[75] flex flex-col w-screen overflow-x-hidden">
               <div className="bg-gray-900 border-b border-gray-700 p-3 flex justify-between items-center flex-shrink-0">
                 <h2 className="text-lg font-bold text-white">{t('filters')}</h2>
                 <button
@@ -379,7 +392,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
                   ×
                 </button>
               </div>
-              <div className="flex-1 overflow-y-auto p-3">
+              <div className="flex-1 overflow-y-auto overflow-x-hidden p-3">
                 <SearchBar
                   ref={searchBarRef}
                   searchTerm={searchTerm}
@@ -480,24 +493,26 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
         </svg>
       </button>
 
-      {/* Report/Feedback Button */}
-      <button
-        onClick={() => setIsFeedbackOpen(true)}
-        className="fixed bottom-6 left-4 md:left-6 bg-red-600 hover:bg-red-700 text-white rounded-full px-3 py-2 sm:px-4 sm:py-3 shadow-lg transition-all duration-300 z-50 flex items-center justify-center gap-2"
-        aria-label={t('report')}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
+      {/* Report/Feedback Button - Only visible when logged in */}
+      {userId && (
+        <button
+          onClick={() => setIsFeedbackOpen(true)}
+          className="fixed bottom-6 left-4 md:left-6 bg-red-600 hover:bg-red-700 text-white rounded-full px-3 py-2 sm:px-4 sm:py-3 shadow-lg transition-all duration-300 z-50 flex items-center justify-center gap-2"
+          aria-label={t('report')}
         >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-        </svg>
-        <span className="hidden sm:inline font-bold leading-none">{t('report')}</span>
-      </button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+          <span className="hidden sm:inline font-bold leading-none">{t('report')}</span>
+        </button>
+      )}
 
       {/* Feedback Modal */}
       <FeedbackModal

@@ -19,8 +19,8 @@ const gameColorMap: Record<string, { keys: [string | string[], string | string[]
   'frlg': { keys: ['fr', 'lg'], colors: ['bg-red-800/50', 'bg-green-800/50'] },
   'dp': { keys: ['d', 'p'], colors: ['bg-sky-800/50', 'bg-pink-800/50'] },
   'hgss': { keys: ['hg', 'ss'], colors: ['bg-yellow-600/50', 'bg-slate-500/50'] },
-  'bw': { keys: ['bla', 'w'], colors: ['bg-neutral-800/50', 'bg-stone-400/50'] },
-  'bw2': { keys: ['bla2', 'w2'], colors: ['bg-neutral-800/50', 'bg-stone-400/50'] },
+  'bw': { keys: ['bla', 'w'], colors: ['bg-black', 'bg-stone-400/50'] },
+  'bw2': { keys: ['bla2', 'w2'], colors: ['bg-black', 'bg-stone-400/50'] },
   'xy': { keys: ['x', 'y'], colors: ['bg-blue-800/50', 'bg-red-800/50'] },
   'oras': { keys: ['or', 'as'], colors: ['bg-red-800/50', 'bg-blue-800/50'] },
   'sm': { keys: ['su', 'm'], colors: ['bg-orange-500/50', 'bg-purple-900/50'] },
@@ -78,7 +78,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
     relative group ${cardBgColor} rounded-lg p-3 flex flex-col items-center justify-center 
     cursor-pointer transition-all duration-300 transform
     hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/20
-    ${isShiny ? 'border-2 border-yellow-400' : 'border-2 border-transparent'}
+    ${isShiny ? 'border-2 border-yellow-400' : cardBgColor === 'bg-black' ? 'border-2 border-gray-700' : 'border-2 border-transparent'}
   `;
 
   // Check for DLC availability when swsh is selected

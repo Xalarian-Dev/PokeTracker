@@ -90,10 +90,10 @@ const RandomHuntSidePanel: React.FC<RandomHuntSidePanelProps> = ({ pokemonList, 
         <>
             <button
                 onClick={onOpen}
-                className={`fixed left-0 top-1/2 transform -translate-y-1/2 z-[60] bg-yellow-400 hover:bg-yellow-500 text-gray-900 p-3 rounded-r-xl shadow-xl transition-all duration-300 ${isOpen ? 'translate-x-[-100%]' : 'translate-x-0'}`}
+                className={`fixed left-0 top-1/2 transform -translate-y-1/2 z-40 bg-yellow-400 hover:bg-yellow-500 text-gray-900 p-2 md:p-3 rounded-r-xl shadow-xl transition-all duration-300 ${isOpen ? 'translate-x-[-100%]' : 'translate-x-0'}`}
                 aria-label="Open Random Hunt"
             >
-                <DiceIcon className="w-8 h-8 animate-pulse" />
+                <DiceIcon className="w-6 h-6 md:w-8 md:h-8 animate-pulse" />
             </button>
 
             {/* Side Panel */}
