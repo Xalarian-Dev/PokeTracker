@@ -94,16 +94,17 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
         <div ref={ref} className="sticky top-16 z-40 mb-4">
             {/* Collapsed state - only show expand button */}
             {!isFiltersExpanded && (
-                <div className="flex justify-center bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-lg p-1.5">
-                    <button
-                        onClick={() => setIsFiltersExpanded(true)}
-                        className="text-gray-400 hover:text-white transition-colors p-1"
-                        aria-label="Expand filters"
-                    >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
+                <div className="bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-lg p-0.5 relative group cursor-pointer" onClick={() => setIsFiltersExpanded(true)}>
+                    <div className="flex justify-center w-full">
+                        <button
+                            className="text-gray-400 group-hover:text-white transition-colors p-0.5 w-full flex justify-center"
+                            aria-label="Expand filters"
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             )}
 
@@ -162,8 +163,8 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
                         <div className="pt-2 border-t border-gray-700">
                             {/* Generation Filters */}
                             <div className="mb-2">
-                                <h3 className="text-xs font-semibold text-gray-300 mb-1">{t('filter_by_generation')}</h3>
-                                <div className="flex flex-wrap gap-1">
+                                <h3 className="text-xs font-semibold text-gray-300 mb-1 text-center">{t('filter_by_generation')}</h3>
+                                <div className="flex flex-wrap gap-1 justify-center">
                                     {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(gen => (
                                         <FilterButton
                                             key={gen}
@@ -177,8 +178,8 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
 
                             {/* Region Filters */}
                             <div className="mb-2">
-                                <h3 className="text-xs font-semibold text-gray-300 mb-1">{t('filter_by_region')}</h3>
-                                <div className="flex flex-wrap gap-1">
+                                <h3 className="text-xs font-semibold text-gray-300 mb-1 text-center">{t('filter_by_region')}</h3>
+                                <div className="flex flex-wrap gap-1 justify-center">
                                     {['Alola', 'Galar', 'Hisui', 'Paldea'].map(region => (
                                         <FilterButton
                                             key={region}
@@ -192,8 +193,8 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
 
                             {/* Game Filters */}
                             <div>
-                                <h3 className="text-xs font-semibold text-gray-300 mb-1">{t('filter_by_game')}</h3>
-                                <div className="flex flex-wrap gap-1">
+                                <h3 className="text-xs font-semibold text-gray-300 mb-1 text-center">{t('filter_by_game')}</h3>
+                                <div className="flex flex-wrap gap-1 justify-center">
                                     {Object.entries(gameList).map(([gameId, gameName]) => (
                                         <GameButton
                                             key={gameId}
@@ -208,16 +209,17 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
                         </div>
 
                         {/* Collapse button */}
-                        <div className="flex justify-center pt-1 border-t border-gray-700">
-                            <button
-                                onClick={() => setIsFiltersExpanded(false)}
-                                className="text-gray-400 hover:text-white transition-colors p-1"
-                                aria-label="Collapse filters"
-                            >
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                                </svg>
-                            </button>
+                        <div className="pt-0.5 border-t border-gray-700 cursor-pointer group" onClick={() => setIsFiltersExpanded(false)}>
+                            <div className="flex justify-center w-full">
+                                <button
+                                    className="text-gray-400 group-hover:text-white transition-colors p-0.5 w-full flex justify-center"
+                                    aria-label="Collapse filters"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

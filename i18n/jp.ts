@@ -134,6 +134,8 @@ export const gameVersions: Record<string, string> = {
     'sc': 'スカーレット', 'v': 'バイオレット',
     'scdlc1': 'スカーレット (碧の仮面)', 'vdlc1': 'バイオレット (碧の仮面)',
     'scdlc2': 'スカーレット (藍の円盤)', 'vdlc2': 'バイオレット (藍の円盤)',
+    'lpza': 'LEGENDS Z-A',
+    'lpzadlc1': 'LEGENDS Z-A (メガディメンション)',
 };
 
 export const pokemon: Record<string, string> = pokemonJP;

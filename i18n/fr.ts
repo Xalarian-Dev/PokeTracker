@@ -134,6 +134,8 @@ export const gameVersions: Record<string, string> = {
     'sc': 'Écarlate', 'v': 'Violet',
     'scdlc1': 'Écarlate (Masque)', 'vdlc1': 'Violet (Masque)',
     'scdlc2': 'Écarlate (Disque)', 'vdlc2': 'Violet (Disque)',
+    'lpza': 'Légendes : Z-A',
+    'lpzadlc1': 'Légendes : Z-A (Dimension)',
 };
 
 export const pokemon: Record<string, string> = pokemonFR;
