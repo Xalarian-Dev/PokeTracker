@@ -83,7 +83,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
   `;
 
   const shinyGlowStyle = isShiny ? {
-    boxShadow: '0 0 20px 4px rgba(251, 191, 36, 0.4)'
+    boxShadow: '0 0 15px 3px rgba(251, 191, 36, 0.35)'
   } : {};
 
   // Check for DLC availability when swsh is selected
