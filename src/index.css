@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Thème Pokémon adapté pour shadcn/ui */
+    --background: 222 47% 11%;
+    /* gray-900 */
+    --foreground: 210 40% 98%;
+    /* white */
+
+    --card: 217 33% 17%;
+    /* gray-800 */
+    --card-foreground: 210 40% 98%;
+
+    --popover: 217 33% 17%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 45 93% 47%;
+    /* poke-yellow */
+    --primary-foreground: 222 47% 11%;
+
+    --secondary: 239 84% 67%;
+    /* poke-indigo */
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 19% 27%;
+    /* gray-700 */
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 217 19% 27%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84% 60%;
+    /* poke-red */
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 19% 27%;
+    --input: 217 19% 27%;
+    --ring: 45 93% 47%;
+    /* poke-yellow for focus */
+
+    --radius: 0.5rem;
+  }
+}
+
+/* Custom scrollbar for a better look */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a202c;
+  /* dark-gray-800 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4a5568;
+  /* dark-gray-600 */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #718096;
+  /* dark-gray-500 */
+}

@@ -104,7 +104,8 @@ export const ui = {
     send: "送信",
     sending: "送信中...",
     report: "報告",
-    filters: "フィルター"
+    filters: "フィルター",
+    v2_button: "V2"
 };
 
 export const games: Record<string, string> = {

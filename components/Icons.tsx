@@ -168,6 +168,44 @@ export const DiceIcon: React.FC<IconProps> = ({ className }) => (
   </svg>
 );
 
+// 3D Isometric Dice Icon
+export const Dice3DIcon: React.FC<IconProps> = ({ className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    transform="scale(1, -1)"
+  >
+    {/* Top face */}
+    <path d="M12 2 L20 6 L12 10 L4 6 Z" fill="currentColor" fillOpacity="0.3" />
+    {/* Right face */}
+    <path d="M20 6 L20 14 L12 18 L12 10 Z" fill="currentColor" fillOpacity="0.2" />
+    {/* Left face */}
+    <path d="M4 6 L4 14 L12 18 L12 10 Z" fill="currentColor" fillOpacity="0.1" />
+
+    {/* Dots on top face (showing 5) */}
+    <circle cx="8" cy="6" r="0.8" fill="currentColor" />
+    <circle cx="16" cy="6" r="0.8" fill="currentColor" />
+    <circle cx="12" cy="8" r="0.8" fill="currentColor" />
+    <circle cx="8" cy="8" r="0.8" fill="currentColor" />
+    <circle cx="16" cy="8" r="0.8" fill="currentColor" />
+
+    {/* Dots on right face (showing 3) */}
+    <circle cx="16" cy="10" r="0.8" fill="currentColor" />
+    <circle cx="16" cy="12" r="0.8" fill="currentColor" />
+    <circle cx="16" cy="14" r="0.8" fill="currentColor" />
+
+    {/* Dots on left face (showing 2) */}
+    <circle cx="8" cy="11" r="0.8" fill="currentColor" />
+    <circle cx="8" cy="13" r="0.8" fill="currentColor" />
+  </svg>
+);
+
 export const LockIcon: React.FC<IconProps> = ({ className }) => (
   <svg
     viewBox="0 0 24 24"

@@ -1,6 +1,6 @@
-
 import React, { useState, forwardRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { FilterChip } from './ui';
 
 interface SearchBarProps {
     searchTerm: string;
@@ -17,47 +17,6 @@ interface SearchBarProps {
     setSelectedGame: (game: string | null) => void;
     onMajorFilterChange: () => void;
 }
-
-const FilterButton: React.FC<{
-    label: string;
-    isActive: boolean;
-    onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-}> = ({ label, isActive, onClick }) => {
-    const baseClasses = "px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-yellow-500";
-    const activeClasses = "bg-yellow-400 text-gray-900";
-    const inactiveClasses = "bg-gray-700 hover:bg-gray-600 text-white";
-
-    return (
-        <button
-            onClick={onClick}
-            onMouseDown={(e) => e.preventDefault()}
-            className={`${baseClasses} ${isActive ? activeClasses : inactiveClasses}`}
-        >
-            {label}
-        </button>
-    );
-};
-
-const GameButton: React.FC<{
-    gameId: string;
-    label: string;
-    isSelected: boolean;
-    onClick: (event: React.MouseEvent<HTMLButtonElement>, gameId: string) => void;
-}> = ({ gameId, label, isSelected, onClick }) => {
-    const baseClasses = "px-2 py-1 text-xs font-medium rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500 whitespace-nowrap";
-    const activeClasses = "bg-blue-500 text-white";
-    const inactiveClasses = "bg-gray-700 hover:bg-gray-600 text-white";
-    return (
-        <button
-            onClick={(e) => onClick(e, gameId)}
-            onMouseDown={(e) => e.preventDefault()}
-            className={`${baseClasses} ${isSelected ? activeClasses : inactiveClasses}`}
-        >
-            {label}
-        </button>
-    )
-}
-
 
 const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> = ({
     searchTerm, setSearchTerm,
@@ -92,10 +51,9 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
 
     return (
         <div ref={ref} className="md:sticky md:top-16 z-40 mb-4 w-full max-w-full">
-            {/* Expanded state - full search bar - always visible in mobile modal */}
             <div className="flex flex-col bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-lg w-full max-w-full box-border">
                 <div className="p-2 flex flex-col gap-2">
-                    {/* Search input */}
+                    {/* Search Input */}
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
                             <svg className="h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -111,7 +69,7 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
                         />
                     </div>
 
-                    {/* Checkboxes below search */}
+                    {/* Checkboxes */}
                     <div className="flex flex-wrap gap-2 text-xs">
                         <label className="flex items-center gap-1.5 cursor-pointer">
                             <input
@@ -142,17 +100,20 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
                         </label>
                     </div>
 
-                    {/* Filters section */}
+                    {/* Filters Section */}
                     <div className="pt-2 border-t border-gray-700">
                         {/* Generation Filters */}
                         <div className="mb-2">
-                            <h3 className="text-xs font-semibold text-gray-300 mb-1 text-center">{t('filter_by_generation')}</h3>
+                            <h3 className="text-xs font-semibold text-gray-300 mb-1 text-center">
+                                {t('filter_by_generation')}
+                            </h3>
                             <div className="flex flex-wrap gap-1 justify-center">
                                 {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(gen => (
-                                    <FilterButton
+                                    <FilterChip
                                         key={gen}
                                         label={`${t('gen')} ${gen}`}
                                         isActive={activeFilter?.type === 'gen' && activeFilter?.value === gen}
+                                        variant="filter"
                                         onClick={(e) => handleFilterClick(e, 'gen', gen)}
                                     />
                                 ))}
@@ -161,13 +122,16 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
 
                         {/* Region Filters */}
                         <div className="mb-2">
-                            <h3 className="text-xs font-semibold text-gray-300 mb-1 text-center">{t('filter_by_region')}</h3>
+                            <h3 className="text-xs font-semibold text-gray-300 mb-1 text-center">
+                                {t('filter_by_region')}
+                            </h3>
                             <div className="flex flex-wrap gap-1 justify-center">
                                 {['Alola', 'Galar', 'Hisui', 'Paldea'].map(region => (
-                                    <FilterButton
+                                    <FilterChip
                                         key={region}
                                         label={getRegionName(region)}
                                         isActive={activeFilter?.type === 'region' && activeFilter?.value === region}
+                                        variant="filter"
                                         onClick={(e) => handleFilterClick(e, 'region', region)}
                                     />
                                 ))}
@@ -176,22 +140,24 @@ const SearchBar: React.ForwardRefRenderFunction<HTMLDivElement, SearchBarProps> 
 
                         {/* Game Filters */}
                         <div>
-                            <h3 className="text-xs font-semibold text-gray-300 mb-1 text-center">{t('filter_by_game')}</h3>
+                            <h3 className="text-xs font-semibold text-gray-300 mb-1 text-center">
+                                {t('filter_by_game')}
+                            </h3>
                             <div className="flex flex-wrap gap-1 justify-center">
                                 {Object.entries(gameList).map(([gameId, gameName]) => (
-                                    <GameButton
+                                    <FilterChip
                                         key={gameId}
-                                        gameId={gameId}
                                         label={gameName}
-                                        isSelected={selectedGame === gameId}
-                                        onClick={handleGameClick}
+                                        isActive={selectedGame === gameId}
+                                        variant="game"
+                                        onClick={(e) => handleGameClick(e, gameId)}
                                     />
                                 ))}
                             </div>
                         </div>
                     </div>
 
-                    {/* Collapse button - only on desktop */}
+                    {/* Collapse Button - Desktop Only */}
                     <div className="hidden md:block pt-0.5 border-t border-gray-700 cursor-pointer group" onClick={() => setIsFiltersExpanded(false)}>
                         <div className="flex justify-center w-full">
                             <button

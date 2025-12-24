@@ -1,13 +1,13 @@
 
-import React, { useState, useEffect, useMemo, useRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useUser } from '@clerk/clerk-react';
 import type { Pokemon, User } from '../types';
 import Header from './Header';
-import SearchBar from './SearchBar';
+import UnifiedSidePanel from './UnifiedSidePanel';
 import PokemonCard from './PokemonCard';
-import RandomHuntSidePanel from './RandomHuntSidePanel';
 import ConfirmationModal from './ConfirmationModal';
-import FeedbackModal from './FeedbackModal';
+import ScrollToTopButton from './ScrollToTopButton';
+import { Button } from './ui';
 import { POKEMON_AVAILABILITY, GAME_GROUP_MAP } from '../data/games';
 import { useLanguage } from '../contexts/LanguageContext';
 import {
@@ -22,12 +22,11 @@ import {
 interface ShinyTrackerProps {
   user: User | null;
   onLogout: () => void;
-  onLoginClick?: () => void;
   onProfileClick?: () => void;
   pokemonList: Pokemon[];
 }
 
-const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClick, onProfileClick, pokemonList }) => {
+const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileClick, pokemonList }) => {
   const { user: clerkUser } = useUser();
   const [shinyPokemons, setShinyPokemons] = useState<Set<string>>(new Set());
   const [searchTerm, setSearchTerm] = useState('');
@@ -42,7 +41,6 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
   const [ownedGames, setOwnedGames] = useState<string[]>([]);
   const [displayName, setDisplayName] = useState<string | null>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
   // Confirmation Modal State
@@ -54,38 +52,10 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
 
   const { t } = useLanguage();
   const didMount = useRef(false);
-  const searchBarRef = useRef<HTMLDivElement>(null);
-  const searchBarInitialTop = useRef(0);
   const realtimeChannelRef = useRef<any>(null);
 
   const storageKey = user ? `shinyTrackerData_${user.username}` : null;
   const userId = clerkUser?.id;
-
-  useLayoutEffect(() => {
-    if (searchBarRef.current) {
-      searchBarInitialTop.current = searchBarRef.current.offsetTop;
-    }
-  }, []);
-
-  useLayoutEffect(() => {
-    if (didMount.current) {
-      if (searchBarInitialTop.current > 0) {
-        const headerHeight = 64;
-        const targetScrollY = searchBarInitialTop.current - headerHeight;
-        const currentScrollY = window.scrollY || window.pageYOffset;
-
-        // Only scroll if we're below the target position
-        if (currentScrollY > targetScrollY) {
-          window.scrollTo({
-            top: targetScrollY,
-            behavior: 'smooth',
-          });
-        }
-      }
-    } else {
-      didMount.current = true;
-    }
-  }, [scrollTrigger]);
 
   // Load data on mount
   useEffect(() => {
@@ -323,8 +293,8 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
 
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white relative">
-      <Header user={user} onLogout={onLogout} onLoginClick={onLoginClick} onProfileClick={onProfileClick} displayName={displayName} />
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col">
+      <Header user={user} onLogout={onLogout} onProfileClick={onProfileClick} displayName={displayName} />
 
       <ConfirmationModal
         isOpen={confirmModal.isOpen}
@@ -333,192 +303,119 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onLoginClic
         message={confirmModal.message}
       />
 
-      <RandomHuntSidePanel
+      {/* Unified Side Panel with Tabs */}
+      <UnifiedSidePanel
+        shinyCount={shinyCount}
+        totalPokemon={totalPokemon}
+        progress={progress}
+        activeFilter={activeFilter}
+        setActiveFilter={setActiveFilter}
+        selectedGame={selectedGame}
+        setSelectedGame={setSelectedGame}
+        showOnlyShiny={showOnlyShiny}
+        setShowOnlyShiny={setShowOnlyShiny}
+        showMissingShiny={showMissingShiny}
+        setShowMissingShiny={setShowMissingShiny}
+        hideRegionalForms={hideRegionalForms}
+        setHideRegionalForms={setHideRegionalForms}
+        onMajorFilterChange={() => setScrollTrigger(st => st + 1)}
         pokemonList={pokemonList}
         shinyPokemons={shinyPokemons}
-        isOpen={isRandomHuntOpen}
-        onOpen={() => setIsRandomHuntOpen(true)}
-        onClose={() => setIsRandomHuntOpen(false)}
         userId={userId}
         ownedGames={ownedGames}
+        isRandomHuntOpen={isRandomHuntOpen}
+        onRandomHuntOpen={() => setIsRandomHuntOpen(true)}
+        onRandomHuntClose={() => setIsRandomHuntOpen(false)}
       />
 
-      <main className={`container mx-auto px-4 py-8 transition-all duration-300 ${confirmModal.isOpen || isFeedbackOpen ? 'blur-sm pointer-events-none select-none' : ''}`}>
-        <div className="bg-gray-800 rounded-lg p-6 mb-8 shadow-lg">
-          <h2 className="text-2xl font-bold">{t('shinydex_progress')}</h2>
-          <p className="text-gray-400">{shinyCount} / {totalPokemon} {t('shiny_pokemon_caught')}</p>
-          <div className="w-full bg-gray-700 rounded-full h-4 mt-4 overflow-hidden">
-            <div
-              className="bg-yellow-400 h-4 rounded-full transition-all duration-500"
-              style={{ width: `${progress}%` }}
-            ></div>
-          </div>
-        </div>
+      {/* Main Layout: Full Width Content */}
+      <div className={`flex flex-1 overflow-hidden ${confirmModal.isOpen ? 'blur-sm pointer-events-none select-none' : ''}`}>
 
-        {/* Desktop SearchBar - hidden on mobile */}
-        <div className="hidden md:block">
-          <SearchBar
-            ref={searchBarRef}
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            showOnlyShiny={showOnlyShiny}
-            setShowOnlyShiny={setShowOnlyShiny}
-            showMissingShiny={showMissingShiny}
-            setShowMissingShiny={setShowMissingShiny}
-            hideRegionalForms={hideRegionalForms}
-            setHideRegionalForms={setHideRegionalForms}
-            activeFilter={activeFilter}
-            setActiveFilter={setActiveFilter}
-            selectedGame={selectedGame}
-            setSelectedGame={setSelectedGame}
-            onMajorFilterChange={() => setScrollTrigger(st => st + 1)}
-          />
-        </div>
-
-        {/* Mobile Filter Modal */}
-        {isMobileFiltersOpen && (
-          <>
-            <div
-              className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[70]"
-              onClick={() => setIsMobileFiltersOpen(false)}
-            />
-            <div className="md:hidden fixed inset-0 bg-gray-900 z-[75] flex flex-col w-screen overflow-x-hidden">
-              <div className="bg-gray-900 border-b border-gray-700 p-3 flex justify-between items-center flex-shrink-0">
-                <h2 className="text-lg font-bold text-white">{t('filters')}</h2>
-                <button
-                  onClick={() => setIsMobileFiltersOpen(false)}
-                  className="text-gray-400 hover:text-white text-2xl"
-                >
-                  ×
-                </button>
-              </div>
-              <div className="flex-1 overflow-y-auto overflow-x-hidden p-3">
-                <SearchBar
-                  ref={searchBarRef}
-                  searchTerm={searchTerm}
-                  setSearchTerm={setSearchTerm}
-                  showOnlyShiny={showOnlyShiny}
-                  setShowOnlyShiny={setShowOnlyShiny}
-                  showMissingShiny={showMissingShiny}
-                  setShowMissingShiny={setShowMissingShiny}
-                  hideRegionalForms={hideRegionalForms}
-                  setHideRegionalForms={setHideRegionalForms}
-                  activeFilter={activeFilter}
-                  setActiveFilter={setActiveFilter}
-                  selectedGame={selectedGame}
-                  setSelectedGame={setSelectedGame}
-                  onMajorFilterChange={() => setScrollTrigger(st => st + 1)}
+        {/* Main Content Area */}
+        <main className="flex-1 overflow-y-auto">
+          <div className="container mx-auto px-4 py-6">
+            {/* Search Bar */}
+            <div className="mb-6 max-w-[1200px] mx-auto px-4">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg className="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  placeholder={t('search_placeholder')}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="block w-full pl-10 pr-3 py-3 text-base border border-gray-600 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-poke-yellow focus:border-transparent"
                 />
               </div>
             </div>
-          </>
-        )}
 
-        {/* Mobile Filter Button */}
-        <button
-          onClick={() => setIsMobileFiltersOpen(true)}
-          className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full shadow-lg z-50 flex items-center gap-2"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-          </svg>
-          <span>{t('filters')}</span>
-        </button>
+            {/* Action Buttons */}
+            {!loading && filteredPokemon.length > 0 && (
+              <div className="mb-4 max-w-[1200px] mx-auto px-4">
+                <div className="flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4">
+                  <div className="text-gray-400 text-sm">
+                    {t('pokemon_shown', { count: filteredPokemon.length })}
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={handleMarkAll}
+                      variant="secondary"
+                      size="sm"
+                    >
+                      {t('mark_all')}
+                    </Button>
+                    <Button
+                      onClick={handleUnmarkAll}
+                      variant="ghost"
+                      size="sm"
+                    >
+                      {t('unmark_all')}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
 
-        {!loading && filteredPokemon.length > 0 && (
-          <div className="mb-4 px-1 flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4">
-            <div className="text-gray-400 text-sm">
-              {t('pokemon_shown', { count: filteredPokemon.length })}
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={handleMarkAll}
-                className="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded shadow transition-colors"
-              >
-                {t('mark_all')}
-              </button>
-              <button
-                onClick={handleUnmarkAll}
-                className="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-white text-xs font-bold rounded shadow transition-colors"
-              >
-                {t('unmark_all')}
-              </button>
-            </div>
+            {/* Pokemon Grid */}
+            {loading ? (
+              <p className="text-center mt-8">{t('trainer_data_loading')}</p>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 max-w-[1200px] mx-auto px-4">
+                {filteredPokemon.map(pokemon => (
+                  <PokemonCard
+                    key={pokemon.id}
+                    pokemon={pokemon}
+                    isShiny={shinyPokemons.has(pokemon.id)}
+                    onToggleShiny={toggleShiny}
+                    selectedGame={selectedGame}
+                  />
+                ))}
+              </div>
+            )}
+
+            {!loading && filteredPokemon.length === 0 && (
+              <div className="text-center py-16">
+                <p className="text-xl text-gray-500">{t('no_pokemon_found')}</p>
+              </div>
+            )}
+
+            <footer className="text-center py-8 mt-8 border-t border-gray-700">
+              <p className="text-xs text-gray-500">{t('pokemon_copyright')}</p>
+            </footer>
           </div>
-        )}
-
-        {loading ? (
-          <p className="text-center mt-8">{t('trainer_data_loading')}</p>
-        ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
-            {filteredPokemon.map(pokemon => (
-              <PokemonCard
-                key={pokemon.id}
-                pokemon={pokemon}
-                isShiny={shinyPokemons.has(pokemon.id)}
-                onToggleShiny={toggleShiny}
-                selectedGame={selectedGame}
-              />
-            ))}
-          </div>
-        )}
-
-        {!loading && filteredPokemon.length === 0 && (
-          <div className="text-center py-16">
-            <p className="text-xl text-gray-500">{t('no_pokemon_found')}</p>
-          </div>
-        )}
-
-        <footer className="text-center py-8 mt-8 border-t border-gray-700">
-          <p className="text-xs text-gray-500">{t('pokemon_copyright')}</p>
-        </footer>
-      </main>
+        </main>
+      </div>
 
       {/* Scroll to Top Button */}
-      <button
+      <ScrollToTopButton
+        show={showScrollTop}
         onClick={scrollToTop}
-        className={`fixed bottom-6 right-4 md:right-6 bg-yellow-400 hover:bg-yellow-500 text-gray-900 rounded-full p-3 sm:p-4 shadow-lg transition-all duration-300 z-50 ${showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16 pointer-events-none'
-          }`}
-        aria-label="Scroll to top"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5 sm:h-6 sm:w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={3}
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
-        </svg>
-      </button>
-
-      {/* Report/Feedback Button - Only visible when logged in */}
-      {userId && (
-        <button
-          onClick={() => setIsFeedbackOpen(true)}
-          className="fixed bottom-6 left-4 md:left-6 bg-red-600 hover:bg-red-700 text-white rounded-full px-3 py-2 sm:px-4 sm:py-3 shadow-lg transition-all duration-300 z-50 flex items-center justify-center gap-2"
-          aria-label={t('report')}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-          </svg>
-          <span className="hidden sm:inline font-bold leading-none">{t('report')}</span>
-        </button>
-      )}
-
-      {/* Feedback Modal */}
-      <FeedbackModal
-        isOpen={isFeedbackOpen}
-        onClose={() => setIsFeedbackOpen(false)}
+        ariaLabel="Scroll to top"
       />
+
     </div>
   );
 };

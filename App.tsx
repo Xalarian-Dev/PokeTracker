@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { ClerkProvider, SignedIn, SignedOut, useUser } from '@clerk/clerk-react';
-import LoginScreen from './components/LoginScreen';
 import ShinyTracker from './components/ShinyTracker';
 import ProfilePage from './components/ProfilePage';
 import { POKEMON_LIST as BASE_POKEMON_LIST } from './data/pokemon';
@@ -10,7 +9,6 @@ import { clerkPublishableKey, clerkAppearance } from './clerk-config';
 
 const AppContent = () => {
   const { user: clerkUser, isLoaded } = useUser();
-  const [showLogin, setShowLogin] = useState(false);
   const [currentPage, setCurrentPage] = useState<'tracker' | 'profile'>('tracker');
   const { getPokemonName } = useLanguage();
 
@@ -33,7 +31,6 @@ const AppContent = () => {
 
   const handleLogout = useCallback(() => {
     // Clerk handles logout via SignOutButton in Header
-    setShowLogin(false);
   }, []);
 
   if (!isLoaded) {
@@ -47,16 +44,11 @@ const AppContent = () => {
   return (
     <>
       <SignedOut>
-        {showLogin ? (
-          <LoginScreen onLogin={() => setShowLogin(false)} />
-        ) : (
-          <ShinyTracker
-            user={null}
-            onLogout={handleLogout}
-            onLoginClick={() => setShowLogin(true)}
-            pokemonList={pokemonList}
-          />
-        )}
+        <ShinyTracker
+          user={null}
+          onLogout={handleLogout}
+          pokemonList={pokemonList}
+        />
       </SignedOut>
 
       <SignedIn>
@@ -64,7 +56,6 @@ const AppContent = () => {
           <ShinyTracker
             user={user}
             onLogout={handleLogout}
-            onLoginClick={() => setShowLogin(true)}
             onProfileClick={() => setCurrentPage('profile')}
             pokemonList={pokemonList}
           />

@@ -188,6 +188,21 @@ CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
 - [ ] Rate limiting
 - [ ] CDN pour sprites
 
+### Phase 4 : Refactoring Tailwind ✅ (Terminé)
+- [x] Design system Pokémon (7 couleurs personnalisées)
+- [x] 8 composants UI réutilisables créés
+- [x] 4 composants majeurs refactorisés
+- [x] -105 lignes de code supprimées (~14% réduction)
+- [x] Navigation V1/V2 fonctionnelle
+
+### Phase 5 : Optimisations Production (Futur)
+- [ ] **PurgeCSS** - Supprimer classes CSS inutilisées (~70% réduction taille)
+- [ ] **Images Pokémon** - Conversion WebP, sprite sheets, optimisation
+- [ ] **Animations** - Standardiser avec `@keyframes` réutilisables
+- [ ] **Responsive** - Vérifier tous breakpoints (mobile, tablet, desktop)
+- [ ] **Bundle Analysis** - webpack-bundle-analyzer pour identifier optimisations
+- [ ] **Service Worker** - Cache offline des sprites Pokémon
+
 ---
 
 ## 🔧 Guide de Migration Vite
@@ -288,6 +303,103 @@ MIT License - Voir [LICENSE](LICENSE) pour détails
 - Base de données : [Supabase](https://supabase.com)
 - Hébergement : [Vercel](https://vercel.com)
 - Communauté Pokémon ❤️
+
+---
+
+## 🎨 Migration vers shadcn/ui (Planifié)
+
+### Pourquoi shadcn/ui ?
+
+Actuellement, le projet utilise une **librairie UI custom** (`components/ui/`) avec 9 composants réutilisables. Pour les futurs chantiers lourds, une migration vers **shadcn/ui** est recommandée.
+
+#### Avantages de shadcn/ui
+
+1. **Composants prêts à l'emploi**
+   - Plus de 50 composants disponibles
+   - Qualité production
+   - Accessibilité (ARIA) intégrée
+   - Animations fluides avec Radix UI
+
+2. **Pas une dépendance npm**
+   - Les composants sont **copiés dans ton projet**
+   - Contrôle total, modifiable à volonté
+   - Pas de breaking changes surprise
+
+3. **Compatible avec notre stack**
+   - ✅ Tailwind CSS (déjà utilisé)
+   - ✅ React + TypeScript
+   - ✅ Thème personnalisable (couleurs Pokémon)
+
+4. **Gain de temps pour futures features**
+   - Formulaires complexes → Form + Input + Select
+   - Tableaux de données → Table + Pagination
+   - Notifications → Toast
+   - Menus contextuels → DropdownMenu
+   - Modales avancées → Dialog + AlertDialog
+
+### Plan de Migration
+
+#### Phase 1 : Installation
+```bash
+npx shadcn-ui@latest init
+```
+
+#### Phase 2 : Remplacement Progressif
+
+**Composants à remplacer** :
+- `Button` → shadcn Button
+- `Input` → shadcn Input
+- `Textarea` → shadcn Textarea
+- `Modal` → shadcn Dialog
+- `Card` → shadcn Card
+- `Tabs` → shadcn Tabs
+- `Tooltip` → shadcn Tooltip
+- `Accordion` → shadcn Accordion
+
+**Composants à garder** (spécifiques au projet) :
+- ✅ `FilterChip` (logique métier)
+- ✅ `CircularProgress` (custom SVG)
+- ✅ `PokemonCard` (logique métier)
+- ✅ `Icons` (icônes custom Pokémon)
+
+#### Phase 3 : Personnalisation
+
+Adapter les couleurs shadcn au thème Pokémon :
+```css
+/* tailwind.config.js */
+theme: {
+  extend: {
+    colors: {
+      primary: '#facc15',      // poke-yellow
+      secondary: '#6366f1',    // poke-indigo
+      destructive: '#ef4444',  // poke-red
+      // ...
+    }
+  }
+}
+```
+
+### État Actuel vs Futur
+
+| Aspect | Actuel (Custom) | Futur (shadcn) |
+|--------|-----------------|----------------|
+| Composants | 9 custom | 50+ shadcn |
+| Maintenance | Manuelle | Communauté |
+| Accessibilité | Basique | ARIA complet |
+| Animations | CSS custom | Radix UI |
+| Formulaires | Basique | react-hook-form + zod |
+
+### Quand Migrer ?
+
+**Avant de commencer** :
+- Terminer les ajustements actuels
+- Stabiliser les features existantes
+- Planifier 1-2 jours de migration
+
+**Déclencheurs** :
+- Besoin de composants avancés (Select, Combobox, etc.)
+- Formulaires complexes à implémenter
+- Besoin d'accessibilité renforcée
 
 ---
 

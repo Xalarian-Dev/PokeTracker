@@ -1,91 +1,79 @@
-
 import React from 'react';
 import { SignInButton, SignOutButton, useUser } from '@clerk/clerk-react';
 import type { User } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
-import { LuxuryBallIcon, MasterBallIcon, FranceFlag, UKFlag, JapanFlag } from './Icons';
+import { MasterBallIcon } from './Icons';
+import { Button } from './ui';
+import LanguageSelector from './LanguageSelector';
 
 interface HeaderProps {
   user: User | null;
   onLogout: () => void;
-  onLoginClick?: () => void;
   onProfileClick?: () => void;
   displayName?: string | null;
 }
 
-const Header: React.FC<HeaderProps> = ({ user, onLogout, onLoginClick, onProfileClick, displayName }) => {
+const Header: React.FC<HeaderProps> = ({
+  user,
+  onLogout,
+  onProfileClick,
+  displayName
+}) => {
   const { user: clerkUser } = useUser();
-  const { language, setLanguage, t } = useLanguage();
-
-  const langButtonClasses = (lang: 'fr' | 'en' | 'jp') =>
-    `px-2 py-1 flex items-center justify-center rounded-md transition-colors ${language === lang
-      ? 'bg-yellow-400 text-gray-900 border border-yellow-500'
-      : 'bg-gray-700 hover:bg-gray-600 text-white'
-    }`;
+  const { t } = useLanguage();
 
   return (
     <header className="bg-gray-800/80 backdrop-blur-sm shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
+          {/* Logo & Title */}
           <div className="flex items-center space-x-2 sm:space-x-4">
             <div className="flex-shrink-0 h-6 w-6 sm:h-8 sm:w-8">
               <MasterBallIcon className="w-full h-full" />
             </div>
-            <h1 className="text-base sm:text-xl font-bold text-yellow-400">{t('shiny_tracker_title')}</h1>
+            <h1 className="text-base sm:text-xl font-bold text-yellow-400">
+              {t('shiny_tracker_title')}
+            </h1>
           </div>
+
+          {/* Right Side Actions */}
           <div className="flex items-center space-x-2 sm:space-x-4">
+            {/* Trainer Name */}
             {clerkUser && (
               <span className="hidden md:block text-gray-300 text-sm">
-                {t('trainer')}: <span className="font-semibold text-white">{displayName || clerkUser.username || clerkUser.firstName || 'Trainer'}</span>
+                {t('trainer')}: <span className="font-semibold text-white">
+                  {displayName || clerkUser.username || clerkUser.firstName || 'Trainer'}
+                </span>
               </span>
             )}
-            <div className="flex items-center space-x-1 sm:space-x-2 bg-gray-900/50 p-1 rounded-lg">
-              <button
-                onClick={() => setLanguage('en')}
-                className={langButtonClasses('en')}
-                title="English"
-              >
-                <UKFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-sm" />
-              </button>
-              <button
-                onClick={() => setLanguage('fr')}
-                className={langButtonClasses('fr')}
-                title="Français"
-              >
-                <FranceFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-sm" />
-              </button>
-              <button
-                onClick={() => setLanguage('jp')}
-                className={langButtonClasses('jp')}
-                title="日本語"
-              >
-                <JapanFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-sm" />
-              </button>
-            </div>
+
+            {/* Language Selector */}
+            <LanguageSelector />
+
+            {/* Profile Button */}
             {clerkUser && onProfileClick && (
-              <button
+              <Button
+                variant="secondary"
                 onClick={onProfileClick}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-1.5 px-2 sm:py-2 sm:px-4 rounded-lg transition-colors text-xs sm:text-sm flex items-center space-x-1 sm:space-x-2"
+                className="flex items-center space-x-1 sm:space-x-2"
               >
                 <span>👤</span>
                 <span className="hidden sm:inline">{t('profile')}</span>
-              </button>
+              </Button>
             )}
+
+            {/* Login/Logout Button */}
             {clerkUser ? (
               <SignOutButton>
-                <button
-                  className="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-1.5 sm:py-2 sm:px-4 rounded-lg transition-colors text-xs sm:text-sm whitespace-nowrap"
-                >
+                <Button variant="destructive" size="sm">
                   {t('logout')}
-                </button>
+                </Button>
               </SignOutButton>
             ) : (
               <SignInButton mode="modal">
-                <button
-                  className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-1 px-1.5 sm:py-2 sm:px-4 rounded-lg transition-colors text-xs sm:text-sm whitespace-nowrap"
-                >
+                <Button size="sm">
                   {t('login')}
-                </button>
+                </Button>
               </SignInButton>
             )}
           </div>

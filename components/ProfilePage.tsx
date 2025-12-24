@@ -4,6 +4,17 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { getUserPreferences, saveUserPreferences, deleteUserData } from '../services/supabase';
 import { INDIVIDUAL_GAME_LIST } from '../data/games';
 import { UKFlag, FranceFlag, JapanFlag } from './Icons';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from './ui/dialog';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 
 interface ProfilePageProps {
     onBack: () => void;
@@ -115,53 +126,53 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
     return (
         <div className="min-h-screen bg-gray-900 text-white p-6">
             {/* Delete Confirmation Modal */}
-            {showDeleteConfirm && (
-                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-gray-800 rounded-xl p-6 max-w-md w-full border border-red-500">
-                        <h3 className="text-xl font-bold text-red-500 mb-4">⚠️ {t('delete_account_title')}</h3>
-                        <p className="text-gray-300 mb-6">
+            <Dialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>⚠️ {t('delete_account_title')}</DialogTitle>
+                        <DialogDescription>
                             {t('delete_account_warning')}
-                        </p>
-                        <ul className="list-disc list-inside text-gray-400 mb-6 space-y-1">
-                            <li>{t('delete_account_data_1')}</li>
-                            <li>{t('delete_account_data_2')}</li>
-                            <li>{t('delete_account_data_3')}</li>
-                        </ul>
-                        <p className="text-red-400 font-bold mb-6">{t('delete_account_irreversible')}</p>
-                        <div className="flex gap-3">
-                            <button
-                                onClick={() => setShowDeleteConfirm(false)}
-                                disabled={deleting}
-                                className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors disabled:opacity-50"
-                            >
-                                {t('cancel')}
-                            </button>
-                            <button
-                                onClick={handleDeleteAccount}
-                                disabled={deleting}
-                                className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors font-bold disabled:opacity-50"
-                            >
-                                {deleting ? t('deleting') : t('delete_forever')}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <ul className="list-disc list-inside text-gray-400 mb-6 space-y-1">
+                        <li>{t('delete_account_data_1')}</li>
+                        <li>{t('delete_account_data_2')}</li>
+                        <li>{t('delete_account_data_3')}</li>
+                    </ul>
+                    <p className="text-red-400 font-bold mb-6">{t('delete_account_irreversible')}</p>
+                    <DialogFooter>
+                        <Button
+                            variant="outline"
+                            onClick={() => setShowDeleteConfirm(false)}
+                            disabled={deleting}
+                        >
+                            {t('cancel')}
+                        </Button>
+                        <Button
+                            variant="destructive"
+                            onClick={handleDeleteAccount}
+                            disabled={deleting}
+                        >
+                            {deleting ? t('deleting') : t('delete_forever')}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
 
             <div className="max-w-4xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-8">
                     <h1 className="text-3xl font-bold">{t('my_profile')}</h1>
-                    <button
+                    <Button
+                        variant="ghost"
                         onClick={onBack}
-                        className="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
                     >
                         ← {t('back')}
-                    </button>
+                    </Button>
                 </div>
 
                 {/* User Info */}
-                <div className="bg-gray-800 rounded-xl p-6 mb-6 border border-gray-700">
+                <Card className="mb-6">
                     <div className="flex items-center space-x-4">
                         <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-2xl">
                             {user?.firstName?.[0] || user?.username?.[0] || '👤'}
@@ -171,26 +182,23 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
                             <p className="text-gray-400">{user?.primaryEmailAddress?.emailAddress}</p>
                         </div>
                     </div>
-                </div>
+                </Card>
 
                 {/* Display Name */}
-                <div className="bg-gray-800 rounded-xl p-6 mb-6 border border-gray-700">
+                <Card className="mb-6">
                     <h3 className="text-lg font-bold mb-4">{t('display_name')}</h3>
-                    <input
+                    <Input
                         type="text"
                         value={displayName}
                         onChange={(e) => setDisplayName(e.target.value)}
                         placeholder={t('display_name_placeholder')}
                         maxLength={30}
-                        className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        helperText={`${displayName ? `"${displayName}"` : user?.username || user?.firstName || 'Your username'} ${t('will_be_displayed')}`}
                     />
-                    <p className="text-xs text-gray-400 mt-2">
-                        {displayName ? `"${displayName}"` : user?.username || user?.firstName || 'Your username'} {t('will_be_displayed')}
-                    </p>
-                </div>
+                </Card>
 
                 {/* Language Selection */}
-                <div className="bg-gray-800 rounded-xl p-6 mb-6 border border-gray-700">
+                <Card className="mb-6">
                     <h3 className="text-lg font-bold mb-4">{t('preferred_language')}</h3>
                     <div className="flex space-x-4">
                         {[
@@ -213,26 +221,28 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
                             </button>
                         ))}
                     </div>
-                </div>
+                </Card>
 
                 {/* Owned Games */}
-                <div className="bg-gray-800 rounded-xl p-6 mb-6 border border-gray-700">
+                <Card className="mb-6">
                     <div className="flex items-center justify-between mb-4">
                         <h3 className="text-lg font-bold">{t('owned_games')}</h3>
                         <div className="space-x-2">
-                            <button
+                            <Button
+                                variant="ghost"
+                                size="sm"
                                 onClick={selectAllGames}
-                                className="text-sm text-indigo-400 hover:text-indigo-300"
                             >
                                 {t('select_all_games')}
-                            </button>
+                            </Button>
                             <span className="text-gray-600">|</span>
-                            <button
+                            <Button
+                                variant="ghost"
+                                size="sm"
                                 onClick={deselectAllGames}
-                                className="text-sm text-indigo-400 hover:text-indigo-300"
                             >
                                 {t('deselect_all_games')}
-                            </button>
+                            </Button>
                         </div>
                     </div>
 
@@ -256,7 +266,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
                     <p className="text-sm text-gray-400 mt-4">
                         {ownedGames.length} {ownedGames.length === 1 ? t('game_selected') : t('games_selected')}
                     </p>
-                </div>
+                </Card>
 
                 {/* Action Buttons */}
                 <div className="mt-6">
@@ -266,19 +276,21 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
                         </p>
                     )}
                     <div className="flex justify-between items-center">
-                        <button
+                        <Button
+                            size="lg"
                             onClick={handleSave}
                             disabled={saving}
-                            className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-bold transition-all"
                         >
                             {saving ? 'Saving...' : t('save_preferences')}
-                        </button>
-                        <button
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
                             onClick={() => setShowDeleteConfirm(true)}
-                            className="px-3 py-1.5 text-xs bg-transparent hover:bg-red-600/10 border border-red-600/50 text-red-400/70 hover:text-red-400 rounded transition-all"
+                            className="text-red-400/70 hover:text-red-400 border border-red-600/50 hover:bg-red-600/10"
                         >
                             {t('delete_account')}
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>
