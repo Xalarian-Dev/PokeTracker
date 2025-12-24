@@ -1,5 +1,5 @@
 // Export shadcn/ui components
-export { Button, buttonVariants, type ButtonProps } from './button';
+export { Button, buttonVariants, type ButtonProps } from './Button';
 export { Input, type InputProps } from './input';
 export { Textarea, type TextareaProps } from './textarea';
 export {
@@ -14,7 +14,7 @@ export {
     DialogTitle,
     DialogDescription,
 } from './dialog';
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from './card';
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from './Card';
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './accordion';
 export { Tabs, TabsList, TabsTrigger, TabsContent } from './tabs';
 

@@ -12,9 +12,9 @@ import {
     DialogHeader,
     DialogTitle,
 } from './ui/dialog';
-import { Button } from './ui/button';
+import { Button } from './ui/Button';
 import { Input } from './ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/Card';
 
 interface ProfilePageProps {
     onBack: () => void;
