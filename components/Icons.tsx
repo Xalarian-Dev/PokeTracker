@@ -21,26 +21,22 @@ export const StarIcon: React.FC<IconProps> = ({ className, filled }) => (
   </svg>
 );
 
-export const LuxuryBallIcon: React.FC<IconProps> = ({ className }) => (
+export const SparklesIcon: React.FC<IconProps> = ({ className }) => (
   <svg
-    viewBox="0 0 100 100"
-    className={className}
     xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    viewBox="0 0 24 24"
+    fill="currentColor"
   >
-    {/* Main Ball */}
-    <circle cx="50" cy="50" r="45" fill="#1a1a1a" stroke="#000" strokeWidth="2" />
-
-    {/* Golden middle band */}
-    <rect x="5" y="47" width="90" height="6" fill="#d4af37" stroke="#000" strokeWidth="1" />
-
-    {/* Red accents (top) */}
-    <path d="M30 25 L50 40 L70 25" fill="none" stroke="#e63946" strokeWidth="4" strokeLinecap="round" />
-
-    {/* Center Button */}
-    <circle cx="50" cy="50" r="12" fill="#d4af37" stroke="#000" strokeWidth="2" />
-    <circle cx="50" cy="50" r="8" fill="#f8f9fa" stroke="#adb5bd" strokeWidth="1" />
+    {/* Large sparkle */}
+    <path d="M12 0L13.5 6.5L20 8L13.5 9.5L12 16L10.5 9.5L4 8L10.5 6.5L12 0Z" />
+    {/* Small sparkle top right */}
+    <path d="M19 3L19.5 5L21.5 5.5L19.5 6L19 8L18.5 6L16.5 5.5L18.5 5L19 3Z" />
+    {/* Small sparkle bottom left */}
+    <path d="M5 16L5.5 18L7.5 18.5L5.5 19L5 21L4.5 19L2.5 18.5L4.5 18L5 16Z" />
   </svg>
 );
+
 
 export const MasterBallIcon: React.FC<IconProps> = ({ className }) => (
   <svg
@@ -168,43 +164,7 @@ export const DiceIcon: React.FC<IconProps> = ({ className }) => (
   </svg>
 );
 
-// 3D Isometric Dice Icon
-export const Dice3DIcon: React.FC<IconProps> = ({ className }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-    transform="scale(1, -1)"
-  >
-    {/* Top face */}
-    <path d="M12 2 L20 6 L12 10 L4 6 Z" fill="currentColor" fillOpacity="0.3" />
-    {/* Right face */}
-    <path d="M20 6 L20 14 L12 18 L12 10 Z" fill="currentColor" fillOpacity="0.2" />
-    {/* Left face */}
-    <path d="M4 6 L4 14 L12 18 L12 10 Z" fill="currentColor" fillOpacity="0.1" />
 
-    {/* Dots on top face (showing 5) */}
-    <circle cx="8" cy="6" r="0.8" fill="currentColor" />
-    <circle cx="16" cy="6" r="0.8" fill="currentColor" />
-    <circle cx="12" cy="8" r="0.8" fill="currentColor" />
-    <circle cx="8" cy="8" r="0.8" fill="currentColor" />
-    <circle cx="16" cy="8" r="0.8" fill="currentColor" />
-
-    {/* Dots on right face (showing 3) */}
-    <circle cx="16" cy="10" r="0.8" fill="currentColor" />
-    <circle cx="16" cy="12" r="0.8" fill="currentColor" />
-    <circle cx="16" cy="14" r="0.8" fill="currentColor" />
-
-    {/* Dots on left face (showing 2) */}
-    <circle cx="8" cy="11" r="0.8" fill="currentColor" />
-    <circle cx="8" cy="13" r="0.8" fill="currentColor" />
-  </svg>
-);
 
 export const LockIcon: React.FC<IconProps> = ({ className }) => (
   <svg

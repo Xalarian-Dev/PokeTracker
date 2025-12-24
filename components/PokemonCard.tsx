@@ -2,7 +2,7 @@
 import React, { useMemo } from 'react';
 import type { Pokemon } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
-import { StarIcon, IsleOfArmorIcon, CrownTundraIcon, TealMaskIcon, IndigoDiskIcon, MegaDimensionIcon, LockIcon, EventIcon } from './Icons';
+import { SparklesIcon, IsleOfArmorIcon, CrownTundraIcon, TealMaskIcon, IndigoDiskIcon, MegaDimensionIcon, LockIcon, EventIcon } from './Icons';
 import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON, EVENT_ITEM_POKEMON } from '../data/games';
 
 interface PokemonCardProps {
@@ -10,6 +10,7 @@ interface PokemonCardProps {
   isShiny: boolean;
   onToggleShiny: (id: string) => void;
   selectedGame: string | null;
+  isGrayedOut?: boolean;
 }
 
 const gameColorMap: Record<string, { keys: [string | string[], string | string[]]; colors: [string, string] }> = {
@@ -38,7 +39,7 @@ const gameColorMap: Record<string, { keys: [string | string[], string | string[]
 };
 
 
-const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShiny, selectedGame }) => {
+const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShiny, selectedGame, isGrayedOut = false }) => {
   const { t } = useLanguage();
   let formattedId: string;
   if (pokemon.id.includes('-')) {
@@ -78,8 +79,12 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
     relative group ${cardBgColor} rounded-lg p-3 flex flex-col items-center justify-center 
     cursor-pointer transition-all duration-300 transform
     hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/20
-    ${isShiny ? 'border-2 border-yellow-400' : cardBgColor === 'bg-black' ? 'border-2 border-gray-700' : 'border-2 border-transparent'}
+    ${isShiny ? 'border-2 border-amber-400' : cardBgColor === 'bg-black' ? 'border-2 border-gray-700' : 'border-2 border-transparent'}
   `;
+
+  const shinyGlowStyle = isShiny ? {
+    boxShadow: '0 0 20px 4px rgba(251, 191, 36, 0.4)'
+  } : {};
 
   // Check for DLC availability when swsh is selected
   const hasSWSHDLC1 = useMemo(() => {
@@ -139,10 +144,14 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
   }, [pokemon.id, selectedGame]);
 
   return (
-    <div className={cardClasses} onClick={() => onToggleShiny(pokemon.id)}>
+    <div
+      className={`${cardClasses} ${isGrayedOut ? 'opacity-40 grayscale' : ''}`}
+      style={shinyGlowStyle}
+      onClick={() => onToggleShiny(pokemon.id)}
+    >
       {isShiny && (
-        <div className="absolute top-2 right-2 text-yellow-400">
-          <StarIcon className="w-5 h-5" filled={true} />
+        <div className="absolute top-2 right-2 text-amber-400 drop-shadow-[0_2px_4px_rgba(251,191,36,0.5)]">
+          <SparklesIcon className="w-5 h-5" />
         </div>
       )}
       {hasSWSHDLC1 && (
@@ -221,7 +230,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
         />
       </div>
       <div className="text-center mt-2">
-        <p className="text-sm font-bold capitalize text-white">{pokemon.name}</p>
+        <p className="text-sm font-bold text-white">{pokemon.name}</p>
         <p className="text-xs text-gray-400">{formattedId}</p>
       </div>
     </div>

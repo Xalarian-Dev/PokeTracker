@@ -3,7 +3,8 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useUser } from '@clerk/clerk-react';
 import type { Pokemon, User } from '../types';
 import Header from './Header';
-import UnifiedSidePanel from './UnifiedSidePanel';
+import LeftSidebar from './LeftSidebar';
+import SearchBarWithProgress from './SearchBarWithProgress';
 import PokemonCard from './PokemonCard';
 import ConfirmationModal from './ConfirmationModal';
 import ScrollToTopButton from './ScrollToTopButton';
@@ -32,7 +33,6 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
   const [searchTerm, setSearchTerm] = useState('');
   const [showOnlyShiny, setShowOnlyShiny] = useState(false);
   const [showMissingShiny, setShowMissingShiny] = useState(false);
-  const [hideRegionalForms, setHideRegionalForms] = useState(false);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<{ type: 'gen' | 'region'; value: string | number } | null>(null);
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
@@ -42,6 +42,14 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
   const [displayName, setDisplayName] = useState<string | null>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+
+  // Refs pour auto-scroll vers sections régionales
+  const regionRefs = useRef<Record<string, HTMLDivElement | null>>({
+    Alola: null,
+    Galar: null,
+    Hisui: null,
+    Paldea: null
+  });
 
   // Confirmation Modal State
   const [confirmModal, setConfirmModal] = useState<{
@@ -225,30 +233,87 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
     }
   };
 
-  const filteredPokemon = useMemo(() => {
-    return pokemonList.filter(pokemon => {
-      const matchesFilter = !activeFilter ||
-        (activeFilter.type === 'gen' && pokemon.generation === activeFilter.value) ||
-        (activeFilter.type === 'region' && pokemon.region === activeFilter.value);
+  // Fonction pour déterminer si un Pokémon doit être grisé
+  const isPokemonFiltered = (pokemon: Pokemon): boolean => {
+    // Recherche par nom ou ID
+    const matchesSearch = pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      pokemon.id.toString().includes(searchTerm);
 
-      const matchesSearch = pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        pokemon.id.includes(searchTerm);
+    // Filtre par génération
+    const matchesGen = !activeFilter || activeFilter.type !== 'gen' || pokemon.generation === activeFilter.value;
 
-      const matchesShiny = !showOnlyShiny || shinyPokemons.has(pokemon.id);
+    // Filtre par région
+    const matchesRegion = !activeFilter || activeFilter.type !== 'region' || pokemon.region === activeFilter.value;
 
-      const matchesMissing = !showMissingShiny || !shinyPokemons.has(pokemon.id);
+    // Filtre par jeu
+    const matchesGame = !selectedGame || (
+      POKEMON_AVAILABILITY[pokemon.id] &&
+      POKEMON_AVAILABILITY[pokemon.id].some(gameCode => {
+        const groupGames = GAME_GROUP_MAP[selectedGame];
+        return groupGames ? groupGames.includes(gameCode) : gameCode === selectedGame;
+      })
+    );
 
-      const matchesRegional = !hideRegionalForms || !pokemon.id.includes('-');
+    // Filtre "Shiny uniquement"
+    const matchesShinyFilter = !showOnlyShiny || shinyPokemons.has(pokemon.id);
 
-      const matchesGame = selectedGame === null ||
-        (POKEMON_AVAILABILITY[pokemon.id] &&
-          GAME_GROUP_MAP[selectedGame]?.some(gameKey =>
-            POKEMON_AVAILABILITY[pokemon.id].includes(gameKey)
-          ));
+    // Filtre "Manquants uniquement"
+    const matchesMissingFilter = !showMissingShiny || !shinyPokemons.has(pokemon.id);
 
-      return matchesFilter && matchesSearch && matchesShiny && matchesMissing && matchesRegional && matchesGame;
-    });
-  }, [pokemonList, searchTerm, showOnlyShiny, showMissingShiny, hideRegionalForms, shinyPokemons, activeFilter, selectedGame]);
+    // Retourne TRUE si le Pokémon doit être GRISÉ (ne matche PAS les filtres)
+    return !(matchesSearch && matchesGen && matchesRegion && matchesGame && matchesShinyFilter && matchesMissingFilter);
+  };
+
+  // Organiser les Pokémon pour l'affichage
+  const displayedPokemon = useMemo(() => {
+    // Séparer normaux et régionaux
+    const normalPokemon = pokemonList.filter(p => !p.region);
+    const regionalPokemon = pokemonList.filter(p => p.region);
+
+    // Grouper régionaux par région
+    const regionalByRegion = {
+      Alola: regionalPokemon.filter(p => p.region === 'Alola'),
+      Galar: regionalPokemon.filter(p => p.region === 'Galar'),
+      Hisui: regionalPokemon.filter(p => p.region === 'Hisui'),
+      Paldea: regionalPokemon.filter(p => p.region === 'Paldea')
+    };
+
+    return {
+      normal: normalPokemon.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })),
+      regional: {
+        Alola: regionalByRegion.Alola.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })),
+        Galar: regionalByRegion.Galar.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })),
+        Hisui: regionalByRegion.Hisui.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })),
+        Paldea: regionalByRegion.Paldea.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) }))
+      }
+    };
+  }, [pokemonList, searchTerm, activeFilter, selectedGame, showOnlyShiny, showMissingShiny, shinyPokemons]);
+
+  // Compter les Pokémon actifs (non-grisés)
+  const activeCount = useMemo(() => {
+    const normalActive = displayedPokemon.normal.filter(p => !p.isGrayedOut).length;
+    const regionalActive = Object.values(displayedPokemon.regional)
+      .flat()
+      .filter((p: any) => !p.isGrayedOut).length;
+    return normalActive + regionalActive;
+  }, [displayedPokemon]);
+
+  // Auto-scroll vers section régionale quand filtre région est activé
+  useEffect(() => {
+    if (activeFilter && activeFilter.type === 'region') {
+      // Attendre un tick pour que le DOM soit mis à jour
+      setTimeout(() => {
+        const element = regionRefs.current[activeFilter.value as string];
+        if (element) {
+          element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest'
+          });
+        }
+      }, 100);
+    }
+  }, [activeFilter]);
 
   const shinyCount = shinyPokemons.size;
   const totalPokemon = pokemonList.length;
@@ -261,7 +326,15 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
       onConfirm: () => {
         setShinyPokemons(prev => {
           const newSet = new Set(prev);
-          filteredPokemon.forEach(p => newSet.add(p.id));
+          // Pokémon normaux non-grisés
+          displayedPokemon.normal
+            .filter(p => !p.isGrayedOut)
+            .forEach(p => newSet.add(p.id));
+          // Pokémon régionaux non-grisés
+          Object.values(displayedPokemon.regional)
+            .flat()
+            .filter((p: any) => !p.isGrayedOut)
+            .forEach((p: any) => newSet.add(p.id));
           return newSet;
         });
         setConfirmModal(prev => ({ ...prev, isOpen: false })); // Close modal after action
@@ -276,7 +349,15 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
       onConfirm: () => {
         setShinyPokemons(prev => {
           const newSet = new Set(prev);
-          filteredPokemon.forEach(p => newSet.delete(p.id));
+          // Pokémon normaux non-grisés
+          displayedPokemon.normal
+            .filter(p => !p.isGrayedOut)
+            .forEach(p => newSet.delete(p.id));
+          // Pokémon régionaux non-grisés
+          Object.values(displayedPokemon.regional)
+            .flat()
+            .filter((p: any) => !p.isGrayedOut)
+            .forEach((p: any) => newSet.delete(p.id));
           return newSet;
         });
         setConfirmModal(prev => ({ ...prev, isOpen: false })); // Close modal after action
@@ -303,11 +384,8 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
         message={confirmModal.message}
       />
 
-      {/* Unified Side Panel with Tabs */}
-      <UnifiedSidePanel
-        shinyCount={shinyCount}
-        totalPokemon={totalPokemon}
-        progress={progress}
+      {/* Left Sidebar - Fixed with Tabs */}
+      <LeftSidebar
         activeFilter={activeFilter}
         setActiveFilter={setActiveFilter}
         selectedGame={selectedGame}
@@ -316,48 +394,41 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
         setShowOnlyShiny={setShowOnlyShiny}
         showMissingShiny={showMissingShiny}
         setShowMissingShiny={setShowMissingShiny}
-        hideRegionalForms={hideRegionalForms}
-        setHideRegionalForms={setHideRegionalForms}
         onMajorFilterChange={() => setScrollTrigger(st => st + 1)}
         pokemonList={pokemonList}
         shinyPokemons={shinyPokemons}
         userId={userId}
         ownedGames={ownedGames}
-        isRandomHuntOpen={isRandomHuntOpen}
-        onRandomHuntOpen={() => setIsRandomHuntOpen(true)}
-        onRandomHuntClose={() => setIsRandomHuntOpen(false)}
       />
 
       {/* Main Layout: Full Width Content */}
-      <div className={`flex flex-1 overflow-hidden ${confirmModal.isOpen ? 'blur-sm pointer-events-none select-none' : ''}`}>
+      <div
+        className={`flex flex-1 overflow-hidden ${confirmModal.isOpen ? 'blur-sm pointer-events-none select-none' : ''}`}
+        style={{
+          marginLeft: 'var(--sidebar-total-offset)',
+          marginRight: 'var(--sidebar-width)'
+        }}
+      >
 
         {/* Main Content Area */}
         <main className="flex-1 overflow-y-auto">
-          <div className="container mx-auto px-4 py-6">
-            {/* Search Bar */}
-            <div className="mb-6 max-w-[1200px] mx-auto px-4">
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <input
-                  type="text"
-                  placeholder={t('search_placeholder')}
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 text-base border border-gray-600 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-poke-yellow focus:border-transparent"
-                />
-              </div>
-            </div>
+          <div className="container mx-auto px-0 py-6 max-w-[1400px]">
+            {/* Search Bar with Progress */}
+            <SearchBarWithProgress
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              progress={progress}
+              shinyCount={shinyCount}
+              totalPokemon={totalPokemon}
+            />
+
 
             {/* Action Buttons */}
-            {!loading && filteredPokemon.length > 0 && (
+            {!loading && activeCount > 0 && (
               <div className="mb-4 max-w-[1200px] mx-auto px-4">
                 <div className="flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4">
                   <div className="text-gray-400 text-sm">
-                    {t('pokemon_shown', { count: filteredPokemon.length })}
+                    {t('pokemon_shown', { count: activeCount })}
                   </div>
                   <div className="flex gap-2">
                     <Button
@@ -381,25 +452,77 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
 
             {/* Pokemon Grid */}
             {loading ? (
-              <p className="text-center mt-8">{t('trainer_data_loading')}</p>
+              <div className="flex justify-center items-center h-64">
+                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-poke-yellow"></div>
+              </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 max-w-[1200px] mx-auto px-4">
-                {filteredPokemon.map(pokemon => (
-                  <PokemonCard
-                    key={pokemon.id}
-                    pokemon={pokemon}
-                    isShiny={shinyPokemons.has(pokemon.id)}
-                    onToggleShiny={toggleShiny}
-                    selectedGame={selectedGame}
-                  />
-                ))}
-              </div>
-            )}
+              <>
+                {/* Section: Pokémon Normaux */}
+                <div className="grid gap-4 max-w-[1200px] mx-auto px-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
+                  {displayedPokemon.normal.map((pokemon, index) => (
+                    <React.Fragment key={pokemon.id}>
+                      {index > 0 && index % 30 === 0 && (
+                        <div className="col-span-full h-8" />
+                      )}
+                      <PokemonCard
+                        pokemon={pokemon}
+                        isShiny={shinyPokemons.has(pokemon.id)}
+                        onToggleShiny={toggleShiny}
+                        selectedGame={selectedGame}
+                        isGrayedOut={pokemon.isGrayedOut}
+                      />
+                    </React.Fragment>
+                  ))}
+                </div>
 
-            {!loading && filteredPokemon.length === 0 && (
-              <div className="text-center py-16">
-                <p className="text-xl text-gray-500">{t('no_pokemon_found')}</p>
-              </div>
+                {/* Sections: Formes Régionales */}
+                {(['Alola', 'Galar', 'Hisui', 'Paldea'] as const).map(region => {
+                  const regionalPokemon = displayedPokemon.regional[region];
+                  if (regionalPokemon.length === 0) return null;
+
+                  return (
+                    <div
+                      key={region}
+                      className="mt-12"
+                      style={{ scrollMarginTop: '80px' }}
+                      ref={(el) => { regionRefs.current[region] = el; }}
+                    >
+                      {/* Header de région */}
+                      <h2 className="text-2xl font-bold text-poke-yellow mb-4 px-4 max-w-[1200px] mx-auto">
+                        {region === 'Alola' ? t('regional_forms_alola') :
+                          region === 'Galar' ? t('regional_forms_galar') :
+                            region === 'Hisui' ? t('regional_forms_hisui') :
+                              t('regional_forms_paldea')}
+                      </h2>
+
+                      {/* Grille régionale */}
+                      <div className="grid gap-4 max-w-[1200px] mx-auto px-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
+                        {regionalPokemon.map((pokemon, index) => (
+                          <React.Fragment key={pokemon.id}>
+                            {index > 0 && index % 30 === 0 && (
+                              <div className="col-span-full h-8" />
+                            )}
+                            <PokemonCard
+                              pokemon={pokemon}
+                              isShiny={shinyPokemons.has(pokemon.id)}
+                              onToggleShiny={toggleShiny}
+                              selectedGame={selectedGame}
+                              isGrayedOut={pokemon.isGrayedOut}
+                            />
+                          </React.Fragment>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {/* Message si aucun Pokémon actif */}
+                {activeCount === 0 && (
+                  <div className="text-center py-16">
+                    <p className="text-xl text-gray-500">{t('no_pokemon_found')}</p>
+                  </div>
+                )}
+              </>
             )}
 
             <footer className="text-center py-8 mt-8 border-t border-gray-700">

@@ -19,6 +19,7 @@ interface LanguageContextType {
   getGameName: (id: string) => string;
   getGameList: () => Record<string, string>;
   getRegionName: (id: string) => string;
+  gameVersions: Record<string, string>;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -87,6 +88,11 @@ export const LanguageProvider = ({ children }: React.PropsWithChildren) => {
     return regions[id] || id;
   };
 
+  const gameVersions = useMemo(() => {
+    // @ts-ignore
+    return translations[language].gameVersions || translations['en'].gameVersions || {};
+  }, [language]);
+
   const contextValue = useMemo(() => ({
     language,
     setLanguage: handleSetLanguage,
@@ -95,7 +101,8 @@ export const LanguageProvider = ({ children }: React.PropsWithChildren) => {
     getGameName,
     getGameList,
     getRegionName,
-  }), [language, t]);
+    gameVersions,
+  }), [language, t, gameVersions]);
 
   return (
     <LanguageContext.Provider value={contextValue}>

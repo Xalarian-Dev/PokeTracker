@@ -28,31 +28,51 @@
     --muted: 217 19% 27%;
     /* gray-700 */
     --muted-foreground: 215 20% 65%;
+    /* gray-400 */
 
-    --accent: 217 19% 27%;
+    --accent: 217 33% 17%;
+    /* gray-800 */
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84% 60%;
-    /* poke-red */
+    /* red-500 */
     --destructive-foreground: 210 40% 98%;
 
     --border: 217 19% 27%;
+    /* gray-700 */
     --input: 217 19% 27%;
     --ring: 45 93% 47%;
-    /* poke-yellow for focus */
+    /* poke-yellow */
 
     --radius: 0.5rem;
+
+    /* Layout dimensions */
+    --sidebar-width: 320px;
+    /* w-80 = 20rem = 320px */
+    --sidebar-buttons-width: 50px;
+    /* Largeur approximative des boutons latéraux */
+    --content-gap: 0px;
+    /* Espace entre boutons et contenu */
+    --sidebar-total-offset: calc(var(--sidebar-width) + var(--sidebar-buttons-width) + var(--content-gap));
   }
 }
 
-/* Custom scrollbar for a better look */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a202c;
-  /* dark-gray-800 */
+  background: #2d3748;
+  /* dark-gray-700 */
 }
 
 ::-webkit-scrollbar-thumb {
@@ -64,4 +84,55 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #718096;
   /* dark-gray-500 */
+}
+
+/* Shiny Pokemon Sparkle Animation */
+
+/* 1. Explosion Effect (Appearance) */
+@keyframes sparkle-explosion {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0) rotate(0deg);
+    top: 50%;
+    left: 50%;
+  }
+
+  10% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotate(45deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1) rotate(360deg);
+    top: var(--tw-top);
+    left: var(--tw-left);
+  }
+}
+
+/* 2. Idle Effect (Looping) */
+@keyframes sparkle-idle {
+  0% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  50% {
+    opacity: 0.6;
+    transform: scale(0.8) rotate(10deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.animate-sparkle-explosion {
+  /* cubic-bezier for "pop" effect: fast start, slow end */
+  animation: sparkle-explosion 0.8s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+.animate-sparkle-idle {
+  animation: sparkle-idle 2s ease-in-out infinite;
 }

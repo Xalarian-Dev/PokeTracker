@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface CircularProgressProps {
     progress: number; // 0-100
@@ -24,12 +25,20 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
     totalPokemon,
     size = 120
 }) => {
-    const radius = (size - 16) / 2; // 16 = strokeWidth * 2
+    const { t } = useLanguage();
+
+    // Ajuster le strokeWidth pour les petites tailles
+    const strokeWidth = size < 80 ? 4 : 8;
+    const radius = (size - strokeWidth * 2) / 2;
     const circumference = 2 * Math.PI * radius;
     const strokeDashoffset = circumference - (progress / 100) * circumference;
 
+    // Afficher le texte et labels seulement si assez grand
+    const showText = size >= 80;
+    const showLabel = size >= 100;
+
     return (
-        <div className="flex flex-col items-center justify-center p-6">
+        <div className="flex flex-col items-center justify-center" style={{ padding: showLabel ? '1.5rem' : '0' }}>
             <div className="relative" style={{ width: size, height: size }}>
                 {/* Background Circle */}
                 <svg className="transform -rotate-90" width={size} height={size}>
@@ -38,7 +47,7 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
                         cy={size / 2}
                         r={radius}
                         stroke="currentColor"
-                        strokeWidth="8"
+                        strokeWidth={strokeWidth}
                         fill="none"
                         className="text-gray-700"
                     />
@@ -48,7 +57,7 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
                         cy={size / 2}
                         r={radius}
                         stroke="currentColor"
-                        strokeWidth="8"
+                        strokeWidth={strokeWidth}
                         fill="none"
                         strokeDasharray={circumference}
                         strokeDashoffset={strokeDashoffset}
@@ -57,20 +66,25 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
                     />
                 </svg>
 
-                {/* Center Text */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-3xl font-bold text-white">{Math.round(progress)}%</span>
-                </div>
+                {/* Center Text - only for larger sizes */}
+                {showText && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <span className={`font-bold text-white ${size < 100 ? 'text-sm' : 'text-3xl'}`}>
+                            {Math.round(progress)}%
+                        </span>
+                    </div>
+                )}
             </div>
 
-            {/* Label */}
-            <div className="mt-4 text-center">
-                <p className="text-sm font-semibold text-white">ShinyDex</p>
-                <p className="text-sm font-semibold text-white">Completed</p>
-                <p className="text-xs text-gray-400 mt-1">
-                    {shinyCount} / {totalPokemon}
-                </p>
-            </div>
+            {/* Label - only for larger sizes */}
+            {showLabel && (
+                <div className="mt-4 text-center">
+                    <p className="text-sm font-semibold text-white">{t('shinydex_completed')}</p>
+                    <p className="text-xs text-gray-400 mt-1">
+                        {shinyCount} / {totalPokemon}
+                    </p>
+                </div>
+            )}
         </div>
     );
 };
