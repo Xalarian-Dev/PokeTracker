@@ -7,11 +7,17 @@ import type { Pokemon, User } from './types';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { clerkPublishableKey, clerkAppearance } from './clerk-config';
 import { useMetadata } from './hooks/useMetadata';
+import { CookieConsent } from './components/CookieConsent';
+import { Footer } from './components/Footer';
+import { LegalModalProvider, useLegalModal } from './contexts/LegalModalContext';
+import { PrivacyPolicy } from './components/PrivacyPolicy';
+import { TermsOfService } from './components/TermsOfService';
 
 const AppContent = () => {
   const { user: clerkUser, isLoaded } = useUser();
   const [currentPage, setCurrentPage] = useState<'tracker' | 'profile'>('tracker');
   const { getPokemonName } = useLanguage();
+  const { currentPage: legalPage } = useLegalModal();
 
   // Initialize metadata management
   useMetadata();
@@ -47,28 +53,41 @@ const AppContent = () => {
   }
 
   return (
-    <>
-      <SignedOut>
-        <ShinyTracker
-          user={null}
-          onLogout={handleLogout}
-          pokemonList={pokemonList}
-        />
-      </SignedOut>
-
-      <SignedIn>
-        {currentPage === 'tracker' ? (
+    <div className="flex flex-col min-h-screen">
+      {/* Main Content */}
+      <div className="flex-1">
+        <SignedOut>
           <ShinyTracker
-            user={user}
+            user={null}
             onLogout={handleLogout}
-            onProfileClick={() => setCurrentPage('profile')}
             pokemonList={pokemonList}
           />
-        ) : (
-          <ProfilePage onBack={() => setCurrentPage('tracker')} />
-        )}
-      </SignedIn>
-    </>
+        </SignedOut>
+
+        <SignedIn>
+          {currentPage === 'tracker' ? (
+            <ShinyTracker
+              user={user}
+              onLogout={handleLogout}
+              onProfileClick={() => setCurrentPage('profile')}
+              pokemonList={pokemonList}
+            />
+          ) : (
+            <ProfilePage onBack={() => setCurrentPage('tracker')} />
+          )}
+        </SignedIn>
+      </div>
+
+      {/* Footer */}
+      <Footer />
+
+      {/* Cookie Notice Banner (informative only) */}
+      <CookieConsent />
+
+      {/* Legal Modals */}
+      {legalPage === 'privacy' && <PrivacyPolicy />}
+      {legalPage === 'terms' && <TermsOfService />}
+    </div>
   );
 };
 
@@ -80,7 +99,9 @@ const App = () => {
       appearance={clerkAppearance}
     >
       <LanguageProvider>
-        <AppContent />
+        <LegalModalProvider>
+          <AppContent />
+        </LegalModalProvider>
       </LanguageProvider>
     </ClerkProvider>
   );

@@ -4,6 +4,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { getUserPreferences, saveUserPreferences, deleteUserData } from '../services/supabase';
 import { INDIVIDUAL_GAME_LIST } from '../data/games';
 import { UKFlag, FranceFlag, JapanFlag } from './Icons';
+import { DataExport } from './DataExport';
 import {
     Dialog,
     DialogContent,
@@ -267,6 +268,11 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
                         {ownedGames.length} {ownedGames.length === 1 ? t('game_selected') : t('games_selected')}
                     </p>
                 </Card>
+
+                {/* Data Export */}
+                <div className="mb-6">
+                    <DataExport />
+                </div>
 
                 {/* Action Buttons */}
                 <div className="mt-6">
