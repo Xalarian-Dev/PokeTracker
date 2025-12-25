@@ -30,7 +30,7 @@ export {
     type ToastProps,
     type ToastActionElement,
 } from './Toast';
-export { Toaster } from './toaster';
+export { Toaster } from './Toaster';
 
 // Select components
 export {

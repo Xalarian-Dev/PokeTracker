@@ -11,9 +11,9 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from './ui/dialog';
+} from './ui/Dialog';
 import { Button } from './ui/Button';
-import { Input } from './ui/input';
+import { Input } from './ui/Input';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/Card';
 
 interface ProfilePageProps {

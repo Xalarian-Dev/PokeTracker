@@ -7,7 +7,7 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from './ui/dialog';
+} from './ui/Dialog';
 import { Button } from './ui/Button';
 
 interface ConfirmationModalProps {
