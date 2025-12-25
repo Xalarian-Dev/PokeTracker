@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useUser } from '@clerk/clerk-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getGdprTranslations } from '../i18n/gdpr-index';
-import { getUserShinyPokemon, getUserPreferences } from '../services/supabase';
+import { getUserPreferences, fetchShinyPokemon } from '../services/supabase';
 
 export const DataExport: React.FC = () => {
     const { user } = useUser();
@@ -52,8 +52,8 @@ export const DataExport: React.FC = () => {
             if (user?.id) {
                 try {
                     // Fetch shiny Pokemon from Supabase
-                    const shinyPokemon = await getUserShinyPokemon(user.id);
-                    userData.shinyPokemon.supabase = shinyPokemon || [];
+                    const shinyPokemonSet = await fetchShinyPokemon(user.id);
+                    userData.shinyPokemon.supabase = Array.from(shinyPokemonSet);
 
                     // Fetch user preferences from Supabase
                     const preferences = await getUserPreferences(user.id);
@@ -62,8 +62,6 @@ export const DataExport: React.FC = () => {
                             preferredLanguage: preferences.preferred_language,
                             ownedGames: preferences.owned_games,
                             displayName: preferences.display_name,
-                            createdAt: preferences.created_at,
-                            updatedAt: preferences.updated_at,
                         };
                     }
                 } catch (error) {
