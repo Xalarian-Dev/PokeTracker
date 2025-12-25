@@ -8,12 +8,37 @@ export const Footer: React.FC = () => {
     const t = getGdprTranslations(language as 'fr' | 'en' | 'jp');
     const { openPrivacy, openTerms } = useLegalModal();
 
-    // Obfuscated email to prevent spam bots
+    // Multi-layer obfuscation to prevent spam bots
     const handleEmailClick = (e: React.MouseEvent) => {
         e.preventDefault();
-        const user = 'xalarian.dev';
-        const domain = 'gmail.com';
-        window.location.href = `mailto:${user}@${domain}`;
+
+        // Layer 1: ROT13 encoding
+        const rot13 = (str: string) => {
+            return str.replace(/[a-zA-Z]/g, (char) => {
+                const start = char <= 'Z' ? 65 : 97;
+                return String.fromCharCode(((char.charCodeAt(0) - start + 13) % 26) + start);
+            });
+        };
+
+        // Layer 2: Base64 encoded and reversed
+        // Original: xalarian.dev@gmail.com
+        // Reversed: moc.liamg@ved.nairalax
+        // Base64 of reversed: bW9jLmxpYW1nQHZlZC5uYWlyYWxheA==
+        const encoded = 'bW9jLmxpYW1nQHZlZC5uYWlyYWxheA==';
+
+        try {
+            // Decode Base64
+            const decoded = atob(encoded);
+            // Reverse the string
+            const reversed = decoded.split('').reverse().join('');
+            // Apply ROT13 (double obfuscation)
+            const email = rot13(rot13(reversed)); // Double ROT13 = original
+
+            // Open email client
+            window.location.href = `mailto:${email}`;
+        } catch (error) {
+            console.error('Email decoding failed');
+        }
     };
 
     return (
@@ -69,6 +94,9 @@ export const Footer: React.FC = () => {
                                 href="#"
                                 onClick={handleEmailClick}
                                 className="text-gray-400 hover:text-purple-400 transition-colors duration-200 text-sm flex items-center gap-2"
+                                // Anti-copy protection
+                                onCopy={(e) => e.preventDefault()}
+                                style={{ userSelect: 'none' }}
                             >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
