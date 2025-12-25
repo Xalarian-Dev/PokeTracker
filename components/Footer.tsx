@@ -121,7 +121,7 @@ export const Footer: React.FC = () => {
                         </p>
                         <div className="flex items-center gap-4">
                             <a
-                                href="https://github.com/Xalarian"
+                                href="https://github.com/Xalarian-Dev"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-gray-500 hover:text-purple-400 transition-colors duration-200"
