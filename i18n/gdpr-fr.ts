@@ -85,7 +85,7 @@ Ces services sont conformes RGPD et protègent vos données.`,
 - **Droit d'opposition** : Refuser certains traitements
 - **Droit de limitation** : Limiter l'utilisation de vos données
 
-Pour exercer ces droits, contactez-nous à : xalarian.dev@gmail.com`,
+Pour exercer ces droits, contactez-nous via le formulaire de contact disponible dans le footer du site.`,
 
     privacy_section7_title: '7. Sécurité',
     privacy_section7_content: `Nous mettons en œuvre des mesures de sécurité appropriées :
@@ -110,7 +110,7 @@ Vous pouvez refuser les cookies, mais certaines fonctionnalités nécessitant un
     privacy_section11_title: '11. Contact',
     privacy_section11_content: `Pour toute question concernant vos données personnelles :
 
-**Email** : xalarian.dev@gmail.com
+**Contact** : Utilisez le formulaire de contact dans le footer
 **Responsable** : Xalarian (PokeTracker)
 **Délai de réponse** : 30 jours maximum`,
 
@@ -174,6 +174,6 @@ Les modifications importantes seront communiquées via l'application.`,
     terms_section9_title: '9. Contact',
     terms_section9_content: `Pour toute question concernant ces conditions :
 
-**Email** : xalarian.dev@gmail.com
+**Contact** : Utilisez le formulaire de contact dans le footer
 **Responsable** : Xalarian (PokeTracker)`,
 };

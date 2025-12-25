@@ -8,6 +8,14 @@ export const Footer: React.FC = () => {
     const t = getGdprTranslations(language as 'fr' | 'en' | 'jp');
     const { openPrivacy, openTerms } = useLegalModal();
 
+    // Obfuscated email to prevent spam bots
+    const handleEmailClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        const user = 'xalarian.dev';
+        const domain = 'gmail.com';
+        window.location.href = `mailto:${user}@${domain}`;
+    };
+
     return (
         <footer className="bg-gray-900 border-t border-gray-800 mt-auto">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -58,13 +66,16 @@ export const Footer: React.FC = () => {
                         <h3 className="text-white font-semibold mb-3">{t.footer_contact}</h3>
                         <div className="space-y-2">
                             <a
-                                href="mailto:xalarian.dev@gmail.com"
+                                href="#"
+                                onClick={handleEmailClick}
                                 className="text-gray-400 hover:text-purple-400 transition-colors duration-200 text-sm flex items-center gap-2"
                             >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
-                                xalarian.dev@gmail.com
+                                {language === 'fr' && 'Contactez-nous par email'}
+                                {language === 'en' && 'Contact us by email'}
+                                {language === 'jp' && 'メールでお問い合わせ'}
                             </a>
                             <p className="text-gray-500 text-xs">
                                 {t.footer_made_by} <span className="text-purple-400 font-medium">Xalarian</span>

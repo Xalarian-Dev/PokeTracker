@@ -85,7 +85,7 @@ These services are GDPR compliant and protect your data.`,
 - **Right to object**: Refuse certain processing
 - **Right to restriction**: Limit the use of your data
 
-To exercise these rights, contact us at: xalarian.dev@gmail.com`,
+To exercise these rights, contact us via the contact form available in the site footer.`,
 
     privacy_section7_title: '7. Security',
     privacy_section7_content: `We implement appropriate security measures:
@@ -110,7 +110,7 @@ You can refuse cookies, but some features requiring login will not be available.
     privacy_section11_title: '11. Contact',
     privacy_section11_content: `For any questions regarding your personal data:
 
-**Email**: xalarian.dev@gmail.com
+**Contact**: Use the contact form in the footer
 **Responsible**: Xalarian (PokeTracker)
 **Response time**: 30 days maximum`,
 
@@ -174,6 +174,6 @@ Important changes will be communicated via the application.`,
     terms_section9_title: '9. Contact',
     terms_section9_content: `For any questions regarding these terms:
 
-**Email**: xalarian.dev@gmail.com
+**Contact**: Use the contact form in the footer
 **Responsible**: Xalarian (PokeTracker)`,
 };
