@@ -118,6 +118,7 @@ export const ui = {
     your_target: "Votre Cible",
     hunt_in: "Chasser dans",
     no_compatible_pokemon: "Aucun Pokémon compatible trouvé avec vos jeux possédés.",
+    hide_grayed_pokemon: "Masquer Filtrés",
 };
 
 export const games: Record<string, string> = {

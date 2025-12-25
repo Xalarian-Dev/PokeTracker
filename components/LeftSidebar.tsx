@@ -4,9 +4,10 @@ import { DiceIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
 import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON, GAME_GROUP_MAP } from '../data/games';
 import type { Pokemon } from '../types';
-import { Button, Input, Textarea, FilterChip } from './ui';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
+import { Button, Input, Textarea, FilterChip, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Label } from './ui';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/Accordion';
 import { Book, Map, Gamepad2, Eye } from 'lucide-react';
+import { useToast } from '../hooks/use-toast';
 
 
 type TabView = 'filters' | 'randomHunt' | 'feedback';
@@ -21,6 +22,8 @@ interface LeftSidebarProps {
     setShowOnlyShiny: (show: boolean) => void;
     showMissingShiny: boolean;
     setShowMissingShiny: (show: boolean) => void;
+    hideGrayedPokemon: boolean;
+    setHideGrayedPokemon: (hide: boolean) => void;
     onMajorFilterChange: () => void;
 
     // Random Hunt props
@@ -59,6 +62,7 @@ const SideButton: React.FC<{
 export const LeftSidebar: React.FC<LeftSidebarProps> = (props) => {
     const [activeTab, setActiveTab] = useState<TabView>('filters');
     const { t, gameVersions, getPokemonName, getGameList, getRegionName } = useLanguage();
+    const { toast } = useToast();
 
 
     // Filter handlers
@@ -90,7 +94,6 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = (props) => {
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [feedbackEmail, setFeedbackEmail] = useState('');
     const [feedbackSending, setFeedbackSending] = useState(false);
-    const [feedbackStatus, setFeedbackStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
     // Random Hunt logic
     const handleRoll = () => {
@@ -175,7 +178,6 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = (props) => {
         }
 
         setFeedbackSending(true);
-        setFeedbackStatus('idle');
 
         try {
             const serviceId = 'service_kw9wlxv';
@@ -194,17 +196,20 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = (props) => {
                 publicKey
             );
 
-            setFeedbackStatus('success');
+            toast({
+                title: t('feedback_success'),
+                variant: 'default',
+                className: 'bg-green-900/95 border-green-500 text-green-200',
+            });
             setFeedbackMessage('');
             setFeedbackEmail('');
             setFeedbackCategory('bug');
-
-            setTimeout(() => {
-                setFeedbackStatus('idle');
-            }, 3000);
         } catch (error) {
             console.error('Error sending feedback:', error);
-            setFeedbackStatus('error');
+            toast({
+                title: t('feedback_error'),
+                variant: 'destructive',
+            });
         } finally {
             setFeedbackSending(false);
         }
@@ -219,7 +224,7 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = (props) => {
                     {/* Filters Tab */}
                     {activeTab === 'filters' && (
                         <div className="p-6">
-                            <Accordion type="multiple" defaultValue={["gen"]} className="mt-4">
+                            <Accordion type="multiple" defaultValue={["gen", "status"]} className="mt-4">
                                 {/* Generations */}
                                 <AccordionItem value="gen">
                                     <AccordionTrigger>
@@ -320,6 +325,12 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = (props) => {
                                                     }
                                                     props.setShowMissingShiny(!props.showMissingShiny);
                                                 }}
+                                            />
+                                            <FilterChip
+                                                label={t('hide_grayed_pokemon')}
+                                                isActive={props.hideGrayedPokemon}
+                                                variant="filter"
+                                                onClick={() => props.setHideGrayedPokemon(!props.hideGrayedPokemon)}
                                             />
                                         </div>
                                     </AccordionContent>
@@ -423,52 +434,45 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = (props) => {
                             <h2 className="text-2xl font-bold mb-4 text-white">{t('feedback')}</h2>
                             <p className="text-gray-400 mb-6 text-sm">{t('feedback_description')}</p>
 
-                            {feedbackStatus === 'success' && (
-                                <div className="bg-green-900/50 border border-green-500 text-green-200 px-4 py-3 rounded mb-4">
-                                    {t('feedback_success')}
-                                </div>
-                            )}
-
-                            {feedbackStatus === 'error' && (
-                                <div className="bg-red-900/50 border border-red-500 text-red-200 px-4 py-3 rounded mb-4">
-                                    {t('feedback_error')}
-                                </div>
-                            )}
-
                             <form onSubmit={handleFeedbackSubmit} className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium mb-2 text-gray-300">{t('feedback_category')}</label>
-                                    <select
-                                        value={feedbackCategory}
-                                        onChange={(e) => setFeedbackCategory(e.target.value)}
-                                        className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-poke-yellow"
-                                    >
-                                        {feedbackCategories.map(cat => (
-                                            <option key={cat.value} value={cat.value}>{cat.label}</option>
-                                        ))}
-                                    </select>
+                                    <Label htmlFor="feedback-category" className="text-gray-300">{t('feedback_category')}</Label>
+                                    <Select value={feedbackCategory} onValueChange={setFeedbackCategory}>
+                                        <SelectTrigger id="feedback-category" className="w-full mt-2 bg-gray-700 border-gray-600 text-white focus:ring-poke-yellow">
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent className="bg-gray-700 border-gray-600">
+                                            {feedbackCategories.map(cat => (
+                                                <SelectItem key={cat.value} value={cat.value} className="text-white focus:bg-gray-600">
+                                                    {cat.label}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium mb-2 text-gray-300">{t('feedback_message')}</label>
+                                    <Label htmlFor="feedback-message" className="text-gray-300">{t('feedback_message')}</Label>
                                     <Textarea
+                                        id="feedback-message"
                                         value={feedbackMessage}
                                         onChange={(e) => setFeedbackMessage(e.target.value)}
                                         placeholder={t('feedback_message_placeholder')}
                                         rows={5}
                                         required
-                                        className="bg-gray-700 border-gray-600 text-white focus:ring-poke-yellow"
+                                        className="mt-2 bg-gray-700 border-gray-600 text-white focus:ring-poke-yellow"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium mb-2 text-gray-300">{t('feedback_email')} ({t('optional')})</label>
+                                    <Label htmlFor="feedback-email" className="text-gray-300">{t('feedback_email')} ({t('optional')})</Label>
                                     <Input
+                                        id="feedback-email"
                                         type="email"
                                         value={feedbackEmail}
                                         onChange={(e) => setFeedbackEmail(e.target.value)}
                                         placeholder={t('feedback_email_placeholder')}
-                                        className="bg-gray-700 border-gray-600 text-white focus:ring-poke-yellow"
+                                        className="mt-2 bg-gray-700 border-gray-600 text-white focus:ring-poke-yellow"
                                     />
                                 </div>
 

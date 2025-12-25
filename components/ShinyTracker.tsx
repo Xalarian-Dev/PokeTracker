@@ -9,6 +9,7 @@ import PokemonCard from './PokemonCard';
 import ConfirmationModal from './ConfirmationModal';
 import ScrollToTopButton from './ScrollToTopButton';
 import { Button } from './ui';
+import { Toaster } from './ui/toaster';
 import { POKEMON_AVAILABILITY, GAME_GROUP_MAP } from '../data/games';
 import { useLanguage } from '../contexts/LanguageContext';
 import {
@@ -19,6 +20,19 @@ import {
   migrateLocalStorageToSupabase,
   getUserPreferences
 } from '../services/supabase';
+
+// Premier Pokémon de chaque génération pour l'auto-scroll
+const GENERATION_FIRST_POKEMON: Record<number, number> = {
+  1: 1,    // Bulbasaur
+  2: 152,  // Chikorita
+  3: 252,  // Treecko
+  4: 387,  // Turtwig
+  5: 494,  // Victini
+  6: 650,  // Chespin
+  7: 722,  // Rowlet
+  8: 810,  // Grookey
+  9: 906   // Sprigatito
+};
 
 interface ShinyTrackerProps {
   user: User | null;
@@ -33,6 +47,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
   const [searchTerm, setSearchTerm] = useState('');
   const [showOnlyShiny, setShowOnlyShiny] = useState(false);
   const [showMissingShiny, setShowMissingShiny] = useState(false);
+  const [hideGrayedPokemon, setHideGrayedPokemon] = useState(false);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<{ type: 'gen' | 'region'; value: string | number } | null>(null);
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
@@ -49,6 +64,19 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
     Galar: null,
     Hisui: null,
     Paldea: null
+  });
+
+  // Refs pour auto-scroll vers générations
+  const genRefs = useRef<Record<number, HTMLDivElement | null>>({
+    1: null,
+    2: null,
+    3: null,
+    4: null,
+    5: null,
+    6: null,
+    7: null,
+    8: null,
+    9: null
   });
 
   // Confirmation Modal State
@@ -279,15 +307,15 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
     };
 
     return {
-      normal: normalPokemon.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })),
+      normal: normalPokemon.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })).filter(p => !hideGrayedPokemon || !p.isGrayedOut),
       regional: {
-        Alola: regionalByRegion.Alola.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })),
-        Galar: regionalByRegion.Galar.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })),
-        Hisui: regionalByRegion.Hisui.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })),
-        Paldea: regionalByRegion.Paldea.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) }))
+        Alola: regionalByRegion.Alola.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })).filter(p => !hideGrayedPokemon || !p.isGrayedOut),
+        Galar: regionalByRegion.Galar.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })).filter(p => !hideGrayedPokemon || !p.isGrayedOut),
+        Hisui: regionalByRegion.Hisui.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })).filter(p => !hideGrayedPokemon || !p.isGrayedOut),
+        Paldea: regionalByRegion.Paldea.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })).filter(p => !hideGrayedPokemon || !p.isGrayedOut)
       }
     };
-  }, [pokemonList, searchTerm, activeFilter, selectedGame, showOnlyShiny, showMissingShiny, shinyPokemons]);
+  }, [pokemonList, searchTerm, activeFilter, selectedGame, showOnlyShiny, showMissingShiny, shinyPokemons, hideGrayedPokemon]);
 
   // Compter les Pokémon actifs (non-grisés)
   const activeCount = useMemo(() => {
@@ -298,7 +326,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
     return normalActive + regionalActive;
   }, [displayedPokemon]);
 
-  // Auto-scroll vers section régionale quand filtre région est activé
+  // Auto-scroll vers section régionale ou génération quand filtre est activé
   useEffect(() => {
     if (activeFilter && activeFilter.type === 'region') {
       // Attendre un tick pour que le DOM soit mis à jour
@@ -312,8 +340,47 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
           });
         }
       }, 100);
+    } else if (activeFilter && activeFilter.type === 'gen') {
+      // Scroll vers le premier Pokémon de la génération
+      setTimeout(() => {
+        const element = genRefs.current[activeFilter.value as number];
+        if (element) {
+          element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest'
+          });
+        }
+      }, 100);
     }
   }, [activeFilter]);
+
+  // Re-déclencher le scroll quand hideGrayedPokemon change avec un filtre actif
+  useEffect(() => {
+    if (activeFilter && (activeFilter.type === 'region' || activeFilter.type === 'gen')) {
+      setTimeout(() => {
+        if (activeFilter.type === 'region') {
+          const element = regionRefs.current[activeFilter.value as string];
+          if (element) {
+            element.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+              inline: 'nearest'
+            });
+          }
+        } else if (activeFilter.type === 'gen') {
+          const element = genRefs.current[activeFilter.value as number];
+          if (element) {
+            element.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+              inline: 'nearest'
+            });
+          }
+        }
+      }, 100);
+    }
+  }, [hideGrayedPokemon]);
 
   const shinyCount = shinyPokemons.size;
   const totalPokemon = pokemonList.length;
@@ -394,6 +461,8 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
         setShowOnlyShiny={setShowOnlyShiny}
         showMissingShiny={showMissingShiny}
         setShowMissingShiny={setShowMissingShiny}
+        hideGrayedPokemon={hideGrayedPokemon}
+        setHideGrayedPokemon={setHideGrayedPokemon}
         onMajorFilterChange={() => setScrollTrigger(st => st + 1)}
         pokemonList={pokemonList}
         shinyPokemons={shinyPokemons}
@@ -459,20 +528,33 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
               <>
                 {/* Section: Pokémon Normaux */}
                 <div className="grid gap-4 max-w-[1200px] mx-auto px-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
-                  {displayedPokemon.normal.map((pokemon, index) => (
-                    <React.Fragment key={pokemon.id}>
-                      {index > 0 && index % 30 === 0 && (
-                        <div className="col-span-full h-8" />
-                      )}
-                      <PokemonCard
-                        pokemon={pokemon}
-                        isShiny={shinyPokemons.has(pokemon.id)}
-                        onToggleShiny={toggleShiny}
-                        selectedGame={selectedGame}
-                        isGrayedOut={pokemon.isGrayedOut}
-                      />
-                    </React.Fragment>
-                  ))}
+                  {displayedPokemon.normal.map((pokemon, index) => {
+                    // Vérifier si c'est le premier Pokémon d'une génération
+                    const pokemonNumId = parseInt(pokemon.id.split('-')[0]);
+                    const isFirstOfGen = Object.entries(GENERATION_FIRST_POKEMON).find(
+                      ([gen, firstId]) => firstId === pokemonNumId
+                    );
+
+                    return (
+                      <React.Fragment key={pokemon.id}>
+                        {index > 0 && index % 30 === 0 && (
+                          <div className="col-span-full h-8" />
+                        )}
+                        <div
+                          ref={isFirstOfGen ? (el) => { genRefs.current[parseInt(isFirstOfGen[0])] = el; } : undefined}
+                          style={{ scrollMarginTop: '80px' }}
+                        >
+                          <PokemonCard
+                            pokemon={pokemon}
+                            isShiny={shinyPokemons.has(pokemon.id)}
+                            onToggleShiny={toggleShiny}
+                            selectedGame={selectedGame}
+                            isGrayedOut={pokemon.isGrayedOut}
+                          />
+                        </div>
+                      </React.Fragment>
+                    );
+                  })}
                 </div>
 
                 {/* Sections: Formes Régionales */}
@@ -538,6 +620,9 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
         onClick={scrollToTop}
         ariaLabel="Scroll to top"
       />
+
+      {/* Toast Notifications */}
+      <Toaster />
 
     </div>
   );

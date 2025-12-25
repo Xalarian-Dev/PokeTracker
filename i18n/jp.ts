@@ -118,6 +118,7 @@ export const ui = {
     your_target: "あなたのターゲット",
     hunt_in: "狩り場所",
     no_compatible_pokemon: "所有ゲームと互換性のあるポケモンが見つかりませんでした。",
+    hide_grayed_pokemon: "フィルタを隠す",
 };
 
 export const games: Record<string, string> = {

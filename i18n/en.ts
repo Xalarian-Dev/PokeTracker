@@ -119,6 +119,7 @@ export const ui = {
     your_target: "Your Target",
     hunt_in: "Hunt in",
     no_compatible_pokemon: "No compatible Pokémon found with your owned games.",
+    hide_grayed_pokemon: "Hide Filtered",
 };
 
 export const games: Record<string, string> = GAME_LIST;
