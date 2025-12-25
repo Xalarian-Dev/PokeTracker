@@ -119,6 +119,14 @@ export const ui = {
     hunt_in: "狩り場所",
     no_compatible_pokemon: "所有ゲームと互換性のあるポケモンが見つかりませんでした。",
     hide_grayed_pokemon: "フィルタを隠す",
+    // SEO Metadata
+    seo_title: "色違いポケモントラッカー - 色違いコレクションを管理",
+    seo_description: "無料の色違いポケモン追跡アプリ。コレクションを管理し、世代やゲームでフィルタリングし、色違いを見逃さない！すべてのポケモンゲームに対応。",
+    seo_keywords: "色違いポケモン, トラッカー, コレクション, 色違い図鑑, 色違い狩り, ポケモン, トレーナー, ポケモン図鑑",
+    seo_og_title: "色違いポケモントラッカー - 色違い図鑑を管理",
+    seo_og_description: "すべての世代で捕獲した色違いポケモンを追跡。ゲーム、世代、地方でフィルタリング。自動進行状況保存。",
+    seo_twitter_description: "無料の色違いポケモンコレクション追跡アプリ。第1世代から第9世代までのすべてのポケモンゲームに対応！",
+    seo_app_name: "PokeTracker",
 };
 
 export const games: Record<string, string> = {

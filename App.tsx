@@ -6,11 +6,16 @@ import { POKEMON_LIST as BASE_POKEMON_LIST } from './data/pokemon';
 import type { Pokemon, User } from './types';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { clerkPublishableKey, clerkAppearance } from './clerk-config';
+import { useMetadata } from './hooks/useMetadata';
 
 const AppContent = () => {
   const { user: clerkUser, isLoaded } = useUser();
   const [currentPage, setCurrentPage] = useState<'tracker' | 'profile'>('tracker');
   const { getPokemonName } = useLanguage();
+
+  // Initialize metadata management
+  useMetadata();
+
 
   // Convert Clerk user to our User type
   const user: User | null = useMemo(() => {

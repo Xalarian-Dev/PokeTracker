@@ -120,6 +120,14 @@ export const ui = {
     hunt_in: "Hunt in",
     no_compatible_pokemon: "No compatible Pokémon found with your owned games.",
     hide_grayed_pokemon: "Hide Filtered",
+    // SEO Metadata
+    seo_title: "Shiny Pokémon Tracker - Track Your Shiny Collection",
+    seo_description: "Free web app to track your shiny Pokémon. Manage your collection, filter by generation and games, and never miss a shiny! Compatible with all Pokémon games.",
+    seo_keywords: "shiny pokémon, tracker, collection, shiny dex, shiny hunt, pokémon, trainer, shiny hunting, pokédex",
+    seo_og_title: "Shiny Pokémon Tracker - Manage Your ShinyDex",
+    seo_og_description: "Track all your captured shiny Pokémon across all generations. Filter by games, generations, and regions. Automatic progress saving.",
+    seo_twitter_description: "Free app to track your shiny Pokémon collection. Compatible with all Pokémon games from Gen 1 to Gen 9!",
+    seo_app_name: "PokeTracker",
 };
 
 export const games: Record<string, string> = GAME_LIST;

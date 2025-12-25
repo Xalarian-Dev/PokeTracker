@@ -119,6 +119,14 @@ export const ui = {
     hunt_in: "Chasser dans",
     no_compatible_pokemon: "Aucun Pokémon compatible trouvé avec vos jeux possédés.",
     hide_grayed_pokemon: "Masquer Filtrés",
+    // SEO Metadata
+    seo_title: "Traqueur de Shiny Pokémon - Suivez votre collection de chromatiques",
+    seo_description: "Application web gratuite pour suivre vos Pokémon shiny. Gérez votre collection, filtrez par génération et jeux, et ne manquez aucun chromatique ! Compatible avec tous les jeux Pokémon.",
+    seo_keywords: "pokémon shiny, chromatique, tracker, collection, shiny dex, chasse shiny, pokémon, dresseur, shiny hunt, shiny hunting",
+    seo_og_title: "Traqueur de Shiny Pokémon - Gérez votre ShinyDex",
+    seo_og_description: "Suivez tous vos Pokémon shiny capturés à travers toutes les générations. Filtrez par jeux, générations et régions. Sauvegarde automatique de votre progression.",
+    seo_twitter_description: "Application gratuite pour suivre votre collection de Pokémon shiny. Compatible avec tous les jeux Pokémon de la Gen 1 à la Gen 9 !",
+    seo_app_name: "PokeTracker",
 };
 
 export const games: Record<string, string> = {
