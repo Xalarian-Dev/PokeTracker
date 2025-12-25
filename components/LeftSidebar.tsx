@@ -5,7 +5,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON, GAME_GROUP_MAP } from '../data/games';
 import type { Pokemon } from '../types';
 import { Button, Input, Textarea, FilterChip, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Label } from './ui';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/Accordion';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui';
 import { Book, Map, Gamepad2, Eye } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
 

@@ -7,8 +7,8 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from './ui/Dialog';
-import { Button } from './ui/Button';
+} from './ui';
+import { Button } from './ui';
 
 interface ConfirmationModalProps {
     isOpen: boolean;

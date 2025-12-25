@@ -11,10 +11,10 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from './ui/Dialog';
-import { Button } from './ui/Button';
-import { Input } from './ui/Input';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/Card';
+} from './ui';
+import { Button } from './ui';
+import { Input } from './ui';
+import { Card, CardContent, CardHeader, CardTitle } from './ui';
 
 interface ProfilePageProps {
     onBack: () => void;

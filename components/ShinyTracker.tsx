@@ -9,7 +9,7 @@ import PokemonCard from './PokemonCard';
 import ConfirmationModal from './ConfirmationModal';
 import ScrollToTopButton from './ScrollToTopButton';
 import { Button } from './ui';
-import { Toaster } from './ui/Toaster';
+import { Toaster } from './ui';
 import { POKEMON_AVAILABILITY, GAME_GROUP_MAP } from '../data/games';
 import { useLanguage } from '../contexts/LanguageContext';
 import {
