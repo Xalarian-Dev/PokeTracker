@@ -120,6 +120,12 @@ export const ui = {
     hunt_in: "Hunt in",
     no_compatible_pokemon: "No compatible Pokémon found with your owned games.",
     hide_grayed_pokemon: "Hide Filtered",
+    dual_slot_req: "Requires GBA Slot: {game}",
+    gba_firered: "FireRed",
+    gba_leafgreen: "LeafGreen",
+    gba_ruby: "Ruby",
+    gba_sapphire: "Sapphire",
+    gba_emerald: "Emerald",
     // SEO Metadata
     seo_title: "Shiny Pokémon Tracker - Track Your Shiny Collection",
     seo_description: "Free web app to track your shiny Pokémon. Manage your collection, filter by generation and games, and never miss a shiny! Compatible with all Pokémon games.",

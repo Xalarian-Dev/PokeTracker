@@ -176,3 +176,14 @@ export const LockIcon: React.FC<IconProps> = ({ className }) => (
     <path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm3 8H9V7a3 3 0 0 1 6 0z" />
   </svg>
 );
+
+export const CartridgeIcon: React.FC<IconProps> = ({ className }) => (
+  <svg
+    viewBox="0 0 24 24"
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+  >
+    <path d="M7 2h10c.55 0 1 .45 1 1v18c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1zm2 3v10h6V5H9zm1 14h4v2h-4v-2z" />
+  </svg>
+);

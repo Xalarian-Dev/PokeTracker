@@ -88,24 +88,6 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 3. **Clerk authentication** - Only authenticated users can access the app
 4. **Low incentive** - No financial or privacy gain from exploiting
 
-### Future Security Improvements
-
-When scaling to production:
-
-1. **Add Backend API** (Vercel Serverless Functions)
-   ```
-   Client → Vercel Function → Validate Clerk JWT → Supabase
-   ```
-
-2. **Enable Row Level Security (RLS)**
-   - Validate user identity server-side
-   - Enforce data isolation at database level
-
-3. **Rate Limiting**
-   - Prevent abuse and DDoS
-
-4. **Audit Logging**
-   - Track suspicious activity
 
 ---
 
@@ -145,95 +127,137 @@ CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
 
 ---
 
-## 🚀 Prochaines étapes (optionnel)
+## 📊 Vérification des Données Pokémon
 
-### Court terme
-- Partagez avec des amis pour tester
-- Récoltez des retours utilisateurs
-- Corrigez les bugs éventuels
+### Génération 1
+**Paires de jeux :**
+- [x] **Rouge/Bleu** - Vérifier Pokédex Kanto (151)
+- [x] **Rouge/Bleu** - Vérifier exclusifs de version
 
-### Moyen terme
-- Migrez vers Vite propre (voir [MIGRATION.md](./MIGRATION.md))
-- Activez RLS avec backend Vercel Functions
-- Ajoutez des statistiques (graphiques, historique)
+**Standalone :**
+- [ ] **Jaune** - Vérifier Pokédex Kanto (151)
 
-### Long terme
-- Passez à Next.js pour SEO + backend intégré
-- Ajoutez des fonctionnalités sociales
-- Créez une app mobile (React Native)
+### Génération 2
+**Paires de jeux :**
+- [ ] **Or/Argent** - Vérifier Pokédex Johto (251)
+- [ ] **Or/Argent** - Vérifier exclusifs de version
+
+**Standalone :**
+- [ ] **Cristal** - Vérifier Pokédex Johto (251)
+- [ ] **Cristal** - Vérifier Pokémon exclusifs
+
+### Génération 3
+**Paires de jeux :**
+- [ ] **Rubis/Saphir** - Vérifier Pokédex Hoenn (386)
+- [ ] **Rubis/Saphir** - Vérifier exclusifs de version
+- [ ] **Rouge Feu/Vert Feuille** - Vérifier Pokédex Kanto (386)
+- [ ] **Rouge Feu/Vert Feuille** - Vérifier exclusifs de version
+- [ ] **Rouge Feu/Vert Feuille** - Vérifier Pokémon post-game (Îles Sevii)
+
+**Standalone :**
+- [ ] **Émeraude** - Vérifier Pokédex Hoenn (386)
+- [ ] **Émeraude** - Vérifier Pokémon exclusifs
+
+### Génération 4
+**Paires de jeux :**
+- [ ] **Diamant/Perle** - Vérifier Pokédex Sinnoh (493)
+- [ ] **Diamant/Perle** - Vérifier exclusifs de version
+- [ ] **Or HeartGold/Argent SoulSilver** - Vérifier Pokédex Johto (493)
+- [ ] **HGSS** - Vérifier exclusifs de version
+- [ ] **HGSS** - Vérifier légendaires post-game (Kanto)
+
+**Standalone :**
+- [ ] **Platine** - Vérifier Pokédex Sinnoh (493)
+- [ ] **Platine** - Vérifier Pokémon exclusifs
+- [ ] **Platine** - Vérifier légendaires post-game (Giratina, etc.)
+
+### Génération 5
+**Paires de jeux :**
+- [ ] **Noir/Blanc** - Vérifier Pokédex Unys (649)
+- [ ] **Noir/Blanc** - Vérifier exclusifs de version
+- [ ] **Noir 2/Blanc 2** - Vérifier Pokédex Unys étendu (649)
+- [ ] **Noir 2/Blanc 2** - Vérifier exclusifs de version
+- [ ] **Noir 2/Blanc 2** - Vérifier légendaires post-game
+
+### Génération 6
+**Paires de jeux :**
+- [ ] **X/Y** - Vérifier Pokédex Kalos (721)
+- [ ] **X/Y** - Vérifier exclusifs de version
+- [ ] **X/Y** - Vérifier légendaires post-game
+- [ ] **Rubis Oméga/Saphir Alpha** - Vérifier Pokédex Hoenn (721)
+- [ ] **ROSA** - Vérifier exclusifs de version
+- [ ] **ROSA** - Vérifier légendaires post-game (Portails dimensionnels)
+
+### Génération 7
+**Paires de jeux :**
+- [ ] **Soleil/Lune** - Vérifier Pokédex Alola (802)
+- [ ] **Soleil/Lune** - Vérifier exclusifs de version
+- [ ] **Soleil/Lune** - Vérifier Ultra-Chimères post-game
+- [ ] **Ultra-Soleil/Ultra-Lune** - Vérifier Pokédex Alola étendu (807)
+- [ ] **USUL** - Vérifier exclusifs de version
+- [ ] **USUL** - Vérifier légendaires (Ultra-Brèche)
+
+**Standalone :**
+- [ ] **Let's Go Pikachu/Évoli** - Vérifier Pokédex Kanto (153)
+- [ ] **LGPE** - Vérifier exclusifs de version
+
+### Génération 8
+**Paires de jeux :**
+- [ ] **Épée/Bouclier** - Vérifier Pokédex Galar base (400)
+- [ ] **Épée/Bouclier** - Vérifier exclusifs de version
+- [ ] **Épée/Bouclier** - Vérifier légendaires post-game
+- [ ] **Diamant Étincelant/Perle Scintillante** - Vérifier Pokédex Sinnoh (493)
+- [ ] **DEPS** - Vérifier exclusifs de version
+
+**DLC :**
+- [ ] **Épée/Bouclier - Isolarmure** - Vérifier nouveaux Pokémon DLC1
+- [ ] **Isolarmure** - Vérifier exclusifs DLC1
+- [ ] **Épée/Bouclier - Couronneige** - Vérifier nouveaux Pokémon DLC2
+- [ ] **Couronneige** - Vérifier exclusifs DLC2
+- [ ] **Couronneige** - Vérifier légendaires (Dynamax Adventures)
+
+**Standalone :**
+- [ ] **Légendes Pokémon : Arceus** - Vérifier Pokédex Hisui (242)
+
+### Génération 9
+**Paires de jeux :**
+- [ ] **Écarlate/Violet** - Vérifier Pokédex Paldea base (400)
+- [ ] **Écarlate/Violet** - Vérifier exclusifs de version
+- [ ] **Écarlate/Violet** - Vérifier légendaires/paradoxes
+
+**DLC :**
+- [ ] **Écarlate/Violet - Trésor Enfoui** - Vérifier nouveaux Pokémon DLC1
+- [ ] **Trésor Enfoui** - Vérifier exclusifs DLC1
+- [ ] **Écarlate/Violet - Indigo** - Vérifier nouveaux Pokémon DLC2
+- [ ] **Indigo** - Vérifier exclusifs DLC2
 
 ---
 
 ## 📈 Roadmap Technique
 
-### Phase 1 : MVP (Actuel) ✅
-- [x] Authentification Clerk
-- [x] Base de données Supabase
-- [x] Déploiement Vercel
-- [x] Multi-langue (FR/EN/JP)
-- [x] Filtres avancés
-- [x] Random Hunt
 
-### Phase 2 : Optimisation (Futur)
-- [ ] Migration Vite propre (retire CDN Tailwind)
+### Phase 2 : Optimisation
 - [ ] Backend API (Vercel Functions)
 - [ ] RLS Supabase activé
 - [ ] Sync temps réel
 - [ ] Tests automatisés
 
 ### Phase 3 : Scaling (Si succès)
-- [ ] Migration Next.js
+
 - [ ] SEO optimisé
 - [ ] Analytics avancées
 - [ ] Rate limiting
 - [ ] CDN pour sprites
 
-### Phase 4 : Refactoring Tailwind ✅ (Terminé)
-- [x] Design system Pokémon (7 couleurs personnalisées)
-- [x] 8 composants UI réutilisables créés
-- [x] 4 composants majeurs refactorisés
-- [x] -105 lignes de code supprimées (~14% réduction)
-- [x] Navigation V1/V2 fonctionnelle
 
-### Phase 5 : Optimisations Production (Futur)
-- [ ] **PurgeCSS** - Supprimer classes CSS inutilisées (~70% réduction taille)
-- [ ] **Images Pokémon** - Conversion WebP, sprite sheets, optimisation
-- [ ] **Animations** - Standardiser avec `@keyframes` réutilisables
-- [ ] **Responsive** - Vérifier tous breakpoints (mobile, tablet, desktop)
-- [ ] **Bundle Analysis** - webpack-bundle-analyzer pour identifier optimisations
-- [ ] **Service Worker** - Cache offline des sprites Pokémon
+
+
 
 ---
 
-## 🔧 Guide de Migration Vite
 
-**Quand migrer ?** Quand vous voulez retirer le CDN Tailwind et avoir un build optimisé.
-
-**Durée estimée :** 2-3 heures
-
-**Guide complet :** Voir [VITE_MIGRATION_GUIDE.md](./.gemini/antigravity/brain/3d93079d-4368-4fc7-a27b-7e00999947e1/vite_migration_guide.md)
-
-**Résumé des étapes :**
-1. Créer nouveau projet Vite
-2. Installer dépendances (Tailwind, Clerk, Supabase)
-3. Copier votre code
-4. Configurer Tailwind proprement
-5. Tester et déployer
-
-**Bénéfices :**
-- ✅ CSS optimisé (~10 KB vs 3 MB)
-- ✅ Pas de warning CDN
-- ✅ Structure standard
-- ✅ Meilleur DX
-
----
 
 ## 🐛 Problèmes Connus
-
-### Tailwind CDN
-- **Issue :** Warning "CDN should not be used in production"
-- **Impact :** Cosmétique uniquement, pas d'impact performance réel
-- **Solution :** Acceptable pour MVP, migrer vers Vite plus tard
 
 ### RLS Désactivé
 - **Issue :** Row Level Security désactivé dans Supabase
@@ -260,13 +284,13 @@ PokeTracker/
 ├── services/       (API Clerk/Supabase)
 ├── App.tsx         (composant principal)
 ├── index.tsx       (point d'entrée)
-└── index.html      (HTML + CDN Tailwind)
+└── index.html      (HTML)
 ```
 
 ### Dépendances Principales
 - React 19
 - TypeScript
-- Tailwind CSS (via CDN)
+- Tailwind CSS (via PostCSS)
 - Clerk (auth)
 - Supabase (database)
 - Vite (build tool)
@@ -306,100 +330,7 @@ MIT License - Voir [LICENSE](LICENSE) pour détails
 
 ---
 
-## 🎨 Migration vers shadcn/ui (Planifié)
 
-### Pourquoi shadcn/ui ?
-
-Actuellement, le projet utilise une **librairie UI custom** (`components/ui/`) avec 9 composants réutilisables. Pour les futurs chantiers lourds, une migration vers **shadcn/ui** est recommandée.
-
-#### Avantages de shadcn/ui
-
-1. **Composants prêts à l'emploi**
-   - Plus de 50 composants disponibles
-   - Qualité production
-   - Accessibilité (ARIA) intégrée
-   - Animations fluides avec Radix UI
-
-2. **Pas une dépendance npm**
-   - Les composants sont **copiés dans ton projet**
-   - Contrôle total, modifiable à volonté
-   - Pas de breaking changes surprise
-
-3. **Compatible avec notre stack**
-   - ✅ Tailwind CSS (déjà utilisé)
-   - ✅ React + TypeScript
-   - ✅ Thème personnalisable (couleurs Pokémon)
-
-4. **Gain de temps pour futures features**
-   - Formulaires complexes → Form + Input + Select
-   - Tableaux de données → Table + Pagination
-   - Notifications → Toast
-   - Menus contextuels → DropdownMenu
-   - Modales avancées → Dialog + AlertDialog
-
-### Plan de Migration
-
-#### Phase 1 : Installation
-```bash
-npx shadcn-ui@latest init
-```
-
-#### Phase 2 : Remplacement Progressif
-
-**Composants à remplacer** :
-- `Button` → shadcn Button
-- `Input` → shadcn Input
-- `Textarea` → shadcn Textarea
-- `Modal` → shadcn Dialog
-- `Card` → shadcn Card
-- `Tabs` → shadcn Tabs
-- `Tooltip` → shadcn Tooltip
-- `Accordion` → shadcn Accordion
-
-**Composants à garder** (spécifiques au projet) :
-- ✅ `FilterChip` (logique métier)
-- ✅ `CircularProgress` (custom SVG)
-- ✅ `PokemonCard` (logique métier)
-- ✅ `Icons` (icônes custom Pokémon)
-
-#### Phase 3 : Personnalisation
-
-Adapter les couleurs shadcn au thème Pokémon :
-```css
-/* tailwind.config.js */
-theme: {
-  extend: {
-    colors: {
-      primary: '#facc15',      // poke-yellow
-      secondary: '#6366f1',    // poke-indigo
-      destructive: '#ef4444',  // poke-red
-      // ...
-    }
-  }
-}
-```
-
-### État Actuel vs Futur
-
-| Aspect | Actuel (Custom) | Futur (shadcn) |
-|--------|-----------------|----------------|
-| Composants | 9 custom | 50+ shadcn |
-| Maintenance | Manuelle | Communauté |
-| Accessibilité | Basique | ARIA complet |
-| Animations | CSS custom | Radix UI |
-| Formulaires | Basique | react-hook-form + zod |
-
-### Quand Migrer ?
-
-**Avant de commencer** :
-- Terminer les ajustements actuels
-- Stabiliser les features existantes
-- Planifier 1-2 jours de migration
-
-**Déclencheurs** :
-- Besoin de composants avancés (Select, Combobox, etc.)
-- Formulaires complexes à implémenter
-- Besoin d'accessibilité renforcée
 
 ---
 

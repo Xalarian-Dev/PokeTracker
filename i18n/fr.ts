@@ -119,6 +119,12 @@ export const ui = {
     hunt_in: "Chasser dans",
     no_compatible_pokemon: "Aucun Pokémon compatible trouvé avec vos jeux possédés.",
     hide_grayed_pokemon: "Masquer Filtrés",
+    dual_slot_req: "Nécessite le port GBA : {game}",
+    gba_firered: "Rouge Feu",
+    gba_leafgreen: "Vert Feuille",
+    gba_ruby: "Rubis",
+    gba_sapphire: "Saphir",
+    gba_emerald: "Émeraude",
     // SEO Metadata
     seo_title: "Traqueur de Shiny Pokémon - Suivez votre collection de chromatiques",
     seo_description: "Application web gratuite pour suivre vos Pokémon shiny. Gérez votre collection, filtrez par génération et jeux, et ne manquez aucun chromatique ! Compatible avec tous les jeux Pokémon.",

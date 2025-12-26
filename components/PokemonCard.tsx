@@ -2,8 +2,8 @@
 import React, { useMemo } from 'react';
 import type { Pokemon } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
-import { SparklesIcon, IsleOfArmorIcon, CrownTundraIcon, TealMaskIcon, IndigoDiskIcon, MegaDimensionIcon, LockIcon, EventIcon } from './Icons';
-import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON, EVENT_ITEM_POKEMON } from '../data/games';
+import { SparklesIcon, IsleOfArmorIcon, CrownTundraIcon, TealMaskIcon, IndigoDiskIcon, MegaDimensionIcon, LockIcon, EventIcon, CartridgeIcon } from './Icons';
+import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON, EVENT_ITEM_POKEMON, DUAL_SLOT_REQ } from '../data/games';
 
 interface PokemonCardProps {
   pokemon: Pokemon;
@@ -143,6 +143,25 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
     return false;
   }, [pokemon.id, selectedGame]);
 
+  const requiredCart = useMemo(() => {
+    if (selectedGame === 'dp' && DUAL_SLOT_REQ[pokemon.id]) {
+      return DUAL_SLOT_REQ[pokemon.id];
+    }
+    return null;
+  }, [pokemon.id, selectedGame]);
+
+  const cartridgeColor = useMemo(() => {
+    if (!requiredCart) return 'text-gray-300';
+    const colorMap: Record<string, string> = {
+      'FireRed': 'text-red-500',
+      'LeafGreen': 'text-green-500',
+      'Ruby': 'text-red-600',
+      'Sapphire': 'text-blue-500',
+      'Emerald': 'text-emerald-400',
+    };
+    return colorMap[requiredCart] || 'text-gray-300';
+  }, [requiredCart]);
+
   return (
     <div
       className={`${cardClasses} ${isGrayedOut ? 'opacity-40 grayscale' : ''}`}
@@ -204,6 +223,16 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
             <EventIcon className="w-5 h-5 drop-shadow-md" />
             <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/event:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
               {t('event_item_required')}
+            </span>
+          </div>
+        )}
+
+        {/* Dual Slot Icon */}
+        {requiredCart && (
+          <div className={`group/cart relative ${cartridgeColor} group-hover:brightness-125 transition-all drop-shadow-md`}>
+            <CartridgeIcon className="w-5 h-5" />
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900 text-[10px] text-white rounded opacity-0 group-hover/cart:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl">
+              {t('dual_slot_req', { game: t(`gba_${requiredCart.toLowerCase()}` as any) || requiredCart })}
             </span>
           </div>
         )}
