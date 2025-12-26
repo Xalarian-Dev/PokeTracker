@@ -176,4 +176,13 @@ Important changes will be communicated via the application.`,
 
 **Contact**: Use the contact form in the footer
 **Responsible**: Xalarian (PokeTracker)`,
+
+    terms_section10_title: '10. Hosting',
+    terms_section10_content: `The website is hosted by:
+
+**Vercel Inc.**
+440 N Barranca Ave #4133
+Covina, CA 91723
+United States
+privacy@vercel.com`,
 };

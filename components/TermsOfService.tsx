@@ -93,6 +93,12 @@ export const TermsOfService: React.FC = () => {
                         <h2 className="text-xl font-semibold text-white mb-3">{t.terms_section9_title}</h2>
                         <div className="text-gray-300 leading-relaxed whitespace-pre-line">{t.terms_section9_content}</div>
                     </section>
+
+                    {/* Section 10 */}
+                    <section>
+                        <h2 className="text-xl font-semibold text-white mb-3">{t.terms_section10_title}</h2>
+                        <div className="text-gray-300 leading-relaxed whitespace-pre-line">{t.terms_section10_content}</div>
+                    </section>
                 </div>
 
                 {/* Footer */}

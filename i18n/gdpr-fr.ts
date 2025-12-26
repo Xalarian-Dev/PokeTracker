@@ -176,4 +176,13 @@ Les modifications importantes seront communiquées via l'application.`,
 
 **Contact** : Utilisez le formulaire de contact dans le footer
 **Responsable** : Xalarian (PokeTracker)`,
+
+    terms_section10_title: '10. Hébergement',
+    terms_section10_content: `Le site est hébergé par :
+    
+**Vercel Inc.**
+440 N Barranca Ave #4133
+Covina, CA 91723
+United States
+privacy@vercel.com`,
 };
