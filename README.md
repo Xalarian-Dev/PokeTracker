@@ -129,35 +129,6 @@ CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
 
 ## 📊 Vérification des Données Pokémon
 
-### Génération 1
-**Paires de jeux :**
-- [x] **Rouge/Bleu** - Vérifier Pokédex Kanto (151)
-- [x] **Rouge/Bleu** - Vérifier exclusifs de version
-
-**Standalone :**
-- [ ] **Jaune** - Vérifier Pokédex Kanto (151)
-
-### Génération 2
-**Paires de jeux :**
-- [ ] **Or/Argent** - Vérifier Pokédex Johto (251)
-- [ ] **Or/Argent** - Vérifier exclusifs de version
-
-**Standalone :**
-- [ ] **Cristal** - Vérifier Pokédex Johto (251)
-- [ ] **Cristal** - Vérifier Pokémon exclusifs
-
-### Génération 3
-**Paires de jeux :**
-- [ ] **Rubis/Saphir** - Vérifier Pokédex Hoenn (386)
-- [ ] **Rubis/Saphir** - Vérifier exclusifs de version
-- [ ] **Rouge Feu/Vert Feuille** - Vérifier Pokédex Kanto (386)
-- [ ] **Rouge Feu/Vert Feuille** - Vérifier exclusifs de version
-- [ ] **Rouge Feu/Vert Feuille** - Vérifier Pokémon post-game (Îles Sevii)
-
-**Standalone :**
-- [ ] **Émeraude** - Vérifier Pokédex Hoenn (386)
-- [ ] **Émeraude** - Vérifier Pokémon exclusifs
-
 ### Génération 4
 **Paires de jeux :**
 - [ ] **Diamant/Perle** - Vérifier Pokédex Sinnoh (493)
