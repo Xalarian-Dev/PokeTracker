@@ -100,15 +100,15 @@ export const GAME_GROUP_MAP: Record<string, string[]> = {
 // Liste des Pokémon Shiny Lock par groupe de jeux
 export const SHINY_LOCKED_POKEMON: Record<string, string[]> = {
     // Génération V
-    'bw': ['494', '643', '644', '647', '648'], // Victini, Reshiram, Zekrom, Keldeo, Meloetta
-    'bw2': ['494', '643', '644', '647', '648'], // Victini, Reshiram, Zekrom, Keldeo, Meloetta
+    'bw': ['494', '643', '644'], // Victini, Reshiram, Zekrom
+    'bw2': ['494', '643', '644'], // Victini, Reshiram, Zekrom
 
     // Génération VI
     'xy': ['144', '145', '146', '150', '716', '717', '718'], // Articuno, Zapdos, Moltres, Mewtwo, Xerneas, Yveltal, Zygarde
     'oras': ['382', '383', '384', '386'], // Kyogre, Groudon, Rayquaza, Deoxys
 
     // Génération VII
-    'sm': ['718', '785', '786', '787', '788', '789', '790', '791', '792', '793', '794', '795', '796', '797', '798', '799', '800', '801', '802'], // Zygarde, Tapu Koko, Tapu Lele, Tapu Bulu, Tapu Fini, Cosmog, Cosmoem, Solgaleo, Lunala, Nihilego, Buzzwole, Pheromosa, Xurkitree, Celesteela, Kartana, Guzzlord, Necrozma, Magearna, Marshadow
+    'sm': ['718', '785', '786', '787', '788', '789', '790', '791', '792', '793', '794', '795', '796', '797', '798', '799', '800'], // Zygarde, Tapu Koko, Tapu Lele, Tapu Bulu, Tapu Fini, Cosmog, Cosmoem, Solgaleo, Lunala, Nihilego, Buzzwole, Pheromosa, Xurkitree, Celesteela, Kartana, Guzzlord, Necrozma, Magearna, Marshadow
     'usum': ['718', '785', '786', '787', '788', '789', '790', '791', '792', '800'], // Zygarde, Tapu Koko, Tapu Lele, Tapu Bulu, Tapu Fini, Cosmog, Cosmoem, Solgaleo, Lunala, Necrozma (Ultra-Chimères NOT locked in USUM)
 
     // Génération VIII
@@ -126,7 +126,7 @@ export const SHINY_LOCKED_POKEMON: Record<string, string[]> = {
     // Génération IX
     'sv': [
         // Base game
-        '1001', '1002', '1003', '1004', '1007', '1008', '1009', '1010',
+        '999', '1000', '1001', '1002', '1003', '1004', '1007', '1008', '1009', '1010',
         // Teal Mask
         '1014', '1015', '1016', '1017',
         // Indigo Disk - New legendaries

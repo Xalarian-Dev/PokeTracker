@@ -285,10 +285,6 @@ VITE_SUPABASE_ANON_KEY=...
 
 ---
 
-## 📄 License
-
-MIT License - Voir [LICENSE](LICENSE) pour détails
-
 ---
 
 ## 🙏 Remerciements

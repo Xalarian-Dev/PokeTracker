@@ -262,7 +262,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
   };
 
   // Fonction pour déterminer si un Pokémon doit être grisé
-  const isPokemonFiltered = (pokemon: Pokemon): boolean => {
+  const isPokemonFiltered = React.useCallback((pokemon: Pokemon): boolean => {
     // Recherche par nom ou ID
     const matchesSearch = pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       pokemon.id.toString().includes(searchTerm);
@@ -290,7 +290,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
 
     // Retourne TRUE si le Pokémon doit être GRISÉ (ne matche PAS les filtres)
     return !(matchesSearch && matchesGen && matchesRegion && matchesGame && matchesShinyFilter && matchesMissingFilter);
-  };
+  }, [searchTerm, activeFilter, selectedGame, showOnlyShiny, showMissingShiny, shinyPokemons]);
 
   // Organiser les Pokémon pour l'affichage
   const displayedPokemon = useMemo(() => {
@@ -315,7 +315,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
         Paldea: regionalByRegion.Paldea.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })).filter(p => !hideGrayedPokemon || !p.isGrayedOut)
       }
     };
-  }, [pokemonList, searchTerm, activeFilter, selectedGame, showOnlyShiny, showMissingShiny, shinyPokemons, hideGrayedPokemon]);
+  }, [pokemonList, searchTerm, activeFilter, selectedGame, showOnlyShiny, showMissingShiny, shinyPokemons, hideGrayedPokemon, isPokemonFiltered]);
 
   // Compter les Pokémon actifs (non-grisés)
   const activeCount = useMemo(() => {
