@@ -968,7 +968,7 @@ export const pokemon: Record<string, string> = {
   "966": "Vrombotor",
   "967": "Motorizard",
   "968": "Ferdeter",
-  "969": "Germilly",
+  "969": "Germéclat",
   "970": "Floréclat",
   "971": "Toutombe",
   "972": "Tomberro",
