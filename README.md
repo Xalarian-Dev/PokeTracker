@@ -129,19 +129,6 @@ CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
 
 ## 📊 Vérification des Données Pokémon
 
-### Génération 4
-**Paires de jeux :**
-- [ ] **Diamant/Perle** - Vérifier Pokédex Sinnoh (493)
-- [ ] **Diamant/Perle** - Vérifier exclusifs de version
-- [ ] **Or HeartGold/Argent SoulSilver** - Vérifier Pokédex Johto (493)
-- [ ] **HGSS** - Vérifier exclusifs de version
-- [ ] **HGSS** - Vérifier légendaires post-game (Kanto)
-
-**Standalone :**
-- [ ] **Platine** - Vérifier Pokédex Sinnoh (493)
-- [ ] **Platine** - Vérifier Pokémon exclusifs
-- [ ] **Platine** - Vérifier légendaires post-game (Giratina, etc.)
-
 ### Génération 5
 **Paires de jeux :**
 - [ ] **Noir/Blanc** - Vérifier Pokédex Unys (649)
@@ -168,10 +155,6 @@ CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
 - [ ] **USUL** - Vérifier exclusifs de version
 - [ ] **USUL** - Vérifier légendaires (Ultra-Brèche)
 
-### Génération 8
-**Paires de jeux :**
-- [ ] **Diamant Étincelant/Perle Scintillante** - Vérifier Pokédex Sinnoh (493)
-- [ ] **DEPS** - Vérifier exclusifs de version
 ---
 
 ## 📈 Roadmap Technique
