@@ -38,6 +38,8 @@ export const ui = {
     regional_forms_hisui: "ヒスイのすがた",
     regional_forms_paldea: "パルデアのすがた",
     shiny_lock: "色違いロック",
+    raid_event: "レイドイベント",
+    dynamax_adventure: "ダイマックスアドベンチャー",
     dlc_isle_of_armor: "鎧の孤島",
     dlc_crown_tundra: "冠の雪原",
     dlc_teal_mask: "碧の仮面",

@@ -38,6 +38,8 @@ export const ui = {
     regional_forms_hisui: "Formes d'Hisui",
     regional_forms_paldea: "Formes de Paldéa",
     shiny_lock: "Shiny Lock",
+    raid_event: "Raid Événement",
+    dynamax_adventure: "Expédition Dynamax",
     dlc_isle_of_armor: "DLC L'île Solitaire de l'Armure",
     dlc_crown_tundra: "DLC Les Terres Enneigées de la Couronne",
     dlc_teal_mask: "DLC Le Masque Turquoise",

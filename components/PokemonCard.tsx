@@ -2,8 +2,8 @@
 import React, { useMemo } from 'react';
 import type { Pokemon } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
-import { SparklesIcon, IsleOfArmorIcon, CrownTundraIcon, TealMaskIcon, IndigoDiskIcon, MegaDimensionIcon, LockIcon, EventIcon, CartridgeIcon } from './Icons';
-import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON, EVENT_ITEM_POKEMON, DUAL_SLOT_REQ } from '../data/games';
+import { SparklesIcon, IsleOfArmorIcon, CrownTundraIcon, TealMaskIcon, IndigoDiskIcon, MegaDimensionIcon, LockIcon, EventIcon, CartridgeIcon, RaidEventIcon, DynamaxAdventureIcon } from './Icons';
+import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON, EVENT_ITEM_POKEMON, DUAL_SLOT_REQ, RAID_EVENT_POKEMON, DYNAMAX_ADVENTURE_POKEMON } from '../data/games';
 
 interface PokemonCardProps {
   pokemon: Pokemon;
@@ -150,6 +150,20 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
     return null;
   }, [pokemon.id, selectedGame]);
 
+  const isRaidEvent = useMemo(() => {
+    if (selectedGame === 'sv' && RAID_EVENT_POKEMON['sv']) {
+      return RAID_EVENT_POKEMON['sv'].includes(pokemon.id);
+    }
+    return false;
+  }, [pokemon.id, selectedGame]);
+
+  const isDynamaxAdventure = useMemo(() => {
+    if (selectedGame === 'swsh' && DYNAMAX_ADVENTURE_POKEMON['swsh']) {
+      return DYNAMAX_ADVENTURE_POKEMON['swsh'].includes(pokemon.id);
+    }
+    return false;
+  }, [pokemon.id, selectedGame]);
+
   const cartridgeColor = useMemo(() => {
     if (!requiredCart) return 'text-gray-300';
     const colorMap: Record<string, string> = {
@@ -223,6 +237,26 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
             <EventIcon className="w-5 h-5 drop-shadow-md" />
             <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/event:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
               {t('event_item_required')}
+            </span>
+          </div>
+        )}
+
+        {/* Raid Event Icon */}
+        {isRaidEvent && (
+          <div className="group/raid relative text-purple-400 group-hover:text-purple-300 transition-colors">
+            <RaidEventIcon className="w-5 h-5 drop-shadow-md" />
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/raid:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+              {t('raid_event')}
+            </span>
+          </div>
+        )}
+
+        {/* Dynamax Adventure Icon */}
+        {isDynamaxAdventure && (
+          <div className="group/dynamax relative text-pink-400 group-hover:text-pink-300 transition-colors">
+            <DynamaxAdventureIcon className="w-5 h-5 drop-shadow-md" />
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/dynamax:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+              {t('dynamax_adventure')}
             </span>
           </div>
         )}

@@ -170,36 +170,8 @@ CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
 
 ### Génération 8
 **Paires de jeux :**
-- [ ] **Épée/Bouclier** - Vérifier Pokédex Galar base (400)
-- [ ] **Épée/Bouclier** - Vérifier exclusifs de version
-- [ ] **Épée/Bouclier** - Vérifier légendaires post-game
 - [ ] **Diamant Étincelant/Perle Scintillante** - Vérifier Pokédex Sinnoh (493)
 - [ ] **DEPS** - Vérifier exclusifs de version
-
-**DLC :**
-- [ ] **Épée/Bouclier - Isolarmure** - Vérifier nouveaux Pokémon DLC1
-- [ ] **Isolarmure** - Vérifier exclusifs DLC1
-- [ ] **Épée/Bouclier - Couronneige** - Vérifier nouveaux Pokémon DLC2
-- [ ] **Couronneige** - Vérifier exclusifs DLC2
-- [ ] **Couronneige** - Vérifier légendaires (Dynamax Adventures)
-
-### Génération 9
-**Paires de jeux :**
-- [x] **Écarlate/Violet** - Vérifier Pokédex Paldea base (400)
-- [x] **Écarlate/Violet** - Vérifier exclusifs de version
-- [ ] **Écarlate/Violet** - Vérifier Raids
-- [ ] **Écarlate/Violet** - Vérifier Mass Outbreaks
-
-**DLC :**
-- [x] **Écarlate/Violet - Trésor Enfoui** - Vérifier nouveaux Pokémon DLC1
-- [x] **Trésor Enfoui** - Vérifier exclusifs DLC1
-- [ ] **Trésor Enfoui** - Vérifier Raids
-- [ ] **Trésor Enfoui** - Vérifier Mass Outbreaks
-- [x] **Écarlate/Violet - Indigo** - Vérifier nouveaux Pokémon DLC2
-- [x] **Indigo** - Vérifier exclusifs DLC2
-- [ ] **Indigo** - Vérifier légendaires/paradoxes
-- [ ] **Indigo** - Vérifier Raids
-- [ ] **Indigo** - Vérifier Mass Outbreaks
 ---
 
 ## 📈 Roadmap Technique

@@ -39,6 +39,8 @@ export const ui = {
     regional_forms_hisui: "Hisuian Forms",
     regional_forms_paldea: "Paldean Forms",
     shiny_lock: "Shiny Lock",
+    raid_event: "Raid Event",
+    dynamax_adventure: "Dynamax Adventure",
     dlc_isle_of_armor: "Isle of Armor DLC",
     dlc_crown_tundra: "Crown Tundra DLC",
     dlc_teal_mask: "The Teal Mask DLC",

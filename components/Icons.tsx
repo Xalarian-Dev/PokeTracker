@@ -187,3 +187,20 @@ export const CartridgeIcon: React.FC<IconProps> = ({ className }) => (
     <path d="M7 2h10c.55 0 1 .45 1 1v18c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1zm2 3v10h6V5H9zm1 14h4v2h-4v-2z" />
   </svg>
 );
+
+export const RaidEventIcon: React.FC<IconProps> = ({ className }) => (
+  <img
+    src="/assets/raid-event.png"
+    alt="Raid Event"
+    className={className}
+  />
+);
+
+export const DynamaxAdventureIcon: React.FC<IconProps> = ({ className }) => (
+  <img
+    src="/assets/dynamax-adventure.png"
+    alt="Dynamax Adventure"
+    className={className}
+  />
+);
+
