@@ -34,30 +34,8 @@ interface LeftSidebarProps {
 }
 
 
-// SideButton component for reusability
-const SideButton: React.FC<{
-    icon: React.ReactNode;
-    isActive: boolean;
-    onClick: () => void;
-    activeColor: string;
-    inactiveColor?: string;
-}> = ({ icon, isActive, onClick, activeColor, inactiveColor = '#1f2937' }) => (
-    <button
-        onClick={onClick}
-        className="flex items-center gap-2 py-2.5 px-2 rounded-l-lg shadow-lg transition-all border-y border-l border-gray-600"
-        style={{
-            writingMode: 'vertical-rl',
-            transform: 'rotate(180deg)',
-            backgroundColor: isActive ? activeColor : inactiveColor,
-            color: '#ffffff'
-        }}
-    >
-        {icon}
-    </button>
-);
-
 /**
- * LeftSidebar - Sidebar fixe gauche avec CircularProgress (haut) et contenu tabulé (bas)
+ * LeftSidebar - Sidebar content with tabs for filters, random hunt, and feedback
  */
 export const LeftSidebar: React.FC<LeftSidebarProps> = (props) => {
     const [activeTab, setActiveTab] = useState<TabView>('filters');
@@ -216,316 +194,314 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = (props) => {
     };
 
     return (
-        <>
-            <div className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-80 bg-gray-800 flex flex-col z-50 shadow-xl border-r border-gray-700">
-                {/* Tab Content - Full Height */}
-                <div className="flex-1 overflow-y-auto scrollbar-hide bg-gray-900" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <div className="flex flex-col h-full">
+            {/* Tab Content - Full Height */}
+            <div className="flex-1 overflow-y-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
 
-                    {/* Filters Tab */}
-                    {activeTab === 'filters' && (
-                        <div className="p-6">
-                            <Accordion type="multiple" defaultValue={["gen", "status"]} className="mt-4">
-                                {/* Generations */}
-                                <AccordionItem value="gen">
-                                    <AccordionTrigger>
-                                        <div className="flex items-center gap-2">
-                                            <Book className="w-5 h-5 text-gray-400" />
-                                            <span>{t('filter_generation')}</span>
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent>
-                                        <div className="flex flex-wrap gap-2 justify-center">
-                                            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(gen => (
-                                                <FilterChip
-                                                    key={gen}
-                                                    label={`${t('gen')} ${gen}`}
-                                                    isActive={props.activeFilter?.type === 'gen' && props.activeFilter?.value === gen}
-                                                    variant="filter"
-                                                    onClick={() => handleFilterClick('gen', gen)}
-                                                />
-                                            ))}
-                                        </div>
-                                    </AccordionContent>
-                                </AccordionItem>
-
-                                {/* Regions */}
-                                <AccordionItem value="region">
-                                    <AccordionTrigger>
-                                        <div className="flex items-center gap-2">
-                                            <Map className="w-5 h-5 text-gray-400" />
-                                            <span>{t('filter_region')}</span>
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent>
-                                        <div className="flex flex-wrap gap-2 justify-center">
-                                            {['Alola', 'Galar', 'Hisui', 'Paldea'].map(region => (
-                                                <FilterChip
-                                                    key={region}
-                                                    label={getRegionName(region)}
-                                                    isActive={props.activeFilter?.type === 'region' && props.activeFilter?.value === region}
-                                                    variant="filter"
-                                                    onClick={() => handleFilterClick('region', region)}
-                                                />
-                                            ))}
-                                        </div>
-                                    </AccordionContent>
-                                </AccordionItem>
-
-                                {/* Games */}
-                                <AccordionItem value="game">
-                                    <AccordionTrigger>
-                                        <div className="flex items-center gap-2">
-                                            <Gamepad2 className="w-5 h-5 text-gray-400" />
-                                            <span>{t('filter_games')}</span>
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent>
-                                        <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto justify-center">
-                                            {Object.entries(gameList).map(([gameId, gameName]) => (
-                                                <FilterChip
-                                                    key={gameId}
-                                                    label={gameName}
-                                                    isActive={props.selectedGame === gameId}
-                                                    variant="game"
-                                                    onClick={() => handleGameClick(gameId)}
-                                                />
-                                            ))}
-                                        </div>
-                                    </AccordionContent>
-                                </AccordionItem>
-
-                                {/* Status */}
-                                <AccordionItem value="status">
-                                    <AccordionTrigger>
-                                        <div className="flex items-center gap-2">
-                                            <Eye className="w-5 h-5 text-gray-400" />
-                                            <span>{t('filter_visibility')}</span>
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent>
-                                        <div className="flex flex-wrap gap-2 justify-center">
+                {/* Filters Tab */}
+                {activeTab === 'filters' && (
+                    <div className="p-6">
+                        <Accordion type="multiple" defaultValue={["gen", "status"]} className="mt-4">
+                            {/* Generations */}
+                            <AccordionItem value="gen">
+                                <AccordionTrigger>
+                                    <div className="flex items-center gap-2">
+                                        <Book className="w-5 h-5 text-gray-400" />
+                                        <span>{t('filter_generation')}</span>
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                    <div className="flex flex-wrap gap-2 justify-center">
+                                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(gen => (
                                             <FilterChip
-                                                label={t('show_only_shiny')}
-                                                isActive={props.showOnlyShiny}
+                                                key={gen}
+                                                label={`${t('gen')} ${gen}`}
+                                                isActive={props.activeFilter?.type === 'gen' && props.activeFilter?.value === gen}
                                                 variant="filter"
-                                                onClick={() => {
-                                                    if (!props.showOnlyShiny) {
-                                                        props.setShowMissingShiny(false);
-                                                    }
-                                                    props.setShowOnlyShiny(!props.showOnlyShiny);
-                                                }}
+                                                onClick={() => handleFilterClick('gen', gen)}
                                             />
+                                        ))}
+                                    </div>
+                                </AccordionContent>
+                            </AccordionItem>
+
+                            {/* Regions */}
+                            <AccordionItem value="region">
+                                <AccordionTrigger>
+                                    <div className="flex items-center gap-2">
+                                        <Map className="w-5 h-5 text-gray-400" />
+                                        <span>{t('filter_region')}</span>
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                    <div className="flex flex-wrap gap-2 justify-center">
+                                        {['Alola', 'Galar', 'Hisui', 'Paldea'].map(region => (
                                             <FilterChip
-                                                label={t('show_missing_shiny')}
-                                                isActive={props.showMissingShiny}
+                                                key={region}
+                                                label={getRegionName(region)}
+                                                isActive={props.activeFilter?.type === 'region' && props.activeFilter?.value === region}
                                                 variant="filter"
-                                                onClick={() => {
-                                                    if (!props.showMissingShiny) {
-                                                        props.setShowOnlyShiny(false);
-                                                    }
-                                                    props.setShowMissingShiny(!props.showMissingShiny);
-                                                }}
+                                                onClick={() => handleFilterClick('region', region)}
                                             />
+                                        ))}
+                                    </div>
+                                </AccordionContent>
+                            </AccordionItem>
+
+                            {/* Games */}
+                            <AccordionItem value="game">
+                                <AccordionTrigger>
+                                    <div className="flex items-center gap-2">
+                                        <Gamepad2 className="w-5 h-5 text-gray-400" />
+                                        <span>{t('filter_games')}</span>
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                    <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto justify-center">
+                                        {Object.entries(gameList).map(([gameId, gameName]) => (
                                             <FilterChip
-                                                label={t('hide_grayed_pokemon')}
-                                                isActive={props.hideGrayedPokemon}
-                                                variant="filter"
-                                                onClick={() => props.setHideGrayedPokemon(!props.hideGrayedPokemon)}
+                                                key={gameId}
+                                                label={gameName}
+                                                isActive={props.selectedGame === gameId}
+                                                variant="game"
+                                                onClick={() => handleGameClick(gameId)}
                                             />
-                                        </div>
-                                    </AccordionContent>
-                                </AccordionItem>
-                            </Accordion>
-                        </div>
-                    )}
+                                        ))}
+                                    </div>
+                                </AccordionContent>
+                            </AccordionItem>
 
-                    {/* Random Hunt Tab */}
-                    {activeTab === 'randomHunt' && (
-                        <div className="p-6">
-                            <h2 className="text-2xl font-bold mb-4 text-center text-white">{t('random_hunt')}</h2>
-                            <p className="text-gray-400 mb-6 text-center text-sm">{t('random_hunt_description')}</p>
-
-                            {errorKey && (
-                                <div className="bg-red-900/50 border border-red-500 text-red-200 px-4 py-3 rounded mb-4">
-                                    {t(errorKey)}
-                                </div>
-                            )}
-
-                            {result && (
-                                <div className="mb-6 text-center">
-                                    <div className="relative inline-block">
-                                        {/* Sparkle animations - Random positions */}
-                                        <div className="absolute -inset-4 pointer-events-none z-20">
-                                            {[
-                                                { x: 15, y: 20, delay: 0, size: 16, color: 'text-yellow-300' },
-                                                { x: 80, y: 25, delay: 0.3, size: 20, color: 'text-blue-300' },
-                                                { x: 20, y: 80, delay: 0.6, size: 12, color: 'text-pink-300' },
-                                                { x: 80, y: 75, delay: 0.9, size: 16, color: 'text-white' },
-                                                { x: 50, y: 10, delay: 0.45, size: 24, color: 'text-yellow-200' },
-                                                { x: 85, y: 50, delay: 0.75, size: 12, color: 'text-cyan-300' },
-                                                { x: 10, y: 50, delay: 1.05, size: 20, color: 'text-pink-200' },
-                                                { x: 40, y: 85, delay: 0.15, size: 16, color: 'text-blue-200' },
-                                                { x: 25, y: 35, delay: 1.2, size: 12, color: 'text-white' },
-                                                { x: 70, y: 65, delay: 0.6, size: 20, color: 'text-yellow-300' },
-                                            ].map((sparkle, i) => (
-                                                <div
-                                                    key={i}
-                                                    className={`absolute ${sparklePhase === 'explosion' ? 'animate-sparkle-explosion' : 'animate-sparkle-idle'}`}
-                                                    style={{
-                                                        left: `${sparkle.x}%`,
-                                                        top: `${sparkle.y}%`,
-                                                        '--tw-left': `${sparkle.x}%`,
-                                                        '--tw-top': `${sparkle.y}%`,
-                                                        animationDelay: sparklePhase === 'explosion' ? '0s' : `${sparkle.delay}s`,
-                                                    } as React.CSSProperties}
-                                                >
-                                                    <svg
-                                                        className={`${sparkle.color} drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]`}
-                                                        fill="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                        style={{ width: `${sparkle.size}px`, height: `${sparkle.size}px` }}
-                                                    >
-                                                        <path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7.4-6.3-4.6-6.3 4.6 2.3-7.4-6-4.6h7.6z" />
-                                                    </svg>
-                                                </div>
-                                            ))}
-                                        </div>
-
-                                        <img
-                                            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${result.pokemon.id}.png`}
-                                            alt={result.pokemon.name}
-                                            className="w-44 h-44 mx-auto relative z-10 drop-shadow-lg"
+                            {/* Status */}
+                            <AccordionItem value="status">
+                                <AccordionTrigger>
+                                    <div className="flex items-center gap-2">
+                                        <Eye className="w-5 h-5 text-gray-400" />
+                                        <span>{t('filter_visibility')}</span>
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                    <div className="flex flex-wrap gap-2 justify-center">
+                                        <FilterChip
+                                            label={t('show_only_shiny')}
+                                            isActive={props.showOnlyShiny}
+                                            variant="filter"
+                                            onClick={() => {
+                                                if (!props.showOnlyShiny) {
+                                                    props.setShowMissingShiny(false);
+                                                }
+                                                props.setShowOnlyShiny(!props.showOnlyShiny);
+                                            }}
+                                        />
+                                        <FilterChip
+                                            label={t('show_missing_shiny')}
+                                            isActive={props.showMissingShiny}
+                                            variant="filter"
+                                            onClick={() => {
+                                                if (!props.showMissingShiny) {
+                                                    props.setShowOnlyShiny(false);
+                                                }
+                                                props.setShowMissingShiny(!props.showMissingShiny);
+                                            }}
+                                        />
+                                        <FilterChip
+                                            label={t('hide_grayed_pokemon')}
+                                            isActive={props.hideGrayedPokemon}
+                                            variant="filter"
+                                            onClick={() => props.setHideGrayedPokemon(!props.hideGrayedPokemon)}
                                         />
                                     </div>
-                                    <p className="text-2xl font-bold mt-2 text-white">
-                                        #{result.pokemon.id.toString().padStart(3, '0')} {getPokemonName(result.pokemon.id.toString())}
-                                    </p>
-                                    <div className="bg-gray-800 rounded p-3 mt-4 inline-block border border-gray-700">
-                                        <p className="text-sm text-gray-400 mb-1">{t('hunt_in')}</p>
-                                        <p className="text-lg font-semibold text-white">{gameVersions[result.game] || result.game}</p>
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    </div>
+                )}
+
+                {/* Random Hunt Tab */}
+                {activeTab === 'randomHunt' && (
+                    <div className="p-6">
+                        <h2 className="text-2xl font-bold mb-4 text-center text-white">{t('random_hunt')}</h2>
+                        <p className="text-gray-400 mb-6 text-center text-sm">{t('random_hunt_description')}</p>
+
+                        {errorKey && (
+                            <div className="bg-red-900/50 border border-red-500 text-red-200 px-4 py-3 rounded mb-4">
+                                {t(errorKey)}
+                            </div>
+                        )}
+
+                        {result && (
+                            <div className="mb-6 text-center">
+                                <div className="relative inline-block">
+                                    {/* Sparkle animations - Random positions */}
+                                    <div className="absolute -inset-4 pointer-events-none z-20">
+                                        {[
+                                            { x: 15, y: 20, delay: 0, size: 16, color: 'text-yellow-300' },
+                                            { x: 80, y: 25, delay: 0.3, size: 20, color: 'text-blue-300' },
+                                            { x: 20, y: 80, delay: 0.6, size: 12, color: 'text-pink-300' },
+                                            { x: 80, y: 75, delay: 0.9, size: 16, color: 'text-white' },
+                                            { x: 50, y: 10, delay: 0.45, size: 24, color: 'text-yellow-200' },
+                                            { x: 85, y: 50, delay: 0.75, size: 12, color: 'text-cyan-300' },
+                                            { x: 10, y: 50, delay: 1.05, size: 20, color: 'text-pink-200' },
+                                            { x: 40, y: 85, delay: 0.15, size: 16, color: 'text-blue-200' },
+                                            { x: 25, y: 35, delay: 1.2, size: 12, color: 'text-white' },
+                                            { x: 70, y: 65, delay: 0.6, size: 20, color: 'text-yellow-300' },
+                                        ].map((sparkle, i) => (
+                                            <div
+                                                key={i}
+                                                className={`absolute ${sparklePhase === 'explosion' ? 'animate-sparkle-explosion' : 'animate-sparkle-idle'}`}
+                                                style={{
+                                                    left: `${sparkle.x}%`,
+                                                    top: `${sparkle.y}%`,
+                                                    '--tw-left': `${sparkle.x}%`,
+                                                    '--tw-top': `${sparkle.y}%`,
+                                                    animationDelay: sparklePhase === 'explosion' ? '0s' : `${sparkle.delay}s`,
+                                                } as React.CSSProperties}
+                                            >
+                                                <svg
+                                                    className={`${sparkle.color} drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]`}
+                                                    fill="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    style={{ width: `${sparkle.size}px`, height: `${sparkle.size}px` }}
+                                                >
+                                                    <path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7.4-6.3-4.6-6.3 4.6 2.3-7.4-6-4.6h7.6z" />
+                                                </svg>
+                                            </div>
+                                        ))}
                                     </div>
+
+                                    <img
+                                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${result.pokemon.id}.png`}
+                                        alt={result.pokemon.name}
+                                        className="w-44 h-44 mx-auto relative z-10 drop-shadow-lg"
+                                    />
+                                </div>
+                                <p className="text-2xl font-bold mt-2 text-white">
+                                    #{result.pokemon.id.toString().padStart(3, '0')} {getPokemonName(result.pokemon.id.toString())}
+                                </p>
+                                <div className="bg-gray-800 rounded p-3 mt-4 inline-block border border-gray-700">
+                                    <p className="text-sm text-gray-400 mb-1">{t('hunt_in')}</p>
+                                    <p className="text-lg font-semibold text-white">{gameVersions[result.game] || result.game}</p>
+                                </div>
+                            </div>
+                        )}
+
+                        <Button
+                            onClick={handleRoll}
+                            disabled={isRolling}
+                            className="w-full bg-poke-yellow hover:bg-yellow-500 text-gray-900 font-bold"
+                            size="lg"
+                        >
+                            {isRolling ? (
+                                <div className="flex items-center justify-center gap-2">
+                                    <DiceIcon className="w-6 h-6 animate-spin" />
+                                    <span>{t('rolling')}</span>
+                                </div>
+                            ) : (
+                                <div className="flex items-center justify-center gap-2">
+                                    <DiceIcon className="w-6 h-6" />
+                                    <span>{t('roll')}</span>
                                 </div>
                             )}
+                        </Button>
+                    </div>
+                )}
+
+                {/* Feedback Tab */}
+                {activeTab === 'feedback' && (
+                    <div className="p-6">
+                        <h2 className="text-2xl font-bold mb-4 text-white">{t('feedback')}</h2>
+                        <p className="text-gray-400 mb-6 text-sm">{t('feedback_description')}</p>
+
+                        <form onSubmit={handleFeedbackSubmit} className="space-y-4">
+                            <div>
+                                <Label htmlFor="feedback-category" className="text-gray-300">{t('feedback_category')}</Label>
+                                <Select value={feedbackCategory} onValueChange={setFeedbackCategory}>
+                                    <SelectTrigger id="feedback-category" className="w-full mt-2 bg-gray-700 border-gray-600 text-white focus:ring-poke-yellow">
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent className="bg-gray-700 border-gray-600">
+                                        {feedbackCategories.map(cat => (
+                                            <SelectItem key={cat.value} value={cat.value} className="text-white focus:bg-gray-600">
+                                                {cat.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            <div>
+                                <Label htmlFor="feedback-message" className="text-gray-300">{t('feedback_message')}</Label>
+                                <Textarea
+                                    id="feedback-message"
+                                    value={feedbackMessage}
+                                    onChange={(e) => setFeedbackMessage(e.target.value)}
+                                    placeholder={t('feedback_message_placeholder')}
+                                    rows={5}
+                                    required
+                                    className="mt-2 bg-gray-700 border-gray-600 text-white focus:ring-poke-yellow"
+                                />
+                            </div>
+
+                            <div>
+                                <Label htmlFor="feedback-email" className="text-gray-300">{t('feedback_email')} ({t('optional')})</Label>
+                                <Input
+                                    id="feedback-email"
+                                    type="email"
+                                    value={feedbackEmail}
+                                    onChange={(e) => setFeedbackEmail(e.target.value)}
+                                    placeholder={t('feedback_email_placeholder')}
+                                    className="mt-2 bg-gray-700 border-gray-600 text-white focus:ring-poke-yellow"
+                                />
+                            </div>
 
                             <Button
-                                onClick={handleRoll}
-                                disabled={isRolling}
+                                type="submit"
+                                disabled={feedbackSending || !feedbackMessage.trim()}
                                 className="w-full bg-poke-yellow hover:bg-yellow-500 text-gray-900 font-bold"
-                                size="lg"
                             >
-                                {isRolling ? (
-                                    <div className="flex items-center justify-center gap-2">
-                                        <DiceIcon className="w-6 h-6 animate-spin" />
-                                        <span>{t('rolling')}</span>
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center justify-center gap-2">
-                                        <DiceIcon className="w-6 h-6" />
-                                        <span>{t('roll')}</span>
-                                    </div>
-                                )}
+                                {feedbackSending ? t('sending') : t('send')}
                             </Button>
-                        </div>
-                    )}
-
-                    {/* Feedback Tab */}
-                    {activeTab === 'feedback' && (
-                        <div className="p-6">
-                            <h2 className="text-2xl font-bold mb-4 text-white">{t('feedback')}</h2>
-                            <p className="text-gray-400 mb-6 text-sm">{t('feedback_description')}</p>
-
-                            <form onSubmit={handleFeedbackSubmit} className="space-y-4">
-                                <div>
-                                    <Label htmlFor="feedback-category" className="text-gray-300">{t('feedback_category')}</Label>
-                                    <Select value={feedbackCategory} onValueChange={setFeedbackCategory}>
-                                        <SelectTrigger id="feedback-category" className="w-full mt-2 bg-gray-700 border-gray-600 text-white focus:ring-poke-yellow">
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                        <SelectContent className="bg-gray-700 border-gray-600">
-                                            {feedbackCategories.map(cat => (
-                                                <SelectItem key={cat.value} value={cat.value} className="text-white focus:bg-gray-600">
-                                                    {cat.label}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-
-                                <div>
-                                    <Label htmlFor="feedback-message" className="text-gray-300">{t('feedback_message')}</Label>
-                                    <Textarea
-                                        id="feedback-message"
-                                        value={feedbackMessage}
-                                        onChange={(e) => setFeedbackMessage(e.target.value)}
-                                        placeholder={t('feedback_message_placeholder')}
-                                        rows={5}
-                                        required
-                                        className="mt-2 bg-gray-700 border-gray-600 text-white focus:ring-poke-yellow"
-                                    />
-                                </div>
-
-                                <div>
-                                    <Label htmlFor="feedback-email" className="text-gray-300">{t('feedback_email')} ({t('optional')})</Label>
-                                    <Input
-                                        id="feedback-email"
-                                        type="email"
-                                        value={feedbackEmail}
-                                        onChange={(e) => setFeedbackEmail(e.target.value)}
-                                        placeholder={t('feedback_email_placeholder')}
-                                        className="mt-2 bg-gray-700 border-gray-600 text-white focus:ring-poke-yellow"
-                                    />
-                                </div>
-
-                                <Button
-                                    type="submit"
-                                    disabled={feedbackSending || !feedbackMessage.trim()}
-                                    className="w-full bg-poke-yellow hover:bg-yellow-500 text-gray-900 font-bold"
-                                >
-                                    {feedbackSending ? t('sending') : t('send')}
-                                </Button>
-                            </form>
-                        </div>
-                    )}
-                </div>
+                        </form>
+                    </div>
+                )}
             </div>
 
-
-            {/* Side Buttons - Top Group (Filters & Random Hunt) */}
-            <div className="fixed left-80 top-[350px] flex flex-col gap-2 z-[60]">
-                <SideButton
-                    icon={
-                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" transform="scale(1, -1)">
+            {/* Tab Navigation at Bottom */}
+            <div className="border-t border-gray-700 bg-gray-800 p-2">
+                <div className="flex gap-2">
+                    <button
+                        onClick={() => setActiveTab('filters')}
+                        className={`flex-1 py-2 px-4 rounded transition-colors ${activeTab === 'filters'
+                            ? 'bg-purple-600 text-white'
+                            : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                            }`}
+                    >
+                        <svg className="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                         </svg>
-                    }
-                    isActive={activeTab === 'filters'}
-                    onClick={() => setActiveTab('filters')}
-                    activeColor="#9333ea"
-                />
-                <SideButton
-                    icon={<DiceIcon className="w-8 h-8" />}
-                    isActive={activeTab === 'randomHunt'}
-                    onClick={() => setActiveTab('randomHunt')}
-                    activeColor="#facc15"
-                    inactiveColor="#1f2937"
-                />
-            </div>
-
-            {/* Side Button - Bottom (Feedback) - Fixed position from top */}
-            <div className="fixed left-80 top-[850px] z-[60]">
-                <SideButton
-                    icon={
-                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" transform="scale(1, -1)">
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('randomHunt')}
+                        className={`flex-1 py-2 px-4 rounded transition-colors ${activeTab === 'randomHunt'
+                            ? 'bg-yellow-500 text-gray-900'
+                            : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                            }`}
+                    >
+                        <DiceIcon className="w-5 h-5 mx-auto" />
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('feedback')}
+                        className={`flex-1 py-2 px-4 rounded transition-colors ${activeTab === 'feedback'
+                            ? 'bg-red-600 text-white'
+                            : 'bg-red-900/50 text-gray-300 hover:bg-red-900/70'
+                            }`}
+                    >
+                        <svg className="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                         </svg>
-                    }
-                    isActive={activeTab === 'feedback'}
-                    onClick={() => setActiveTab('feedback')}
-                    activeColor="#ef4444"
-                    inactiveColor="#7f1d1d"
-                />
+                    </button>
+                </div>
             </div>
-        </>
+        </div>
     );
 };
 

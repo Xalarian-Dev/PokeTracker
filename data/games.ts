@@ -114,7 +114,7 @@ export const SHINY_LOCKED_POKEMON: Record<string, string[]> = {
     // Génération VIII
     'swsh': [
         // Base game
-        '647', '789', '888', '889', '890', // Keldeo, Cosmog (gift), Zacian, Zamazenta, Eternatus
+        '647', '789', '790', '888', '889', '890', // Keldeo, Cosmog (gift), Zacian, Zamazenta, Eternatus
         // Isle of Armor (DLC 1)
         '891', '892', // Kubfu, Urshifu
         // Crown Tundra (DLC 2)
@@ -977,8 +977,8 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '786': ['su', 'm', 'us', 'um', 'swdlc2', 'shdlc2'],
     '787': ['su', 'm', 'us', 'um', 'swdlc2', 'shdlc2'],
     '788': ['su', 'm', 'us', 'um', 'swdlc2', 'shdlc2'],
-    '789': ['su', 'm', 'us', 'um'],
-    '790': ['su', 'm', 'us', 'um'],
+    '789': ['su', 'm', 'us', 'um', 'swdlc2', 'shdlc2'],
+    '790': ['su', 'm', 'us', 'um', 'swdlc2', 'shdlc2'],
     '791': ['su', 'us', 'swdlc2', 'scdlc2', 'vdlc2'],
     '792': ['m', 'um', 'shdlc2', 'scdlc2', 'vdlc2'],
     '793': ['su', 'm', 'us', 'um', 'swdlc2', 'shdlc2'],

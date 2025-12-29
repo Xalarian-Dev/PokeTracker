@@ -8,83 +8,90 @@ export default {
         "./components/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
-        extend: {
-            colors: {
-                // Variables shadcn (adaptées au thème Pokémon)
-                border: "hsl(var(--border))",
-                input: "hsl(var(--input))",
-                ring: "hsl(var(--ring))",
-                background: "hsl(var(--background))",
-                foreground: "hsl(var(--foreground))",
-                primary: {
-                    DEFAULT: "hsl(var(--primary))",
-                    foreground: "hsl(var(--primary-foreground))",
-                },
-                secondary: {
-                    DEFAULT: "hsl(var(--secondary))",
-                    foreground: "hsl(var(--secondary-foreground))",
-                },
-                destructive: {
-                    DEFAULT: "hsl(var(--destructive))",
-                    foreground: "hsl(var(--destructive-foreground))",
-                },
-                muted: {
-                    DEFAULT: "hsl(var(--muted))",
-                    foreground: "hsl(var(--muted-foreground))",
-                },
-                accent: {
-                    DEFAULT: "hsl(var(--accent))",
-                    foreground: "hsl(var(--accent-foreground))",
-                },
-                popover: {
-                    DEFAULT: "hsl(var(--popover))",
-                    foreground: "hsl(var(--popover-foreground))",
-                },
-                card: {
-                    DEFAULT: "hsl(var(--card))",
-                    foreground: "hsl(var(--card-foreground))",
-                },
-                // Palette Pokémon personnalisée (on garde pour compatibilité)
-                'poke-yellow': {
-                    DEFAULT: '#facc15', // yellow-400
-                    light: '#fde047',   // yellow-300
-                    dark: '#eab308',    // yellow-500
-                },
-                'poke-red': {
-                    DEFAULT: '#dc2626', // red-600
-                    light: '#ef4444',   // red-500
-                    dark: '#b91c1c',    // red-700
-                },
-                'poke-indigo': {
-                    DEFAULT: '#4f46e5', // indigo-600
-                    light: '#6366f1',   // indigo-500
-                    dark: '#4338ca',    // indigo-700
-                },
-                'poke-purple': {
-                    DEFAULT: '#9333ea', // purple-600
-                    light: '#a855f7',   // purple-500
-                },
-                'poke-pink': {
-                    DEFAULT: '#ec4899', // pink-500
-                    light: '#f472b6',   // pink-400
-                },
-                // Grays standardisés
-                'dark': {
-                    900: '#111827',  // gray-900
-                    800: '#1f2937',  // gray-800
-                    700: '#374151',  // gray-700
-                    600: '#4b5563',  // gray-600
-                    500: '#6b7280',  // gray-500
-                    400: '#9ca3af',  // gray-400
-                    300: '#d1d5db',  // gray-300
-                }
-            },
-            borderRadius: {
-                lg: "var(--radius)",
-                md: "calc(var(--radius) - 2px)",
-                sm: "calc(var(--radius) - 4px)",
-            },
-        },
+    	extend: {
+    		colors: {
+    			border: 'hsl(var(--border))',
+    			input: 'hsl(var(--input))',
+    			ring: 'hsl(var(--ring))',
+    			background: 'hsl(var(--background))',
+    			foreground: 'hsl(var(--foreground))',
+    			primary: {
+    				DEFAULT: 'hsl(var(--primary))',
+    				foreground: 'hsl(var(--primary-foreground))'
+    			},
+    			secondary: {
+    				DEFAULT: 'hsl(var(--secondary))',
+    				foreground: 'hsl(var(--secondary-foreground))'
+    			},
+    			destructive: {
+    				DEFAULT: 'hsl(var(--destructive))',
+    				foreground: 'hsl(var(--destructive-foreground))'
+    			},
+    			muted: {
+    				DEFAULT: 'hsl(var(--muted))',
+    				foreground: 'hsl(var(--muted-foreground))'
+    			},
+    			accent: {
+    				DEFAULT: 'hsl(var(--accent))',
+    				foreground: 'hsl(var(--accent-foreground))'
+    			},
+    			popover: {
+    				DEFAULT: 'hsl(var(--popover))',
+    				foreground: 'hsl(var(--popover-foreground))'
+    			},
+    			card: {
+    				DEFAULT: 'hsl(var(--card))',
+    				foreground: 'hsl(var(--card-foreground))'
+    			},
+    			'poke-yellow': {
+    				DEFAULT: '#facc15',
+    				light: '#fde047',
+    				dark: '#eab308'
+    			},
+    			'poke-red': {
+    				DEFAULT: '#dc2626',
+    				light: '#ef4444',
+    				dark: '#b91c1c'
+    			},
+    			'poke-indigo': {
+    				DEFAULT: '#4f46e5',
+    				light: '#6366f1',
+    				dark: '#4338ca'
+    			},
+    			'poke-purple': {
+    				DEFAULT: '#9333ea',
+    				light: '#a855f7'
+    			},
+    			'poke-pink': {
+    				DEFAULT: '#ec4899',
+    				light: '#f472b6'
+    			},
+    			dark: {
+    				'300': '#d1d5db',
+    				'400': '#9ca3af',
+    				'500': '#6b7280',
+    				'600': '#4b5563',
+    				'700': '#374151',
+    				'800': '#1f2937',
+    				'900': '#111827'
+    			},
+    			sidebar: {
+    				DEFAULT: 'hsl(var(--sidebar-background))',
+    				foreground: 'hsl(var(--sidebar-foreground))',
+    				primary: 'hsl(var(--sidebar-primary))',
+    				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+    				accent: 'hsl(var(--sidebar-accent))',
+    				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+    				border: 'hsl(var(--sidebar-border))',
+    				ring: 'hsl(var(--sidebar-ring))'
+    			}
+    		},
+    		borderRadius: {
+    			lg: 'var(--radius)',
+    			md: 'calc(var(--radius) - 2px)',
+    			sm: 'calc(var(--radius) - 4px)'
+    		}
+    	}
     },
     plugins: [require("tailwindcss-animate")],
 }

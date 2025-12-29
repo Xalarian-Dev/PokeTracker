@@ -10,6 +10,7 @@ import ConfirmationModal from './ConfirmationModal';
 import ScrollToTopButton from './ScrollToTopButton';
 import { Button } from './ui';
 import { Toaster } from './ui';
+import { SidebarProvider, Sidebar, SidebarContent, useSidebar } from './ui/sidebar';
 import { POKEMON_AVAILABILITY, GAME_GROUP_MAP } from '../data/games';
 import { useLanguage } from '../contexts/LanguageContext';
 import {
@@ -20,6 +21,28 @@ import {
   migrateLocalStorageToSupabase,
   getUserPreferences
 } from '../services/supabase';
+
+// Custom Sidebar Toggle Button Component
+const CustomSidebarToggle = () => {
+  const { open, toggleSidebar } = useSidebar();
+
+  return (
+    <button
+      onClick={toggleSidebar}
+      className="absolute -right-12 top-1/2 -translate-y-1/2 h-24 w-12 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-r-lg flex items-center justify-center text-white shadow-lg transition-all"
+      aria-label={open ? "Fermer le panneau" : "Ouvrir le panneau"}
+    >
+      <svg
+        className={`w-6 h-6 transition-transform ${open ? 'rotate-180' : ''}`}
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  );
+};
 
 // Premier Pokémon de chaque génération pour l'auto-scroll
 const GENERATION_FIRST_POKEMON: Record<number, number> = {
@@ -86,7 +109,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
     onConfirm: () => void;
   }>({ isOpen: false, message: '', onConfirm: () => { } });
 
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const didMount = useRef(false);
   const realtimeChannelRef = useRef<any>(null);
 
@@ -441,189 +464,206 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
 
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col">
+    <div className="flex min-h-screen w-full flex-col bg-gray-900 text-white">
+      {/* Header - Full Width, Outside Sidebar */}
       <Header user={user} onLogout={onLogout} onProfileClick={onProfileClick} displayName={displayName} />
 
-      <ConfirmationModal
-        isOpen={confirmModal.isOpen}
-        onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
-        onConfirm={confirmModal.onConfirm}
-        message={confirmModal.message}
-      />
-
-      {/* Left Sidebar - Fixed with Tabs */}
-      <LeftSidebar
-        activeFilter={activeFilter}
-        setActiveFilter={setActiveFilter}
-        selectedGame={selectedGame}
-        setSelectedGame={setSelectedGame}
-        showOnlyShiny={showOnlyShiny}
-        setShowOnlyShiny={setShowOnlyShiny}
-        showMissingShiny={showMissingShiny}
-        setShowMissingShiny={setShowMissingShiny}
-        hideGrayedPokemon={hideGrayedPokemon}
-        setHideGrayedPokemon={setHideGrayedPokemon}
-        onMajorFilterChange={() => setScrollTrigger(st => st + 1)}
-        pokemonList={pokemonList}
-        shinyPokemons={shinyPokemons}
-        userId={userId}
-        ownedGames={ownedGames}
-      />
-
-      {/* Main Layout: Full Width Content */}
-      <div
-        className={`flex flex-1 overflow-hidden ${confirmModal.isOpen ? 'blur-sm pointer-events-none select-none' : ''}`}
-        style={{
-          marginLeft: 'var(--sidebar-total-offset)',
-          marginRight: 'var(--sidebar-width)'
-        }}
-      >
-
-        {/* Main Content Area */}
-        <main className="flex-1 overflow-y-auto">
-          <div className="container mx-auto px-0 py-6 max-w-[1400px]">
-            {/* Search Bar with Progress */}
-            <SearchBarWithProgress
-              searchTerm={searchTerm}
-              onSearchChange={setSearchTerm}
-              progress={progress}
-              shinyCount={shinyCount}
-              totalPokemon={totalPokemon}
+      <SidebarProvider defaultOpen={false}>
+        {/* Collapsible Sidebar - Completely outside content flow */}
+        <Sidebar side="left" collapsible="offcanvas" className="border-r border-gray-700">
+          <SidebarContent className="bg-gray-800">
+            <LeftSidebar
+              activeFilter={activeFilter}
+              setActiveFilter={setActiveFilter}
+              selectedGame={selectedGame}
+              setSelectedGame={setSelectedGame}
+              showOnlyShiny={showOnlyShiny}
+              setShowOnlyShiny={setShowOnlyShiny}
+              showMissingShiny={showMissingShiny}
+              setShowMissingShiny={setShowMissingShiny}
+              hideGrayedPokemon={hideGrayedPokemon}
+              setHideGrayedPokemon={setHideGrayedPokemon}
+              onMajorFilterChange={() => setScrollTrigger(st => st + 1)}
+              pokemonList={pokemonList}
+              shinyPokemons={shinyPokemons}
+              userId={userId}
+              ownedGames={ownedGames}
             />
+          </SidebarContent>
+
+          {/* Custom Sidebar Toggle Button - Attached to sidebar edge */}
+          <CustomSidebarToggle />
+        </Sidebar>
+
+        {/* Main Content Area - Full Width, Independent of Sidebar */}
+        <main className="flex flex-1 flex-col">
+          <ConfirmationModal
+            isOpen={confirmModal.isOpen}
+            onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+            onConfirm={confirmModal.onConfirm}
+            message={confirmModal.message}
+          />
+
+          {/* Main Content */}
+          <div className={`flex flex-1 overflow-hidden ${confirmModal.isOpen ? 'blur-sm pointer-events-none select-none' : ''}`}>
+
+            {/* Main Content Area */}
+            <div className="flex-1 overflow-y-auto w-full">
+              <div className="px-0 sm:px-4 py-6 w-full">
+                {/* Search Bar with Progress */}
+                <SearchBarWithProgress
+                  searchTerm={searchTerm}
+                  onSearchChange={setSearchTerm}
+                  progress={progress}
+                  shinyCount={shinyCount}
+                  totalPokemon={totalPokemon}
+                />
 
 
-            {/* Action Buttons */}
-            {!loading && activeCount > 0 && (
-              <div className="mb-4 max-w-[1200px] mx-auto px-4">
-                <div className="flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4">
-                  <div className="text-gray-400 text-sm">
-                    {t('pokemon_shown', { count: activeCount })}
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      onClick={handleMarkAll}
-                      variant="secondary"
-                      size="sm"
-                    >
-                      {t('mark_all')}
-                    </Button>
-                    <Button
-                      onClick={handleUnmarkAll}
-                      variant="ghost"
-                      size="sm"
-                    >
-                      {t('unmark_all')}
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Pokemon Grid */}
-            {loading ? (
-              <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-poke-yellow"></div>
-              </div>
-            ) : (
-              <>
-                {/* Section: Pokémon Normaux */}
-                <div className="grid gap-4 max-w-[1200px] mx-auto px-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
-                  {displayedPokemon.normal.map((pokemon, index) => {
-                    // Vérifier si c'est le premier Pokémon d'une génération
-                    const pokemonNumId = parseInt(pokemon.id.split('-')[0]);
-                    const isFirstOfGen = Object.entries(GENERATION_FIRST_POKEMON).find(
-                      ([gen, firstId]) => firstId === pokemonNumId
-                    );
-
-                    return (
-                      <React.Fragment key={pokemon.id}>
-                        {index > 0 && index % 30 === 0 && (
-                          <div className="col-span-full h-8" />
-                        )}
-                        <div
-                          ref={isFirstOfGen ? (el) => { genRefs.current[parseInt(isFirstOfGen[0])] = el; } : undefined}
-                          style={{ scrollMarginTop: '80px' }}
-                        >
-                          <PokemonCard
-                            pokemon={pokemon}
-                            isShiny={shinyPokemons.has(pokemon.id)}
-                            onToggleShiny={toggleShiny}
-                            selectedGame={selectedGame}
-                            isGrayedOut={pokemon.isGrayedOut}
-                          />
+                {/* Action Buttons */}
+                {!loading && activeCount > 0 && (
+                  <div className="mb-4 flex justify-center">
+                    <div style={{ width: '1160px', maxWidth: '100%' }}>
+                      <div className="flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4">
+                        <div className="text-gray-400 text-sm">
+                          {t('pokemon_shown', { count: activeCount })}
                         </div>
-                      </React.Fragment>
-                    );
-                  })}
-                </div>
+                        <div className="flex gap-2">
+                          <Button
+                            onClick={handleMarkAll}
+                            variant="secondary"
+                            size="sm"
+                          >
+                            {t('mark_all')}
+                          </Button>
+                          <Button
+                            onClick={handleUnmarkAll}
+                            variant="ghost"
+                            size="sm"
+                          >
+                            {t('unmark_all')}
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
-                {/* Sections: Formes Régionales */}
-                {(['Alola', 'Galar', 'Hisui', 'Paldea'] as const).map(region => {
-                  const regionalPokemon = displayedPokemon.regional[region];
-                  if (regionalPokemon.length === 0) return null;
+                {/* Pokemon Grid */}
+                {loading ? (
+                  <div className="flex justify-center items-center h-64">
+                    <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-poke-yellow"></div>
+                  </div>
+                ) : (
+                  <>
+                    {/* Section: Pokémon Normaux */}
+                    {/* Section: Pokémon Normaux */}
+                    <div className="grid grid-cols-6 gap-1 sm:gap-4 justify-center max-w-[1160px] mx-auto w-full">
+                      {displayedPokemon.normal.map((pokemon, index) => {
+                        // Vérifier si c'est le premier Pokémon d'une génération
+                        const pokemonNumId = parseInt(pokemon.id.split('-')[0]);
+                        const isFirstOfGen = Object.entries(GENERATION_FIRST_POKEMON).find(
+                          ([gen, firstId]) => firstId === pokemonNumId
+                        );
 
-                  return (
-                    <div
-                      key={region}
-                      className="mt-12"
-                      style={{ scrollMarginTop: '80px' }}
-                      ref={(el) => { regionRefs.current[region] = el; }}
-                    >
-                      {/* Header de région */}
-                      <h2 className="text-2xl font-bold text-poke-yellow mb-4 px-4 max-w-[1200px] mx-auto">
-                        {region === 'Alola' ? t('regional_forms_alola') :
-                          region === 'Galar' ? t('regional_forms_galar') :
-                            region === 'Hisui' ? t('regional_forms_hisui') :
-                              t('regional_forms_paldea')}
-                      </h2>
-
-                      {/* Grille régionale */}
-                      <div className="grid gap-4 max-w-[1200px] mx-auto px-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
-                        {regionalPokemon.map((pokemon, index) => (
+                        return (
                           <React.Fragment key={pokemon.id}>
                             {index > 0 && index % 30 === 0 && (
                               <div className="col-span-full h-8" />
                             )}
-                            <PokemonCard
-                              pokemon={pokemon}
-                              isShiny={shinyPokemons.has(pokemon.id)}
-                              onToggleShiny={toggleShiny}
-                              selectedGame={selectedGame}
-                              isGrayedOut={pokemon.isGrayedOut}
-                            />
+                            <div
+                              ref={isFirstOfGen ? (el) => { genRefs.current[parseInt(isFirstOfGen[0])] = el; } : undefined}
+                              style={{ scrollMarginTop: '80px' }}
+                              className="min-w-0"
+                            >
+                              <PokemonCard
+                                pokemon={pokemon}
+                                isShiny={shinyPokemons.has(pokemon.id)}
+                                onToggleShiny={toggleShiny}
+                                selectedGame={selectedGame}
+                                isGrayedOut={pokemon.isGrayedOut}
+                              />
+                            </div>
                           </React.Fragment>
-                        ))}
-                      </div>
+                        );
+                      })}
                     </div>
-                  );
-                })}
 
-                {/* Message si aucun Pokémon actif */}
-                {activeCount === 0 && (
-                  <div className="text-center py-16">
-                    <p className="text-xl text-gray-500">{t('no_pokemon_found')}</p>
-                  </div>
+                    {/* Sections: Formes Régionales */}
+                    {(['Alola', 'Galar', 'Hisui', 'Paldea'] as const).map(region => {
+                      const regionalPokemon = displayedPokemon.regional[region];
+                      if (regionalPokemon.length === 0) return null;
+
+                      return (
+                        <div
+                          key={region}
+                          className="mt-12"
+                          style={{ scrollMarginTop: '80px' }}
+                          ref={(el) => { regionRefs.current[region] = el; }}
+                        >
+                          {/* Header de région */}
+                          <div className="flex justify-center mb-4">
+                            <div style={{ width: '1160px', maxWidth: '100%' }}>
+                              <h2 className="text-2xl font-bold text-poke-yellow">
+                                {region === 'Alola' ? t('regional_forms_alola') :
+                                  region === 'Galar' ? t('regional_forms_galar') :
+                                    region === 'Hisui' ? t('regional_forms_hisui') :
+                                      t('regional_forms_paldea')}
+                              </h2>
+                            </div>
+                          </div>
+
+                          {/* Grille régionale */}
+                          {/* Grille régionale */}
+                          <div className="grid grid-cols-6 gap-1 sm:gap-4 justify-center max-w-[1160px] mx-auto w-full">
+                            {regionalPokemon.map((pokemon, index) => (
+                              <React.Fragment key={pokemon.id}>
+                                {index > 0 && index % 30 === 0 && (
+                                  <div className="col-span-full h-8" />
+                                )}
+                                <div className="min-w-0">
+                                  <PokemonCard
+                                    pokemon={pokemon}
+                                    isShiny={shinyPokemons.has(pokemon.id)}
+                                    onToggleShiny={toggleShiny}
+                                    selectedGame={selectedGame}
+                                    isGrayedOut={pokemon.isGrayedOut}
+                                  />
+                                </div>
+                              </React.Fragment>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                    {/* Message si aucun Pokémon actif */}
+                    {activeCount === 0 && (
+                      <div className="text-center py-16">
+                        <p className="text-xl text-gray-500">{t('no_pokemon_found')}</p>
+                      </div>
+                    )}
+                  </>
                 )}
-              </>
-            )}
 
-            <footer className="text-center py-8 mt-8 border-t border-gray-700">
-              <p className="text-xs text-gray-500">{t('pokemon_copyright')}</p>
-            </footer>
+                <footer className="text-center py-8 mt-8 border-t border-gray-700">
+                  <p className="text-xs text-gray-500">{t('pokemon_copyright')}</p>
+                </footer>
+              </div>
+            </div>
+
+            {/* Scroll to Top Button */}
+            <ScrollToTopButton
+              show={showScrollTop}
+              onClick={scrollToTop}
+              ariaLabel="Scroll to top"
+            />
+
+            {/* Toast Notifications */}
+            <Toaster />
           </div>
         </main>
-      </div>
-
-      {/* Scroll to Top Button */}
-      <ScrollToTopButton
-        show={showScrollTop}
-        onClick={scrollToTop}
-        ariaLabel="Scroll to top"
-      />
-
-      {/* Toast Notifications */}
-      <Toaster />
-
+      </SidebarProvider>
     </div>
   );
 };

@@ -49,5 +49,30 @@ export {
 // Label component
 export { Label } from './Label';
 
+// Sidebar components
+export {
+    Sidebar,
+    SidebarProvider,
+    SidebarContent,
+    SidebarTrigger,
+    SidebarHeader,
+    SidebarFooter,
+    SidebarGroup,
+    SidebarGroupLabel,
+    SidebarGroupContent,
+    SidebarMenu,
+    SidebarMenuItem,
+    SidebarMenuButton,
+    SidebarMenuAction,
+    SidebarMenuSub,
+    SidebarMenuSubItem,
+    SidebarMenuSubButton,
+    SidebarMenuBadge,
+    SidebarSeparator,
+    SidebarInset,
+    SidebarRail,
+    useSidebar,
+} from './sidebar';
+
 // Keep custom components
 export { FilterChip, type FilterChipProps, type FilterChipVariant } from './FilterChip';
