@@ -132,7 +132,7 @@ export const SHINY_LOCKED_POKEMON: Record<string, string[]> = {
         // Indigo Disk - New legendaries
         '1020', '1021', '1022', '1023', '1024', '1025',
         // Indigo Disk - Snacksworth legendaries (all 25)
-        '144', '145', '146', '891', // Common
+        '144', '145', '146', '891', '892', // Common
         '243', '244', '245', '250', '381', '383', '643', '791', '896', // Scarlet exclusives
         '249', '380', '382', '638', '639', '640', '644', '792', '897', // Violet exclusives
         '384', '646', '800' // Group BBQ exclusives
@@ -1080,7 +1080,7 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '889': ['sh'],
     '890': ['sw', 'sh'],
     '891': ['swdlc1', 'shdlc1', 'scdlc2', 'vdlc2'],
-    '892': ['swdlc1', 'shdlc1'],
+    '892': ['swdlc1', 'shdlc1', 'scdlc2', 'vdlc2'],
     '894': ['swdlc2', 'shdlc2'],
     '895': ['swdlc2', 'shdlc2'],
     '896': ['swdlc2', 'shdlc2', 'scdlc2', 'vdlc2'],
