@@ -88,7 +88,6 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 3. **Clerk authentication** - Only authenticated users can access the app
 4. **Low incentive** - No financial or privacy gain from exploiting
 
-
 ---
 
 ## Deployment
@@ -127,38 +126,7 @@ CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
 
 ---
 
-## 📊 Vérification des Données Pokémon
-
-### Génération 5
-**Paires de jeux :**
-- [ ] **Noir/Blanc** - Vérifier Pokédex Unys (649)
-- [ ] **Noir/Blanc** - Vérifier exclusifs de version
-- [ ] **Noir 2/Blanc 2** - Vérifier Pokédex Unys étendu (649)
-- [ ] **Noir 2/Blanc 2** - Vérifier exclusifs de version
-- [ ] **Noir 2/Blanc 2** - Vérifier légendaires post-game
-
-### Génération 6
-**Paires de jeux :**
-- [ ] **X/Y** - Vérifier Pokédex Kalos (721)
-- [ ] **X/Y** - Vérifier exclusifs de version
-- [ ] **X/Y** - Vérifier légendaires post-game
-- [ ] **Rubis Oméga/Saphir Alpha** - Vérifier Pokédex Hoenn (721)
-- [ ] **ROSA** - Vérifier exclusifs de version
-- [ ] **ROSA** - Vérifier légendaires post-game (Portails dimensionnels)
-
-### Génération 7
-**Paires de jeux :**
-- [ ] **Soleil/Lune** - Vérifier Pokédex Alola (802)
-- [ ] **Soleil/Lune** - Vérifier exclusifs de version
-- [ ] **Soleil/Lune** - Vérifier Ultra-Chimères post-game
-- [ ] **Ultra-Soleil/Ultra-Lune** - Vérifier Pokédex Alola étendu (807)
-- [ ] **USUL** - Vérifier exclusifs de version
-- [ ] **USUL** - Vérifier légendaires (Ultra-Brèche)
-
----
-
 ## 📈 Roadmap Technique
-
 
 ### Phase 2 : Optimisation
 - [ ] Backend API (Vercel Functions)
@@ -173,13 +141,7 @@ CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
 - [ ] Rate limiting
 - [ ] CDN pour sprites
 
-
-
-
-
 ---
-
-
 
 ## 🐛 Problèmes Connus
 

@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, lazy, Suspense } from 'react';
 import { ClerkProvider, SignedIn, SignedOut, useUser } from '@clerk/clerk-react';
 import ShinyTracker from './components/ShinyTracker';
-import ProfilePage from './components/ProfilePage';
+const ProfilePage = lazy(() => import('./components/ProfilePage'));
 import { POKEMON_LIST as BASE_POKEMON_LIST } from './data/pokemon';
 import type { Pokemon, User } from './types';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
@@ -10,8 +10,8 @@ import { useMetadata } from './hooks/useMetadata';
 import { CookieConsent } from './components/CookieConsent';
 import { Footer } from './components/Footer';
 import { LegalModalProvider, useLegalModal } from './contexts/LegalModalContext';
-import { PrivacyPolicy } from './components/PrivacyPolicy';
-import { TermsOfService } from './components/TermsOfService';
+const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'));
+const TermsOfService = lazy(() => import('./components/TermsOfService'));
 
 const AppContent = () => {
   const { user: clerkUser, isLoaded } = useUser();
@@ -73,7 +73,13 @@ const AppContent = () => {
               pokemonList={pokemonList}
             />
           ) : (
-            <ProfilePage onBack={() => setCurrentPage('tracker')} />
+            <Suspense fallback={
+              <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
+                <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-yellow-400"></div>
+              </div>
+            }>
+              <ProfilePage onBack={() => setCurrentPage('tracker')} />
+            </Suspense>
           )}
         </SignedIn>
       </div>
@@ -85,8 +91,10 @@ const AppContent = () => {
       <CookieConsent />
 
       {/* Legal Modals */}
-      {legalPage === 'privacy' && <PrivacyPolicy />}
-      {legalPage === 'terms' && <TermsOfService />}
+      <Suspense fallback={null}>
+        {legalPage === 'privacy' && <PrivacyPolicy />}
+        {legalPage === 'terms' && <TermsOfService />}
+      </Suspense>
     </div>
   );
 };

@@ -350,13 +350,16 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
       Paldea: regionalPokemon.filter(p => p.region === 'Paldea')
     };
 
+    // Si searchTerm est actif, masquer les cartes au lieu de les griser
+    const shouldHide = hideGrayedPokemon || searchTerm.trim() !== '';
+
     return {
-      normal: normalPokemon.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })).filter(p => !hideGrayedPokemon || !p.isGrayedOut),
+      normal: normalPokemon.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })).filter(p => !shouldHide || !p.isGrayedOut),
       regional: {
-        Alola: regionalByRegion.Alola.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })).filter(p => !hideGrayedPokemon || !p.isGrayedOut),
-        Galar: regionalByRegion.Galar.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })).filter(p => !hideGrayedPokemon || !p.isGrayedOut),
-        Hisui: regionalByRegion.Hisui.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })).filter(p => !hideGrayedPokemon || !p.isGrayedOut),
-        Paldea: regionalByRegion.Paldea.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })).filter(p => !hideGrayedPokemon || !p.isGrayedOut)
+        Alola: regionalByRegion.Alola.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })).filter(p => !shouldHide || !p.isGrayedOut),
+        Galar: regionalByRegion.Galar.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })).filter(p => !shouldHide || !p.isGrayedOut),
+        Hisui: regionalByRegion.Hisui.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })).filter(p => !shouldHide || !p.isGrayedOut),
+        Paldea: regionalByRegion.Paldea.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })).filter(p => !shouldHide || !p.isGrayedOut)
       }
     };
   }, [pokemonList, searchTerm, activeFilter, selectedGame, showOnlyShiny, showMissingShiny, shinyPokemons, hideGrayedPokemon, isPokemonFiltered]);

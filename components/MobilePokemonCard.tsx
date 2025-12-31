@@ -122,4 +122,4 @@ const MobilePokemonCard: React.FC<MobilePokemonCardProps> = ({ pokemon, isShiny,
     );
 };
 
-export default MobilePokemonCard;
+export default React.memo(MobilePokemonCard);

@@ -48,10 +48,33 @@ let newLines = [];
 let fixes = 0;
 let errors = [];
 
+// Track if we're inside POKEMON_AVAILABILITY
+let insidePokemonAvailability = false;
+
 for (let line of lines) {
+
+    // Check if we're entering POKEMON_AVAILABILITY
+    if (line.includes('export const POKEMON_AVAILABILITY')) {
+        insidePokemonAvailability = true;
+        newLines.push(line);
+        continue;
+    }
+
+    // Check if we're exiting POKEMON_AVAILABILITY (next export const or closing brace at start of line)
+    if (insidePokemonAvailability && (line.match(/^export const [A-Z_]+/) || line.match(/^};/))) {
+        insidePokemonAvailability = false;
+        newLines.push(line);
+        continue;
+    }
 
     const trimmed = line.trim();
     if (!trimmed || trimmed.startsWith('//')) {
+        newLines.push(line);
+        continue;
+    }
+
+    // Only process lines if we're inside POKEMON_AVAILABILITY
+    if (!insidePokemonAvailability) {
         newLines.push(line);
         continue;
     }

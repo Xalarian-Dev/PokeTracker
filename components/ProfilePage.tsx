@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { useUser, useClerk } from '@clerk/clerk-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getUserPreferences, saveUserPreferences, deleteUserData } from '../services/supabase';
 import { INDIVIDUAL_GAME_LIST } from '../data/games';
 import { UKFlag, FranceFlag, JapanFlag } from './Icons';
-import { DataExport } from './DataExport';
+const DataExport = lazy(() => import('./DataExport').then(module => ({ default: module.DataExport })));
 import {
     Dialog,
     DialogContent,
@@ -271,7 +271,13 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
 
                 {/* Data Export */}
                 <div className="mb-6">
-                    <DataExport />
+                    <Suspense fallback={
+                        <div className="text-center text-gray-400 py-4">
+                            Loading export options...
+                        </div>
+                    }>
+                        <DataExport />
+                    </Suspense>
                 </div>
 
                 {/* Action Buttons */}

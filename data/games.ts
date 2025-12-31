@@ -24,6 +24,7 @@ export const GAME_LIST: Record<string, string> = {
     'lza': 'Legends: Z-A',
 };
 
+
 export const INDIVIDUAL_GAME_LIST: Record<string, string> = {
     'r': 'Red', 'b': 'Blue', 'ye': 'Yellow',
     'g': 'Gold', 's': 'Silver', 'c': 'Crystal',
@@ -48,28 +49,6 @@ export const INDIVIDUAL_GAME_LIST: Record<string, string> = {
     'scdlc2': 'Scarlet (ID)', 'vdlc2': 'Violet (ID)',
     'lpza': 'Legends: Z-A',
     'lpzadlc1': 'Légendes : Z-A (DLC 1)',
-};
-
-export const DUAL_SLOT_REQ: Record<string, string> = {
-    // Ruby
-    '273': 'Ruby', '274': 'Ruby', '275': 'Ruby',
-    '303': 'Ruby', '335': 'Ruby', '338': 'Ruby',
-    // Sapphire
-    '270': 'Sapphire', '271': 'Sapphire', '272': 'Sapphire',
-    '302': 'Sapphire', '336': 'Sapphire', '337': 'Sapphire',
-    // Emerald
-    '204': 'Emerald', '205': 'Emerald', '207': 'Emerald',
-    '213': 'Emerald', '216': 'Emerald', '217': 'Emerald',
-    // FireRed
-    '10': 'FireRed', '11': 'FireRed', '12': 'FireRed',
-    '23': 'FireRed', '24': 'FireRed',
-    '58': 'FireRed', '59': 'FireRed',
-    '239': 'FireRed', '125': 'FireRed', '466': 'FireRed',
-    // LeafGreen
-    '13': 'LeafGreen', '14': 'LeafGreen', '15': 'LeafGreen',
-    '27': 'LeafGreen', '28': 'LeafGreen',
-    '37': 'LeafGreen', '38': 'LeafGreen',
-    '240': 'LeafGreen', '126': 'LeafGreen', '467': 'LeafGreen',
 };
 
 export const GAME_GROUP_MAP: Record<string, string[]> = {
@@ -137,16 +116,7 @@ export const SHINY_LOCKED_POKEMON: Record<string, string[]> = {
         '249', '380', '382', '638', '639', '640', '644', '792', '897', // Violet exclusives
         '384', '646', '800' // Group BBQ exclusives
     ],
-    'lza': [
-        '150', // Mewtwo
-        '382', '383', '384', // Kyogre, Groudon, Rayquaza
-        '485', '491', // Heatran, Darkrai
-        '647', '648', '649', // Keldeo, Meloetta, Genesect
-        '716', '717', '718', '719', // Xerneas, Yveltal, Zygarde, Diancie
-        '720', '721', // Hoopa, Volcanion
-        '801', '802', '807', // Magearna, Marshadow, Zeraora
-        '808', '809' // Meltan, Melmetal
-    ]
+    'lza': ['150', '382', '383', '384', '485', '491', '647', '648', '649', '716', '717', '718', '719', '720', '721', '801', '802', '807', '808', '809']
 };
 
 // Liste des Pokémon nécessitant un objet événementiel pour être accessibles
@@ -167,6 +137,9 @@ export const EVENT_ITEM_POKEMON: Record<string, string[]> = {
     'bw': ['494'], // Victini (Liberty Pass)
     'bw2': ['494'], // Victini (Liberty Pass)
 
+    // Génération VI
+    'oras': ['380', '381'], // Latias (AS story + OR Eon Ticket), Latios (OR story + AS Eon Ticket)
+
     // Génération VIII
     'bdsp': ['491', '492', '493'], // Darkrai (Member Card), Shaymin (Oak's Letter), Arceus (Azure Flute)
 
@@ -174,10 +147,61 @@ export const EVENT_ITEM_POKEMON: Record<string, string[]> = {
     'sv': ['1025'], // Pecharunt (Mythical Pecha Berry)
 };
 
-// Liste des Pokémon disponibles uniquement via des raids événementiels
-export const RAID_EVENT_POKEMON: Record<string, string[]> = {
-    // Génération IX
-    'sv': ['150', '483', '484', '1009', '1010'], // Mewtwo, Dialga, Palkia, Walking Wake, Iron Leaves
+export const DUAL_SLOT_REQ: Record<string, string> = {
+    // Ruby
+    '273': 'Ruby', '274': 'Ruby', '275': 'Ruby',
+    '303': 'Ruby', '335': 'Ruby', '338': 'Ruby',
+    // Sapphire
+    '270': 'Sapphire', '271': 'Sapphire', '272': 'Sapphire',
+    '302': 'Sapphire', '336': 'Sapphire', '337': 'Sapphire',
+    // Emerald
+    '204': 'Emerald', '205': 'Emerald', '207': 'Emerald',
+    '213': 'Emerald', '216': 'Emerald', '217': 'Emerald',
+    // FireRed
+    '10': 'FireRed', '11': 'FireRed', '12': 'FireRed',
+    '23': 'FireRed', '24': 'FireRed',
+    '58': 'FireRed', '59': 'FireRed',
+    '239': 'FireRed', '125': 'FireRed', '466': 'FireRed',
+    // LeafGreen
+    '13': 'LeafGreen', '14': 'LeafGreen', '15': 'LeafGreen',
+    '27': 'LeafGreen', '28': 'LeafGreen',
+    '37': 'LeafGreen', '38': 'LeafGreen',
+    '240': 'LeafGreen', '126': 'LeafGreen', '467': 'LeafGreen',
+};
+
+// Friend Safari Exclusive Pokemon for X/Y (Badge)
+// Complete evolutionary lines for families exclusively available in Friend Safari
+// Excludes families where any member is obtainable in base Kalos game (e.g. starters, wild encounters)
+export const FRIEND_SAFARI_POKEMON = [35, 36, 37, 38, 46, 47, 48, 49, 56, 57, 58, 59, 77, 78, 86, 87, 88, 89, 96, 97, 98, 99, 106, 107, 113, 114, 125, 126, 173, 175, 176, 177, 178, 190, 191, 192, 202, 203, 204, 205, 231, 232, 236, 237, 239, 240, 242, 265, 266, 267, 268, 269, 273, 274, 275, 285, 286, 322, 323, 331, 332, 355, 356, 357, 358, 360, 361, 362, 363, 364, 365, 374, 375, 376, 424, 433, 436, 437, 440, 442, 465, 466, 467, 468, 477, 478, 517, 518, 522, 523, 529, 530, 535, 536, 537, 548, 549, 556, 572, 573, 595, 596, 599, 600, 601, 627, 628, 629, 630, 981];
+
+// Mirage Spot Pokemon for Omega Ruby/Alpha Sapphire
+// Non-legendary Pokemon obtainable via daily Mirage Spots (Islands, Forests, Caves, Mountains)
+export const MIRAGE_SPOT_POKEMON = {
+    legendaries: {
+        both: [144, 145, 146, 150, 243, 244, 245, 480, 481, 482, 485, 486, 487, 488, 638, 639, 640, 645, 646],
+        omegaRuby: [250, 484, 641, 643],      // Ho-Oh, Palkia, Tornadus, Reshiram
+        alphaSapphire: [249, 483, 642, 644]   // Lugia, Dialga, Thundurus, Zekrom
+    },
+    nonLegendaries: [95, 113, 114, 125, 126, 137, 191, 192, 201, 208, 239, 240, 242, 420, 421, 431, 432, 440, 465, 466, 467, 517, 518, 529, 530, 531, 548, 549, 554, 555, 572, 573, 599, 600, 601, 602, 603, 604, 636, 637]
+};
+
+// DexNav Exclusive Pokemon for Omega Ruby/Alpha Sapphire
+// National Dex Pokemon only obtainable via DexNav hidden encounters (post-National Dex)
+export const DEXNAV_EXCLUSIVE_POKEMON = {
+    both: [13, 14, 15, 16, 17, 18, 19, 20, 35, 36, 46, 47, 50, 51, 56, 57, 58, 59, 77, 78, 86, 87, 96, 97, 98, 99, 106, 107, 133, 134, 135, 136, 190, 196, 197, 200, 225, 236, 237, 403, 404, 405, 422, 423, 424, 427, 428, 429, 436, 437, 441, 443, 444, 445, 451, 452, 456, 457, 470, 471, 506, 507, 508, 519, 520, 521, 524, 525, 526, 532, 533, 534, 535, 536, 537, 540, 541, 542, 546, 547, 551, 552, 553, 557, 558, 559, 560, 568, 569, 570, 571, 574, 575, 576, 585, 586, 592, 593, 594, 595, 596, 605, 606, 610, 611, 612, 613, 614, 621, 626, 633, 634, 635, 700, 707, 708, 709],
+    omegaRuby: [539, 690, 691],
+    alphaSapphire: [538, 692, 693]
+};
+
+// Island Scan Pokemon for Ultra Sun/Ultra Moon
+// These Pokemon are obtainable via QR Code Island Scan feature
+export const ISLAND_SCAN_POKEMON = [1, 2, 3, 4, 5, 6, 7, 8, 9, 13, 14, 15, 16, 17, 18, 95, 116, 117, 208, 220, 221, 230, 252, 253, 254, 255, 256, 257, 258, 259, 260, 280, 281, 282, 304, 305, 306, 363, 364, 365, 387, 388, 389, 390, 391, 392, 393, 394, 395, 473, 475, 479, 540, 541, 542, 602, 603, 604, 607, 608, 609, 610, 611, 612, 650, 651, 652, 653, 654, 655, 656, 657, 658, 664, 665, 666, 679, 680, 681];
+
+// Ultra Wormhole Pokemon for Ultra Sun/Ultra Moon
+// Legendary Pokemon and Ultra Beasts obtainable via Ultra Warp Ride
+export const ULTRA_WORMHOLE_POKEMON = {
+    legendaries: [144, 145, 146, 150, 243, 244, 245, 249, 250, 377, 378, 379, 380, 381, 382, 383, 384, 480, 481, 482, 483, 484, 485, 486, 487, 488, 638, 639, 640, 641, 642, 643, 644, 645, 646, 716, 717],
+    ultraBeasts: [793, 794, 795, 796, 797, 798, 799, 805, 806]
 };
 
 // Liste des Pokémon disponibles via les Expéditions Dynamax (Crown Tundra)
@@ -186,27 +210,32 @@ export const DYNAMAX_ADVENTURE_POKEMON: Record<string, string[]> = {
     'swsh': ['144', '145', '146', '150', '243', '244', '245', '249', '250', '380', '381', '382', '383', '384', '480', '481', '482', '483', '484', '485', '487', '488', '641', '642', '643', '644', '645', '646', '716', '717', '718', '785', '786', '787', '788', '791', '792', '793', '794', '795', '796', '797', '798', '799', '800', '803', '804', '805', '806']
 };
 
+// Liste des Pokémon disponibles uniquement via des raids événementiels
+export const RAID_EVENT_POKEMON: Record<string, string[]> = {
+    // Génération IX
+    'sv': ['150', '483', '484', '1009', '1010'], // Mewtwo, Dialga, Palkia, Walking Wake, Iron Leaves
+};
 
 // Base de données de disponibilité des Pokémon par jeu
 export const POKEMON_AVAILABILITY: Record<string, string[]> = {
-    '1': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
-    '2': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
-    '3': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
-    '4': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'lgp', 'lge', 'sw', 'sh', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
-    '5': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'lgp', 'lge', 'sw', 'sh', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
-    '6': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'lgp', 'lge', 'sw', 'sh', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
-    '7': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
-    '8': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
-    '9': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
+    '1': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'us', 'um', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
+    '2': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'us', 'um', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
+    '3': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'us', 'um', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
+    '4': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'us', 'um', 'lgp', 'lge', 'sw', 'sh', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
+    '5': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'us', 'um', 'lgp', 'lge', 'sw', 'sh', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
+    '6': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'us', 'um', 'lgp', 'lge', 'sw', 'sh', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
+    '7': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'us', 'um', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
+    '8': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'us', 'um', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
+    '9': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'us', 'um', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
     '10': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'w', 'w2', 'x', 'y', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'sw', 'sh', 'bd'],
     '11': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'w', 'w2', 'x', 'y', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'sw', 'sh', 'bd'],
     '12': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'w', 'w2', 'x', 'y', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'sw', 'sh', 'bd'],
-    '13': ['r', 'b', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'hg', 'ss', 'bla', 'bla2', 'x', 'y', 'or', 'as', 'lgp', 'lge', 'sp', 'lpza'],
-    '14': ['r', 'b', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'hg', 'ss', 'bla', 'bla2', 'x', 'y', 'or', 'as', 'lgp', 'lge', 'sp', 'lpza'],
-    '15': ['r', 'b', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'hg', 'ss', 'bla', 'bla2', 'x', 'y', 'or', 'as', 'lgp', 'lge', 'sp', 'lpza'],
-    '16': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'x', 'y', 'or', 'as', 'lgp', 'lge', 'bd', 'sp', 'lpza'],
-    '17': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'x', 'y', 'or', 'as', 'lgp', 'lge', 'bd', 'sp', 'lpza'],
-    '18': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'x', 'y', 'or', 'as', 'lgp', 'lge', 'bd', 'sp', 'lpza'],
+    '13': ['r', 'b', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'hg', 'ss', 'bla', 'bla2', 'x', 'y', 'or', 'as', 'us', 'um', 'lgp', 'lge', 'sp', 'lpza'],
+    '14': ['r', 'b', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'hg', 'ss', 'bla', 'bla2', 'x', 'y', 'or', 'as', 'us', 'um', 'lgp', 'lge', 'sp', 'lpza'],
+    '15': ['r', 'b', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'hg', 'ss', 'bla', 'bla2', 'x', 'y', 'or', 'as', 'us', 'um', 'lgp', 'lge', 'sp', 'lpza'],
+    '16': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'x', 'y', 'or', 'as', 'us', 'um', 'lgp', 'lge', 'bd', 'sp', 'lpza'],
+    '17': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'x', 'y', 'or', 'as', 'us', 'um', 'lgp', 'lge', 'bd', 'sp', 'lpza'],
+    '18': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'x', 'y', 'or', 'as', 'us', 'um', 'lgp', 'lge', 'bd', 'sp', 'lpza'],
     '19': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'or', 'as', 'lgp', 'lge', 'bd', 'sp'],
     '20': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'or', 'as', 'lgp', 'lge', 'bd', 'sp'],
     '21': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'bd', 'sp'],
@@ -283,7 +312,7 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '92': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'x', 'y', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpza'],
     '93': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'x', 'y', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpza'],
     '94': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'x', 'y', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpza'],
-    '95': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'lgp', 'lge', 'sw', 'sh', 'bd', 'sp', 'lpa', 'lpza'],
+    '95': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'lgp', 'lge', 'sw', 'sh', 'bd', 'sp', 'lpa', 'lpza'],
     '96': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'bd', 'sp', 'sc', 'v'],
     '97': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'bd', 'sp', 'sc', 'v'],
     '98': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'lgp', 'lge', 'sw', 'sh', 'bd', 'sp'],
@@ -304,8 +333,8 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '113': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'lpa', 'sc', 'v'],
     '114': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'lpa'],
     '115': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'x', 'y', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'lpza'],
-    '116': ['r', 'b', 'ye', 'g', 's', 'c', 'ru', 'sa', 'e', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2'],
-    '117': ['r', 'b', 'ye', 'g', 's', 'c', 'ru', 'sa', 'e', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2'],
+    '116': ['r', 'b', 'ye', 'g', 's', 'c', 'ru', 'sa', 'e', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2'],
+    '117': ['r', 'b', 'ye', 'g', 's', 'c', 'ru', 'sa', 'e', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2'],
     '118': ['r', 'b', 'ye', 'g', 's', 'c', 'ru', 'sa', 'e', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'sw', 'sh', 'bd', 'sp'],
     '119': ['r', 'b', 'ye', 'g', 's', 'c', 'ru', 'sa', 'e', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'sw', 'sh', 'bd', 'sp'],
     '120': ['r', 'b', 'ye', 'g', 's', 'c', 'ru', 'sa', 'e', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'or', 'as', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'lpza'],
@@ -332,13 +361,13 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '141': ['r', 'b', 'ye', 'fr', 'lg', 'd', 'p', 'pt', 'ss', 'bla', 'w', 'bla2', 'w2', 'y', 'or', 'um', 'lgp', 'lge', 'shdlc2', 'bd', 'sp'],
     '142': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'swdlc2', 'shdlc2', 'bd', 'sp', 'lpza'],
     '143': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'sw', 'sh', 'bd', 'sp', 'lpa', 'scdlc1', 'vdlc1'],
-    '144': ['r', 'b', 'ye', 'fr', 'lg', 'pt', 'hg', 'ss', 'x', 'y', 'us', 'um', 'lgp', 'lge', 'swdlc2', 'shdlc2', 'sp', 'scdlc2', 'vdlc2'],
-    '145': ['r', 'b', 'ye', 'fr', 'lg', 'pt', 'hg', 'ss', 'x', 'y', 'us', 'um', 'lgp', 'lge', 'swdlc2', 'shdlc2', 'sp', 'scdlc2', 'vdlc2'],
-    '146': ['r', 'b', 'ye', 'fr', 'lg', 'pt', 'hg', 'ss', 'x', 'y', 'us', 'um', 'lgp', 'lge', 'swdlc2', 'shdlc2', 'sp', 'scdlc2', 'vdlc2'],
+    '144': ['r', 'b', 'ye', 'fr', 'lg', 'pt', 'hg', 'ss', 'x', 'y', 'or', 'as', 'us', 'um', 'lgp', 'lge', 'swdlc2', 'shdlc2', 'sp', 'scdlc2', 'vdlc2'],
+    '145': ['r', 'b', 'ye', 'fr', 'lg', 'pt', 'hg', 'ss', 'x', 'y', 'or', 'as', 'us', 'um', 'lgp', 'lge', 'swdlc2', 'shdlc2', 'sp', 'scdlc2', 'vdlc2'],
+    '146': ['r', 'b', 'ye', 'fr', 'lg', 'pt', 'hg', 'ss', 'x', 'y', 'or', 'as', 'us', 'um', 'lgp', 'lge', 'swdlc2', 'shdlc2', 'sp', 'scdlc2', 'vdlc2'],
     '147': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'w2', 'x', 'y', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'swdlc2', 'shdlc2', 'bd', 'sp', 'sc', 'v', 'lpza'],
     '148': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'w2', 'x', 'y', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'swdlc2', 'shdlc2', 'bd', 'sp', 'sc', 'v', 'lpza'],
     '149': ['r', 'b', 'ye', 'g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'w2', 'x', 'y', 'su', 'm', 'us', 'um', 'lgp', 'lge', 'swdlc2', 'shdlc2', 'bd', 'sp', 'sc', 'v', 'lpza'],
-    '150': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'us', 'um', 'lgp', 'lge', 'swdlc2', 'shdlc2', 'bd', 'sp', 'sc', 'v', 'lpza'],
+    '150': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'or', 'as', 'us', 'um', 'lgp', 'lge', 'swdlc2', 'shdlc2', 'bd', 'sp', 'sc', 'v', 'lpza'],
     '151': ['e', 'bd', 'sp'],
     '152': ['g', 's', 'c', 'hg', 'ss', 'or', 'as', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
     '153': ['g', 's', 'c', 'hg', 'ss', 'or', 'as', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
@@ -396,7 +425,7 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '205': ['g', 's', 'c', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'bd', 'sp', 'sc', 'v'],
     '206': ['g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'us', 'um', 'swdlc1', 'shdlc1', 'bd', 'sp', 'sc', 'v'],
     '207': ['g', 'c', 'e', 'd', 'p', 'pt', 'hg', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'bd', 'lpa', 'scdlc1', 'vdlc1'],
-    '208': ['g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh', 'bd', 'sp', 'lpa', 'lpza'],
+    '208': ['g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa', 'lpza'],
     '209': ['g', 's', 'c', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla2', 'w2', 'x', 'y', 'su', 'm', 'us', 'um', 'bd', 'sp', 'scdlc2', 'vdlc2'],
     '210': ['g', 's', 'c', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla2', 'w2', 'x', 'y', 'su', 'm', 'us', 'um', 'bd', 'sp', 'scdlc2', 'vdlc2'],
     '211': ['g', 's', 'c', 'fr', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'sw', 'sh', 'bd', 'sp', 'sc', 'v', 'lpzadlc1'],
@@ -408,8 +437,8 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '217': ['g', 'c', 'e', 'd', 'p', 'pt', 'ss', 'bla2', 'w2', 'x', 'y', 'sp', 'lpa', 'sc', 'v'],
     '218': ['g', 's', 'c', 'ru', 'sa', 'e', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'x', 'y', 'or', 'as', 'bd', 'sp', 'scdlc1', 'vdlc1'],
     '219': ['g', 's', 'c', 'ru', 'sa', 'e', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'x', 'y', 'or', 'as', 'bd', 'sp', 'scdlc1', 'vdlc1'],
-    '220': ['g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'sw', 'sh', 'bd', 'sp', 'lpa', 'scdlc1', 'vdlc1'],
-    '221': ['g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'sw', 'sh', 'bd', 'sp', 'lpa', 'scdlc1', 'vdlc1'],
+    '220': ['g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa', 'scdlc1', 'vdlc1'],
+    '221': ['g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa', 'scdlc1', 'vdlc1'],
     '222': ['g', 's', 'c', 'ru', 'sa', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'sw', 'sh', 'bd', 'sp'],
     '223': ['g', 's', 'e', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa'],
     '224': ['g', 's', 'e', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa'],
@@ -418,7 +447,7 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '227': ['s', 'c', 'ru', 'sa', 'e', 'fr', 'd', 'p', 'pt', 'ss', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
     '228': ['g', 's', 'c', 'e', 'p', 'pt', 'hg', 'ss', 'bla', 'x', 'us', 'bd', 'sp', 'sc', 'v', 'lpza'],
     '229': ['g', 's', 'c', 'e', 'p', 'pt', 'hg', 'ss', 'bla', 'x', 'us', 'bd', 'sp', 'sc', 'v', 'lpza'],
-    '230': ['g', 's', 'c', 'ru', 'sa', 'e', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2'],
+    '230': ['g', 's', 'c', 'ru', 'sa', 'e', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2'],
     '231': ['s', 'c', 'ru', 'sa', 'e', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'bd', 'sp', 'sc', 'v'],
     '232': ['s', 'c', 'ru', 'sa', 'e', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'bd', 'sp', 'sc', 'v'],
     '233': ['g', 's', 'c', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'or', 'as', 'su', 'm', 'us', 'um', 'swdlc1', 'shdlc1', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2', 'lpzadlc1'],
@@ -440,15 +469,15 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '249': ['g', 's', 'c', 'e', 'fr', 'lg', 'hg', 'ss', 'as', 'um', 'shdlc2', 'sp', 'scdlc2', 'vdlc2'],
     '250': ['g', 's', 'c', 'e', 'fr', 'lg', 'hg', 'ss', 'or', 'us', 'swdlc2', 'bd', 'scdlc2', 'vdlc2'],
     '251': ['c'],
-    '252': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
-    '253': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
-    '254': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
-    '255': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
-    '256': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
-    '257': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
-    '258': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
-    '259': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
-    '260': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
+    '252': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'us', 'um', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
+    '253': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'us', 'um', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
+    '254': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'us', 'um', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
+    '255': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'us', 'um', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
+    '256': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'us', 'um', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
+    '257': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'us', 'um', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
+    '258': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'us', 'um', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
+    '259': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'us', 'um', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
+    '260': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'us', 'um', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
     '261': ['ru', 'sa', 'e', 'd', 'pt', 'hg', 'ss', 'w', 'x', 'or', 'as', 'bd', 'sp', 'scdlc1', 'vdlc1'],
     '262': ['ru', 'sa', 'e', 'd', 'pt', 'hg', 'ss', 'w', 'x', 'or', 'as', 'bd', 'sp', 'scdlc1', 'vdlc1'],
     '263': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'x', 'y', 'or', 'as', 'swdlc2', 'shdlc2', 'bd', 'sp'],
@@ -468,9 +497,9 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '277': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'bd', 'sp'],
     '278': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'sc', 'v'],
     '279': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'sc', 'v'],
-    '280': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpza'],
-    '281': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpza'],
-    '282': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpza'],
+    '280': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpza'],
+    '281': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpza'],
+    '282': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpza'],
     '283': ['ru', 'sa', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'bd', 'sp', 'sc', 'v'],
     '284': ['ru', 'sa', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'bd', 'sp', 'sc', 'v'],
     '285': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'bd', 'sp', 'sc', 'v'],
@@ -492,9 +521,9 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '301': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'w2', 'x', 'y', 'or', 'as', 'bd', 'sp'],
     '302': ['sa', 'e', 'd', 'p', 'pt', 'hg', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'as', 'su', 'm', 'us', 'um', 'sh', 'sp', 'sc', 'v', 'lpza'],
     '303': ['ru', 'e', 'd', 'p', 'pt', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'us', 'um', 'sw', 'bd', 'lpza'],
-    '304': ['ru', 'sa', 'e', 'd', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'or', 'as', 'swdlc2', 'shdlc2', 'bd', 'sp', 'lpza'],
-    '305': ['ru', 'sa', 'e', 'd', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'or', 'as', 'swdlc2', 'shdlc2', 'bd', 'sp', 'lpza'],
-    '306': ['ru', 'sa', 'e', 'd', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'or', 'as', 'swdlc2', 'shdlc2', 'bd', 'sp', 'lpza'],
+    '304': ['ru', 'sa', 'e', 'd', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'or', 'as', 'us', 'um', 'swdlc2', 'shdlc2', 'bd', 'sp', 'lpza'],
+    '305': ['ru', 'sa', 'e', 'd', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'or', 'as', 'us', 'um', 'swdlc2', 'shdlc2', 'bd', 'sp', 'lpza'],
+    '306': ['ru', 'sa', 'e', 'd', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'or', 'as', 'us', 'um', 'swdlc2', 'shdlc2', 'bd', 'sp', 'lpza'],
     '307': ['ru', 'sa', 'd', 'p', 'pt', 'hg', 'ss', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'bd', 'sp', 'sc', 'v', 'lpza'],
     '308': ['ru', 'sa', 'd', 'p', 'pt', 'hg', 'ss', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'bd', 'sp', 'sc', 'v', 'lpza'],
     '309': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla2', 'w2', 'y', 'or', 'as', 'um', 'sw', 'sh', 'bd', 'sp', 'lpza'],
@@ -551,9 +580,9 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '360': ['ru', 'sa', 'e', 'fr', 'lg', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh', 'bd', 'sp'],
     '361': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpza'],
     '362': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpza'],
-    '363': ['ru', 'sa', 'e', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'swdlc2', 'shdlc2', 'bd', 'sp', 'lpa'],
-    '364': ['ru', 'sa', 'e', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'swdlc2', 'shdlc2', 'bd', 'sp', 'lpa'],
-    '365': ['ru', 'sa', 'e', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'swdlc2', 'shdlc2', 'bd', 'sp', 'lpa'],
+    '363': ['ru', 'sa', 'e', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'swdlc2', 'shdlc2', 'bd', 'sp', 'lpa'],
+    '364': ['ru', 'sa', 'e', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'swdlc2', 'shdlc2', 'bd', 'sp', 'lpa'],
+    '365': ['ru', 'sa', 'e', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'swdlc2', 'shdlc2', 'bd', 'sp', 'lpa'],
     '366': ['ru', 'sa', 'e', 'd', 'p', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'bd', 'sp'],
     '367': ['ru', 'sa', 'e', 'd', 'p', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'bd', 'sp'],
     '368': ['ru', 'sa', 'e', 'd', 'p', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'bd', 'sp'],
@@ -565,9 +594,9 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '374': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'swdlc2', 'shdlc2', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
     '375': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'swdlc2', 'shdlc2', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
     '376': ['ru', 'sa', 'e', 'd', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'swdlc2', 'shdlc2', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],
-    '377': ['ru', 'sa', 'e', 'pt', 'bla2', 'w2', 'or', 'as', 'swdlc2', 'shdlc2', 'bd', 'sp'],
-    '378': ['ru', 'sa', 'e', 'pt', 'w2', 'or', 'as', 'swdlc2', 'shdlc2', 'bd', 'sp'],
-    '379': ['ru', 'sa', 'e', 'pt', 'bla2', 'or', 'as', 'swdlc2', 'shdlc2', 'bd', 'sp'],
+    '377': ['ru', 'sa', 'e', 'pt', 'bla2', 'w2', 'or', 'as', 'us', 'um', 'swdlc2', 'shdlc2', 'bd', 'sp'],
+    '378': ['ru', 'sa', 'e', 'pt', 'w2', 'or', 'as', 'us', 'um', 'swdlc2', 'shdlc2', 'bd', 'sp'],
+    '379': ['ru', 'sa', 'e', 'pt', 'bla2', 'or', 'as', 'us', 'um', 'swdlc2', 'shdlc2', 'bd', 'sp'],
     '380': ['sa', 'e', 'hg', 'ss', 'w2', 'or', 'as', 'um', 'shdlc2', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
     '381': ['ru', 'e', 'hg', 'ss', 'bla2', 'or', 'as', 'us', 'swdlc2', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
     '382': ['sa', 'e', 'hg', 'as', 'um', 'shdlc2', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
@@ -575,15 +604,15 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '384': ['ru', 'sa', 'e', 'hg', 'ss', 'or', 'as', 'us', 'um', 'swdlc2', 'shdlc2', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpzadlc1'],
     '385': ['bd', 'sp'],
     '386': ['e', 'fr', 'lg', 'or', 'as'],
-    '387': ['d', 'p', 'pt', 'or', 'as', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
-    '388': ['d', 'p', 'pt', 'or', 'as', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
-    '389': ['d', 'p', 'pt', 'or', 'as', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
-    '390': ['d', 'p', 'pt', 'or', 'as', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
-    '391': ['d', 'p', 'pt', 'or', 'as', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
-    '392': ['d', 'p', 'pt', 'or', 'as', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
-    '393': ['d', 'p', 'pt', 'or', 'as', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
-    '394': ['d', 'p', 'pt', 'or', 'as', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
-    '395': ['d', 'p', 'pt', 'or', 'as', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
+    '387': ['d', 'p', 'pt', 'or', 'as', 'us', 'um', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
+    '388': ['d', 'p', 'pt', 'or', 'as', 'us', 'um', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
+    '389': ['d', 'p', 'pt', 'or', 'as', 'us', 'um', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
+    '390': ['d', 'p', 'pt', 'or', 'as', 'us', 'um', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
+    '391': ['d', 'p', 'pt', 'or', 'as', 'us', 'um', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
+    '392': ['d', 'p', 'pt', 'or', 'as', 'us', 'um', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
+    '393': ['d', 'p', 'pt', 'or', 'as', 'us', 'um', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
+    '394': ['d', 'p', 'pt', 'or', 'as', 'us', 'um', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
+    '395': ['d', 'p', 'pt', 'or', 'as', 'us', 'um', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
     '396': ['d', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'x', 'y', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpzadlc1'],
     '397': ['d', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'x', 'y', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpzadlc1'],
     '398': ['d', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'x', 'y', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpzadlc1'],
@@ -622,8 +651,8 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '431': ['p', 'w2', 'or', 'as', 'sp', 'lpa'],
     '432': ['p', 'w2', 'or', 'as', 'sp', 'lpa'],
     '433': ['d', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'x', 'y', 'or', 'as', 'bd', 'sp', 'lpa', 'scdlc1', 'vdlc1', 'lpzadlc1'],
-    '434': ['d', 'bla', 'w', 'bla2', 'x', 'y', 'sw', 'sh', 'bd', 'lpa', 'sc'],
-    '435': ['d', 'bla', 'w', 'bla2', 'x', 'y', 'sw', 'sh', 'bd', 'lpa', 'sc'],
+    '434': ['d', 'bla2', 'x', 'y', 'sw', 'sh', 'bd', 'lpa', 'sc'],
+    '435': ['d', 'bla2', 'x', 'y', 'sw', 'sh', 'bd', 'lpa', 'sc'],
     '436': ['d', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v'],
     '437': ['d', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v'],
     '438': ['d', 'p', 'pt', 'hg', 'ss', 'bla2', 'x', 'y', 'su', 'm', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v'],
@@ -652,7 +681,7 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '461': ['d', 'p', 'pt', 'hg', 'ss', 'bla2', 'w2', 'x', 'y', 'su', 'm', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v'],
     '462': ['d', 'p', 'pt', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'swdlc1', 'shdlc1', 'bd', 'sp', 'lpa', 'sc', 'v'],
     '463': ['d', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'us', 'um', 'swdlc1', 'shdlc1', 'bd', 'sp', 'lpa'],
-    '464': ['d', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'sw', 'sh', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
+    '464': ['d', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
     '465': ['pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'swdlc1', 'shdlc1', 'bd', 'sp', 'lpa'],
     '466': ['d', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'swdlc2', 'shdlc2', 'bd', 'lpa', 'scdlc2', 'vdlc2'],
     '467': ['d', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'swdlc2', 'shdlc2', 'sp', 'lpa', 'scdlc2', 'vdlc2'],
@@ -661,13 +690,13 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '470': ['d', 'p', 'pt', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpza'],
     '471': ['d', 'p', 'pt', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpza'],
     '472': ['d', 'p', 'pt', 'hg', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'bd', 'lpa', 'scdlc1', 'vdlc1'],
-    '473': ['d', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'sw', 'sh', 'bd', 'sp', 'lpa', 'scdlc1', 'vdlc1'],
+    '473': ['d', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa', 'scdlc1', 'vdlc1'],
     '474': ['d', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'or', 'as', 'su', 'm', 'us', 'um', 'swdlc1', 'shdlc1', 'bd', 'sp', 'lpa', 'scdlc2', 'vdlc2', 'lpzadlc1'],
-    '475': ['d', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpza'],
+    '475': ['d', 'p', 'pt', 'hg', 'ss', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpza'],
     '476': ['d', 'p', 'pt', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'bd', 'sp', 'lpa', 'scdlc1', 'vdlc1'],
     '477': ['d', 'p', 'pt', 'hg', 'ss', 'x', 'y', 'or', 'as', 'sw', 'sh', 'bd', 'sp', 'lpa', 'scdlc1', 'vdlc1'],
     '478': ['d', 'p', 'pt', 'x', 'y', 'or', 'as', 'su', 'm', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpza'],
-    '479': ['d', 'p', 'pt', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpzadlc1'],
+    '479': ['d', 'p', 'pt', 'bla', 'w', 'bla2', 'w2', 'x', 'y', 'us', 'um', 'sw', 'sh', 'bd', 'sp', 'lpa', 'sc', 'v', 'lpzadlc1'],
     '480': ['d', 'p', 'pt', 'bla2', 'w2', 'or', 'as', 'us', 'um', 'swdlc2', 'shdlc2', 'bd', 'sp', 'lpa'],
     '481': ['d', 'p', 'pt', 'bla2', 'w2', 'or', 'as', 'us', 'um', 'swdlc2', 'shdlc2', 'bd', 'sp', 'lpa'],
     '482': ['d', 'p', 'pt', 'bla2', 'w2', 'or', 'as', 'us', 'um', 'swdlc2', 'shdlc2', 'bd', 'sp', 'lpa'],
@@ -728,9 +757,9 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '537': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh'],
     '538': ['bla', 'w', 'bla2', 'w2', 'y', 'or', 'sw', 'sh', 'lpzadlc1'],
     '539': ['bla', 'w', 'bla2', 'w2', 'x', 'as', 'sw', 'sh', 'lpzadlc1'],
-    '540': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'scdlc1', 'vdlc1'],
-    '541': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'scdlc1', 'vdlc1'],
-    '542': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'scdlc1', 'vdlc1'],
+    '540': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'scdlc1', 'vdlc1'],
+    '541': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'scdlc1', 'vdlc1'],
+    '542': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'scdlc1', 'vdlc1'],
     '543': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'swdlc1', 'shdlc1', 'lpza'],
     '544': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'swdlc1', 'shdlc1', 'lpza'],
     '545': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'swdlc1', 'shdlc1', 'lpza'],
@@ -790,17 +819,17 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '599': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh'],
     '600': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh'],
     '601': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh'],
-    '602': ['bla', 'w', 'bla2', 'w2', 'or', 'as', 'sc', 'v', 'lpza'],
-    '603': ['bla', 'w', 'bla2', 'w2', 'or', 'as', 'sc', 'v', 'lpza'],
-    '604': ['bla', 'w', 'bla2', 'w2', 'or', 'as', 'sc', 'v', 'lpza'],
+    '602': ['bla', 'w', 'bla2', 'w2', 'or', 'as', 'us', 'um', 'sc', 'v', 'lpza'],
+    '603': ['bla', 'w', 'bla2', 'w2', 'or', 'as', 'us', 'um', 'sc', 'v', 'lpza'],
+    '604': ['bla', 'w', 'bla2', 'w2', 'or', 'as', 'us', 'um', 'sc', 'v', 'lpza'],
     '605': ['bla', 'w', 'bla2', 'w2', 'or', 'as', 'us', 'um', 'sw', 'sh'],
     '606': ['bla', 'w', 'bla2', 'w2', 'or', 'as', 'us', 'um', 'sw', 'sh'],
-    '607': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'sw', 'sh', 'scdlc1', 'vdlc1', 'lpza'],
-    '608': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'sw', 'sh', 'scdlc1', 'vdlc1', 'lpza'],
-    '609': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'sw', 'sh', 'scdlc1', 'vdlc1', 'lpza'],
-    '610': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh', 'sc', 'v'],
-    '611': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh', 'sc', 'v'],
-    '612': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh', 'sc', 'v'],
+    '607': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'us', 'um', 'sw', 'sh', 'scdlc1', 'vdlc1', 'lpza'],
+    '608': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'us', 'um', 'sw', 'sh', 'scdlc1', 'vdlc1', 'lpza'],
+    '609': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'us', 'um', 'sw', 'sh', 'scdlc1', 'vdlc1', 'lpza'],
+    '610': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'sw', 'sh', 'sc', 'v'],
+    '611': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'sw', 'sh', 'sc', 'v'],
+    '612': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'us', 'um', 'sw', 'sh', 'sc', 'v'],
     '613': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh', 'sc', 'v'],
     '614': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'or', 'as', 'sw', 'sh', 'sc', 'v'],
     '615': ['bla', 'w', 'bla2', 'w2', 'x', 'y', 'swdlc2', 'shdlc2', 'sc', 'v', 'lpzadlc1'],
@@ -838,23 +867,23 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '647': ['swdlc2', 'shdlc2', 'lpzadlc1'],
     '648': ['lpzadlc1'],
     '649': ['lpzadlc1'],
-    '650': ['x', 'y', 'scdlc2', 'vdlc2', 'lpza'],
-    '651': ['x', 'y', 'scdlc2', 'vdlc2', 'lpza'],
-    '652': ['x', 'y', 'scdlc2', 'vdlc2', 'lpza'],
-    '653': ['x', 'y', 'scdlc2', 'vdlc2', 'lpza'],
-    '654': ['x', 'y', 'scdlc2', 'vdlc2', 'lpza'],
-    '655': ['x', 'y', 'scdlc2', 'vdlc2', 'lpza'],
-    '656': ['x', 'y', 'scdlc2', 'vdlc2', 'lpza'],
-    '657': ['x', 'y', 'scdlc2', 'vdlc2', 'lpza'],
-    '658': ['x', 'y', 'scdlc2', 'vdlc2', 'lpza'],
+    '650': ['x', 'y', 'us', 'um', 'scdlc2', 'vdlc2', 'lpza'],
+    '651': ['x', 'y', 'us', 'um', 'scdlc2', 'vdlc2', 'lpza'],
+    '652': ['x', 'y', 'us', 'um', 'scdlc2', 'vdlc2', 'lpza'],
+    '653': ['x', 'y', 'us', 'um', 'scdlc2', 'vdlc2', 'lpza'],
+    '654': ['x', 'y', 'us', 'um', 'scdlc2', 'vdlc2', 'lpza'],
+    '655': ['x', 'y', 'us', 'um', 'scdlc2', 'vdlc2', 'lpza'],
+    '656': ['x', 'y', 'us', 'um', 'scdlc2', 'vdlc2', 'lpza'],
+    '657': ['x', 'y', 'us', 'um', 'scdlc2', 'vdlc2', 'lpza'],
+    '658': ['x', 'y', 'us', 'um', 'scdlc2', 'vdlc2', 'lpza'],
     '659': ['x', 'y', 'sw', 'sh', 'lpza'],
     '660': ['x', 'y', 'sw', 'sh', 'lpza'],
     '661': ['x', 'y', 'su', 'm', 'us', 'um', 'swdlc1', 'shdlc1', 'sc', 'v', 'lpza'],
     '662': ['x', 'y', 'su', 'm', 'us', 'um', 'swdlc1', 'shdlc1', 'sc', 'v', 'lpza'],
     '663': ['x', 'y', 'su', 'm', 'us', 'um', 'swdlc1', 'shdlc1', 'sc', 'v', 'lpza'],
-    '664': ['x', 'y', 'sc', 'v', 'lpza'],
-    '665': ['x', 'y', 'sc', 'v', 'lpza'],
-    '666': ['x', 'y', 'sc', 'v', 'lpza'],
+    '664': ['x', 'y', 'us', 'um', 'sc', 'v', 'lpza'],
+    '665': ['x', 'y', 'us', 'um', 'sc', 'v', 'lpza'],
+    '666': ['x', 'y', 'us', 'um', 'sc', 'v', 'lpza'],
     '667': ['x', 'y', 'us', 'um', 'sc', 'v', 'lpza'],
     '668': ['x', 'y', 'us', 'um', 'sc', 'v', 'lpza'],
     '669': ['x', 'y', 'us', 'um', 'sc', 'v', 'lpza'],
@@ -867,9 +896,9 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '676': ['x', 'y', 'us', 'um', 'lpza'],
     '677': ['x', 'y', 'sw', 'sh', 'scdlc2', 'vdlc2', 'lpza'],
     '678': ['x', 'y', 'sw', 'sh', 'scdlc2', 'vdlc2', 'lpza'],
-    '679': ['x', 'y', 'sw', 'sh', 'lpza'],
-    '680': ['x', 'y', 'sw', 'sh', 'lpza'],
-    '681': ['x', 'y', 'sw', 'sh', 'lpza'],
+    '679': ['x', 'y', 'us', 'um', 'sw', 'sh', 'lpza'],
+    '680': ['x', 'y', 'us', 'um', 'sw', 'sh', 'lpza'],
+    '681': ['x', 'y', 'us', 'um', 'sw', 'sh', 'lpza'],
     '682': ['y', 'sh', 'lpza'],
     '683': ['y', 'sh', 'lpza'],
     '684': ['x', 'sw', 'lpza'],
@@ -1216,8 +1245,8 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '19-alola': ['su', 'm', 'us', 'um', 'lgp', 'lge'],
     '20-alola': ['su', 'm', 'us', 'um', 'lgp', 'lge'],
     '26-alola': ['su', 'm', 'us', 'um', 'lgp', 'lge', 'lpzadlc1'],
-    '27-alola': ['su', 'm', 'us', 'um', 'lgp', 'sw', 'sh', 'vdlc2'],
-    '28-alola': ['su', 'm', 'us', 'um', 'lgp', 'sw', 'sh', 'vdlc2'],
+    '27-alola': ['m', 'us', 'um', 'lgp', 'sw', 'sh', 'vdlc2'],
+    '28-alola': ['m', 'us', 'um', 'lgp', 'sw', 'sh', 'vdlc2'],
     '37-alola': ['su', 'us', 'lge', 'sw', 'sh', 'lpa', 'scdlc2'],
     '38-alola': ['su', 'us', 'lge', 'sw', 'sh', 'lpa', 'scdlc2'],
     '50-alola': ['su', 'm', 'us', 'um', 'lgp', 'lge', 'sw', 'sh', 'scdlc2', 'vdlc2'],

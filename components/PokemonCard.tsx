@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import type { Pokemon } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
 import { SparklesIcon, IsleOfArmorIcon, CrownTundraIcon, TealMaskIcon, IndigoDiskIcon, MegaDimensionIcon, LockIcon, EventIcon, CartridgeIcon, RaidEventIcon, DynamaxAdventureIcon } from './Icons';
-import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON, EVENT_ITEM_POKEMON, DUAL_SLOT_REQ, RAID_EVENT_POKEMON, DYNAMAX_ADVENTURE_POKEMON } from '../data/games';
+import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON, EVENT_ITEM_POKEMON, DUAL_SLOT_REQ, RAID_EVENT_POKEMON, DYNAMAX_ADVENTURE_POKEMON, FRIEND_SAFARI_POKEMON, ISLAND_SCAN_POKEMON, ULTRA_WORMHOLE_POKEMON, DEXNAV_EXCLUSIVE_POKEMON, MIRAGE_SPOT_POKEMON } from '../data/games';
 
 interface PokemonCardProps {
   pokemon: Pokemon;
@@ -87,6 +87,61 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
     boxShadow: '0 0 15px 3px rgba(251, 191, 36, 0.35)'
   } : {};
 
+  const hasFriendSafariBadge = useMemo(() => {
+    return (selectedGame === 'xy' || selectedGame === 'x' || selectedGame === 'y') &&
+      FRIEND_SAFARI_POKEMON.includes(Number(pokemon.id));
+  }, [selectedGame, pokemon.id]);
+
+  // Check for Island Scan Pokemon (USUM)
+  const hasIslandScanBadge = useMemo(() => {
+    return (selectedGame === 'usum' || selectedGame === 'us' || selectedGame === 'um') &&
+      ISLAND_SCAN_POKEMON.includes(Number(pokemon.id));
+  }, [selectedGame, pokemon.id]);
+
+  // Check for Ultra Wormhole Pokemon (USUM)
+  const hasUltraWormholeBadge = useMemo(() => {
+    if (selectedGame === 'usum' || selectedGame === 'us' || selectedGame === 'um') {
+      const pokemonId = Number(pokemon.id);
+      return ULTRA_WORMHOLE_POKEMON.legendaries.includes(pokemonId) ||
+        ULTRA_WORMHOLE_POKEMON.ultraBeasts.includes(pokemonId);
+    }
+    return false;
+  }, [selectedGame, pokemon.id]);
+
+  // Check for DexNav Exclusive Pokemon (ORAS)
+  const hasDexNavBadge = useMemo(() => {
+    if (selectedGame === 'oras' || selectedGame === 'or' || selectedGame === 'as') {
+      const pokemonId = Number(pokemon.id);
+      return DEXNAV_EXCLUSIVE_POKEMON.both.includes(pokemonId) ||
+        DEXNAV_EXCLUSIVE_POKEMON.omegaRuby.includes(pokemonId) ||
+        DEXNAV_EXCLUSIVE_POKEMON.alphaSapphire.includes(pokemonId);
+    }
+    return false;
+  }, [selectedGame, pokemon.id]);
+
+  // Check for Mirage Spot Pokemon (ORAS)
+  const hasMirageSpotBadge = useMemo(() => {
+    if (selectedGame === 'oras' || selectedGame === 'or' || selectedGame === 'as') {
+      const pokemonId = Number(pokemon.id);
+
+      // Check non-legendaries (available in both versions)
+      if (MIRAGE_SPOT_POKEMON.nonLegendaries.includes(pokemonId)) return true;
+
+      // Check legendaries available in both versions
+      if (MIRAGE_SPOT_POKEMON.legendaries.both.includes(pokemonId)) return true;
+
+      // Check version-exclusive legendaries
+      if (selectedGame === 'or' && MIRAGE_SPOT_POKEMON.legendaries.omegaRuby.includes(pokemonId)) return true;
+      if (selectedGame === 'as' && MIRAGE_SPOT_POKEMON.legendaries.alphaSapphire.includes(pokemonId)) return true;
+      if (selectedGame === 'oras') {
+        // When "both" filter is active, show all Mirage Spot Pokemon
+        return MIRAGE_SPOT_POKEMON.legendaries.omegaRuby.includes(pokemonId) ||
+          MIRAGE_SPOT_POKEMON.legendaries.alphaSapphire.includes(pokemonId);
+      }
+    }
+    return false;
+  }, [selectedGame, pokemon.id]);
+
   // Check for DLC availability when swsh is selected
   const hasSWSHDLC1 = useMemo(() => {
     if (selectedGame === 'swsh') {
@@ -130,13 +185,6 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
     return false;
   }, [pokemon.id, selectedGame]);
 
-  const isLocked = useMemo(() => {
-    if (selectedGame && SHINY_LOCKED_POKEMON[selectedGame]) {
-      return SHINY_LOCKED_POKEMON[selectedGame].includes(pokemon.id);
-    }
-    return false;
-  }, [pokemon.id, selectedGame]);
-
   const hasEventItem = useMemo(() => {
     if (selectedGame && EVENT_ITEM_POKEMON[selectedGame]) {
       return EVENT_ITEM_POKEMON[selectedGame].includes(pokemon.id);
@@ -176,6 +224,13 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
     };
     return colorMap[requiredCart] || 'text-gray-300';
   }, [requiredCart]);
+
+  const isLocked = useMemo(() => {
+    if (selectedGame && SHINY_LOCKED_POKEMON[selectedGame]) {
+      return SHINY_LOCKED_POKEMON[selectedGame].includes(pokemon.id);
+    }
+    return false;
+  }, [pokemon.id, selectedGame]);
 
   return (
     <div
@@ -281,7 +336,80 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
             </span>
           </div>
         )}
+
+        {/* Friend Safari Badge */}
+        {hasFriendSafariBadge && (
+          <div className="group/safari relative text-green-500 group-hover:text-green-400 transition-colors">
+            <img
+              src="/assets/safari-ball.png"
+              alt={t('friendSafari')}
+              className="w-5 h-5 object-contain drop-shadow-md"
+            />
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/safari:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+              {t('friendSafari')}
+            </span>
+          </div>
+        )}
+
+        {/* Island Scan Badge */}
+        {hasIslandScanBadge && (
+          <div className="group/islandscan relative text-purple-500 group-hover:text-purple-400 transition-colors">
+            <img
+              src="/assets/island-scan.svg"
+              alt={t('islandScan')}
+              className="w-5 h-5 object-contain drop-shadow-md"
+            />
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/islandscan:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+              {t('islandScan')}
+            </span>
+          </div>
+        )}
+
+        {/* Ultra Wormhole Badge */}
+        {hasUltraWormholeBadge && (
+          <div className="group/wormhole relative text-cyan-400 group-hover:text-cyan-300 transition-colors">
+            <img
+              src="/assets/ultra-wormhole.png"
+              alt={t('ultraWormhole')}
+              className="w-5 h-5 object-contain drop-shadow-md"
+            />
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/wormhole:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+              {t('ultraWormhole')}
+            </span>
+          </div>
+        )}
+
+        {/* DexNav Badge */}
+        {hasDexNavBadge && (
+          <div className="group/dexnav relative text-red-400 group-hover:text-red-300 transition-colors">
+            <img
+              src="/assets/dexnav.png"
+              alt={t('dexNav')}
+              className="w-5 h-5 object-contain drop-shadow-md"
+            />
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/dexnav:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+              {t('dexNav')}
+            </span>
+          </div>
+        )}
+
+        {/* Mirage Spot Badge */}
+        {hasMirageSpotBadge && (
+          <div className="group/mirage relative text-purple-400 group-hover:text-purple-300 transition-colors">
+            <img
+              src="/assets/mirage-spot.png"
+              alt={t('mirageSpot')}
+              className="w-5 h-5 object-contain drop-shadow-md"
+            />
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/mirage:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+              {t('mirageSpot')}
+            </span>
+          </div>
+        )}
+
+
       </div>
+
 
       <div className="w-24 h-24 flex items-center justify-center">
         <img
@@ -297,8 +425,8 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
         <p className="text-sm font-bold text-white truncate">{pokemon.name}</p>
         <p className="text-xs text-gray-400">{formattedId}</p>
       </div>
-    </div>
+    </div >
   );
 };
 
-export default PokemonCard;
+export default React.memo(PokemonCard);
