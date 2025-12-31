@@ -6,6 +6,7 @@ import Header from './Header';
 import LeftSidebar from './LeftSidebar';
 import SearchBarWithProgress from './SearchBarWithProgress';
 import PokemonCard from './PokemonCard';
+import MobilePokemonCard from './MobilePokemonCard';
 import ConfirmationModal from './ConfirmationModal';
 import ScrollToTopButton from './ScrollToTopButton';
 import { Button } from './ui';
@@ -21,6 +22,7 @@ import {
   migrateLocalStorageToSupabase,
   getUserPreferences
 } from '../services/supabase';
+import { useIsMobile } from '../hooks/use-mobile';
 
 // Custom Sidebar Toggle Button Component
 const CustomSidebarToggle = () => {
@@ -29,7 +31,7 @@ const CustomSidebarToggle = () => {
   return (
     <button
       onClick={toggleSidebar}
-      className="absolute -right-12 top-1/2 -translate-y-1/2 h-24 w-12 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-r-lg flex items-center justify-center text-white shadow-lg transition-all"
+      className="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 h-24 w-12 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-r-lg items-center justify-center text-white shadow-lg transition-all"
       aria-label={open ? "Fermer le panneau" : "Ouvrir le panneau"}
     >
       <svg
@@ -39,6 +41,24 @@ const CustomSidebarToggle = () => {
         viewBox="0 0 24 24"
       >
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  );
+};
+
+// Mobile Sidebar Toggle Button - Fixed position
+// Mobile Sidebar Toggle Button - Fixed position
+const MobileSidebarToggle = () => {
+  const { toggleSidebar } = useSidebar();
+
+  return (
+    <button
+      onClick={toggleSidebar}
+      className="md:hidden fixed left-0 top-1/2 -translate-y-1/2 h-16 w-10 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-r-lg flex items-center justify-center text-white shadow-lg transition-all z-30"
+      aria-label="Toggle sidebar"
+    >
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
       </svg>
     </button>
   );
@@ -66,6 +86,7 @@ interface ShinyTrackerProps {
 
 const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileClick, pokemonList }) => {
   const { user: clerkUser } = useUser();
+  const isMobile = useIsMobile();
   const [shinyPokemons, setShinyPokemons] = useState<Set<string>>(new Set());
   const [searchTerm, setSearchTerm] = useState('');
   const [showOnlyShiny, setShowOnlyShiny] = useState(false);
@@ -495,8 +516,11 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
           <CustomSidebarToggle />
         </Sidebar>
 
+        {/* Mobile Sidebar Toggle - Fixed on mobile */}
+        <MobileSidebarToggle />
+
         {/* Main Content Area - Full Width, Independent of Sidebar */}
-        <main className="flex flex-1 flex-col">
+        <main className="flex flex-1 flex-col pt-16 md:pt-0">
           <ConfirmationModal
             isOpen={confirmModal.isOpen}
             onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
@@ -508,8 +532,8 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
           <div className={`flex flex-1 overflow-hidden ${confirmModal.isOpen ? 'blur-sm pointer-events-none select-none' : ''}`}>
 
             {/* Main Content Area */}
-            <div className="flex-1 overflow-y-auto w-full">
-              <div className="px-0 sm:px-4 py-6 w-full">
+            <div className="flex-1 overflow-y-auto overflow-x-hidden w-full">
+              <div className="md:px-4 py-6 w-full">
                 {/* Search Bar with Progress */}
                 <SearchBarWithProgress
                   searchTerm={searchTerm}
@@ -520,30 +544,37 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
                 />
 
 
-                {/* Action Buttons */}
+                {/* Mobile Counter - No buttons */}
+                {activeCount > 0 && (
+                  <div className="mb-4 px-2 block md:hidden">
+                    <div className="text-gray-400 text-xs text-left">
+                      {t('pokemon_shown', { count: activeCount })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Desktop Action Buttons with Counter */}
                 {!loading && activeCount > 0 && (
-                  <div className="mb-4 flex justify-center">
-                    <div style={{ width: '1160px', maxWidth: '100%' }}>
-                      <div className="flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4">
-                        <div className="text-gray-400 text-sm">
-                          {t('pokemon_shown', { count: activeCount })}
-                        </div>
-                        <div className="flex gap-2">
-                          <Button
-                            onClick={handleMarkAll}
-                            variant="secondary"
-                            size="sm"
-                          >
-                            {t('mark_all')}
-                          </Button>
-                          <Button
-                            onClick={handleUnmarkAll}
-                            variant="ghost"
-                            size="sm"
-                          >
-                            {t('unmark_all')}
-                          </Button>
-                        </div>
+                  <div className="mb-4 w-full md:max-w-[1160px] md:mx-auto px-1 md:px-0 hidden md:block">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 md:gap-4">
+                      <div className="text-gray-400 text-xs md:text-sm">
+                        {t('pokemon_shown', { count: activeCount })}
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          onClick={handleMarkAll}
+                          variant="secondary"
+                          size="sm"
+                        >
+                          {t('mark_all')}
+                        </Button>
+                        <Button
+                          onClick={handleUnmarkAll}
+                          variant="ghost"
+                          size="sm"
+                        >
+                          {t('unmark_all')}
+                        </Button>
                       </div>
                     </div>
                   </div>
@@ -558,7 +589,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
                   <>
                     {/* Section: Pokémon Normaux */}
                     {/* Section: Pokémon Normaux */}
-                    <div className="grid grid-cols-6 gap-1 sm:gap-4 justify-center max-w-[1160px] mx-auto w-full">
+                    <div className="mobile-grid-6 grid grid-cols-6 gap-1 md:gap-4 md:max-w-[1160px] md:mx-auto w-full">
                       {displayedPokemon.normal.map((pokemon, index) => {
                         // Vérifier si c'est le premier Pokémon d'une génération
                         const pokemonNumId = parseInt(pokemon.id.split('-')[0]);
@@ -567,15 +598,20 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
                         );
 
                         return (
-                          <React.Fragment key={pokemon.id}>
-                            {index > 0 && index % 30 === 0 && (
-                              <div className="col-span-full h-8" />
-                            )}
-                            <div
-                              ref={isFirstOfGen ? (el) => { genRefs.current[parseInt(isFirstOfGen[0])] = el; } : undefined}
-                              style={{ scrollMarginTop: '80px' }}
-                              className="min-w-0"
-                            >
+                          <div
+                            key={pokemon.id}
+                            ref={isFirstOfGen ? (el) => { genRefs.current[parseInt(isFirstOfGen[0])] = el; } : undefined}
+                            style={{ scrollMarginTop: '80px' }}
+                          >
+                            {isMobile ? (
+                              <MobilePokemonCard
+                                pokemon={pokemon}
+                                isShiny={shinyPokemons.has(pokemon.id)}
+                                onToggleShiny={toggleShiny}
+                                selectedGame={selectedGame}
+                                isGrayedOut={pokemon.isGrayedOut}
+                              />
+                            ) : (
                               <PokemonCard
                                 pokemon={pokemon}
                                 isShiny={shinyPokemons.has(pokemon.id)}
@@ -583,8 +619,8 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
                                 selectedGame={selectedGame}
                                 isGrayedOut={pokemon.isGrayedOut}
                               />
-                            </div>
-                          </React.Fragment>
+                            )}
+                          </div>
                         );
                       })}
                     </div>
@@ -615,13 +651,18 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
 
                           {/* Grille régionale */}
                           {/* Grille régionale */}
-                          <div className="grid grid-cols-6 gap-1 sm:gap-4 justify-center max-w-[1160px] mx-auto w-full">
+                          <div className="mobile-grid-6 grid grid-cols-6 gap-1 md:gap-4 md:max-w-[1160px] md:mx-auto w-full">
                             {regionalPokemon.map((pokemon, index) => (
-                              <React.Fragment key={pokemon.id}>
-                                {index > 0 && index % 30 === 0 && (
-                                  <div className="col-span-full h-8" />
-                                )}
-                                <div className="min-w-0">
+                              <div key={pokemon.id}>
+                                {isMobile ? (
+                                  <MobilePokemonCard
+                                    pokemon={pokemon}
+                                    isShiny={shinyPokemons.has(pokemon.id)}
+                                    onToggleShiny={toggleShiny}
+                                    selectedGame={selectedGame}
+                                    isGrayedOut={pokemon.isGrayedOut}
+                                  />
+                                ) : (
                                   <PokemonCard
                                     pokemon={pokemon}
                                     isShiny={shinyPokemons.has(pokemon.id)}
@@ -629,8 +670,8 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
                                     selectedGame={selectedGame}
                                     isGrayedOut={pokemon.isGrayedOut}
                                   />
-                                </div>
-                              </React.Fragment>
+                                )}
+                              </div>
                             ))}
                           </div>
                         </div>
@@ -645,10 +686,6 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
                     )}
                   </>
                 )}
-
-                <footer className="text-center py-8 mt-8 border-t border-gray-700">
-                  <p className="text-xs text-gray-500">{t('pokemon_copyright')}</p>
-                </footer>
               </div>
             </div>
 

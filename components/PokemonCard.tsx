@@ -76,8 +76,8 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
   }, [pokemon.id, selectedGame]);
 
   const cardClasses = `
-    relative group ${cardBgColor} rounded-lg p-0 sm:p-3 flex flex-col items-center justify-center 
-    cursor-pointer transition-all duration-300 transform
+    relative group ${cardBgColor} rounded-lg p-3 flex flex-col items-center justify-center 
+    cursor-pointer transition-all duration-300 transform select-none
     hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/20
     ${isShiny ? 'border-2 border-amber-400' : cardBgColor === 'bg-black' ? 'border-2 border-gray-700' : 'border-2 border-transparent'}
     overflow-hidden
@@ -283,7 +283,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
         )}
       </div>
 
-      <div className="w-12 h-12 sm:w-24 sm:h-24 flex items-center justify-center">
+      <div className="w-24 h-24 flex items-center justify-center">
         <img
           src={isShiny ? pokemon.shinySprite : pokemon.sprite}
           alt={pokemon.name}
@@ -293,9 +293,9 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
           loading="lazy"
         />
       </div>
-      <div className="text-center mt-0.5 sm:mt-2 w-full px-0.5 overflow-hidden">
-        <p className="text-[9px] sm:text-sm font-bold text-white truncate">{pokemon.name}</p>
-        <p className="text-[7px] sm:text-xs text-gray-400">{formattedId}</p>
+      <div className="text-center mt-2 w-full px-0.5 overflow-hidden">
+        <p className="text-sm font-bold text-white truncate">{pokemon.name}</p>
+        <p className="text-xs text-gray-400">{formattedId}</p>
       </div>
     </div>
   );

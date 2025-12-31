@@ -63,6 +63,7 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
   .dark {
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -72,6 +73,111 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+/* Mobile grid - force 6 equal columns */
+@media (max-width: 767px) {
+
+  /* Prevent horizontal scroll globally on mobile */
+  html,
+  body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+
+  .mobile-grid-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    max-width: 100vw !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Constrain all containers */
+  .mobile-grid-6>* {
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  /* Add spacing every 5 rows - target all 6 items of rows 6, 11, 16, etc. */
+  .mobile-grid-6>*:nth-child(n+31):nth-child(-n+36),
+  .mobile-grid-6>*:nth-child(n+61):nth-child(-n+66),
+  .mobile-grid-6>*:nth-child(n+91):nth-child(-n+96),
+  .mobile-grid-6>*:nth-child(n+121):nth-child(-n+126),
+  .mobile-grid-6>*:nth-child(n+151):nth-child(-n+156),
+  .mobile-grid-6>*:nth-child(n+181):nth-child(-n+186),
+  .mobile-grid-6>*:nth-child(n+211):nth-child(-n+216),
+  .mobile-grid-6>*:nth-child(n+241):nth-child(-n+246),
+  .mobile-grid-6>*:nth-child(n+271):nth-child(-n+276),
+  .mobile-grid-6>*:nth-child(n+301):nth-child(-n+306),
+  .mobile-grid-6>*:nth-child(n+331):nth-child(-n+336),
+  .mobile-grid-6>*:nth-child(n+361):nth-child(-n+366),
+  .mobile-grid-6>*:nth-child(n+391):nth-child(-n+396),
+  .mobile-grid-6>*:nth-child(n+421):nth-child(-n+426),
+  .mobile-grid-6>*:nth-child(n+451):nth-child(-n+456),
+  .mobile-grid-6>*:nth-child(n+481):nth-child(-n+486),
+  .mobile-grid-6>*:nth-child(n+511):nth-child(-n+516),
+  .mobile-grid-6>*:nth-child(n+541):nth-child(-n+546),
+  .mobile-grid-6>*:nth-child(n+571):nth-child(-n+576),
+  .mobile-grid-6>*:nth-child(n+601):nth-child(-n+606),
+  .mobile-grid-6>*:nth-child(n+631):nth-child(-n+636),
+  .mobile-grid-6>*:nth-child(n+661):nth-child(-n+666),
+  .mobile-grid-6>*:nth-child(n+691):nth-child(-n+696),
+  .mobile-grid-6>*:nth-child(n+721):nth-child(-n+726),
+  .mobile-grid-6>*:nth-child(n+751):nth-child(-n+756),
+  .mobile-grid-6>*:nth-child(n+781):nth-child(-n+786),
+  .mobile-grid-6>*:nth-child(n+811):nth-child(-n+816),
+  .mobile-grid-6>*:nth-child(n+841):nth-child(-n+846),
+  .mobile-grid-6>*:nth-child(n+871):nth-child(-n+876),
+  .mobile-grid-6>*:nth-child(n+901):nth-child(-n+906),
+  .mobile-grid-6>*:nth-child(n+931):nth-child(-n+936),
+  .mobile-grid-6>*:nth-child(n+961):nth-child(-n+966),
+  .mobile-grid-6>*:nth-child(n+991):nth-child(-n+996),
+  .mobile-grid-6>*:nth-child(n+1021):nth-child(-n+1026),
+  .mobile-grid-6>*:nth-child(n+1051):nth-child(-n+1056) {
+    margin-top: 1rem;
+  }
+}
+
+/* Desktop grid spacing - every 5 rows */
+@media (min-width: 768px) {
+
+  .grid.grid-cols-6>*:nth-child(n+31):nth-child(-n+36),
+  .grid.grid-cols-6>*:nth-child(n+61):nth-child(-n+66),
+  .grid.grid-cols-6>*:nth-child(n+91):nth-child(-n+96),
+  .grid.grid-cols-6>*:nth-child(n+121):nth-child(-n+126),
+  .grid.grid-cols-6>*:nth-child(n+151):nth-child(-n+156),
+  .grid.grid-cols-6>*:nth-child(n+181):nth-child(-n+186),
+  .grid.grid-cols-6>*:nth-child(n+211):nth-child(-n+216),
+  .grid.grid-cols-6>*:nth-child(n+241):nth-child(-n+246),
+  .grid.grid-cols-6>*:nth-child(n+271):nth-child(-n+276),
+  .grid.grid-cols-6>*:nth-child(n+301):nth-child(-n+306),
+  .grid.grid-cols-6>*:nth-child(n+331):nth-child(-n+336),
+  .grid.grid-cols-6>*:nth-child(n+361):nth-child(-n+366),
+  .grid.grid-cols-6>*:nth-child(n+391):nth-child(-n+396),
+  .grid.grid-cols-6>*:nth-child(n+421):nth-child(-n+426),
+  .grid.grid-cols-6>*:nth-child(n+451):nth-child(-n+456),
+  .grid.grid-cols-6>*:nth-child(n+481):nth-child(-n+486),
+  .grid.grid-cols-6>*:nth-child(n+511):nth-child(-n+516),
+  .grid.grid-cols-6>*:nth-child(n+541):nth-child(-n+546),
+  .grid.grid-cols-6>*:nth-child(n+571):nth-child(-n+576),
+  .grid.grid-cols-6>*:nth-child(n+601):nth-child(-n+606),
+  .grid.grid-cols-6>*:nth-child(n+631):nth-child(-n+636),
+  .grid.grid-cols-6>*:nth-child(n+661):nth-child(-n+666),
+  .grid.grid-cols-6>*:nth-child(n+691):nth-child(-n+696),
+  .grid.grid-cols-6>*:nth-child(n+721):nth-child(-n+726),
+  .grid.grid-cols-6>*:nth-child(n+751):nth-child(-n+756),
+  .grid.grid-cols-6>*:nth-child(n+781):nth-child(-n+786),
+  .grid.grid-cols-6>*:nth-child(n+811):nth-child(-n+816),
+  .grid.grid-cols-6>*:nth-child(n+841):nth-child(-n+846),
+  .grid.grid-cols-6>*:nth-child(n+871):nth-child(-n+876),
+  .grid.grid-cols-6>*:nth-child(n+901):nth-child(-n+906),
+  .grid.grid-cols-6>*:nth-child(n+931):nth-child(-n+936),
+  .grid.grid-cols-6>*:nth-child(n+961):nth-child(-n+966),
+  .grid.grid-cols-6>*:nth-child(n+991):nth-child(-n+996),
+  .grid.grid-cols-6>*:nth-child(n+1021):nth-child(-n+1026),
+  .grid.grid-cols-6>*:nth-child(n+1051):nth-child(-n+1056) {
+    margin-top: 1.5rem;
   }
 }
 
@@ -178,6 +284,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }

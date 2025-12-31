@@ -369,14 +369,15 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = (props) => {
                                     </div>
 
                                     <img
-                                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${result.pokemon.id}.png`}
+                                        src={result.pokemon.shinySprite}
                                         alt={result.pokemon.name}
                                         className="w-44 h-44 mx-auto relative z-10 drop-shadow-lg"
                                     />
                                 </div>
-                                <p className="text-2xl font-bold mt-2 text-white">
-                                    #{result.pokemon.id.toString().padStart(3, '0')} {getPokemonName(result.pokemon.id.toString())}
-                                </p>
+                                <div className="mt-2 text-center">
+                                    <p className="text-lg text-gray-400 font-bold">#{result.pokemon.id.toString().split('-')[0].padStart(3, '0')}</p>
+                                    <p className="text-2xl font-bold text-white">{getPokemonName(result.pokemon.id.toString())}</p>
+                                </div>
                                 <div className="bg-gray-800 rounded p-3 mt-4 inline-block border border-gray-700">
                                     <p className="text-sm text-gray-400 mb-1">{t('hunt_in')}</p>
                                     <p className="text-lg font-semibold text-white">{gameVersions[result.game] || result.game}</p>
