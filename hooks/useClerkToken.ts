@@ -1,4 +1,4 @@
-import { useUser } from '@clerk/clerk-react';
+import { useAuth } from '@clerk/clerk-react';
 import { useEffect } from 'react';
 
 /**
@@ -6,16 +6,16 @@ import { useEffect } from 'react';
  * Stores the token in window for use by API requests
  */
 export function useClerkToken() {
-    const { user } = useUser();
+    const { getToken, isSignedIn } = useAuth();
 
     useEffect(() => {
         async function updateToken() {
-            if (user) {
+            if (isSignedIn) {
                 try {
                     // Get session token from Clerk
-                    const session = await (user as any).getToken();
+                    const token = await getToken();
                     // Store in window for API requests
-                    (window as any).__clerk_session_token = session;
+                    (window as any).__clerk_session_token = token;
                 } catch (error) {
                     console.error('Error getting Clerk token:', error);
                 }
@@ -31,7 +31,5 @@ export function useClerkToken() {
         const interval = setInterval(updateToken, 5 * 60 * 1000);
 
         return () => clearInterval(interval);
-    }, [user]);
-
-    return user;
+    }, [isSignedIn, getToken]);
 }
