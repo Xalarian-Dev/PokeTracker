@@ -59,34 +59,43 @@ npm run dev
 Create a `.env.local` file:
 
 ```env
+# Frontend variables
 VITE_CLERK_PUBLISHABLE_KEY=your_clerk_key
 VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# Backend variables (for Vercel deployment)
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+CLERK_SECRET_KEY=your_clerk_secret_key
 ```
 
 ---
 
-## Security Considerations
+## Security Architecture
 
-### Current Implementation (MVP)
+### Current Implementation (Production-Ready)
 
-**Authentication:** ✅ Secured by Clerk  
-**Data Isolation:** ⚠️ Client-side filtering by `user_id`  
-**Row Level Security (RLS):** ❌ Disabled for MVP simplicity
+**Authentication:** ✅ Secured by Clerk with JWT verification  
+**Data Isolation:** ✅ Server-side enforcement via backend API  
+**Row Level Security (RLS):** ✅ Enabled on all Supabase tables  
+**API Layer:** ✅ Vercel serverless functions with authentication
 
-### Known Limitations
+### Security Features
 
-- **Theoretical Risk:** A malicious user with browser console access could modify requests to access other users' data
-- **Practical Risk:** Very low - requires technical knowledge, effort disproportionate to gain (Pokémon shiny data)
-- **Acceptable for:** Personal use, small communities, non-sensitive data
-- **Not acceptable for:** Banking, e-commerce, medical records, PII
+1. **Backend API Layer**
+   - All database operations go through authenticated API endpoints
+   - Clerk JWT tokens verified on every request
+   - User ID extracted from verified token, not from client input
 
-### Why This Is OK for MVP
+2. **Row Level Security (RLS)**
+   - Enabled on `shiny_pokemon` and `user_preferences` tables
+   - Defense-in-depth: Even if anon key is exposed, RLS prevents unauthorized access
+   - Policies ensure users can only access their own data
 
-1. **Non-sensitive data** - Just Pokémon IDs, no personal information
-2. **Niche audience** - Pokémon players, not a target for attacks
-3. **Clerk authentication** - Only authenticated users can access the app
-4. **Low incentive** - No financial or privacy gain from exploiting
+3. **Service Role Isolation**
+   - Backend uses service role key (never exposed to frontend)
+   - Frontend uses anon key with RLS restrictions
+   - Clear separation of concerns
 
 ---
 
@@ -128,9 +137,9 @@ CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
 
 ## 📈 Roadmap Technique
 
-### Phase 2 : Optimisation
-- [ ] Backend API (Vercel Functions)
-- [ ] RLS Supabase activé
+### Phase 2 : Optimisation ✅ COMPLETE
+- [x] Backend API (Vercel Functions)
+- [x] RLS Supabase activé
 - [ ] Sync temps réel
 - [ ] Tests automatisés
 
@@ -145,16 +154,10 @@ CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
 
 ## 🐛 Problèmes Connus
 
-### RLS Désactivé
-- **Issue :** Row Level Security désactivé dans Supabase
-- **Impact :** Sécurité côté client uniquement
-- **Risque :** Très faible (données non-sensibles, petit public)
-- **Solution :** Acceptable pour MVP, activer avec backend plus tard
-
 ### Pas de Sync Temps Réel
 - **Issue :** Changements nécessitent refresh manuel
 - **Impact :** UX légèrement dégradée
-- **Solution :** Acceptable pour usage personnel/petit groupe
+- **Solution :** Infrastructure prête (Supabase Realtime), à activer dans Phase 3
 
 ---
 
@@ -163,14 +166,20 @@ CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
 ### Structure Actuelle
 ```
 PokeTracker/
-├── components/       (composants React)
-├── contexts/        (contextes React)
-├── data/           (données statiques)
-├── i18n/           (traductions)
-├── services/       (API Clerk/Supabase)
-├── App.tsx         (composant principal)
-├── index.tsx       (point d'entrée)
-└── index.html      (HTML)
+├── api/            (Vercel serverless functions)
+│   ├── _lib/       (shared utilities)
+│   ├── shinies.ts  (shiny Pokemon CRUD)
+│   ├── preferences.ts (user preferences)
+│   └── user-data.ts (GDPR deletion)
+├── components/     (composants React)
+├── contexts/       (contextes React)
+├── data/          (données statiques)
+├── hooks/         (React hooks)
+├── i18n/          (traductions)
+├── services/      (API client layer)
+├── App.tsx        (composant principal)
+├── index.tsx      (point d'entrée)
+└── index.html     (HTML)
 ```
 
 ### Dépendances Principales
@@ -183,9 +192,14 @@ PokeTracker/
 
 ### Variables d'Environnement
 ```env
+# Frontend
 VITE_CLERK_PUBLISHABLE_KEY=...
 VITE_SUPABASE_URL=...
 VITE_SUPABASE_ANON_KEY=...
+
+# Backend (Vercel only)
+SUPABASE_SERVICE_ROLE_KEY=...
+CLERK_SECRET_KEY=...
 ```
 
 ---

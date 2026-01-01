@@ -10,36 +10,69 @@ if (!supabaseUrl || !supabaseAnonKey) {
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 /**
+ * Helper: Get Clerk authentication token
+ */
+async function getAuthToken(): Promise<string> {
+    // Get Clerk session token from window.__clerk_session_token
+    // This is set by Clerk's useUser hook
+    const token = (window as any).__clerk_session_token;
+    if (!token) {
+        throw new Error('No authentication token available');
+    }
+    return token;
+}
+
+/**
+ * Helper: Make authenticated API request
+ */
+async function apiRequest<T>(
+    endpoint: string,
+    options: RequestInit = {}
+): Promise<T> {
+    const token = await getAuthToken();
+
+    const response = await fetch(`/api/${endpoint}`, {
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            ...options.headers,
+        },
+    });
+
+    if (!response.ok) {
+        const error = await response.json().catch(() => ({ error: 'Request failed' }));
+        throw new Error(error.error || `API request failed: ${response.status}`);
+    }
+
+    return response.json();
+}
+
+/**
  * Fetch all shiny Pokemon for a user
  */
 export async function fetchShinyPokemon(userId: string): Promise<Set<string>> {
-    const { data, error } = await supabase
-        .from('shiny_pokemon')
-        .select('pokemon_id')
-        .eq('user_id', userId);
-
-    if (error) {
+    try {
+        const data = await apiRequest<{ shinies: string[] }>('shinies');
+        return new Set(data.shinies);
+    } catch (error) {
         console.error('Error fetching shinies:', error);
         throw error;
     }
-
-    return new Set(data?.map(row => row.pokemon_id) || []);
 }
 
 /**
  * Add a shiny Pokemon
  */
 export async function addShinyPokemon(userId: string, pokemonId: string): Promise<void> {
-    const { error } = await supabase
-        .from('shiny_pokemon')
-        .insert({ user_id: userId, pokemon_id: pokemonId });
-
-    if (error) {
-        // Ignore duplicate errors (user already has this shiny)
-        if (error.code !== '23505') {
-            console.error('Error adding shiny:', error);
-            throw error;
-        }
+    try {
+        await apiRequest('shinies', {
+            method: 'POST',
+            body: JSON.stringify({ pokemonId }),
+        });
+    } catch (error) {
+        console.error('Error adding shiny:', error);
+        throw error;
     }
 }
 
@@ -47,13 +80,12 @@ export async function addShinyPokemon(userId: string, pokemonId: string): Promis
  * Remove a shiny Pokemon
  */
 export async function removeShinyPokemon(userId: string, pokemonId: string): Promise<void> {
-    const { error } = await supabase
-        .from('shiny_pokemon')
-        .delete()
-        .eq('user_id', userId)
-        .eq('pokemon_id', pokemonId);
-
-    if (error) {
+    try {
+        await apiRequest('shinies', {
+            method: 'DELETE',
+            body: JSON.stringify({ pokemonId }),
+        });
+    } catch (error) {
         console.error('Error removing shiny:', error);
         throw error;
     }
@@ -61,6 +93,7 @@ export async function removeShinyPokemon(userId: string, pokemonId: string): Pro
 
 /**
  * Subscribe to real-time changes for a user's shinies
+ * Note: This still uses direct Supabase client for real-time features
  */
 export function subscribeToShinyChanges(
     userId: string,
@@ -90,16 +123,13 @@ export async function migrateLocalStorageToSupabase(
 ): Promise<void> {
     if (localShinyIds.length === 0) return;
 
-    const records = localShinyIds.map(pokemonId => ({
-        user_id: userId,
-        pokemon_id: pokemonId
-    }));
-
-    const { error } = await supabase
-        .from('shiny_pokemon')
-        .upsert(records, { onConflict: 'user_id,pokemon_id' });
-
-    if (error) {
+    // Migrate by calling addShinyPokemon for each ID
+    // This ensures proper authentication and RLS compliance
+    try {
+        await Promise.all(
+            localShinyIds.map(pokemonId => addShinyPokemon(userId, pokemonId))
+        );
+    } catch (error) {
         console.error('Error migrating data:', error);
         throw error;
     }
@@ -119,22 +149,13 @@ export interface UserPreferences {
  * Get user preferences
  */
 export async function getUserPreferences(userId: string): Promise<UserPreferences | null> {
-    const { data, error } = await supabase
-        .from('user_preferences')
-        .select('*')
-        .eq('user_id', userId)
-        .single();
-
-    if (error) {
-        if (error.code === 'PGRST116') {
-            // No preferences found, return null
-            return null;
-        }
+    try {
+        const data = await apiRequest<{ preferences: UserPreferences | null }>('preferences');
+        return data.preferences;
+    } catch (error) {
         console.error('Error fetching preferences:', error);
         throw error;
     }
-
-    return data;
 }
 
 /**
@@ -146,19 +167,16 @@ export async function saveUserPreferences(
     ownedGames: string[],
     displayName?: string
 ): Promise<void> {
-    const { error } = await supabase
-        .from('user_preferences')
-        .upsert({
-            user_id: userId,
-            preferred_language: language,
-            owned_games: ownedGames,
-            display_name: displayName,
-            updated_at: new Date().toISOString()
-        }, {
-            onConflict: 'user_id'
+    try {
+        await apiRequest('preferences', {
+            method: 'PUT',
+            body: JSON.stringify({
+                language,
+                ownedGames,
+                displayName,
+            }),
         });
-
-    if (error) {
+    } catch (error) {
         console.error('Error saving preferences:', error);
         throw error;
     }
@@ -168,16 +186,9 @@ export async function saveUserPreferences(
  * Create default preferences for new user
  */
 export async function createDefaultPreferences(userId: string): Promise<void> {
-    const { error } = await supabase
-        .from('user_preferences')
-        .insert({
-            user_id: userId,
-            preferred_language: 'fr',
-            owned_games: []
-        });
-
-    if (error && error.code !== '23505') {
-        // Ignore duplicate errors
+    try {
+        await saveUserPreferences(userId, 'fr', []);
+    } catch (error) {
         console.error('Error creating default preferences:', error);
         throw error;
     }
@@ -188,25 +199,12 @@ export async function createDefaultPreferences(userId: string): Promise<void> {
  * This removes all shiny pokemon and user preferences
  */
 export async function deleteUserData(userId: string): Promise<void> {
-    // Delete shiny pokemon
-    const { error: shinyError } = await supabase
-        .from('shiny_pokemon')
-        .delete()
-        .eq('user_id', userId);
-
-    if (shinyError) {
-        console.error('Error deleting shiny pokemon:', shinyError);
-        throw shinyError;
-    }
-
-    // Delete user preferences
-    const { error: prefsError } = await supabase
-        .from('user_preferences')
-        .delete()
-        .eq('user_id', userId);
-
-    if (prefsError) {
-        console.error('Error deleting user preferences:', prefsError);
-        throw prefsError;
+    try {
+        await apiRequest('user-data', {
+            method: 'DELETE',
+        });
+    } catch (error) {
+        console.error('Error deleting user data:', error);
+        throw error;
     }
 }

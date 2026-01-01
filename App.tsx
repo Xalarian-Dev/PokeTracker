@@ -7,6 +7,7 @@ import type { Pokemon, User } from './types';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { clerkPublishableKey, clerkAppearance } from './clerk-config';
 import { useMetadata } from './hooks/useMetadata';
+import { useClerkToken } from './hooks/useClerkToken';
 import { CookieConsent } from './components/CookieConsent';
 import { Footer } from './components/Footer';
 import { LegalModalProvider, useLegalModal } from './contexts/LegalModalContext';
@@ -21,6 +22,9 @@ const AppContent = () => {
 
   // Initialize metadata management
   useMetadata();
+
+  // Initialize Clerk token management for API authentication
+  useClerkToken();
 
 
   // Convert Clerk user to our User type
