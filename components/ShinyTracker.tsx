@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { useUser } from '@clerk/clerk-react';
+import { useUser, useAuth } from '@clerk/clerk-react';
 import type { Pokemon, User } from '../types';
 import Header from './Header';
 import LeftSidebar from './LeftSidebar';
@@ -86,6 +86,7 @@ interface ShinyTrackerProps {
 
 const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileClick, pokemonList }) => {
   const { user: clerkUser } = useUser();
+  const { getToken, isSignedIn } = useAuth();
   const isMobile = useIsMobile();
   const [shinyPokemons, setShinyPokemons] = useState<Set<string>>(new Set());
   const [searchTerm, setSearchTerm] = useState('');
@@ -142,7 +143,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
     const loadData = async () => {
       setLoading(true);
 
-      if (!userId) {
+      if (!userId || !isSignedIn) {
         // Guest mode: use localStorage
         if (storageKey) {
           try {
@@ -158,8 +159,19 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
         return;
       }
 
-      // Authenticated: use Supabase
+      // Wait for token to be available
       try {
+        const token = await getToken();
+        if (!token) {
+          console.warn('No token available yet, waiting...');
+          setLoading(false);
+          return;
+        }
+
+        // Store token for API calls
+        (window as any).__clerk_session_token = token;
+
+        // Authenticated: use Supabase
         const shinies = await fetchShinyPokemon(userId);
         setShinyPokemons(shinies);
 
@@ -201,7 +213,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
     };
 
     loadData();
-  }, [userId, storageKey]);
+  }, [userId, storageKey, getToken, isSignedIn]);
 
   // Detect scroll position for scroll-to-top button
   useEffect(() => {
