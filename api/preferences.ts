@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { authenticateRequest, setCorsHeaders, handleOptions } from './_lib/auth';
-import { supabaseAdmin } from './_lib/supabase';
+import { authenticateRequest, setCorsHeaders, handleOptions } from './_lib/auth.js';
+import { supabaseAdmin } from './_lib/supabase.js';
 
 /**
  * API endpoint for managing user preferences
