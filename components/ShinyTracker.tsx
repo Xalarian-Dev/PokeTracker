@@ -239,30 +239,42 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
     };
   }, [isRandomHuntOpen]);
 
-  // Real-time subscription for authenticated users
-  useEffect(() => {
-    if (!userId) return;
+  // Real-time subscription DISABLED for security
+  // Realtime requires permissive RLS policies which would allow anyone with anon_key
+  // to read/delete all data. We prioritize security over real-time sync.
+  // To re-enable: uncomment this code and apply permissive RLS policies
 
-    const channel = subscribeToShinyChanges(userId, (payload) => {
-      console.log('Real-time update:', payload);
+  // useEffect(() => {
+  //   if (!userId) return;
 
-      if (payload.eventType === 'INSERT') {
-        setShinyPokemons(prev => new Set([...prev, payload.new.pokemon_id]));
-      } else if (payload.eventType === 'DELETE') {
-        setShinyPokemons(prev => {
-          const newSet = new Set(prev);
-          newSet.delete(payload.old.pokemon_id);
-          return newSet;
-        });
-      }
-    });
+  //   const channel = subscribeToShinyChanges(userId, (payload) => {
+  //     console.log('Real-time update:', payload);
 
-    realtimeChannelRef.current = channel;
+  //     if (payload.eventType === 'INSERT') {
+  //       setShinyPokemons(prev => new Set([...prev, payload.new.pokemon_id]));
+  //     } else if (payload.eventType === 'DELETE') {
+  //       console.log('DELETE payload:', payload);
+  //       console.log('payload.old:', payload.old);
+  //       const pokemonId = payload.old?.pokemon_id;
+  //       if (pokemonId) {
+  //         setShinyPokemons(prev => {
+  //           const newSet = new Set(prev);
+  //           newSet.delete(pokemonId);
+  //           console.log('Deleted pokemon_id:', pokemonId);
+  //           return newSet;
+  //         });
+  //       } else {
+  //         console.error('No pokemon_id in DELETE payload:', payload);
+  //       }
+  //     }
+  //   });
 
-    return () => {
-      channel.unsubscribe();
-    };
-  }, [userId]);
+  //   realtimeChannelRef.current = channel;
+
+  //   return () => {
+  //     channel.unsubscribe();
+  //   };
+  // }, [userId]);
 
   // Save to localStorage for guests
   useEffect(() => {
