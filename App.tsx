@@ -109,6 +109,7 @@ const App = () => {
     <ClerkProvider
       publishableKey={clerkPublishableKey}
       appearance={clerkAppearance}
+      isSatellite={false}
     >
       <LanguageProvider>
         <LegalModalProvider>
