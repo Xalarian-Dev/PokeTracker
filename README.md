@@ -2,7 +2,7 @@
 
 A modern, cloud-based Pokémon Shiny Tracker built with React, Clerk, and Supabase.
 
-**Live Demo:** https://poke-tracker-omega.vercel.app/
+**Live Demo:** https://pokemonshinytracker.vercel.app/
 
 ---
 
@@ -50,8 +50,11 @@ npm install
 cp .env.example .env.local
 # Add your Clerk and Supabase keys
 
-# Run development server
+# Run development server (frontend only)
 npm run dev
+
+# OR run with Vercel CLI (includes API routes)
+npm run vercel:dev
 ```
 
 ### Environment Variables
@@ -103,7 +106,7 @@ CLERK_SECRET_KEY=your_clerk_secret_key
 
 Deployed on Vercel with automatic CI/CD from GitHub.
 
-**Production URL:** https://poke-tracker-omega.vercel.app/
+**Production URL:** https://pokemonshinytracker.vercel.app/
 
 ### Deploy Your Own
 
@@ -131,7 +134,7 @@ CREATE TABLE shiny_pokemon (
 CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
 ```
 
-**Note:** RLS is currently disabled. See Security Considerations above.
+**Note:** RLS is enabled. All data access is controlled by Row Level Security policies.
 
 ---
 
@@ -140,7 +143,9 @@ CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
 ### Phase 2 : Optimisation ✅ COMPLETE
 - [x] Backend API (Vercel Functions)
 - [x] RLS Supabase activé
-- [ ] Sync temps réel
+- [x] Authentification JWT sécurisée
+- [x] Migration données localStorage → Supabase
+- [ ] Sync temps réel (infrastructure prête)
 - [ ] Tests automatisés
 
 ### Phase 3 : Scaling (Si succès)
@@ -158,6 +163,12 @@ CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
 - **Issue :** Changements nécessitent refresh manuel
 - **Impact :** UX légèrement dégradée
 - **Solution :** Infrastructure prête (Supabase Realtime), à activer dans Phase 3
+
+### Erreurs de cookies sur .vercel.app
+- **Issue :** Cookies `__clerk_test_etld` et `__cf_bm` rejetés dans la console
+- **Impact :** Aucun - erreurs cosmétiques sans effet sur le fonctionnement
+- **Cause :** `.vercel.app` est sur la Public Suffix List
+- **Solution :** Utiliser un domaine personnalisé (optionnel)
 
 ---
 
@@ -189,6 +200,29 @@ PokeTracker/
 - Clerk (auth)
 - Supabase (database)
 - Vite (build tool)
+- Vercel (serverless functions)
+
+### Développement Local
+
+**Frontend uniquement** (sans API):
+```bash
+npm run dev
+```
+
+**Avec API routes** (recommandé):
+```bash
+# Installer Vercel CLI globalement
+npm install -g vercel
+
+# Lier le projet et récupérer les variables d'environnement
+vercel link
+vercel env pull .env.local
+
+# Lancer le serveur de développement
+npm run vercel:dev
+```
+
+> **Note:** Les API routes (`/api/*`) nécessitent Vercel CLI pour fonctionner en local.
 
 ### Variables d'Environnement
 ```env
