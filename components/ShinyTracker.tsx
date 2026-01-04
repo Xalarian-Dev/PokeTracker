@@ -168,8 +168,8 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
           return;
         }
 
-        // Store token for API calls
-        (window as any).__clerk_session_token = token;
+        // Store getToken function for API calls (always gets fresh token)
+        (window as any).__clerk_getToken = getToken;
 
         // Authenticated: use Supabase
         const shinies = await fetchShinyPokemon(userId);

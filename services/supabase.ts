@@ -11,19 +11,16 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 /**
  * Helper: Get Clerk authentication token
- * This should be called with the token from useAuth().getToken()
+ * Always gets a fresh token from Clerk to avoid expiration issues
  */
-async function getAuthToken(getTokenFn?: () => Promise<string | null>): Promise<string> {
-    if (getTokenFn) {
-        const token = await getTokenFn();
-        if (!token) {
-            throw new Error('No authentication token available');
-        }
-        return token;
+async function getAuthToken(): Promise<string> {
+    // Get fresh token from Clerk via global function
+    const getToken = (window as any).__clerk_getToken;
+    if (!getToken) {
+        throw new Error('Clerk getToken function not available');
     }
 
-    // Fallback to window storage (set by useClerkToken hook)
-    const token = (window as any).__clerk_session_token;
+    const token = await getToken();
     if (!token) {
         throw new Error('No authentication token available');
     }
@@ -35,10 +32,9 @@ async function getAuthToken(getTokenFn?: () => Promise<string | null>): Promise<
  */
 async function apiRequest<T>(
     endpoint: string,
-    options: RequestInit = {},
-    getTokenFn?: () => Promise<string | null>
+    options: RequestInit = {}
 ): Promise<T> {
-    const token = await getAuthToken(getTokenFn);
+    const token = await getAuthToken(); // Always get fresh token
 
     const response = await fetch(`/api/${endpoint}`, {
         ...options,
