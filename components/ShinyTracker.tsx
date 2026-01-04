@@ -12,7 +12,7 @@ import ScrollToTopButton from './ScrollToTopButton';
 import { Button } from './ui';
 import { Toaster } from './ui';
 import { SidebarProvider, Sidebar, SidebarContent, useSidebar } from './ui/sidebar';
-import { POKEMON_AVAILABILITY, GAME_GROUP_MAP } from '../data/games';
+import { POKEMON_AVAILABILITY, GAME_GROUP_MAP, SHINY_LOCKED_POKEMON } from '../data/games';
 import { useLanguage } from '../contexts/LanguageContext';
 import {
   fetchShinyPokemon,
@@ -93,6 +93,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
   const [showOnlyShiny, setShowOnlyShiny] = useState(false);
   const [showMissingShiny, setShowMissingShiny] = useState(false);
   const [hideGrayedPokemon, setHideGrayedPokemon] = useState(false);
+  const [hideShinyLocked, setHideShinyLocked] = useState(false);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<{ type: 'gen' | 'region'; value: string | number } | null>(null);
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
@@ -356,9 +357,12 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
     // Filtre "Manquants uniquement"
     const matchesMissingFilter = !showMissingShiny || !shinyPokemons.has(pokemon.id);
 
+    // Filtre "Hide Shiny Locked"
+    const matchesShinyLockedFilter = !hideShinyLocked || !selectedGame || !(SHINY_LOCKED_POKEMON[selectedGame] || []).includes(pokemon.id);
+
     // Retourne TRUE si le Pokémon doit être GRISÉ (ne matche PAS les filtres)
-    return !(matchesSearch && matchesGen && matchesRegion && matchesGame && matchesShinyFilter && matchesMissingFilter);
-  }, [searchTerm, activeFilter, selectedGame, showOnlyShiny, showMissingShiny, shinyPokemons]);
+    return !(matchesSearch && matchesGen && matchesRegion && matchesGame && matchesShinyFilter && matchesMissingFilter && matchesShinyLockedFilter);
+  }, [searchTerm, activeFilter, selectedGame, showOnlyShiny, showMissingShiny, shinyPokemons, hideShinyLocked]);
 
   // Organiser les Pokémon pour l'affichage
   const displayedPokemon = useMemo(() => {
@@ -531,6 +535,8 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
               setShowMissingShiny={setShowMissingShiny}
               hideGrayedPokemon={hideGrayedPokemon}
               setHideGrayedPokemon={setHideGrayedPokemon}
+              hideShinyLocked={hideShinyLocked}
+              setHideShinyLocked={setHideShinyLocked}
               onMajorFilterChange={() => setScrollTrigger(st => st + 1)}
               pokemonList={pokemonList}
               shinyPokemons={shinyPokemons}
@@ -556,7 +562,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
           />
 
           {/* Main Content */}
-          <div className={`flex flex-1 overflow-hidden ${confirmModal.isOpen ? 'blur-sm pointer-events-none select-none' : ''}`}>
+          <div className={`flex flex-1 overflow-hidden ${confirmModal.isOpen ? 'blur-sm select-none' : ''}`}>
 
             {/* Main Content Area */}
             <div className="flex-1 overflow-y-auto overflow-x-hidden w-full">

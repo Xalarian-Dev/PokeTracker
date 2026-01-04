@@ -24,6 +24,8 @@ interface LeftSidebarProps {
     setShowMissingShiny: (show: boolean) => void;
     hideGrayedPokemon: boolean;
     setHideGrayedPokemon: (hide: boolean) => void;
+    hideShinyLocked: boolean;
+    setHideShinyLocked: (hide: boolean) => void;
     onMajorFilterChange: () => void;
 
     // Random Hunt props
@@ -257,7 +259,7 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = (props) => {
                                     </div>
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto justify-center">
+                                    <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto justify-center pb-4">
                                         {Object.entries(gameList).map(([gameId, gameName]) => (
                                             <FilterChip
                                                 key={gameId}
@@ -308,6 +310,12 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = (props) => {
                                             isActive={props.hideGrayedPokemon}
                                             variant="filter"
                                             onClick={() => props.setHideGrayedPokemon(!props.hideGrayedPokemon)}
+                                        />
+                                        <FilterChip
+                                            label={t('hide_shiny_locked')}
+                                            isActive={props.hideShinyLocked}
+                                            variant="filter"
+                                            onClick={() => props.setHideShinyLocked(!props.hideShinyLocked)}
                                         />
                                     </div>
                                 </AccordionContent>

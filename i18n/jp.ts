@@ -126,6 +126,7 @@ export const ui = {
     hunt_in: "狩り場所",
     no_compatible_pokemon: "所有ゲームと互換性のあるポケモンが見つかりませんでした。",
     hide_grayed_pokemon: "フィルター済みを非表示",
+    hide_shiny_locked: "色違いロックを非表示",
     dual_slot_req: "GBAスロットが必要: {game}",
     gba_firered: "ファイアレッド",
     gba_leafgreen: "リーフグリーン",

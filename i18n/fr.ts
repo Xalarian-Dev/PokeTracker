@@ -126,6 +126,7 @@ export const ui = {
     hunt_in: "Chasser dans",
     no_compatible_pokemon: "Aucun Pokémon compatible trouvé avec vos jeux possédés.",
     hide_grayed_pokemon: "Masquer Filtrés",
+    hide_shiny_locked: "Masquer Shiny Lock",
     dual_slot_req: "Nécessite le port GBA : {game}",
     gba_firered: "Rouge Feu",
     gba_leafgreen: "Vert Feuille",

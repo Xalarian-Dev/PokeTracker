@@ -80,7 +80,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
     cursor-pointer transition-all duration-300 transform select-none
     hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/20
     ${isShiny ? 'border-2 border-amber-400' : cardBgColor === 'bg-black' ? 'border-2 border-gray-700' : 'border-2 border-transparent'}
-    overflow-hidden
+    overflow-visible
   `;
 
   const shinyGlowStyle = isShiny ? {
@@ -244,7 +244,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
         </div>
       )}
       {hasSWSHDLC1 && (
-        <div className="absolute top-2 left-2 group/dlc1">
+        <div className="absolute top-2 left-2 group/dlc1 pointer-events-auto">
           <IsleOfArmorIcon className="w-6 h-6" />
           <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/dlc1:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
             {t('dlc_isle_of_armor')}
@@ -252,7 +252,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
         </div>
       )}
       {hasSWSHDLC2 && (
-        <div className="absolute top-2 left-2 group/dlc2" style={{ marginLeft: hasSWSHDLC1 ? '28px' : '0' }}>
+        <div className="absolute top-2 left-2 group/dlc2 pointer-events-auto" style={{ marginLeft: hasSWSHDLC1 ? '28px' : '0' }}>
           <CrownTundraIcon className="w-6 h-6" />
           <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/dlc2:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
             {t('dlc_crown_tundra')}
@@ -260,7 +260,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
         </div>
       )}
       {hasSVDLC1 && (
-        <div className="absolute top-2 left-2 group/svdlc1">
+        <div className="absolute top-2 left-2 group/svdlc1 pointer-events-auto">
           <TealMaskIcon className="w-6 h-6" />
           <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/svdlc1:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
             {t('dlc_teal_mask')}
@@ -268,7 +268,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
         </div>
       )}
       {hasSVDLC2 && (
-        <div className="absolute top-2 left-2 group/svdlc2" style={{ marginLeft: hasSVDLC1 ? '28px' : '0' }}>
+        <div className="absolute top-2 left-2 group/svdlc2 pointer-events-auto" style={{ marginLeft: hasSVDLC1 ? '28px' : '0' }}>
           <IndigoDiskIcon className="w-6 h-6" />
           <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/svdlc2:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
             {t('dlc_indigo_disk')}
@@ -276,7 +276,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
         </div>
       )}
       {hasLZADLC1 && (
-        <div className="absolute top-2 left-2 group/lzadlc1">
+        <div className="absolute top-2 left-2 group/lzadlc1 pointer-events-auto">
           <MegaDimensionIcon className="w-12 h-6 -ml-1" />
           <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/lzadlc1:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
             {t('dlc_mega_dimension')}
