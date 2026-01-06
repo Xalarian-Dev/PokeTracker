@@ -935,7 +935,7 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '715': ['x', 'y', 'us', 'um', 'sw', 'sh', 'sc', 'v', 'lpza'],
     '716': ['x', 'us', 'swdlc2', 'lpza'],
     '717': ['y', 'um', 'shdlc2', 'lpza'],
-    '718': ['x', 'y', 'su', 'm', 'us', 'um', 'swdlc2', 'shdlc2', 'scdlc2', 'vdlc2', 'lpza'],
+    '718': ['x', 'y', 'su', 'm', 'us', 'um', 'swdlc2', 'shdlc2', 'lpza'],
     '719': ['lpza'],
     '720': ['lpzadlc1'],
     '721': ['lpzadlc1'],
