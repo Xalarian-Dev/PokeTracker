@@ -414,25 +414,15 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
     // Auto-set as favorite if no favorite exists and we're turning shiny ON
     // This happens AFTER persisting the shiny state
     const currentFavorite = favoriteForms.get(pokemonId);
-    console.log('[toggleForm] Auto-favorite check:', {
-      pokemonId,
-      formId,
-      newShinyState,
-      currentFavorite,
-      shouldSetFavorite: newShinyState && !currentFavorite
-    });
 
     if (newShinyState && !currentFavorite) {
-      console.log('[toggleForm] Setting auto-favorite:', pokemonId, formId);
       setFavoriteForms(prev => {
         const newMap = new Map(prev);
         newMap.set(pokemonId, formId);
-        console.log('[toggleForm] Updated favoriteForms state:', newMap);
         return newMap;
       });
 
-      const result = await setFavoriteFormAPI(pokemonId, formId);
-      console.log('[toggleForm] setFavoriteFormAPI result:', result);
+      await setFavoriteFormAPI(pokemonId, formId);
     }
   };
 

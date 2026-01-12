@@ -1157,6 +1157,772 @@ export const POKEMON_WITH_MULTIPLE_FORMS: Record<string, {
       { id: '128-paldea-aqua', name: 'Aqua Breed', spriteId: 10252 }
     ]
   },
+  // Gender Forms - Generation 1
+  '3': { // Venusaur
+    basePokemonId: '3',
+    baseFormName: 'Male',
+    forms: [
+      { id: '3-male', name: 'Male', spriteId: 3 },
+      { id: '3-female', name: 'Female', spriteId: 'female/3' as any }
+    ]
+  },
+  '12': { // Butterfree
+    basePokemonId: '12',
+    baseFormName: 'Male',
+    forms: [
+      { id: '12-male', name: 'Male', spriteId: 12 },
+      { id: '12-female', name: 'Female', spriteId: 'female/12' as any }
+    ]
+  },
+  '19': { // Rattata
+    basePokemonId: '19',
+    baseFormName: 'Male',
+    forms: [
+      { id: '19-male', name: 'Male', spriteId: 19 },
+      { id: '19-female', name: 'Female', spriteId: 'female/19' as any }
+    ]
+  },
+  '20': { // Raticate
+    basePokemonId: '20',
+    baseFormName: 'Male',
+    forms: [
+      { id: '20-male', name: 'Male', spriteId: 20 },
+      { id: '20-female', name: 'Female', spriteId: 'female/20' as any }
+    ]
+  },
+  '25': { // Pikachu
+    basePokemonId: '25',
+    baseFormName: 'Male',
+    forms: [
+      { id: '25-male', name: 'Male', spriteId: 25 },
+      { id: '25-female', name: 'Female', spriteId: 'female/25' as any }
+    ]
+  },
+  '26': { // Raichu
+    basePokemonId: '26',
+    baseFormName: 'Male',
+    forms: [
+      { id: '26-male', name: 'Male', spriteId: 26 },
+      { id: '26-female', name: 'Female', spriteId: 'female/26' as any }
+    ]
+  },
+  '41': { // Zubat
+    basePokemonId: '41',
+    baseFormName: 'Male',
+    forms: [
+      { id: '41-male', name: 'Male', spriteId: 41 },
+      { id: '41-female', name: 'Female', spriteId: 'female/41' as any }
+    ]
+  },
+  '42': { // Golbat
+    basePokemonId: '42',
+    baseFormName: 'Male',
+    forms: [
+      { id: '42-male', name: 'Male', spriteId: 42 },
+      { id: '42-female', name: 'Female', spriteId: 'female/42' as any }
+    ]
+  },
+  '44': { // Gloom
+    basePokemonId: '44',
+    baseFormName: 'Male',
+    forms: [
+      { id: '44-male', name: 'Male', spriteId: 44 },
+      { id: '44-female', name: 'Female', spriteId: 'female/44' as any }
+    ]
+  },
+  '45': { // Vileplume
+    basePokemonId: '45',
+    baseFormName: 'Male',
+    forms: [
+      { id: '45-male', name: 'Male', spriteId: 45 },
+      { id: '45-female', name: 'Female', spriteId: 'female/45' as any }
+    ]
+  },
+  '64': { // Kadabra
+    basePokemonId: '64',
+    baseFormName: 'Male',
+    forms: [
+      { id: '64-male', name: 'Male', spriteId: 64 },
+      { id: '64-female', name: 'Female', spriteId: 'female/64' as any }
+    ]
+  },
+  '65': { // Alakazam
+    basePokemonId: '65',
+    baseFormName: 'Male',
+    forms: [
+      { id: '65-male', name: 'Male', spriteId: 65 },
+      { id: '65-female', name: 'Female', spriteId: 'female/65' as any }
+    ]
+  },
+  '84': { // Doduo
+    basePokemonId: '84',
+    baseFormName: 'Male',
+    forms: [
+      { id: '84-male', name: 'Male', spriteId: 84 },
+      { id: '84-female', name: 'Female', spriteId: 'female/84' as any }
+    ]
+  },
+  '85': { // Dodrio
+    basePokemonId: '85',
+    baseFormName: 'Male',
+    forms: [
+      { id: '85-male', name: 'Male', spriteId: 85 },
+      { id: '85-female', name: 'Female', spriteId: 'female/85' as any }
+    ]
+  },
+  '97': { // Hypno
+    basePokemonId: '97',
+    baseFormName: 'Male',
+    forms: [
+      { id: '97-male', name: 'Male', spriteId: 97 },
+      { id: '97-female', name: 'Female', spriteId: 'female/97' as any }
+    ]
+  },
+  '111': { // Rhyhorn
+    basePokemonId: '111',
+    baseFormName: 'Male',
+    forms: [
+      { id: '111-male', name: 'Male', spriteId: 111 },
+      { id: '111-female', name: 'Female', spriteId: 'female/111' as any }
+    ]
+  },
+  '112': { // Rhydon
+    basePokemonId: '112',
+    baseFormName: 'Male',
+    forms: [
+      { id: '112-male', name: 'Male', spriteId: 112 },
+      { id: '112-female', name: 'Female', spriteId: 'female/112' as any }
+    ]
+  },
+  '118': { // Goldeen
+    basePokemonId: '118',
+    baseFormName: 'Male',
+    forms: [
+      { id: '118-male', name: 'Male', spriteId: 118 },
+      { id: '118-female', name: 'Female', spriteId: 'female/118' as any }
+    ]
+  },
+  '119': { // Seaking
+    basePokemonId: '119',
+    baseFormName: 'Male',
+    forms: [
+      { id: '119-male', name: 'Male', spriteId: 119 },
+      { id: '119-female', name: 'Female', spriteId: 'female/119' as any }
+    ]
+  },
+  '123': { // Scyther
+    basePokemonId: '123',
+    baseFormName: 'Male',
+    forms: [
+      { id: '123-male', name: 'Male', spriteId: 123 },
+      { id: '123-female', name: 'Female', spriteId: 'female/123' as any }
+    ]
+  },
+  '129': { // Magikarp
+    basePokemonId: '129',
+    baseFormName: 'Male',
+    forms: [
+      { id: '129-male', name: 'Male', spriteId: 129 },
+      { id: '129-female', name: 'Female', spriteId: 'female/129' as any }
+    ]
+  },
+  '130': { // Gyarados
+    basePokemonId: '130',
+    baseFormName: 'Male',
+    forms: [
+      { id: '130-male', name: 'Male', spriteId: 130 },
+      { id: '130-female', name: 'Female', spriteId: 'female/130' as any }
+    ]
+  },
+  '133': { // Eevee
+    basePokemonId: '133',
+    baseFormName: 'Male',
+    forms: [
+      { id: '133-male', name: 'Male', spriteId: 133 },
+      { id: '133-female', name: 'Female', spriteId: 'female/133' as any }
+    ]
+  },
+  // Gender Forms - Generation 2
+  '154': { // Meganium
+    basePokemonId: '154',
+    baseFormName: 'Male',
+    forms: [
+      { id: '154-male', name: 'Male', spriteId: 154 },
+      { id: '154-female', name: 'Female', spriteId: 'female/154' as any }
+    ]
+  },
+  '165': { // Ledyba
+    basePokemonId: '165',
+    baseFormName: 'Male',
+    forms: [
+      { id: '165-male', name: 'Male', spriteId: 165 },
+      { id: '165-female', name: 'Female', spriteId: 'female/165' as any }
+    ]
+  },
+  '166': { // Ledian
+    basePokemonId: '166',
+    baseFormName: 'Male',
+    forms: [
+      { id: '166-male', name: 'Male', spriteId: 166 },
+      { id: '166-female', name: 'Female', spriteId: 'female/166' as any }
+    ]
+  },
+  '178': { // Xatu
+    basePokemonId: '178',
+    baseFormName: 'Male',
+    forms: [
+      { id: '178-male', name: 'Male', spriteId: 178 },
+      { id: '178-female', name: 'Female', spriteId: 'female/178' as any }
+    ]
+  },
+  '185': { // Sudowoodo
+    basePokemonId: '185',
+    baseFormName: 'Male',
+    forms: [
+      { id: '185-male', name: 'Male', spriteId: 185 },
+      { id: '185-female', name: 'Female', spriteId: 'female/185' as any }
+    ]
+  },
+  '186': { // Politoed
+    basePokemonId: '186',
+    baseFormName: 'Male',
+    forms: [
+      { id: '186-male', name: 'Male', spriteId: 186 },
+      { id: '186-female', name: 'Female', spriteId: 'female/186' as any }
+    ]
+  },
+  '190': { // Aipom
+    basePokemonId: '190',
+    baseFormName: 'Male',
+    forms: [
+      { id: '190-male', name: 'Male', spriteId: 190 },
+      { id: '190-female', name: 'Female', spriteId: 'female/190' as any }
+    ]
+  },
+  '194': { // Wooper
+    basePokemonId: '194',
+    baseFormName: 'Male',
+    forms: [
+      { id: '194-male', name: 'Male', spriteId: 194 },
+      { id: '194-female', name: 'Female', spriteId: 'female/194' as any }
+    ]
+  },
+  '195': { // Quagsire
+    basePokemonId: '195',
+    baseFormName: 'Male',
+    forms: [
+      { id: '195-male', name: 'Male', spriteId: 195 },
+      { id: '195-female', name: 'Female', spriteId: 'female/195' as any }
+    ]
+  },
+  '198': { // Murkrow
+    basePokemonId: '198',
+    baseFormName: 'Male',
+    forms: [
+      { id: '198-male', name: 'Male', spriteId: 198 },
+      { id: '198-female', name: 'Female', spriteId: 'female/198' as any }
+    ]
+  },
+  '202': { // Wobbuffet
+    basePokemonId: '202',
+    baseFormName: 'Male',
+    forms: [
+      { id: '202-male', name: 'Male', spriteId: 202 },
+      { id: '202-female', name: 'Female', spriteId: 'female/202' as any }
+    ]
+  },
+  '203': { // Girafarig
+    basePokemonId: '203',
+    baseFormName: 'Male',
+    forms: [
+      { id: '203-male', name: 'Male', spriteId: 203 },
+      { id: '203-female', name: 'Female', spriteId: 'female/203' as any }
+    ]
+  },
+  '207': { // Gligar
+    basePokemonId: '207',
+    baseFormName: 'Male',
+    forms: [
+      { id: '207-male', name: 'Male', spriteId: 207 },
+      { id: '207-female', name: 'Female', spriteId: 'female/207' as any }
+    ]
+  },
+  '208': { // Steelix
+    basePokemonId: '208',
+    baseFormName: 'Male',
+    forms: [
+      { id: '208-male', name: 'Male', spriteId: 208 },
+      { id: '208-female', name: 'Female', spriteId: 'female/208' as any }
+    ]
+  },
+  '212': { // Scizor
+    basePokemonId: '212',
+    baseFormName: 'Male',
+    forms: [
+      { id: '212-male', name: 'Male', spriteId: 212 },
+      { id: '212-female', name: 'Female', spriteId: 'female/212' as any }
+    ]
+  },
+  '214': { // Heracross
+    basePokemonId: '214',
+    baseFormName: 'Male',
+    forms: [
+      { id: '214-male', name: 'Male', spriteId: 214 },
+      { id: '214-female', name: 'Female', spriteId: 'female/214' as any }
+    ]
+  },
+  '215': { // Sneasel
+    basePokemonId: '215',
+    baseFormName: 'Male',
+    forms: [
+      { id: '215-male', name: 'Male', spriteId: 215 },
+      { id: '215-female', name: 'Female', spriteId: 'female/215' as any }
+    ]
+  },
+  '217': { // Ursaring
+    basePokemonId: '217',
+    baseFormName: 'Male',
+    forms: [
+      { id: '217-male', name: 'Male', spriteId: 217 },
+      { id: '217-female', name: 'Female', spriteId: 'female/217' as any }
+    ]
+  },
+  '221': { // Piloswine
+    basePokemonId: '221',
+    baseFormName: 'Male',
+    forms: [
+      { id: '221-male', name: 'Male', spriteId: 221 },
+      { id: '221-female', name: 'Female', spriteId: 'female/221' as any }
+    ]
+  },
+  '224': { // Octillery
+    basePokemonId: '224',
+    baseFormName: 'Male',
+    forms: [
+      { id: '224-male', name: 'Male', spriteId: 224 },
+      { id: '224-female', name: 'Female', spriteId: 'female/224' as any }
+    ]
+  },
+  '229': { // Houndoom
+    basePokemonId: '229',
+    baseFormName: 'Male',
+    forms: [
+      { id: '229-male', name: 'Male', spriteId: 229 },
+      { id: '229-female', name: 'Female', spriteId: 'female/229' as any }
+    ]
+  },
+  '232': { // Donphan
+    basePokemonId: '232',
+    baseFormName: 'Male',
+    forms: [
+      { id: '232-male', name: 'Male', spriteId: 232 },
+      { id: '232-female', name: 'Female', spriteId: 'female/232' as any }
+    ]
+  },
+  // Gender Forms - Generation 3
+  '255': { // Torchic
+    basePokemonId: '255',
+    baseFormName: 'Male',
+    forms: [
+      { id: '255-male', name: 'Male', spriteId: 255 },
+      { id: '255-female', name: 'Female', spriteId: 'female/255' as any }
+    ]
+  },
+  '256': { // Combusken
+    basePokemonId: '256',
+    baseFormName: 'Male',
+    forms: [
+      { id: '256-male', name: 'Male', spriteId: 256 },
+      { id: '256-female', name: 'Female', spriteId: 'female/256' as any }
+    ]
+  },
+  '257': { // Blaziken
+    basePokemonId: '257',
+    baseFormName: 'Male',
+    forms: [
+      { id: '257-male', name: 'Male', spriteId: 257 },
+      { id: '257-female', name: 'Female', spriteId: 'female/257' as any }
+    ]
+  },
+  '267': { // Beautifly
+    basePokemonId: '267',
+    baseFormName: 'Male',
+    forms: [
+      { id: '267-male', name: 'Male', spriteId: 267 },
+      { id: '267-female', name: 'Female', spriteId: 'female/267' as any }
+    ]
+  },
+  '269': { // Dustox
+    basePokemonId: '269',
+    baseFormName: 'Male',
+    forms: [
+      { id: '269-male', name: 'Male', spriteId: 269 },
+      { id: '269-female', name: 'Female', spriteId: 'female/269' as any }
+    ]
+  },
+  '272': { // Ludicolo
+    basePokemonId: '272',
+    baseFormName: 'Male',
+    forms: [
+      { id: '272-male', name: 'Male', spriteId: 272 },
+      { id: '272-female', name: 'Female', spriteId: 'female/272' as any }
+    ]
+  },
+  '274': { // Nuzleaf
+    basePokemonId: '274',
+    baseFormName: 'Male',
+    forms: [
+      { id: '274-male', name: 'Male', spriteId: 274 },
+      { id: '274-female', name: 'Female', spriteId: 'female/274' as any }
+    ]
+  },
+  '275': { // Shiftry
+    basePokemonId: '275',
+    baseFormName: 'Male',
+    forms: [
+      { id: '275-male', name: 'Male', spriteId: 275 },
+      { id: '275-female', name: 'Female', spriteId: 'female/275' as any }
+    ]
+  },
+  '307': { // Meditite
+    basePokemonId: '307',
+    baseFormName: 'Male',
+    forms: [
+      { id: '307-male', name: 'Male', spriteId: 307 },
+      { id: '307-female', name: 'Female', spriteId: 'female/307' as any }
+    ]
+  },
+  '308': { // Medicham
+    basePokemonId: '308',
+    baseFormName: 'Male',
+    forms: [
+      { id: '308-male', name: 'Male', spriteId: 308 },
+      { id: '308-female', name: 'Female', spriteId: 'female/308' as any }
+    ]
+  },
+  '315': { // Roselia
+    basePokemonId: '315',
+    baseFormName: 'Male',
+    forms: [
+      { id: '315-male', name: 'Male', spriteId: 315 },
+      { id: '315-female', name: 'Female', spriteId: 'female/315' as any }
+    ]
+  },
+  '316': { // Gulpin
+    basePokemonId: '316',
+    baseFormName: 'Male',
+    forms: [
+      { id: '316-male', name: 'Male', spriteId: 316 },
+      { id: '316-female', name: 'Female', spriteId: 'female/316' as any }
+    ]
+  },
+  '317': { // Swalot
+    basePokemonId: '317',
+    baseFormName: 'Male',
+    forms: [
+      { id: '317-male', name: 'Male', spriteId: 317 },
+      { id: '317-female', name: 'Female', spriteId: 'female/317' as any }
+    ]
+  },
+  '322': { // Numel
+    basePokemonId: '322',
+    baseFormName: 'Male',
+    forms: [
+      { id: '322-male', name: 'Male', spriteId: 322 },
+      { id: '322-female', name: 'Female', spriteId: 'female/322' as any }
+    ]
+  },
+  '323': { // Camerupt
+    basePokemonId: '323',
+    baseFormName: 'Male',
+    forms: [
+      { id: '323-male', name: 'Male', spriteId: 323 },
+      { id: '323-female', name: 'Female', spriteId: 'female/323' as any }
+    ]
+  },
+  '332': { // Cacturne
+    basePokemonId: '332',
+    baseFormName: 'Male',
+    forms: [
+      { id: '332-male', name: 'Male', spriteId: 332 },
+      { id: '332-female', name: 'Female', spriteId: 'female/332' as any }
+    ]
+  },
+  '350': { // Milotic
+    basePokemonId: '350',
+    baseFormName: 'Male',
+    forms: [
+      { id: '350-male', name: 'Male', spriteId: 350 },
+      { id: '350-female', name: 'Female', spriteId: 'female/350' as any }
+    ]
+  },
+  '369': { // Relicanth
+    basePokemonId: '369',
+    baseFormName: 'Male',
+    forms: [
+      { id: '369-male', name: 'Male', spriteId: 369 },
+      { id: '369-female', name: 'Female', spriteId: 'female/369' as any }
+    ]
+  },
+  // Gender Forms - Generation 4
+  '396': { // Starly
+    basePokemonId: '396',
+    baseFormName: 'Male',
+    forms: [
+      { id: '396-male', name: 'Male', spriteId: 396 },
+      { id: '396-female', name: 'Female', spriteId: 'female/396' as any }
+    ]
+  },
+  '397': { // Staravia
+    basePokemonId: '397',
+    baseFormName: 'Male',
+    forms: [
+      { id: '397-male', name: 'Male', spriteId: 397 },
+      { id: '397-female', name: 'Female', spriteId: 'female/397' as any }
+    ]
+  },
+  '398': { // Staraptor
+    basePokemonId: '398',
+    baseFormName: 'Male',
+    forms: [
+      { id: '398-male', name: 'Male', spriteId: 398 },
+      { id: '398-female', name: 'Female', spriteId: 'female/398' as any }
+    ]
+  },
+  '399': { // Bidoof
+    basePokemonId: '399',
+    baseFormName: 'Male',
+    forms: [
+      { id: '399-male', name: 'Male', spriteId: 399 },
+      { id: '399-female', name: 'Female', spriteId: 'female/399' as any }
+    ]
+  },
+  '400': { // Bibarel
+    basePokemonId: '400',
+    baseFormName: 'Male',
+    forms: [
+      { id: '400-male', name: 'Male', spriteId: 400 },
+      { id: '400-female', name: 'Female', spriteId: 'female/400' as any }
+    ]
+  },
+  '401': { // Kricketot
+    basePokemonId: '401',
+    baseFormName: 'Male',
+    forms: [
+      { id: '401-male', name: 'Male', spriteId: 401 },
+      { id: '401-female', name: 'Female', spriteId: 'female/401' as any }
+    ]
+  },
+  '402': { // Kricketune
+    basePokemonId: '402',
+    baseFormName: 'Male',
+    forms: [
+      { id: '402-male', name: 'Male', spriteId: 402 },
+      { id: '402-female', name: 'Female', spriteId: 'female/402' as any }
+    ]
+  },
+  '403': { // Shinx
+    basePokemonId: '403',
+    baseFormName: 'Male',
+    forms: [
+      { id: '403-male', name: 'Male', spriteId: 403 },
+      { id: '403-female', name: 'Female', spriteId: 'female/403' as any }
+    ]
+  },
+  '404': { // Luxio
+    basePokemonId: '404',
+    baseFormName: 'Male',
+    forms: [
+      { id: '404-male', name: 'Male', spriteId: 404 },
+      { id: '404-female', name: 'Female', spriteId: 'female/404' as any }
+    ]
+  },
+  '405': { // Luxray
+    basePokemonId: '405',
+    baseFormName: 'Male',
+    forms: [
+      { id: '405-male', name: 'Male', spriteId: 405 },
+      { id: '405-female', name: 'Female', spriteId: 'female/405' as any }
+    ]
+  },
+  '407': { // Roserade
+    basePokemonId: '407',
+    baseFormName: 'Male',
+    forms: [
+      { id: '407-male', name: 'Male', spriteId: 407 },
+      { id: '407-female', name: 'Female', spriteId: 'female/407' as any }
+    ]
+  },
+  '415': { // Combee
+    basePokemonId: '415',
+    baseFormName: 'Male',
+    forms: [
+      { id: '415-male', name: 'Male', spriteId: 415 },
+      { id: '415-female', name: 'Female', spriteId: 'female/415' as any }
+    ]
+  },
+  '417': { // Pachirisu
+    basePokemonId: '417',
+    baseFormName: 'Male',
+    forms: [
+      { id: '417-male', name: 'Male', spriteId: 417 },
+      { id: '417-female', name: 'Female', spriteId: 'female/417' as any }
+    ]
+  },
+  '418': { // Buizel
+    basePokemonId: '418',
+    baseFormName: 'Male',
+    forms: [
+      { id: '418-male', name: 'Male', spriteId: 418 },
+      { id: '418-female', name: 'Female', spriteId: 'female/418' as any }
+    ]
+  },
+  '419': { // Floatzel
+    basePokemonId: '419',
+    baseFormName: 'Male',
+    forms: [
+      { id: '419-male', name: 'Male', spriteId: 419 },
+      { id: '419-female', name: 'Female', spriteId: 'female/419' as any }
+    ]
+  },
+  '424': { // Ambipom
+    basePokemonId: '424',
+    baseFormName: 'Male',
+    forms: [
+      { id: '424-male', name: 'Male', spriteId: 424 },
+      { id: '424-female', name: 'Female', spriteId: 'female/424' as any }
+    ]
+  },
+  '443': { // Gible
+    basePokemonId: '443',
+    baseFormName: 'Male',
+    forms: [
+      { id: '443-male', name: 'Male', spriteId: 443 },
+      { id: '443-female', name: 'Female', spriteId: 'female/443' as any }
+    ]
+  },
+  '444': { // Gabite
+    basePokemonId: '444',
+    baseFormName: 'Male',
+    forms: [
+      { id: '444-male', name: 'Male', spriteId: 444 },
+      { id: '444-female', name: 'Female', spriteId: 'female/444' as any }
+    ]
+  },
+  '445': { // Garchomp
+    basePokemonId: '445',
+    baseFormName: 'Male',
+    forms: [
+      { id: '445-male', name: 'Male', spriteId: 445 },
+      { id: '445-female', name: 'Female', spriteId: 'female/445' as any }
+    ]
+  },
+  '449': { // Hippopotas
+    basePokemonId: '449',
+    baseFormName: 'Male',
+    forms: [
+      { id: '449-male', name: 'Male', spriteId: 449 },
+      { id: '449-female', name: 'Female', spriteId: 'female/449' as any }
+    ]
+  },
+  '450': { // Hippowdon
+    basePokemonId: '450',
+    baseFormName: 'Male',
+    forms: [
+      { id: '450-male', name: 'Male', spriteId: 450 },
+      { id: '450-female', name: 'Female', spriteId: 'female/450' as any }
+    ]
+  },
+  '453': { // Croagunk
+    basePokemonId: '453',
+    baseFormName: 'Male',
+    forms: [
+      { id: '453-male', name: 'Male', spriteId: 453 },
+      { id: '453-female', name: 'Female', spriteId: 'female/453' as any }
+    ]
+  },
+  '454': { // Toxicroak
+    basePokemonId: '454',
+    baseFormName: 'Male',
+    forms: [
+      { id: '454-male', name: 'Male', spriteId: 454 },
+      { id: '454-female', name: 'Female', spriteId: 'female/454' as any }
+    ]
+  },
+  '456': { // Finneon
+    basePokemonId: '456',
+    baseFormName: 'Male',
+    forms: [
+      { id: '456-male', name: 'Male', spriteId: 456 },
+      { id: '456-female', name: 'Female', spriteId: 'female/456' as any }
+    ]
+  },
+  '457': { // Lumineon
+    basePokemonId: '457',
+    baseFormName: 'Male',
+    forms: [
+      { id: '457-male', name: 'Male', spriteId: 457 },
+      { id: '457-female', name: 'Female', spriteId: 'female/457' as any }
+    ]
+  },
+  '459': { // Snover
+    basePokemonId: '459',
+    baseFormName: 'Male',
+    forms: [
+      { id: '459-male', name: 'Male', spriteId: 459 },
+      { id: '459-female', name: 'Female', spriteId: 'female/459' as any }
+    ]
+  },
+  '460': { // Abomasnow
+    basePokemonId: '460',
+    baseFormName: 'Male',
+    forms: [
+      { id: '460-male', name: 'Male', spriteId: 460 },
+      { id: '460-female', name: 'Female', spriteId: 'female/460' as any }
+    ]
+  },
+  '461': { // Weavile
+    basePokemonId: '461',
+    baseFormName: 'Male',
+    forms: [
+      { id: '461-male', name: 'Male', spriteId: 461 },
+      { id: '461-female', name: 'Female', spriteId: 'female/461' as any }
+    ]
+  },
+  '464': { // Rhyperior
+    basePokemonId: '464',
+    baseFormName: 'Male',
+    forms: [
+      { id: '464-male', name: 'Male', spriteId: 464 },
+      { id: '464-female', name: 'Female', spriteId: 'female/464' as any }
+    ]
+  },
+  '465': { // Tangrowth
+    basePokemonId: '465',
+    baseFormName: 'Male',
+    forms: [
+      { id: '465-male', name: 'Male', spriteId: 465 },
+      { id: '465-female', name: 'Female', spriteId: 'female/465' as any }
+    ]
+  },
+  '473': { // Mamoswine
+    basePokemonId: '473',
+    baseFormName: 'Male',
+    forms: [
+      { id: '473-male', name: 'Male', spriteId: 473 },
+      { id: '473-female', name: 'Female', spriteId: 'female/473' as any }
+    ]
+  },
+  // Hisuian Forms
+  '215-hisui': { // Hisuian Sneasel
+    basePokemonId: '215-hisui',
+    baseFormName: 'Male',
+    forms: [
+      { id: '215-hisui-male', name: 'Male', spriteId: 10235 },
+      { id: '215-hisui-female', name: 'Female', spriteId: 'female/10235' as any }
+    ]
+  },
+  // Gender Forms - Generation 5+
   '521': { // Unfezant
     basePokemonId: '521',
     baseFormName: 'Male',
@@ -1195,6 +1961,30 @@ export const POKEMON_WITH_MULTIPLE_FORMS: Record<string, {
     forms: [
       { id: '678-male', name: 'Male', spriteId: 678 }, // Base form (male)
       { id: '678-female', name: 'Female', spriteId: 'female/678' as any }
+    ]
+  },
+  '876': { // Indeedee
+    basePokemonId: '876',
+    baseFormName: 'Male',
+    forms: [
+      { id: '876-male', name: 'Male', spriteId: 876 }, // Base form (male)
+      { id: '876-female', name: 'Female', spriteId: 'female/876' as any }
+    ]
+  },
+  '902': { // Basculegion
+    basePokemonId: '902',
+    baseFormName: 'Male',
+    forms: [
+      { id: '902-male', name: 'Male', spriteId: 902 }, // Base form (male)
+      { id: '902-female', name: 'Female', spriteId: 'female/902' as any }
+    ]
+  },
+  '916': { // Oinkologne
+    basePokemonId: '916',
+    baseFormName: 'Male',
+    forms: [
+      { id: '916-male', name: 'Male', spriteId: 916 }, // Base form (male)
+      { id: '916-female', name: 'Female', spriteId: 'female/916' as any }
     ]
   }
 };
