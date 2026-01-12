@@ -4,9 +4,9 @@ import { getGdprTranslations } from '../i18n/gdpr-index';
 import { useLegalModal } from '../contexts/LegalModalContext';
 
 export const Footer: React.FC = () => {
-    const { language } = useLanguage();
+    const { language, t: uiT } = useLanguage();
     const t = getGdprTranslations(language as 'fr' | 'en' | 'jp');
-    const { openPrivacy, openTerms } = useLegalModal();
+    const { openPrivacy, openTerms, openChangelog } = useLegalModal();
 
     // Multi-layer obfuscation to prevent spam bots
     const handleEmailClick = (e: React.MouseEvent) => {
@@ -81,6 +81,17 @@ export const Footer: React.FC = () => {
                                     className="text-gray-400 hover:text-purple-400 transition-colors duration-200 text-sm"
                                 >
                                     {t.footer_terms}
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    onClick={openChangelog}
+                                    className="text-gray-400 hover:text-purple-400 transition-colors duration-200 text-sm flex items-center gap-1"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    {uiT('changelog')}
                                 </button>
                             </li>
                         </ul>

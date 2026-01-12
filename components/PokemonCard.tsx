@@ -1,9 +1,11 @@
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import type { Pokemon } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
 import { SparklesIcon, IsleOfArmorIcon, CrownTundraIcon, TealMaskIcon, IndigoDiskIcon, MegaDimensionIcon, LockIcon, EventIcon, CartridgeIcon, RaidEventIcon, DynamaxAdventureIcon } from './Icons';
 import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON, EVENT_ITEM_POKEMON, DUAL_SLOT_REQ, RAID_EVENT_POKEMON, DYNAMAX_ADVENTURE_POKEMON, FRIEND_SAFARI_POKEMON, ISLAND_SCAN_POKEMON, ULTRA_WORMHOLE_POKEMON, DEXNAV_EXCLUSIVE_POKEMON, MIRAGE_SPOT_POKEMON } from '../data/games';
+import { POKEMON_WITH_MULTIPLE_FORMS } from '../data/pokemon';
+import FormsModal from './FormsModal';
 
 interface PokemonCardProps {
   pokemon: Pokemon;
@@ -11,6 +13,11 @@ interface PokemonCardProps {
   onToggleShiny: (id: string) => void;
   selectedGame: string | null;
   isGrayedOut?: boolean;
+  validatedForms?: Set<string>;
+  shinyForms?: Set<string>;
+  onToggleForm?: (pokemonId: string, formId: string, isShiny: boolean) => void;
+  favoriteFormId?: string;
+  onSetFavorite?: (pokemonId: string, formId: string) => void;
 }
 
 const gameColorMap: Record<string, { keys: [string | string[], string | string[]]; colors: [string, string] }> = {
@@ -39,8 +46,21 @@ const gameColorMap: Record<string, { keys: [string | string[], string | string[]
 };
 
 
-const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShiny, selectedGame, isGrayedOut = false }) => {
+const PokemonCard: React.FC<PokemonCardProps> = ({
+  pokemon,
+  isShiny,
+  onToggleShiny,
+  selectedGame,
+  isGrayedOut = false,
+  validatedForms = new Set(),
+  shinyForms = new Set(),
+  onToggleForm,
+  favoriteFormId,
+  onSetFavorite
+}) => {
   const { t } = useLanguage();
+  const [isFormsModalOpen, setIsFormsModalOpen] = useState(false);
+
   let formattedId: string;
   if (pokemon.id.includes('-')) {
     const [pokedexId, ...formParts] = pokemon.id.split('-');
@@ -232,6 +252,51 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
     return false;
   }, [pokemon.id, selectedGame]);
 
+  // Check if this Pokémon has multiple forms
+  const multiFormData = useMemo(() => {
+    return POKEMON_WITH_MULTIPLE_FORMS[pokemon.id];
+  }, [pokemon.id]);
+
+  const hasMultipleForms = !!multiFormData;
+
+  // Calculate form counter
+  const formCounter = useMemo(() => {
+    if (!hasMultipleForms || !multiFormData) return null;
+    const shinyCount = shinyForms.size;
+    const totalForms = multiFormData.forms.length;
+    return `${shinyCount}/${totalForms}`;
+  }, [hasMultipleForms, multiFormData, shinyForms]);
+
+  // Handle form toggle
+  const handleToggleForm = (formId: string, isShiny: boolean) => {
+    if (onToggleForm) {
+      onToggleForm(pokemon.id, formId, isShiny);
+    }
+  };
+
+  // Handle plus indicator click
+  const handlePlusClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsFormsModalOpen(true);
+  };
+
+  // Get sprite URL based on favorite form
+  const displaySpriteUrl = useMemo(() => {
+    if (hasMultipleForms && multiFormData && favoriteFormId) {
+      // Find the favorite form
+      const favoriteForm = multiFormData.forms.find(f => f.id === favoriteFormId);
+      if (favoriteForm) {
+        const HOME_SPRITE_BASE_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/';
+        return isShiny
+          ? `${HOME_SPRITE_BASE_URL}shiny/${favoriteForm.spriteId}.png`
+          : `${HOME_SPRITE_BASE_URL}${favoriteForm.spriteId}.png`;
+      }
+    }
+    // Default: use pokemon's original sprite
+    return isShiny ? pokemon.shinySprite : pokemon.sprite;
+  }, [hasMultipleForms, multiFormData, favoriteFormId, isShiny, pokemon.sprite, pokemon.shinySprite]);
+
+
   return (
     <div
       className={`${cardClasses} ${isGrayedOut ? 'opacity-40 grayscale' : ''}`}
@@ -413,7 +478,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
 
       <div className="w-24 h-24 flex items-center justify-center">
         <img
-          src={isShiny ? pokemon.shinySprite : pokemon.sprite}
+          src={displaySpriteUrl}
           alt={pokemon.name}
           className="max-w-full max-h-full object-contain group-hover:animate-pulse"
           width="96"
@@ -425,6 +490,39 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, isShiny, onToggleShi
         <p className="text-sm font-bold text-white truncate">{pokemon.name}</p>
         <p className="text-xs text-gray-400">{formattedId}</p>
       </div>
+
+      {/* Multiple Forms Indicator and Counter */}
+      {hasMultipleForms && (
+        <>
+          {/* Plus Indicator */}
+          <div
+            className="absolute bottom-[38px] right-2 bg-gradient-to-br from-amber-400 to-amber-600 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-sm shadow-lg hover:scale-110 transition-transform cursor-pointer z-10"
+            onClick={handlePlusClick}
+            style={{ boxShadow: '0 2px 8px rgba(251, 191, 36, 0.5)', lineHeight: '1' }}
+          >
+            +
+          </div>
+
+          {/* Form Counter */}
+          <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold backdrop-blur-sm border border-white/15 shadow-md z-10">
+            {formCounter}
+          </div>
+        </>
+      )}
+
+      {/* Forms Modal */}
+      {hasMultipleForms && multiFormData && (
+        <FormsModal
+          isOpen={isFormsModalOpen}
+          onClose={() => setIsFormsModalOpen(false)}
+          basePokemonName={pokemon.name}
+          forms={multiFormData.forms}
+          shinyForms={shinyForms}
+          onToggleForm={handleToggleForm}
+          favoriteFormId={favoriteFormId}
+          onSetFavorite={(formId) => onSetFavorite?.(pokemon.id, formId)}
+        />
+      )}
     </div >
   );
 };

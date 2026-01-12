@@ -188,8 +188,6 @@ export const POKEMON_LIST: Pokemon[] = [
   createPokemon(127, "Pinsir", 1),
   createPokemon(128, "Tauros", 1),
   createRegionalPokemon(128, "Paldean Tauros (Combat)", 9, "Paldea", "paldea-combat", 10250),
-  createRegionalPokemon(128, "Paldean Tauros (Blaze)", 9, "Paldea", "paldea-blaze", 10251),
-  createRegionalPokemon(128, "Paldean Tauros (Aqua)", 9, "Paldea", "paldea-aqua", 10252),
   createPokemon(129, "Magikarp", 1),
   createPokemon(130, "Gyarados", 1),
   createPokemon(131, "Lapras", 1),
@@ -1112,3 +1110,53 @@ export const POKEMON_LIST: Pokemon[] = [
   createPokemon(1024, "Terapagos", 9),
   createPokemon(1025, "Pecharunt", 9),
 ];
+
+// Pokémon with multiple notable forms that won't appear directly in the list
+// but can be validated through a modal
+export const POKEMON_WITH_MULTIPLE_FORMS: Record<string, {
+  basePokemonId: string;
+  baseFormName: string;
+  forms: Array<{
+    id: string;
+    name: string;
+    spriteId: number;
+  }>;
+}> = {
+  '676': { // Furfrou
+    basePokemonId: '676',
+    baseFormName: 'Natural Form',
+    forms: [
+      { id: '676', name: 'Natural Form', spriteId: 676 }, // Base form
+      { id: '676-heart', name: 'Heart Trim', spriteId: 10152 },
+      { id: '676-star', name: 'Star Trim', spriteId: 10153 },
+      { id: '676-diamond', name: 'Diamond Trim', spriteId: 10154 },
+      { id: '676-debutante', name: 'Debutante Trim', spriteId: 10155 },
+      { id: '676-matron', name: 'Matron Trim', spriteId: 10156 },
+      { id: '676-dandy', name: 'Dandy Trim', spriteId: 10157 },
+      { id: '676-la-reine', name: 'La Reine Trim', spriteId: 10158 },
+      { id: '676-kabuki', name: 'Kabuki Trim', spriteId: 10159 },
+      { id: '676-pharaoh', name: 'Pharaoh Trim', spriteId: 10160 }
+    ]
+  },
+  '741': { // Oricorio
+    basePokemonId: '741',
+    baseFormName: 'Baile Style',
+    forms: [
+      { id: '741', name: 'Baile Style', spriteId: 741 }, // Base form
+      { id: '741-pom-pom', name: 'Pom-Pom Style', spriteId: 10123 },
+      { id: '741-pau', name: "Pa'u Style", spriteId: 10124 },
+      { id: '741-sensu', name: 'Sensu Style', spriteId: 10125 }
+    ]
+  },
+  '128-paldea-combat': { // Paldean Tauros (Combat) - stays in main list
+    basePokemonId: '128-paldea-combat',
+    baseFormName: 'Combat Breed',
+    forms: [
+      { id: '128-paldea-combat', name: 'Combat Breed', spriteId: 10250 }, // Base form
+      { id: '128-paldea-blaze', name: 'Blaze Breed', spriteId: 10251 },
+      { id: '128-paldea-aqua', name: 'Aqua Breed', spriteId: 10252 }
+    ]
+  }
+};
+
+

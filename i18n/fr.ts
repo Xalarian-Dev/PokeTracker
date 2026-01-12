@@ -141,6 +141,16 @@ export const ui = {
     seo_og_description: "Suivez tous vos Pokémon shiny capturés à travers toutes les générations. Filtrez par jeux, générations et régions. Sauvegarde automatique de votre progression.",
     seo_twitter_description: "Application gratuite pour suivre votre collection de Pokémon shiny. Compatible avec tous les jeux Pokémon de la Gen 1 à la Gen 9 !",
     seo_app_name: "PokeTracker",
+    // Session Timeout
+    sessionTimeout: {
+        title: "Session bientôt expirée",
+        message: "Vous serez déconnecté dans {seconds} secondes en raison d'inactivité.",
+        stayConnected: "Rester connecté",
+        sessionExpired: "Votre session a expiré. Veuillez vous reconnecter.",
+        sessionExpiredTitle: "Session expirée",
+    },
+    // ChangeLog
+    changelog: "Nouveautés",
 };
 
 export const games: Record<string, string> = {
@@ -192,6 +202,31 @@ export const gameVersions: Record<string, string> = {
     'scdlc2': 'Écarlate (Disque)', 'vdlc2': 'Violet (Disque)',
     'lpza': 'Légendes : Z-A',
     'lpzadlc1': 'Légendes : Z-A (Dimension)',
+};
+
+export const pokemonForms: Record<string, string> = {
+    // Furfrou
+    '676': 'Forme Naturelle',
+    '676-heart': 'Coupe Cœur',
+    '676-star': 'Coupe Étoile',
+    '676-diamond': 'Coupe Diamant',
+    '676-debutante': 'Coupe Demoiselle',
+    '676-matron': 'Coupe Madame',
+    '676-dandy': 'Coupe Monsieur',
+    '676-la-reine': 'Coupe Reine',
+    '676-kabuki': 'Coupe Kabuki',
+    '676-pharaoh': 'Coupe Pharaon',
+
+    // Oricorio
+    '741': 'Style Flamenco',
+    '741-pom-pom': 'Style Pom-Pom',
+    '741-pau': 'Style Hula',
+    '741-sensu': 'Style Buyō',
+
+    // Paldean Tauros
+    '128-paldea-combat': 'Race Combative',
+    '128-paldea-blaze': 'Race Flamboyante',
+    '128-paldea-aqua': 'Race Aquatique',
 };
 
 export const pokemon: Record<string, string> = pokemonFR;

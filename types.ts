@@ -6,6 +6,14 @@ export interface Pokemon {
   shinySprite: string;
   generation: number;
   region?: string;
+  hasMultipleForms?: boolean;
+}
+
+export interface PokemonForm {
+  id: string;
+  name: string;
+  sprite: string;
+  shinySprite: string;
 }
 
 export interface User {

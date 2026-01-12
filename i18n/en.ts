@@ -144,6 +144,16 @@ export const ui = {
     seo_og_description: "Track all your captured shiny Pokemon across all generations. Filter by games, generations, and regions. Automatic progress saving.",
     seo_twitter_description: "Free app to track your shiny Pokemon collection. Compatible with all Pokemon games from Gen 1 to Gen 9!",
     seo_app_name: "PokeTracker",
+    // Session Timeout
+    sessionTimeout: {
+        title: "Session Expiring Soon",
+        message: "You will be logged out in {seconds} seconds due to inactivity.",
+        stayConnected: "Stay Connected",
+        sessionExpired: "Your session has expired. Please log in again.",
+        sessionExpiredTitle: "Session Expired",
+    },
+    // ChangeLog
+    changelog: "What's New",
 };
 
 export const games: Record<string, string> = GAME_LIST;

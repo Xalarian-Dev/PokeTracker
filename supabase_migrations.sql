@@ -53,6 +53,53 @@ ALTER PUBLICATION supabase_realtime ADD TABLE shiny_pokemon;
 */
 
 -- ============================================
+-- MIGRATION 3: Table pokemon_forms
+-- Date: 2026-01-11
+-- ============================================
+
+-- Créer la table pour stocker les formes de Pokémon
+CREATE TABLE IF NOT EXISTS pokemon_forms (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id TEXT NOT NULL,
+  pokemon_id TEXT NOT NULL,
+  form_id TEXT NOT NULL,
+  is_shiny BOOLEAN DEFAULT FALSE,
+  is_favorite BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  
+  UNIQUE(user_id, pokemon_id, form_id)
+);
+
+-- Index pour les requêtes fréquentes
+CREATE INDEX IF NOT EXISTS idx_pokemon_forms_user ON pokemon_forms(user_id);
+CREATE INDEX IF NOT EXISTS idx_pokemon_forms_user_pokemon ON pokemon_forms(user_id, pokemon_id);
+
+-- Activer Row Level Security
+ALTER TABLE pokemon_forms ENABLE ROW LEVEL SECURITY;
+
+-- Politiques RLS (pas d'accès direct, uniquement via API)
+-- Les politiques sont commentées car on utilise l'API backend avec service_role_key
+-- Si vous migrez vers Supabase Auth, décommentez ces politiques:
+/*
+CREATE POLICY "Users can view their own pokemon forms"
+  ON pokemon_forms FOR SELECT
+  USING (auth.uid()::text = user_id);
+
+CREATE POLICY "Users can insert their own pokemon forms"
+  ON pokemon_forms FOR INSERT
+  WITH CHECK (auth.uid()::text = user_id);
+
+CREATE POLICY "Users can update their own pokemon forms"
+  ON pokemon_forms FOR UPDATE
+  USING (auth.uid()::text = user_id);
+
+CREATE POLICY "Users can delete their own pokemon forms"
+  ON pokemon_forms FOR DELETE
+  USING (auth.uid()::text = user_id);
+*/
+
+-- ============================================
 -- NOTES
 -- ============================================
 

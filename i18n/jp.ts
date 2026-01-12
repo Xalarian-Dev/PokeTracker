@@ -141,6 +141,16 @@ export const ui = {
     seo_og_description: "すべての世代で捕獲した色違いポケモンを追跡。ゲーム、世代、地方でフィルタリング。自動進行状況保存。",
     seo_twitter_description: "無料の色違いポケモンコレクション追跡アプリ。第1世代から第9世代までのすべてのポケモンゲームに対応！",
     seo_app_name: "PokeTracker",
+    // Session Timeout
+    sessionTimeout: {
+        title: "セッションの有効期限が近づいています",
+        message: "非アクティブのため、{seconds}秒後に自動的にログアウトされます。",
+        stayConnected: "接続を維持",
+        sessionExpired: "セッションの有効期限が切れました。再度ログインしてください。",
+        sessionExpiredTitle: "セッション期限切れ",
+    },
+    // ChangeLog
+    changelog: "更新履歴",
 };
 
 export const games: Record<string, string> = {

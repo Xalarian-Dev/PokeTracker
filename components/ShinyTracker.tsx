@@ -14,6 +14,7 @@ import { Toaster } from './ui';
 import { SidebarProvider, Sidebar, SidebarContent, useSidebar } from './ui/sidebar';
 import { POKEMON_AVAILABILITY, GAME_GROUP_MAP, SHINY_LOCKED_POKEMON } from '../data/games';
 import { useLanguage } from '../contexts/LanguageContext';
+import { loadPokemonForms, toggleFormShiny, setFavoriteForm as setFavoriteFormAPI } from '../services/pokemonFormsService';
 import {
   fetchShinyPokemon,
   addShinyPokemon,
@@ -103,6 +104,13 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
   const [displayName, setDisplayName] = useState<string | null>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+
+  // State for Pokémon forms (e.g., Furfrou, Oricorio, Paldean Tauros)
+  // Structure: Map<pokemonId, Set<formId>>
+  const [validatedForms, setValidatedForms] = useState<Map<string, Set<string>>>(new Map());
+  const [shinyForms, setShinyForms] = useState<Map<string, Set<string>>>(new Map());
+  // Favorite form to display in main list (Map<pokemonId, formId>)
+  const [favoriteForms, setFavoriteForms] = useState<Map<string, string>>(new Map());
 
   // Refs pour auto-scroll vers sections régionales
   const regionRefs = useRef<Record<string, HTMLDivElement | null>>({
@@ -240,6 +248,35 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
     };
   }, [isRandomHuntOpen]);
 
+  // Load Pokemon forms data
+  useEffect(() => {
+    const loadFormsData = async () => {
+      if (!userId) return;
+
+      try {
+        const data = await loadPokemonForms();
+
+        // Convert shinyForms from Record to Map<string, Set<string>>
+        const shinyFormsMap = new Map<string, Set<string>>();
+        Object.entries(data.shinyForms).forEach(([pokemonId, formIds]) => {
+          shinyFormsMap.set(pokemonId, new Set(formIds));
+        });
+        setShinyForms(shinyFormsMap);
+
+        // Convert favoriteForms from Record to Map<string, string>
+        const favoriteFormsMap = new Map<string, string>();
+        Object.entries(data.favoriteForms).forEach(([pokemonId, formId]) => {
+          favoriteFormsMap.set(pokemonId, formId);
+        });
+        setFavoriteForms(favoriteFormsMap);
+      } catch (error) {
+        console.error('Error loading Pokemon forms:', error);
+      }
+    };
+
+    loadFormsData();
+  }, [userId]);
+
   // Real-time subscription DISABLED for security
   // Realtime requires permissive RLS policies which would allow anyone with anon_key
   // to read/delete all data. We prioritize security over real-time sync.
@@ -329,6 +366,50 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
       setShinyPokemons(shinies);
     }
   };
+
+  // Handler for toggling Pokémon forms (simple shiny toggle like main list)
+  const toggleForm = async (pokemonId: string, formId: string, shouldBeShiny: boolean) => {
+    const isCurrentlyShiny = shinyForms.get(pokemonId)?.has(formId) || false;
+
+    setShinyForms(prev => {
+      const newMap = new Map(prev);
+      const existingShiny = newMap.get(pokemonId);
+      const shinySet: Set<string> = existingShiny ? new Set(existingShiny) : new Set<string>();
+
+      if (isCurrentlyShiny) {
+        // Toggle OFF: remove from shiny
+        shinySet.delete(formId);
+        if (shinySet.size === 0) {
+          newMap.delete(pokemonId);
+        } else {
+          newMap.set(pokemonId, shinySet);
+        }
+      } else {
+        // Toggle ON: add to shiny
+        shinySet.add(formId);
+        newMap.set(pokemonId, shinySet);
+      }
+
+      return newMap;
+    });
+
+    // Persist to database
+    await toggleFormShiny(pokemonId, formId, !isCurrentlyShiny);
+  };
+
+  // Handler for setting favorite form (which form to display in main list)
+  const setFavoriteForm = async (pokemonId: string, formId: string) => {
+    // Update local state
+    setFavoriteForms(prev => {
+      const newMap = new Map(prev);
+      newMap.set(pokemonId, formId);
+      return newMap;
+    });
+
+    // Persist to database
+    await setFavoriteFormAPI(pokemonId, formId);
+  };
+
 
   // Fonction pour déterminer si un Pokémon doit être grisé
   const isPokemonFiltered = React.useCallback((pokemon: Pokemon): boolean => {
@@ -643,6 +724,9 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
                                 onToggleShiny={toggleShiny}
                                 selectedGame={selectedGame}
                                 isGrayedOut={pokemon.isGrayedOut}
+                                validatedForms={validatedForms.get(pokemon.id) || new Set()}
+                                shinyForms={shinyForms.get(pokemon.id) || new Set()}
+                                onToggleForm={toggleForm}
                               />
                             ) : (
                               <PokemonCard
@@ -651,6 +735,11 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
                                 onToggleShiny={toggleShiny}
                                 selectedGame={selectedGame}
                                 isGrayedOut={pokemon.isGrayedOut}
+                                validatedForms={validatedForms.get(pokemon.id) || new Set()}
+                                shinyForms={shinyForms.get(pokemon.id) || new Set()}
+                                onToggleForm={toggleForm}
+                                favoriteFormId={favoriteForms.get(pokemon.id)}
+                                onSetFavorite={setFavoriteForm}
                               />
                             )}
                           </div>
@@ -694,6 +783,9 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
                                     onToggleShiny={toggleShiny}
                                     selectedGame={selectedGame}
                                     isGrayedOut={pokemon.isGrayedOut}
+                                    validatedForms={validatedForms.get(pokemon.id) || new Set()}
+                                    shinyForms={shinyForms.get(pokemon.id) || new Set()}
+                                    onToggleForm={toggleForm}
                                   />
                                 ) : (
                                   <PokemonCard
@@ -702,6 +794,11 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
                                     onToggleShiny={toggleShiny}
                                     selectedGame={selectedGame}
                                     isGrayedOut={pokemon.isGrayedOut}
+                                    validatedForms={validatedForms.get(pokemon.id) || new Set()}
+                                    shinyForms={shinyForms.get(pokemon.id) || new Set()}
+                                    onToggleForm={toggleForm}
+                                    favoriteFormId={favoriteForms.get(pokemon.id)}
+                                    onSetFavorite={setFavoriteForm}
                                   />
                                 )}
                               </div>

@@ -46,6 +46,13 @@ async function apiRequest<T>(
     });
 
     if (!response.ok) {
+        // Check for 401 Unauthorized (session expired)
+        if (response.status === 401) {
+            // Dispatch custom event to notify the app that session has expired
+            window.dispatchEvent(new CustomEvent('session-expired'));
+            throw new Error('Session expired');
+        }
+
         const error = await response.json().catch(() => ({ error: 'Request failed' }));
         throw new Error(error.error || `API request failed: ${response.status}`);
     }

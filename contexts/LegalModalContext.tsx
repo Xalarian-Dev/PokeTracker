@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-type LegalPage = 'privacy' | 'terms' | null;
+type LegalPage = 'privacy' | 'terms' | 'changelog' | null;
 
 interface LegalModalContextType {
     currentPage: LegalPage;
     openPrivacy: () => void;
     openTerms: () => void;
+    openChangelog: () => void;
     close: () => void;
 }
 
@@ -16,10 +17,11 @@ export const LegalModalProvider: React.FC<{ children: ReactNode }> = ({ children
 
     const openPrivacy = () => setCurrentPage('privacy');
     const openTerms = () => setCurrentPage('terms');
+    const openChangelog = () => setCurrentPage('changelog');
     const close = () => setCurrentPage(null);
 
     return (
-        <LegalModalContext.Provider value={{ currentPage, openPrivacy, openTerms, close }}>
+        <LegalModalContext.Provider value={{ currentPage, openPrivacy, openTerms, openChangelog, close }}>
             {children}
         </LegalModalContext.Provider>
     );

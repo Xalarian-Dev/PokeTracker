@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useMemo, lazy, Suspense } from 'react';
-import { ClerkProvider, SignedIn, SignedOut, useUser } from '@clerk/clerk-react';
+import React, { useState, useCallback, useMemo, lazy, Suspense, useEffect } from 'react';
+import { ClerkProvider, SignedIn, SignedOut, useUser, useClerk } from '@clerk/clerk-react';
 import ShinyTracker from './components/ShinyTracker';
 const ProfilePage = lazy(() => import('./components/ProfilePage'));
 import { POKEMON_LIST as BASE_POKEMON_LIST } from './data/pokemon';
@@ -8,16 +8,20 @@ import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { clerkPublishableKey, clerkAppearance } from './clerk-config';
 import { useMetadata } from './hooks/useMetadata';
 import { useClerkToken } from './hooks/useClerkToken';
+import { useSessionTimeout } from './hooks/useSessionTimeout';
+import { SessionTimeoutWarning } from './components/SessionTimeoutWarning';
 import { CookieConsent } from './components/CookieConsent';
 import { Footer } from './components/Footer';
 import { LegalModalProvider, useLegalModal } from './contexts/LegalModalContext';
 const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./components/TermsOfService'));
+const ChangeLog = lazy(() => import('./components/ChangeLog'));
 
 const AppContent = () => {
   const { user: clerkUser, isLoaded } = useUser();
+  const { signOut } = useClerk();
   const [currentPage, setCurrentPage] = useState<'tracker' | 'profile'>('tracker');
-  const { getPokemonName } = useLanguage();
+  const { getPokemonName, t } = useLanguage();
   const { currentPage: legalPage } = useLegalModal();
 
   // Initialize metadata management
@@ -25,6 +29,30 @@ const AppContent = () => {
 
   // Initialize Clerk token management for API authentication
   useClerkToken();
+
+  // Initialize session timeout for authenticated users
+  const { showWarning, secondsRemaining, resetTimer } = useSessionTimeout();
+
+  // Handle session expired event from API errors
+  useEffect(() => {
+    const handleSessionExpired = async () => {
+      // Show alert to user
+      alert(t('sessionTimeout.sessionExpired'));
+
+      // Sign out and refresh page
+      try {
+        await signOut();
+      } catch (error) {
+        console.error('Error during logout:', error);
+      } finally {
+        // Always refresh to clear state
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener('session-expired', handleSessionExpired);
+    return () => window.removeEventListener('session-expired', handleSessionExpired);
+  }, [signOut, t]);
 
 
   // Convert Clerk user to our User type
@@ -94,10 +122,19 @@ const AppContent = () => {
       {/* Cookie Notice Banner (informative only) */}
       <CookieConsent />
 
+      {/* Session Timeout Warning Modal */}
+      {showWarning && clerkUser && (
+        <SessionTimeoutWarning
+          secondsRemaining={secondsRemaining}
+          onStayConnected={resetTimer}
+        />
+      )}
+
       {/* Legal Modals */}
       <Suspense fallback={null}>
         {legalPage === 'privacy' && <PrivacyPolicy />}
         {legalPage === 'terms' && <TermsOfService />}
+        {legalPage === 'changelog' && <ChangeLog />}
       </Suspense>
     </div>
   );
