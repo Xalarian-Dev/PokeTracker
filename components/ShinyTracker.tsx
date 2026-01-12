@@ -193,6 +193,27 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
           setDisplayName(prefs.display_name);
         }
 
+        // Load Pokemon forms data
+        try {
+          const formsData = await loadPokemonForms();
+
+          // Convert shinyForms from Record to Map<string, Set<string>>
+          const shinyFormsMap = new Map<string, Set<string>>();
+          Object.entries(formsData.shinyForms).forEach(([pokemonId, formIds]) => {
+            shinyFormsMap.set(pokemonId, new Set(formIds));
+          });
+          setShinyForms(shinyFormsMap);
+
+          // Convert favoriteForms from Record to Map<string, string>
+          const favoriteFormsMap = new Map<string, string>();
+          Object.entries(formsData.favoriteForms).forEach(([pokemonId, formId]) => {
+            favoriteFormsMap.set(pokemonId, formId);
+          });
+          setFavoriteForms(favoriteFormsMap);
+        } catch (error) {
+          console.error('Error loading Pokemon forms:', error);
+        }
+
         // Check for localStorage migration
         if (storageKey) {
           const localData = localStorage.getItem(storageKey);
@@ -247,35 +268,6 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
       document.body.style.overflow = '';
     };
   }, [isRandomHuntOpen]);
-
-  // Load Pokemon forms data
-  useEffect(() => {
-    const loadFormsData = async () => {
-      if (!userId) return;
-
-      try {
-        const data = await loadPokemonForms();
-
-        // Convert shinyForms from Record to Map<string, Set<string>>
-        const shinyFormsMap = new Map<string, Set<string>>();
-        Object.entries(data.shinyForms).forEach(([pokemonId, formIds]) => {
-          shinyFormsMap.set(pokemonId, new Set(formIds));
-        });
-        setShinyForms(shinyFormsMap);
-
-        // Convert favoriteForms from Record to Map<string, string>
-        const favoriteFormsMap = new Map<string, string>();
-        Object.entries(data.favoriteForms).forEach(([pokemonId, formId]) => {
-          favoriteFormsMap.set(pokemonId, formId);
-        });
-        setFavoriteForms(favoriteFormsMap);
-      } catch (error) {
-        console.error('Error loading Pokemon forms:', error);
-      }
-    };
-
-    loadFormsData();
-  }, [userId]);
 
   // Real-time subscription DISABLED for security
   // Realtime requires permissive RLS policies which would allow anyone with anon_key
@@ -374,7 +366,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
     setShinyForms(prev => {
       const newMap = new Map(prev);
       const existingShiny = newMap.get(pokemonId);
-      const shinySet: Set<string> = existingShiny ? new Set(existingShiny) : new Set<string>();
+      const shinySet: Set<string> = existingShiny ? new Set(existingShiny as Set<string>) : new Set<string>();
 
       if (isCurrentlyShiny) {
         // Toggle OFF: remove from shiny
