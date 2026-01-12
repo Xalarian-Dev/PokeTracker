@@ -324,6 +324,12 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
         const newSet = new Set(prev);
         if (newSet.has(pokemonId)) {
           newSet.delete(pokemonId);
+          // Also clear all forms for this Pokemon
+          setShinyForms(prevForms => {
+            const newFormsMap = new Map(prevForms);
+            newFormsMap.delete(pokemonId);
+            return newFormsMap;
+          });
         } else {
           newSet.add(pokemonId);
         }
@@ -337,15 +343,39 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
       const isCurrentlyShiny = shinyPokemons.has(pokemonId);
 
       if (isCurrentlyShiny) {
-        // Optimistic update
+        // UNTOGGLING: Remove from main list AND untoggle all forms
+        console.log('[toggleShiny] Untoggling Pokemon and all its forms:', pokemonId);
+
+        // Optimistic update - remove from main list
         setShinyPokemons(prev => {
           const newSet = new Set(prev);
           newSet.delete(pokemonId);
           return newSet;
         });
 
+        // Remove from database
         await removeShinyPokemon(userId, pokemonId);
+
+        // Get all forms for this Pokemon and untoggle them
+        const formsForPokemon = shinyForms.get(pokemonId);
+        if (formsForPokemon && formsForPokemon.size > 0) {
+          console.log('[toggleShiny] Untoggling forms:', Array.from(formsForPokemon));
+
+          // Clear forms from local state
+          setShinyForms(prev => {
+            const newMap = new Map(prev);
+            newMap.delete(pokemonId);
+            return newMap;
+          });
+
+          // Untoggle each form in the database
+          const untogglePromises = Array.from(formsForPokemon).map((formId: string) =>
+            toggleFormShiny(pokemonId, formId, false)
+          );
+          await Promise.all(untogglePromises);
+        }
       } else {
+        // TOGGLING ON: Just add to main list (forms stay as they are)
         // Optimistic update
         setShinyPokemons(prev => new Set([...prev, pokemonId]));
 
@@ -415,14 +445,24 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
     // This happens AFTER persisting the shiny state
     const currentFavorite = favoriteForms.get(pokemonId);
 
+    console.log('[toggleForm] Auto-favorite check:', {
+      pokemonId,
+      formId,
+      newShinyState,
+      currentFavorite,
+      shouldSetFavorite: newShinyState && !currentFavorite
+    });
+
     if (newShinyState && !currentFavorite) {
+      console.log('[toggleForm] Setting auto-favorite for:', pokemonId, formId);
       setFavoriteForms(prev => {
         const newMap = new Map(prev);
         newMap.set(pokemonId, formId);
         return newMap;
       });
 
-      await setFavoriteFormAPI(pokemonId, formId);
+      const result = await setFavoriteFormAPI(pokemonId, formId);
+      console.log('[toggleForm] setFavoriteFormAPI result:', result);
     }
   };
 

@@ -51,7 +51,10 @@ const FormsModal: React.FC<FormsModalProps> = ({
         <div
             className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
             style={{ zIndex: 9999 }}
-            onClick={onClose}
+            onClick={(e) => {
+                e.stopPropagation();
+                onClose();
+            }}
         >
             <div
                 className="bg-gray-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border-2 border-gray-700 shadow-2xl"
