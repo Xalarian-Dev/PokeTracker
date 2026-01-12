@@ -51,8 +51,8 @@ export const LanguageProvider = ({ children }: React.PropsWithChildren) => {
   };
 
   const t = (key: keyof typeof frTranslations.ui, replacements?: Record<string, string | number>): string => {
-    let translation = translations[language].ui[key] || translations['en'].ui[key];
-    if (replacements) {
+    let translation = translations[language].ui[key] || translations['en'].ui[key] || String(key);
+    if (replacements && translation) {
       Object.keys(replacements).forEach(rKey => {
         translation = translation.replace(`{${rKey}}`, String(replacements[rKey]));
       });

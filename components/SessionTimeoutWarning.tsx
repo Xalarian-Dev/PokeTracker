@@ -41,7 +41,7 @@ export function SessionTimeoutWarning({ secondsRemaining, onStayConnected }: Ses
 
                 {/* Message */}
                 <p className="text-gray-300 text-center mb-6">
-                    {t('sessionTimeout.message').replace('{seconds}', secondsRemaining.toString())}
+                    {t('sessionTimeout.message', { seconds: secondsRemaining })}
                 </p>
 
                 {/* Countdown */}
