@@ -1127,15 +1127,15 @@ export const POKEMON_WITH_MULTIPLE_FORMS: Record<string, {
     baseFormName: 'Natural Form',
     forms: [
       { id: '676', name: 'Natural Form', spriteId: 676 }, // Base form
-      { id: '676-heart', name: 'Heart Trim', spriteId: 10152 },
-      { id: '676-star', name: 'Star Trim', spriteId: 10153 },
-      { id: '676-diamond', name: 'Diamond Trim', spriteId: 10154 },
-      { id: '676-debutante', name: 'Debutante Trim', spriteId: 10155 },
-      { id: '676-matron', name: 'Matron Trim', spriteId: 10156 },
-      { id: '676-dandy', name: 'Dandy Trim', spriteId: 10157 },
-      { id: '676-la-reine', name: 'La Reine Trim', spriteId: 10158 },
-      { id: '676-kabuki', name: 'Kabuki Trim', spriteId: 10159 },
-      { id: '676-pharaoh', name: 'Pharaoh Trim', spriteId: 10160 }
+      { id: '676-heart', name: 'Heart Trim', spriteId: 10115 },
+      { id: '676-star', name: 'Star Trim', spriteId: 10116 },
+      { id: '676-diamond', name: 'Diamond Trim', spriteId: 10117 },
+      { id: '676-debutante', name: 'Debutante Trim', spriteId: 10118 },
+      { id: '676-matron', name: 'Matron Trim', spriteId: 10119 },
+      { id: '676-dandy', name: 'Dandy Trim', spriteId: 10120 },
+      { id: '676-la-reine', name: 'La Reine Trim', spriteId: 10121 },
+      { id: '676-kabuki', name: 'Kabuki Trim', spriteId: 10122 },
+      { id: '676-pharaoh', name: 'Pharaoh Trim', spriteId: 10123 }
     ]
   },
   '741': { // Oricorio

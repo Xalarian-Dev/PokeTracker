@@ -362,7 +362,9 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
   // Handler for toggling Pokémon forms (simple shiny toggle like main list)
   const toggleForm = async (pokemonId: string, formId: string, shouldBeShiny: boolean) => {
     const isCurrentlyShiny = shinyForms.get(pokemonId)?.has(formId) || false;
+    const newShinyState = !isCurrentlyShiny;
 
+    // Update form shiny state
     setShinyForms(prev => {
       const newMap = new Map(prev);
       const existingShiny = newMap.get(pokemonId);
@@ -385,8 +387,40 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
       return newMap;
     });
 
-    // Persist to database
-    await toggleFormShiny(pokemonId, formId, !isCurrentlyShiny);
+    // Sync with main list: toggle the Pokemon's shiny status
+    if (newShinyState) {
+      // Turning shiny ON: add to main list
+      setShinyPokemons(prev => new Set(prev).add(pokemonId));
+      await addShinyPokemon(userId, pokemonId);
+    } else {
+      // Turning shiny OFF: check if any other forms are still shiny
+      const otherFormsShiny = Array.from(shinyForms.get(pokemonId) || [])
+        .filter(id => id !== formId).length > 0;
+
+      if (!otherFormsShiny) {
+        // No other forms are shiny, remove from main list
+        setShinyPokemons(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(pokemonId);
+          return newSet;
+        });
+        await removeShinyPokemon(userId, pokemonId);
+      }
+    }
+
+    // Auto-set as favorite if no favorite exists and we're turning shiny ON
+    const currentFavorite = favoriteForms.get(pokemonId);
+    if (newShinyState && !currentFavorite) {
+      setFavoriteForms(prev => {
+        const newMap = new Map(prev);
+        newMap.set(pokemonId, formId);
+        return newMap;
+      });
+      await setFavoriteFormAPI(pokemonId, formId);
+    }
+
+    // Persist form shiny state to database
+    await toggleFormShiny(pokemonId, formId, newShinyState);
   };
 
   // Handler for setting favorite form (which form to display in main list)

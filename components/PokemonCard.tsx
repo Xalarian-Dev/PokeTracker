@@ -287,9 +287,10 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
       const favoriteForm = multiFormData.forms.find(f => f.id === favoriteFormId);
       if (favoriteForm) {
         const HOME_SPRITE_BASE_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/';
+        // Use favoriteForm.id instead of spriteId to support text-based identifiers like "676-heart"
         return isShiny
-          ? `${HOME_SPRITE_BASE_URL}shiny/${favoriteForm.spriteId}.png`
-          : `${HOME_SPRITE_BASE_URL}${favoriteForm.spriteId}.png`;
+          ? `${HOME_SPRITE_BASE_URL}shiny/${favoriteForm.id}.png`
+          : `${HOME_SPRITE_BASE_URL}${favoriteForm.id}.png`;
       }
     }
     // Default: use pokemon's original sprite
