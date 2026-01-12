@@ -6,22 +6,58 @@ export interface PokemonFormsData {
 }
 
 /**
+ * Helper: Get Clerk authentication token
+ */
+async function getAuthToken(): Promise<string> {
+    const getToken = (window as any).__clerk_getToken;
+    if (!getToken) {
+        throw new Error('Clerk getToken function not available');
+    }
+
+    const token = await getToken();
+    if (!token) {
+        throw new Error('No authentication token available');
+    }
+    return token;
+}
+
+/**
+ * Helper: Make authenticated API request
+ */
+async function apiRequest<T>(
+    endpoint: string,
+    options: RequestInit = {}
+): Promise<T> {
+    const token = await getAuthToken();
+
+    const response = await fetch(`/api/${endpoint}`, {
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            ...options.headers,
+        },
+    });
+
+    if (!response.ok) {
+        if (response.status === 401) {
+            window.dispatchEvent(new CustomEvent('session-expired'));
+            throw new Error('Session expired');
+        }
+
+        const error = await response.json().catch(() => ({ error: 'Request failed' }));
+        throw new Error(error.error || `API request failed: ${response.status}`);
+    }
+
+    return response.json();
+}
+
+/**
  * Charger toutes les formes de Pokémon de l'utilisateur
  */
 export async function loadPokemonForms(): Promise<PokemonFormsData> {
     try {
-        const response = await fetch('/api/pokemon-forms', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to load pokemon forms');
-        }
-
-        const data = await response.json();
+        const data = await apiRequest<PokemonFormsData>('pokemon-forms');
         return data;
     } catch (error) {
         console.error('Error loading pokemon forms:', error);
@@ -38,11 +74,8 @@ export async function toggleFormShiny(
     isShiny: boolean
 ): Promise<boolean> {
     try {
-        const response = await fetch('/api/pokemon-forms', {
+        await apiRequest('pokemon-forms', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
             body: JSON.stringify({
                 action: 'toggle-shiny',
                 pokemonId,
@@ -50,10 +83,6 @@ export async function toggleFormShiny(
                 isShiny,
             }),
         });
-
-        if (!response.ok) {
-            throw new Error('Failed to toggle form shiny status');
-        }
 
         return true;
     } catch (error) {
@@ -70,21 +99,14 @@ export async function setFavoriteForm(
     formId: string
 ): Promise<boolean> {
     try {
-        const response = await fetch('/api/pokemon-forms', {
+        await apiRequest('pokemon-forms', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
             body: JSON.stringify({
                 action: 'set-favorite',
                 pokemonId,
                 formId,
             }),
         });
-
-        if (!response.ok) {
-            throw new Error('Failed to set favorite form');
-        }
 
         return true;
     } catch (error) {
