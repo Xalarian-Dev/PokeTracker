@@ -387,6 +387,9 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
       return newMap;
     });
 
+    // Persist form shiny state to database FIRST
+    await toggleFormShiny(pokemonId, formId, newShinyState);
+
     // Sync with main list: toggle the Pokemon's shiny status
     if (newShinyState) {
       // Turning shiny ON: add to main list
@@ -409,18 +412,28 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
     }
 
     // Auto-set as favorite if no favorite exists and we're turning shiny ON
+    // This happens AFTER persisting the shiny state
     const currentFavorite = favoriteForms.get(pokemonId);
+    console.log('[toggleForm] Auto-favorite check:', {
+      pokemonId,
+      formId,
+      newShinyState,
+      currentFavorite,
+      shouldSetFavorite: newShinyState && !currentFavorite
+    });
+
     if (newShinyState && !currentFavorite) {
+      console.log('[toggleForm] Setting auto-favorite:', pokemonId, formId);
       setFavoriteForms(prev => {
         const newMap = new Map(prev);
         newMap.set(pokemonId, formId);
+        console.log('[toggleForm] Updated favoriteForms state:', newMap);
         return newMap;
       });
-      await setFavoriteFormAPI(pokemonId, formId);
-    }
 
-    // Persist form shiny state to database
-    await toggleFormShiny(pokemonId, formId, newShinyState);
+      const result = await setFavoriteFormAPI(pokemonId, formId);
+      console.log('[toggleForm] setFavoriteFormAPI result:', result);
+    }
   };
 
   // Handler for setting favorite form (which form to display in main list)

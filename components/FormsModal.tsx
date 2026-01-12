@@ -78,8 +78,8 @@ const FormsModal: React.FC<FormsModalProps> = ({
                     {forms.map((form) => {
                         const isShiny = shinyForms.has(form.id);
                         const isFavorite = favoriteFormId === form.id;
-                        // Use form.id for sprite URL to support both numeric and text-based identifiers
-                        const spriteUrl = `${HOME_SPRITE_BASE_URL}${isShiny ? 'shiny/' : ''}${form.id}.png`;
+                        // Use form.spriteId for sprite URL (supports both numeric and text-based IDs)
+                        const spriteUrl = `${HOME_SPRITE_BASE_URL}${isShiny ? 'shiny/' : ''}${form.spriteId}.png`;
 
                         const handleClick = () => {
                             // Simple toggle shiny on/off

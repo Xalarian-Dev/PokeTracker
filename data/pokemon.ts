@@ -1127,15 +1127,15 @@ export const POKEMON_WITH_MULTIPLE_FORMS: Record<string, {
     baseFormName: 'Natural Form',
     forms: [
       { id: '676', name: 'Natural Form', spriteId: 676 }, // Base form
-      { id: '676-heart', name: 'Heart Trim', spriteId: 10115 },
-      { id: '676-star', name: 'Star Trim', spriteId: 10116 },
-      { id: '676-diamond', name: 'Diamond Trim', spriteId: 10117 },
-      { id: '676-debutante', name: 'Debutante Trim', spriteId: 10118 },
-      { id: '676-matron', name: 'Matron Trim', spriteId: 10119 },
-      { id: '676-dandy', name: 'Dandy Trim', spriteId: 10120 },
-      { id: '676-la-reine', name: 'La Reine Trim', spriteId: 10121 },
-      { id: '676-kabuki', name: 'Kabuki Trim', spriteId: 10122 },
-      { id: '676-pharaoh', name: 'Pharaoh Trim', spriteId: 10123 }
+      { id: '676-heart', name: 'Heart Trim', spriteId: '676-heart' as any },
+      { id: '676-star', name: 'Star Trim', spriteId: '676-star' as any },
+      { id: '676-diamond', name: 'Diamond Trim', spriteId: '676-diamond' as any },
+      { id: '676-debutante', name: 'Debutante Trim', spriteId: '676-debutante' as any },
+      { id: '676-matron', name: 'Matron Trim', spriteId: '676-matron' as any },
+      { id: '676-dandy', name: 'Dandy Trim', spriteId: '676-dandy' as any },
+      { id: '676-la-reine', name: 'La Reine Trim', spriteId: '676-la-reine' as any },
+      { id: '676-kabuki', name: 'Kabuki Trim', spriteId: '676-kabuki' as any },
+      { id: '676-pharaoh', name: 'Pharaoh Trim', spriteId: '676-pharaoh' as any }
     ]
   },
   '741': { // Oricorio
@@ -1155,6 +1155,46 @@ export const POKEMON_WITH_MULTIPLE_FORMS: Record<string, {
       { id: '128-paldea-combat', name: 'Combat Breed', spriteId: 10250 }, // Base form
       { id: '128-paldea-blaze', name: 'Blaze Breed', spriteId: 10251 },
       { id: '128-paldea-aqua', name: 'Aqua Breed', spriteId: 10252 }
+    ]
+  },
+  '521': { // Unfezant
+    basePokemonId: '521',
+    baseFormName: 'Male',
+    forms: [
+      { id: '521-male', name: 'Male', spriteId: 521 }, // Base form (male)
+      { id: '521-female', name: 'Female', spriteId: 'female/521' as any }
+    ]
+  },
+  '592': { // Frillish
+    basePokemonId: '592',
+    baseFormName: 'Male',
+    forms: [
+      { id: '592-male', name: 'Male', spriteId: 592 }, // Base form (male)
+      { id: '592-female', name: 'Female', spriteId: 'female/592' as any }
+    ]
+  },
+  '593': { // Jellicent
+    basePokemonId: '593',
+    baseFormName: 'Male',
+    forms: [
+      { id: '593-male', name: 'Male', spriteId: 593 }, // Base form (male)
+      { id: '593-female', name: 'Female', spriteId: 'female/593' as any }
+    ]
+  },
+  '668': { // Pyroar
+    basePokemonId: '668',
+    baseFormName: 'Male',
+    forms: [
+      { id: '668-male', name: 'Male', spriteId: 668 }, // Base form (male)
+      { id: '668-female', name: 'Female', spriteId: 'female/668' as any }
+    ]
+  },
+  '678': { // Meowstic
+    basePokemonId: '678',
+    baseFormName: 'Male',
+    forms: [
+      { id: '678-male', name: 'Male', spriteId: 678 }, // Base form (male)
+      { id: '678-female', name: 'Female', spriteId: 'female/678' as any }
     ]
   }
 };

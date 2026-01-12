@@ -22,6 +22,18 @@ export const pokemonFormsEN: Record<string, string> = {
     '128-paldea-combat': 'Combat Breed',
     '128-paldea-blaze': 'Blaze Breed',
     '128-paldea-aqua': 'Aqua Breed',
+
+    // Gender Forms
+    '521-male': 'Male',
+    '521-female': 'Female',
+    '592-male': 'Male',
+    '592-female': 'Female',
+    '593-male': 'Male',
+    '593-female': 'Female',
+    '668-male': 'Male',
+    '668-female': 'Female',
+    '678-male': 'Male',
+    '678-female': 'Female',
 };
 
 // French translations for Pokemon forms
@@ -48,6 +60,18 @@ export const pokemonFormsFR: Record<string, string> = {
     '128-paldea-combat': 'Race Combative',
     '128-paldea-blaze': 'Race Flamboyante',
     '128-paldea-aqua': 'Race Aquatique',
+
+    // Gender Forms
+    '521-male': 'Mâle',
+    '521-female': 'Femelle',
+    '592-male': 'Mâle',
+    '592-female': 'Femelle',
+    '593-male': 'Mâle',
+    '593-female': 'Femelle',
+    '668-male': 'Mâle',
+    '668-female': 'Femelle',
+    '678-male': 'Mâle',
+    '678-female': 'Femelle',
 };
 
 // Japanese translations for Pokemon forms
@@ -74,4 +98,17 @@ export const pokemonFormsJP: Record<string, string> = {
     '128-paldea-combat': 'コンバットしゅ',
     '128-paldea-blaze': 'ブレイズしゅ',
     '128-paldea-aqua': 'ウォーターしゅ',
+
+    // Gender Forms
+    '521-male': 'オス',
+    '521-female': 'メス',
+    '592-male': 'オス',
+    '592-female': 'メス',
+    '593-male': 'オス',
+    '593-female': 'メス',
+    '668-male': 'オス',
+    '668-female': 'メス',
+    '678-male': 'オス',
+    '678-female': 'メス',
 };
+
