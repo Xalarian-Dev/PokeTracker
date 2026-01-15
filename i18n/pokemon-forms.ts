@@ -23,6 +23,139 @@ export const pokemonFormsEN: Record<string, string> = {
     '128-paldea-blaze': 'Blaze Breed',
     '128-paldea-aqua': 'Aqua Breed',
 
+    // Burmy & Wormadam
+    '412': 'Plant Cloak',
+    '412-sandy': 'Sandy Cloak',
+    '412-trash': 'Trash Cloak',
+    '413': 'Plant Cloak',
+    '413-sandy': 'Sandy Cloak',
+    '413-trash': 'Trash Cloak',
+
+    // Rotom
+    '479': 'Normal',
+    '479-heat': 'Heat Rotom',
+    '479-wash': 'Wash Rotom',
+    '479-frost': 'Frost Rotom',
+    '479-fan': 'Fan Rotom',
+    '479-mow': 'Mow Rotom',
+
+    // Basculin
+    '550': 'Red-Striped',
+    '550-blue': 'Blue-Striped',
+    '550-white': 'White-Striped',
+
+    // Unown
+    '201': 'A',
+    '201-b': 'B',
+    '201-c': 'C',
+    '201-d': 'D',
+    '201-e': 'E',
+    '201-f': 'F',
+    '201-g': 'G',
+    '201-h': 'H',
+    '201-i': 'I',
+    '201-j': 'J',
+    '201-k': 'K',
+    '201-l': 'L',
+    '201-m': 'M',
+    '201-n': 'N',
+    '201-o': 'O',
+    '201-p': 'P',
+    '201-q': 'Q',
+    '201-r': 'R',
+    '201-s': 'S',
+    '201-t': 'T',
+    '201-u': 'U',
+    '201-v': 'V',
+    '201-w': 'W',
+    '201-x': 'X',
+    '201-y': 'Y',
+    '201-z': 'Z',
+    '201-exclamation': '!',
+    '201-question': '?',
+
+    // Deerling & Sawsbuck
+    '585': 'Spring',
+    '585-summer': 'Summer',
+    '585-autumn': 'Autumn',
+    '585-winter': 'Winter',
+    '586': 'Spring',
+    '586-summer': 'Summer',
+    '586-autumn': 'Autumn',
+    '586-winter': 'Winter',
+
+    // Flabébé, Floette & Florges
+    '669': 'Red Flower',
+    '669-yellow': 'Yellow Flower',
+    '669-orange': 'Orange Flower',
+    '669-blue': 'Blue Flower',
+    '669-white': 'White Flower',
+    '670': 'Red Flower',
+    '670-yellow': 'Yellow Flower',
+    '670-orange': 'Orange Flower',
+    '670-blue': 'Blue Flower',
+    '670-white': 'White Flower',
+    '671': 'Red Flower',
+    '671-yellow': 'Yellow Flower',
+    '671-orange': 'Orange Flower',
+    '671-blue': 'Blue Flower',
+    '671-white': 'White Flower',
+
+    // Maushold
+    '925': 'Family of Four',
+    '925-family-of-three': 'Family of Three',
+
+    // Squawkabilly
+    '931': 'Green',
+    '931-blue': 'Blue',
+    '931-yellow': 'Yellow',
+    '931-white': 'White',
+
+    // Tatsugiri
+    '978': 'Curly',
+    '978-droopy': 'Droopy',
+    '978-stretchy': 'Stretchy',
+
+    // Alcremie
+    '869': 'Strawberry Sweet',
+    '869-berry-sweet': 'Berry Sweet',
+    '869-love-sweet': 'Love Sweet',
+    '869-star-sweet': 'Star Sweet',
+    '869-clover-sweet': 'Clover Sweet',
+    '869-flower-sweet': 'Flower Sweet',
+    '869-ribbon-sweet': 'Ribbon Sweet',
+
+    // Dudunsparce
+    '982': 'Two-Segment',
+    '982-three-segment': 'Three-Segment',
+
+    // Poltchageist & Sinistcha
+    '1012': 'Counterfeit',
+    '1012-artisan': 'Artisan',
+    '1013': 'Unremarkable',
+    '1013-masterpiece': 'Masterpiece',
+
+    // Sinistea & Polteageist
+    '854': 'Phony',
+    '854-antique': 'Antique',
+    '855': 'Phony',
+    '855-antique': 'Antique',
+
+    // Toxtricity
+    '849': 'Amped',
+    '849-low-key': 'Low Key',
+
+    // Lycanroc
+    '745': 'Midday',
+    '745-midnight': 'Midnight',
+    '745-dusk': 'Dusk',
+
+    // Shellos & Gastrodon
+    '422': 'West Sea',
+    '422-east': 'East Sea',
+    '423': 'West Sea',
+    '423-east': 'East Sea',
+
     // Gender Forms - Generation 1
     '3-male': 'Male',
     '3-female': 'Female',
@@ -267,6 +400,139 @@ export const pokemonFormsFR: Record<string, string> = {
     '128-paldea-blaze': 'Race Flamboyante',
     '128-paldea-aqua': 'Race Aquatique',
 
+    // Burmy & Wormadam
+    '412': 'Cape Plante',
+    '412-sandy': 'Cape Sable',
+    '412-trash': 'Cape Déchet',
+    '413': 'Cape Plante',
+    '413-sandy': 'Cape Sable',
+    '413-trash': 'Cape Déchet',
+
+    // Rotom
+    '479': 'Normal',
+    '479-heat': 'Motisma Chaleur',
+    '479-wash': 'Motisma Lavage',
+    '479-frost': 'Motisma Froid',
+    '479-fan': 'Motisma Hélice',
+    '479-mow': 'Motisma Tonte',
+
+    // Basculin
+    '550': 'Motif Rouge',
+    '550-blue': 'Motif Bleu',
+    '550-white': 'Motif Blanc',
+
+    // Unown
+    '201': 'A',
+    '201-b': 'B',
+    '201-c': 'C',
+    '201-d': 'D',
+    '201-e': 'E',
+    '201-f': 'F',
+    '201-g': 'G',
+    '201-h': 'H',
+    '201-i': 'I',
+    '201-j': 'J',
+    '201-k': 'K',
+    '201-l': 'L',
+    '201-m': 'M',
+    '201-n': 'N',
+    '201-o': 'O',
+    '201-p': 'P',
+    '201-q': 'Q',
+    '201-r': 'R',
+    '201-s': 'S',
+    '201-t': 'T',
+    '201-u': 'U',
+    '201-v': 'V',
+    '201-w': 'W',
+    '201-x': 'X',
+    '201-y': 'Y',
+    '201-z': 'Z',
+    '201-exclamation': '!',
+    '201-question': '?',
+
+    // Deerling & Sawsbuck
+    '585': 'Printemps',
+    '585-summer': 'Été',
+    '585-autumn': 'Automne',
+    '585-winter': 'Hiver',
+    '586': 'Printemps',
+    '586-summer': 'Été',
+    '586-autumn': 'Automne',
+    '586-winter': 'Hiver',
+
+    // Flabébé, Floette & Florges
+    '669': 'Fleur Rouge',
+    '669-yellow': 'Fleur Jaune',
+    '669-orange': 'Fleur Orange',
+    '669-blue': 'Fleur Bleue',
+    '669-white': 'Fleur Blanche',
+    '670': 'Fleur Rouge',
+    '670-yellow': 'Fleur Jaune',
+    '670-orange': 'Fleur Orange',
+    '670-blue': 'Fleur Bleue',
+    '670-white': 'Fleur Blanche',
+    '671': 'Fleur Rouge',
+    '671-yellow': 'Fleur Jaune',
+    '671-orange': 'Fleur Orange',
+    '671-blue': 'Fleur Bleue',
+    '671-white': 'Fleur Blanche',
+
+    // Maushold
+    '925': 'Famille de quatre',
+    '925-family-of-three': 'Famille de trois',
+
+    // Squawkabilly
+    '931': 'Vert',
+    '931-blue': 'Bleu',
+    '931-yellow': 'Jaune',
+    '931-white': 'Blanc',
+
+    // Tatsugiri
+    '978': 'Courbée',
+    '978-droopy': 'Affalée',
+    '978-stretchy': 'Raide',
+
+    // Alcremie
+    '869': 'Fraise en Sucre',
+    '869-berry-sweet': 'Baie en Sucre',
+    '869-love-sweet': 'Cœur en Sucre',
+    '869-star-sweet': 'Étoile en Sucre',
+    '869-clover-sweet': 'Trèfle en Sucre',
+    '869-flower-sweet': 'Fleur en Sucre',
+    '869-ribbon-sweet': 'Ruban en Sucre',
+
+    // Dudunsparce
+    '982': 'Deux segments',
+    '982-three-segment': 'Trois segments',
+
+    // Poltchageist & Sinistcha
+    '1012': 'Contrefaçon',
+    '1012-artisan': 'Exceptionnelle',
+    '1013': 'Médiocre',
+    '1013-masterpiece': 'Exceptionnelle',
+
+    // Sinistea & Polteageist
+    '854': 'Contrefaçon',
+    '854-antique': 'Authentique',
+    '855': 'Contrefaçon',
+    '855-antique': 'Authentique',
+
+    // Toxtricity
+    '849': 'Aigus',
+    '849-low-key': 'Graves',
+
+    // Lycanroc
+    '745': 'Diurne',
+    '745-midnight': 'Nocturne',
+    '745-dusk': 'Crépusculaire',
+
+    // Shellos & Gastrodon
+    '422': 'Mer d\'Occident',
+    '422-east': 'Mer d\'Orient',
+    '423': 'Mer d\'Occident',
+    '423-east': 'Mer d\'Orient',
+
     // Gender Forms - Generation 1
     '3-male': 'Mâle',
     '3-female': 'Femelle',
@@ -510,6 +776,139 @@ export const pokemonFormsJP: Record<string, string> = {
     '128-paldea-combat': 'コンバットしゅ',
     '128-paldea-blaze': 'ブレイズしゅ',
     '128-paldea-aqua': 'ウォーターしゅ',
+
+    // Burmy & Wormadam
+    '412': 'くさきのミノ',
+    '412-sandy': 'すなちのミノ',
+    '412-trash': 'ゴミのミノ',
+    '413': 'くさきのミノ',
+    '413-sandy': 'すなちのミノ',
+    '413-trash': 'ゴミのミノ',
+
+    // Rotom
+    '479': 'ノーマル',
+    '479-heat': 'ヒートロトム',
+    '479-wash': 'ウォッシュロトム',
+    '479-frost': 'フロストロトム',
+    '479-fan': 'スピンロトム',
+    '479-mow': 'カットロトム',
+
+    // Basculin
+    '550': 'あかすじのすがた',
+    '550-blue': 'あおすじのすがた',
+    '550-white': 'しろすじのすがた',
+
+    // Unown
+    '201': 'A',
+    '201-b': 'B',
+    '201-c': 'C',
+    '201-d': 'D',
+    '201-e': 'E',
+    '201-f': 'F',
+    '201-g': 'G',
+    '201-h': 'H',
+    '201-i': 'I',
+    '201-j': 'J',
+    '201-k': 'K',
+    '201-l': 'L',
+    '201-m': 'M',
+    '201-n': 'N',
+    '201-o': 'O',
+    '201-p': 'P',
+    '201-q': 'Q',
+    '201-r': 'R',
+    '201-s': 'S',
+    '201-t': 'T',
+    '201-u': 'U',
+    '201-v': 'V',
+    '201-w': 'W',
+    '201-x': 'X',
+    '201-y': 'Y',
+    '201-z': 'Z',
+    '201-exclamation': '!',
+    '201-question': '?',
+
+    // Deerling & Sawsbuck
+    '585': 'はるのすがた',
+    '585-summer': 'なつのすがた',
+    '585-autumn': 'あきのすがた',
+    '585-winter': 'ふゆのすがた',
+    '586': 'はるのすがた',
+    '586-summer': 'なつのすがた',
+    '586-autumn': 'あきのすがた',
+    '586-winter': 'ふゆのすがた',
+
+    // Flabébé, Floette & Florges
+    '669': 'あかいはな',
+    '669-yellow': 'きいろのはな',
+    '669-orange': 'オレンジいろのはな',
+    '669-blue': 'あおいはな',
+    '669-white': 'しろいはな',
+    '670': 'あかいはな',
+    '670-yellow': 'きいろのはな',
+    '670-orange': 'オレンジいろのはな',
+    '670-blue': 'あおいはな',
+    '670-white': 'しろいはな',
+    '671': 'あかいはな',
+    '671-yellow': 'きいろのはな',
+    '671-orange': 'オレンジいろのはな',
+    '671-blue': 'あおいはな',
+    '671-white': 'しろいはな',
+
+    // Maushold
+    '925': 'よつひきのすがた',
+    '925-family-of-three': 'みつひきのすがた',
+
+    // Squawkabilly
+    '931': 'みどりのすがた',
+    '931-blue': 'あおのすがた',
+    '931-yellow': 'きいろのすがた',
+    '931-white': 'しろのすがた',
+
+    // Tatsugiri
+    '978': 'そったすがた',
+    '978-droopy': 'たれたすがた',
+    '978-stretchy': 'のびたすがた',
+
+    // Alcremie
+    '869': 'いちごアメざいく',
+    '869-berry-sweet': 'ベリーアメざいく',
+    '869-love-sweet': 'ハートアメざいく',
+    '869-star-sweet': 'スターアメざいく',
+    '869-clover-sweet': 'よつばアメざいく',
+    '869-flower-sweet': 'おはなアメざいく',
+    '869-ribbon-sweet': 'リボンアメざいく',
+
+    // Dudunsparce
+    '982': 'ツーセグメントのすがた',
+    '982-three-segment': 'スリーセグメントのすがた',
+
+    // Poltchageist & Sinistcha
+    '1012': 'ボンサクのすがた',
+    '1012-artisan': 'ケッサクのすがた',
+    '1013': 'ボンサクのすがた',
+    '1013-masterpiece': 'ケッサクのすがた',
+
+    // Sinistea & Polteageist
+    '854': 'がんさくのすがた',
+    '854-antique': 'しんさくのすがた',
+    '855': 'がんさくのすがた',
+    '855-antique': 'しんさくのすがた',
+
+    // Toxtricity
+    '849': 'ハイなすがた',
+    '849-low-key': 'ローなすがた',
+
+    // Lycanroc
+    '745': 'まひるのすがた',
+    '745-midnight': 'まよなかのすがた',
+    '745-dusk': 'たそがれのすがた',
+
+    // Shellos & Gastrodon
+    '422': 'にしのうみ',
+    '422-east': 'ひがしのうみ',
+    '423': 'にしのうみ',
+    '423-east': 'ひがしのうみ',
 
     // Gender Forms - Generation 1
     '3-male': 'オス',

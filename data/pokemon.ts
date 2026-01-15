@@ -1122,6 +1122,157 @@ export const POKEMON_WITH_MULTIPLE_FORMS: Record<string, {
     spriteId: number;
   }>;
 }> = {
+  '128-paldea-combat': { // Paldean Tauros (Combat) - stays in main list
+    basePokemonId: '128-paldea-combat',
+    baseFormName: 'Combat Breed',
+    forms: [
+      { id: '128-paldea-combat', name: 'Combat Breed', spriteId: 10250 }, // Base form
+      { id: '128-paldea-blaze', name: 'Blaze Breed', spriteId: 10251 },
+      { id: '128-paldea-aqua', name: 'Aqua Breed', spriteId: 10252 }
+    ]
+  },
+  '201': { // Unown
+    basePokemonId: '201',
+    baseFormName: 'A',
+    forms: [
+      { id: '201', name: 'A', spriteId: 201 },
+      { id: '201-b', name: 'B', spriteId: '201-b' as any },
+      { id: '201-c', name: 'C', spriteId: '201-c' as any },
+      { id: '201-d', name: 'D', spriteId: '201-d' as any },
+      { id: '201-e', name: 'E', spriteId: '201-e' as any },
+      { id: '201-f', name: 'F', spriteId: '201-f' as any },
+      { id: '201-g', name: 'G', spriteId: '201-g' as any },
+      { id: '201-h', name: 'H', spriteId: '201-h' as any },
+      { id: '201-i', name: 'I', spriteId: '201-i' as any },
+      { id: '201-j', name: 'J', spriteId: '201-j' as any },
+      { id: '201-k', name: 'K', spriteId: '201-k' as any },
+      { id: '201-l', name: 'L', spriteId: '201-l' as any },
+      { id: '201-m', name: 'M', spriteId: '201-m' as any },
+      { id: '201-n', name: 'N', spriteId: '201-n' as any },
+      { id: '201-o', name: 'O', spriteId: '201-o' as any },
+      { id: '201-p', name: 'P', spriteId: '201-p' as any },
+      { id: '201-q', name: 'Q', spriteId: '201-q' as any },
+      { id: '201-r', name: 'R', spriteId: '201-r' as any },
+      { id: '201-s', name: 'S', spriteId: '201-s' as any },
+      { id: '201-t', name: 'T', spriteId: '201-t' as any },
+      { id: '201-u', name: 'U', spriteId: '201-u' as any },
+      { id: '201-v', name: 'V', spriteId: '201-v' as any },
+      { id: '201-w', name: 'W', spriteId: '201-w' as any },
+      { id: '201-x', name: 'X', spriteId: '201-x' as any },
+      { id: '201-y', name: 'Y', spriteId: '201-y' as any },
+      { id: '201-z', name: 'Z', spriteId: '201-z' as any },
+      { id: '201-exclamation', name: '!', spriteId: '201-exclamation' as any },
+      { id: '201-question', name: '?', spriteId: '201-question' as any }
+    ]
+  },
+  '412': { // Burmy
+    basePokemonId: '412',
+    baseFormName: 'Plant Cloak',
+    forms: [
+      { id: '412', name: 'Plant Cloak', spriteId: 412 }, // Base form
+      { id: '412-sandy', name: 'Sandy Cloak', spriteId: '412-sandy' as any },
+      { id: '412-trash', name: 'Trash Cloak', spriteId: '412-trash' as any }
+    ]
+  },
+  '413': { // Wormadam
+    basePokemonId: '413',
+    baseFormName: 'Plant Cloak',
+    forms: [
+      { id: '413', name: 'Plant Cloak', spriteId: 413 }, // Base form
+      { id: '413-sandy', name: 'Sandy Cloak', spriteId: '413-sandy' as any },
+      { id: '413-trash', name: 'Trash Cloak', spriteId: '413-trash' as any }
+    ]
+  },
+  '422': { // Shellos
+    basePokemonId: '422',
+    baseFormName: 'West Sea',
+    forms: [
+      { id: '422', name: 'West Sea', spriteId: 422 }, // Pink form
+      { id: '422-east', name: 'East Sea', spriteId: '422-east' as any } // Blue form
+    ]
+  },
+  '423': { // Gastrodon
+    basePokemonId: '423',
+    baseFormName: 'West Sea',
+    forms: [
+      { id: '423', name: 'West Sea', spriteId: 423 }, // Pink form
+      { id: '423-east', name: 'East Sea', spriteId: '423-east' as any } // Blue form
+    ]
+  },
+  '479': { // Rotom
+    basePokemonId: '479',
+    baseFormName: 'Normal',
+    forms: [
+      { id: '479', name: 'Normal', spriteId: 479 }, // Base form
+      { id: '479-heat', name: 'Heat Rotom', spriteId: 10008 },
+      { id: '479-wash', name: 'Wash Rotom', spriteId: 10009 },
+      { id: '479-frost', name: 'Frost Rotom', spriteId: 10010 },
+      { id: '479-fan', name: 'Fan Rotom', spriteId: 10011 },
+      { id: '479-mow', name: 'Mow Rotom', spriteId: 10012 }
+    ]
+  },
+  '550': { // Basculin
+    basePokemonId: '550',
+    baseFormName: 'Red-Striped',
+    forms: [
+      { id: '550', name: 'Red-Striped', spriteId: 550 }, // Base form (red)
+      { id: '550-blue', name: 'Blue-Striped', spriteId: 10016 },
+      { id: '550-white', name: 'White-Striped', spriteId: 10247 }
+    ]
+  },
+  '585': { // Deerling
+    basePokemonId: '585',
+    baseFormName: 'Spring',
+    forms: [
+      { id: '585', name: 'Spring', spriteId: 585 },
+      { id: '585-summer', name: 'Summer', spriteId: '585-summer' as any },
+      { id: '585-autumn', name: 'Autumn', spriteId: '585-autumn' as any },
+      { id: '585-winter', name: 'Winter', spriteId: '585-winter' as any }
+    ]
+  },
+  '586': { // Sawsbuck
+    basePokemonId: '586',
+    baseFormName: 'Spring',
+    forms: [
+      { id: '586', name: 'Spring', spriteId: 586 },
+      { id: '586-summer', name: 'Summer', spriteId: '586-summer' as any },
+      { id: '586-autumn', name: 'Autumn', spriteId: '586-autumn' as any },
+      { id: '586-winter', name: 'Winter', spriteId: '586-winter' as any }
+    ]
+  },
+  '669': { // Flabébé
+    basePokemonId: '669',
+    baseFormName: 'Red Flower',
+    forms: [
+      { id: '669', name: 'Red Flower', spriteId: 669 },
+      { id: '669-yellow', name: 'Yellow Flower', spriteId: '669-yellow' as any },
+      { id: '669-orange', name: 'Orange Flower', spriteId: '669-orange' as any },
+      { id: '669-blue', name: 'Blue Flower', spriteId: '669-blue' as any },
+      { id: '669-white', name: 'White Flower', spriteId: '669-white' as any }
+    ]
+  },
+  '670': { // Floette
+    basePokemonId: '670',
+    baseFormName: 'Red Flower',
+    forms: [
+      { id: '670', name: 'Red Flower', spriteId: 670 },
+      { id: '670-yellow', name: 'Yellow Flower', spriteId: '670-yellow' as any },
+      { id: '670-orange', name: 'Orange Flower', spriteId: '670-orange' as any },
+      { id: '670-blue', name: 'Blue Flower', spriteId: '670-blue' as any },
+      { id: '670-white', name: 'White Flower', spriteId: '670-white' as any }
+    ]
+  },
+  '671': { // Florges
+    basePokemonId: '671',
+    baseFormName: 'Red Flower',
+    forms: [
+      { id: '671', name: 'Red Flower', spriteId: 671 },
+      { id: '671-yellow', name: 'Yellow Flower', spriteId: '671-yellow' as any },
+      { id: '671-orange', name: 'Orange Flower', spriteId: '671-orange' as any },
+      { id: '671-blue', name: 'Blue Flower', spriteId: '671-blue' as any },
+      { id: '671-white', name: 'White Flower', spriteId: '671-white' as any }
+    ]
+  },
   '676': { // Furfrou
     basePokemonId: '676',
     baseFormName: 'Natural Form',
@@ -1148,13 +1299,101 @@ export const POKEMON_WITH_MULTIPLE_FORMS: Record<string, {
       { id: '741-sensu', name: 'Sensu Style', spriteId: 10125 }
     ]
   },
-  '128-paldea-combat': { // Paldean Tauros (Combat) - stays in main list
-    basePokemonId: '128-paldea-combat',
-    baseFormName: 'Combat Breed',
+  '745': { // Lycanroc
+    basePokemonId: '745',
+    baseFormName: 'Midday',
     forms: [
-      { id: '128-paldea-combat', name: 'Combat Breed', spriteId: 10250 }, // Base form
-      { id: '128-paldea-blaze', name: 'Blaze Breed', spriteId: 10251 },
-      { id: '128-paldea-aqua', name: 'Aqua Breed', spriteId: 10252 }
+      { id: '745', name: 'Midday', spriteId: 745 }, // Base form
+      { id: '745-midnight', name: 'Midnight', spriteId: 10126 },
+      { id: '745-dusk', name: 'Dusk', spriteId: 10152 }
+    ]
+  },
+  '849': { // Toxtricity
+    basePokemonId: '849',
+    baseFormName: 'Amped',
+    forms: [
+      { id: '849', name: 'Amped', spriteId: 849 },
+      { id: '849-low-key', name: 'Low Key', spriteId: 10184 }
+    ]
+  },
+  '854': { // Sinistea
+    basePokemonId: '854',
+    baseFormName: 'Phony',
+    forms: [
+      { id: '854', name: 'Phony', spriteId: 854 },
+      { id: '854-antique', name: 'Antique', spriteId: 854 }
+    ]
+  },
+  '855': { // Polteageist
+    basePokemonId: '855',
+    baseFormName: 'Phony',
+    forms: [
+      { id: '855', name: 'Phony', spriteId: 855 },
+      { id: '855-antique', name: 'Antique', spriteId: 855 }
+    ]
+  },
+  '869': { // Alcremie
+    basePokemonId: '869',
+    baseFormName: 'Strawberry Sweet',
+    forms: [
+      { id: '869', name: 'Strawberry Sweet', spriteId: 869 },
+      { id: '869-berry-sweet', name: 'Berry Sweet', spriteId: '869-vanilla-cream-berry-sweet' as any },
+      { id: '869-love-sweet', name: 'Love Sweet', spriteId: '869-vanilla-cream-love-sweet' as any },
+      { id: '869-star-sweet', name: 'Star Sweet', spriteId: '869-vanilla-cream-star-sweet' as any },
+      { id: '869-clover-sweet', name: 'Clover Sweet', spriteId: '869-vanilla-cream-clover-sweet' as any },
+      { id: '869-flower-sweet', name: 'Flower Sweet', spriteId: '869-vanilla-cream-flower-sweet' as any },
+      { id: '869-ribbon-sweet', name: 'Ribbon Sweet', spriteId: '869-vanilla-cream-ribbon-sweet' as any }
+    ]
+  },
+  '925': { // Maushold
+    basePokemonId: '925',
+    baseFormName: 'Family of Four',
+    forms: [
+      { id: '925', name: 'Family of Four', spriteId: 925 },
+      { id: '925-family-of-three', name: 'Family of Three', spriteId: 10257 }
+    ]
+  },
+  '931': { // Squawkabilly
+    basePokemonId: '931',
+    baseFormName: 'Green',
+    forms: [
+      { id: '931', name: 'Green', spriteId: 931 },
+      { id: '931-blue', name: 'Blue', spriteId: 10260 },
+      { id: '931-yellow', name: 'Yellow', spriteId: 10261 },
+      { id: '931-white', name: 'White', spriteId: 10262 }
+    ]
+  },
+  '978': { // Tatsugiri
+    basePokemonId: '978',
+    baseFormName: 'Curly',
+    forms: [
+      { id: '978', name: 'Curly', spriteId: 978 },
+      { id: '978-droopy', name: 'Droopy', spriteId: 10258 },
+      { id: '978-stretchy', name: 'Stretchy', spriteId: 10259 }
+    ]
+  },
+  '982': { // Dudunsparce
+    basePokemonId: '982',
+    baseFormName: 'Two-Segment',
+    forms: [
+      { id: '982', name: 'Two-Segment', spriteId: 982 },
+      { id: '982-three-segment', name: 'Three-Segment', spriteId: 10255 }
+    ]
+  },
+  '1012': { // Poltchageist
+    basePokemonId: '1012',
+    baseFormName: 'Counterfeit',
+    forms: [
+      { id: '1012', name: 'Counterfeit', spriteId: 1012 },
+      { id: '1012-artisan', name: 'Artisan', spriteId: 1012 }
+    ]
+  },
+  '1013': { // Sinistcha
+    basePokemonId: '1013',
+    baseFormName: 'Unremarkable',
+    forms: [
+      { id: '1013', name: 'Unremarkable', spriteId: 1013 },
+      { id: '1013-masterpiece', name: 'Masterpiece', spriteId: 1013 }
     ]
   },
   // Gender Forms - Generation 1
