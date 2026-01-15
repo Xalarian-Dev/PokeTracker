@@ -17,6 +17,8 @@ export const ui = {
     show_only_shiny: "Afficher uniquement les shiny",
     show_missing_shiny: "Afficher les shiny manquants",
     hide_regional_forms: "Cacher les formes régionales",
+    forms_modal_title: "Formes",
+    shiny_forms_counter: "formes shiny",
     all_generations: "Toutes",
     filter_generation: "Génération",
     filter_region: "Région",

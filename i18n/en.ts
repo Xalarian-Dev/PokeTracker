@@ -18,6 +18,8 @@ export const ui = {
     show_only_shiny: "Show only shiny",
     show_missing_shiny: "Show missing shiny",
     hide_regional_forms: "Hide regional forms",
+    forms_modal_title: "Forms",
+    shiny_forms_counter: "shiny forms",
     all_generations: "All",
     filter_generation: "Generation",
     filter_region: "Region",

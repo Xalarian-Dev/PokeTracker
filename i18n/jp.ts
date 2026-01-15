@@ -17,6 +17,8 @@ export const ui = {
     show_only_shiny: "色違いのみ表示",
     show_missing_shiny: "未所持の色違いを表示",
     hide_regional_forms: "リージョンフォームを非表示",
+    forms_modal_title: "すがた",
+    shiny_forms_counter: "色違いのすがた",
     all_generations: "すべて",
     filter_generation: "世代",
     filter_region: "地方",

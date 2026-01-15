@@ -4,6 +4,9 @@ import type { PokemonForm } from '../types';
 import { SparklesIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
 import { pokemonFormsEN, pokemonFormsFR, pokemonFormsJP } from '../i18n/pokemon-forms';
+import { ui as uiEN } from '../i18n/en';
+import { ui as uiFR } from '../i18n/fr';
+import { ui as uiJP } from '../i18n/jp';
 
 const HOME_SPRITE_BASE_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/';
 
@@ -11,6 +14,12 @@ const formTranslations = {
     en: pokemonFormsEN,
     fr: pokemonFormsFR,
     jp: pokemonFormsJP,
+};
+
+const uiTranslations = {
+    en: uiEN,
+    fr: uiFR,
+    jp: uiJP,
 };
 
 interface FormsModalProps {
@@ -47,6 +56,9 @@ const FormsModal: React.FC<FormsModalProps> = ({
         return formTranslations[language][formId] || formId;
     };
 
+    // Get UI translations
+    const t = uiTranslations[language];
+
     const modalContent = (
         <div
             className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
@@ -63,9 +75,9 @@ const FormsModal: React.FC<FormsModalProps> = ({
                 {/* Header */}
                 <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-6 flex justify-between items-center z-10">
                     <div>
-                        <h2 className="text-2xl font-bold text-white">{basePokemonName} Forms</h2>
+                        <h2 className="text-2xl font-bold text-white">{basePokemonName} {t.forms_modal_title}</h2>
                         <p className="text-sm text-gray-400 mt-1">
-                            {shinyForms.size} / {forms.length} shiny forms
+                            {shinyForms.size} / {forms.length} {t.shiny_forms_counter}
                         </p>
                     </div>
                     <button
