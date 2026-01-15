@@ -13,11 +13,11 @@ export interface ChangeLogEntry {
 
 export const changelogEN: ChangeLogEntry = {
     title: "What's New",
-    date: "January 12, 2026",
+    date: "January 15, 2026",
     sectionTitle: "Pokemon Forms Management 🎨",
     features: "New Features",
     featuresList: [
-        "Multiple Forms: Furfrou, Oricorio, and Paldean Tauros now have their forms accessible via a modal",
+        "Multiple Forms: All Pokémon with multiple forms now accessible via a modal (Furfrou, Oricorio, Tauros, Rotom, Lycanroc, Toxtricity, Basculin, Shellos/Gastrodon, Burmy/Wormadam, Deerling/Sawsbuck, Flabébé/Floette/Florges, Unown, Sinistea/Polteageist, Poltchageist/Sinistcha, Maushold, Squawkabilly, Dudunsparce, Tatsugiri, Alcremie, and all gender forms)",
         "Shiny Toggle per Form: Each form can be marked as shiny independently",
         "Favorite Form: Select which form to display in the main list with the ❤️ icon",
         "Data Persistence: Shiny and favorite forms are saved in the database",
