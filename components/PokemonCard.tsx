@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react';
 import type { Pokemon } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
 import { SparklesIcon, IsleOfArmorIcon, CrownTundraIcon, TealMaskIcon, IndigoDiskIcon, MegaDimensionIcon, LockIcon, EventIcon, CartridgeIcon, RaidEventIcon, DynamaxAdventureIcon } from './Icons';
-import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON, EVENT_ITEM_POKEMON, DUAL_SLOT_REQ, RAID_EVENT_POKEMON, DYNAMAX_ADVENTURE_POKEMON, FRIEND_SAFARI_POKEMON, ISLAND_SCAN_POKEMON, ULTRA_WORMHOLE_POKEMON, DEXNAV_EXCLUSIVE_POKEMON, MIRAGE_SPOT_POKEMON } from '../data/games';
+import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON, EVENT_ITEM_POKEMON, DUAL_SLOT_REQ, RAID_EVENT_POKEMON, DYNAMAX_ADVENTURE_POKEMON, FRIEND_SAFARI_POKEMON, ISLAND_SCAN_POKEMON, ULTRA_WORMHOLE_POKEMON, DEXNAV_EXCLUSIVE_POKEMON, MIRAGE_SPOT_POKEMON, SPACE_TIME_DISTORTION_POKEMON } from '../data/games';
 import { POKEMON_WITH_MULTIPLE_FORMS } from '../data/pokemon';
 import FormsModal from './FormsModal';
 
@@ -158,6 +158,14 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
         return MIRAGE_SPOT_POKEMON.legendaries.omegaRuby.includes(pokemonId) ||
           MIRAGE_SPOT_POKEMON.legendaries.alphaSapphire.includes(pokemonId);
       }
+    }
+    return false;
+  }, [selectedGame, pokemon.id]);
+
+  // Check for Space-Time Distortion Pokemon (PLA)
+  const hasSpaceTimeDistortionBadge = useMemo(() => {
+    if (selectedGame === 'la') {
+      return SPACE_TIME_DISTORTION_POKEMON.includes(pokemon.id);
     }
     return false;
   }, [selectedGame, pokemon.id]);
@@ -469,6 +477,20 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
             />
             <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/mirage:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
               {t('mirageSpot')}
+            </span>
+          </div>
+        )}
+
+        {/* Space-Time Distortion Badge */}
+        {hasSpaceTimeDistortionBadge && (
+          <div className="group/distort relative text-indigo-400 group-hover:text-indigo-300 transition-colors">
+            <img
+              src="/assets/ultra-wormhole.png"
+              alt={t('spaceTimeDistortion')}
+              className="w-5 h-5 object-contain drop-shadow-md"
+            />
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/distort:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+              {t('spaceTimeDistortion')}
             </span>
           </div>
         )}

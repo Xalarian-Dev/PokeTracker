@@ -45,6 +45,7 @@ export const ui = {
     ultraWormhole: 'ウルトラホール',
     dexNav: 'ずかんナビ',
     mirageSpot: 'マボロシのばしょ',
+    spaceTimeDistortion: '時空の歪み',
     raid_event: "レイドイベント",
     dynamax_adventure: "ダイマックスアドベンチャー",
     dlc_isle_of_armor: "鎧の孤島",

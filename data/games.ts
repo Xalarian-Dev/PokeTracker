@@ -216,6 +216,15 @@ export const RAID_EVENT_POKEMON: Record<string, string[]> = {
     'sv': ['150', '483', '484', '1009', '1010'], // Mewtwo, Dialga, Palkia, Walking Wake, Iron Leaves
 };
 
+// Liste des Pokémon exclusifs aux Failles Spatio-Temporelles (Légendes Pokémon : Arceus)
+export const SPACE_TIME_DISTORTION_POKEMON = [
+    '81', '82', '462', // Magnemite line
+    '137', '233', '474', // Porygon line
+    '408', '409', // Cranidos line
+    '410', '411', // Shieldon line
+    '215', '461', // Johto Sneasel line
+];
+
 // Base de données de disponibilité des Pokémon par jeu
 export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '1': ['r', 'b', 'ye', 'fr', 'lg', 'hg', 'ss', 'x', 'y', 'us', 'um', 'lgp', 'lge', 'swdlc1', 'shdlc1', 'bd', 'sp', 'scdlc2', 'vdlc2', 'lpza'],

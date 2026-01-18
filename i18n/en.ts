@@ -47,6 +47,7 @@ export const ui = {
     ultraWormhole: 'Ultra Wormhole',
     dexNav: 'DexNav',
     mirageSpot: 'Mirage Spot',
+    spaceTimeDistortion: 'Space-Time Distortion',
     raidEvent: "Raid Event",
     raid_event: "Raid Event",
     dynamax_adventure: "Dynamax Adventure",
