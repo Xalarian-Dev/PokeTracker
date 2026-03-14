@@ -1,8 +1,8 @@
 # robots.txt for PokeTracker
-# This file tells search engines which pages they can crawl
 
 User-agent: *
 Allow: /
+Disallow: /api/
 
-# Sitemap location (to be created in the future)
+# Sitemap
 Sitemap: https://pokemonshinytracker.vercel.app/sitemap.xml

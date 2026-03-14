@@ -96,6 +96,13 @@ export const JapanFlag: React.FC<IconProps> = ({ className }) => (
   </svg>
 );
 
+export const SpainFlag: React.FC<IconProps> = ({ className }) => (
+  <svg viewBox="0 0 3 2" className={className} xmlns="http://www.w3.org/2000/svg">
+    <rect width="3" height="2" fill="#c60b1e" />
+    <rect y="0.5" width="3" height="1" fill="#ffc400" />
+  </svg>
+);
+
 export const IsleOfArmorIcon: React.FC<IconProps> = ({ className }) => (
   <img
     src="/assets/isle-of-armor.png"

@@ -8,7 +8,7 @@ export const CookieConsent: React.FC = () => {
     const { language } = useLanguage();
     const { isPending, acceptCookies } = useCookieConsent();
     const { openPrivacy } = useLegalModal();
-    const t = getGdprTranslations(language as 'fr' | 'en' | 'jp');
+    const t = getGdprTranslations(language as 'fr' | 'en' | 'jp' | 'es');
 
     const handleAccept = () => {
         acceptCookies();

@@ -152,7 +152,7 @@ export async function migrateLocalStorageToSupabase(
  */
 export interface UserPreferences {
     user_id: string;
-    preferred_language: 'fr' | 'en' | 'jp';
+    preferred_language: 'fr' | 'en' | 'jp' | 'es';
     owned_games: string[];
     display_name?: string;
 }
@@ -175,7 +175,7 @@ export async function getUserPreferences(userId: string): Promise<UserPreference
  */
 export async function saveUserPreferences(
     userId: string,
-    language: 'fr' | 'en' | 'jp',
+    language: 'fr' | 'en' | 'jp' | 'es',
     ownedGames: string[],
     displayName?: string
 ): Promise<void> {

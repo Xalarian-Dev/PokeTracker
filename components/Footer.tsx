@@ -5,7 +5,7 @@ import { useLegalModal } from '../contexts/LegalModalContext';
 
 export const Footer: React.FC = () => {
     const { language, t: uiT } = useLanguage();
-    const t = getGdprTranslations(language as 'fr' | 'en' | 'jp');
+    const t = getGdprTranslations(language as 'fr' | 'en' | 'jp' | 'es');
     const { openPrivacy, openTerms, openChangelog } = useLegalModal();
 
     // Multi-layer obfuscation to prevent spam bots

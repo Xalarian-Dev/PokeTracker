@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { FranceFlag, UKFlag, JapanFlag } from './Icons';
+import { FranceFlag, UKFlag, JapanFlag, SpainFlag } from './Icons';
 import { cn } from '../utils/cn';
 
 /**
@@ -10,7 +10,7 @@ import { cn } from '../utils/cn';
 export const LanguageSelector: React.FC = () => {
     const { language, setLanguage } = useLanguage();
 
-    const langButtonClasses = (lang: 'fr' | 'en' | 'jp') =>
+    const langButtonClasses = (lang: 'fr' | 'en' | 'jp' | 'es') =>
         cn(
             "px-2 py-1 flex items-center justify-center rounded-md transition-colors",
             language === lang
@@ -33,6 +33,13 @@ export const LanguageSelector: React.FC = () => {
                 title="Français"
             >
                 <FranceFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-sm" />
+            </button>
+            <button
+                onClick={() => setLanguage('es')}
+                className={langButtonClasses('es')}
+                title="Español"
+            >
+                <SpainFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-sm" />
             </button>
             <button
                 onClick={() => setLanguage('jp')}

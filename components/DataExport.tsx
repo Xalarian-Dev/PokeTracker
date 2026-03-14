@@ -7,7 +7,7 @@ import { getUserPreferences, fetchShinyPokemon } from '../services/supabase';
 export const DataExport: React.FC = () => {
     const { user } = useUser();
     const { language } = useLanguage();
-    const t = getGdprTranslations(language as 'fr' | 'en' | 'jp');
+    const t = getGdprTranslations(language as 'fr' | 'en' | 'jp' | 'es');
     const [isExporting, setIsExporting] = useState(false);
 
     const handleExport = async () => {

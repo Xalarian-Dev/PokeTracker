@@ -1129,3 +1129,211 @@ export const pokemonFormsJP: Record<string, string> = {
     '916-female': 'メス',
 };
 
+// Spanish translations for Pokemon forms
+export const pokemonFormsES: Record<string, string> = {
+    // Furfrou
+    '676': 'Forma Natural',
+    '676-heart': 'Corte Coraz\u00f3n',
+    '676-star': 'Corte Estrella',
+    '676-diamond': 'Corte Diamante',
+    '676-debutante': 'Corte Dama',
+    '676-matron': 'Corte Se\u00f1ora',
+    '676-dandy': 'Corte Caballero',
+    '676-la-reine': 'Corte Reina',
+    '676-kabuki': 'Corte Kabuki',
+    '676-pharaoh': 'Corte Fara\u00f3n',
+
+    // Oricorio
+    '741': 'Estilo Flamenco',
+    '741-pom-pom': 'Estilo Animado',
+    '741-pau': 'Estilo Hula',
+    '741-sensu': 'Estilo Refinado',
+
+    // Paldean Tauros
+    '128-paldea-combat': 'Raza Combativa',
+    '128-paldea-blaze': 'Raza \u00cdgnea',
+    '128-paldea-aqua': 'Raza Acu\u00e1tica',
+
+    // Burmy & Wormadam
+    '412': 'Manto Planta',
+    '412-sandy': 'Manto Arena',
+    '412-trash': 'Manto Basura',
+    '413': 'Manto Planta',
+    '413-sandy': 'Manto Arena',
+    '413-trash': 'Manto Basura',
+
+    // Rotom
+    '479': 'Normal',
+    '479-heat': 'Rotom Calor',
+    '479-wash': 'Rotom Lavado',
+    '479-frost': 'Rotom Fr\u00edo',
+    '479-fan': 'Rotom Ventilador',
+    '479-mow': 'Rotom Corte',
+
+    // Basculin
+    '550': 'Raya Roja',
+    '550-blue': 'Raya Azul',
+    '550-white': 'Raya Blanca',
+
+    // Unown
+    '201': 'A', '201-b': 'B', '201-c': 'C', '201-d': 'D',
+    '201-e': 'E', '201-f': 'F', '201-g': 'G', '201-h': 'H',
+    '201-i': 'I', '201-j': 'J', '201-k': 'K', '201-l': 'L',
+    '201-m': 'M', '201-n': 'N', '201-o': 'O', '201-p': 'P',
+    '201-q': 'Q', '201-r': 'R', '201-s': 'S', '201-t': 'T',
+    '201-u': 'U', '201-v': 'V', '201-w': 'W', '201-x': 'X',
+    '201-y': 'Y', '201-z': 'Z', '201-exclamation': '!', '201-question': '?',
+
+    // Deerling & Sawsbuck
+    '585': 'Primavera', '585-summer': 'Verano', '585-autumn': 'Oto\u00f1o', '585-winter': 'Invierno',
+    '586': 'Primavera', '586-summer': 'Verano', '586-autumn': 'Oto\u00f1o', '586-winter': 'Invierno',
+
+    // Flab\u00e9b\u00e9, Floette & Florges
+    '669': 'Flor Roja', '669-yellow': 'Flor Amarilla', '669-orange': 'Flor Naranja',
+    '669-blue': 'Flor Azul', '669-white': 'Flor Blanca',
+    '670': 'Flor Roja', '670-yellow': 'Flor Amarilla', '670-orange': 'Flor Naranja',
+    '670-blue': 'Flor Azul', '670-white': 'Flor Blanca',
+    '671': 'Flor Roja', '671-yellow': 'Flor Amarilla', '671-orange': 'Flor Naranja',
+    '671-blue': 'Flor Azul', '671-white': 'Flor Blanca',
+
+    // Maushold
+    '925': 'Familia de cuatro', '925-family-of-three': 'Familia de tres',
+
+    // Squawkabilly
+    '931': 'Verde', '931-blue': 'Azul', '931-yellow': 'Amarillo', '931-white': 'Blanco',
+
+    // Tatsugiri
+    '978': 'Curvada', '978-droopy': 'Ca\u00edda', '978-stretchy': 'Estirada',
+
+    // Alcremie
+    '869': 'Fresa Dulce', '869-berry-sweet': 'Baya Dulce', '869-love-sweet': 'Coraz\u00f3n Dulce',
+    '869-star-sweet': 'Estrella Dulce', '869-clover-sweet': 'Tr\u00e9bol Dulce',
+    '869-flower-sweet': 'Flor Dulce', '869-ribbon-sweet': 'Lazo Dulce',
+
+    // Dudunsparce
+    '982': 'Dos segmentos', '982-three-segment': 'Tres segmentos',
+
+    // Poltchageist & Sinistcha
+    '1012': 'Falsificaci\u00f3n', '1012-artisan': 'Obra maestra',
+    '1013': 'Vulgar', '1013-masterpiece': 'Obra maestra',
+
+    // Sinistea & Polteageist
+    '854': 'Falsificaci\u00f3n', '854-antique': 'Antig\u00fcedad',
+    '855': 'Falsificaci\u00f3n', '855-antique': 'Antig\u00fcedad',
+
+    // Toxtricity
+    '849': 'Agudo', '849-low-key': 'Grave',
+
+    // Lycanroc
+    '745': 'Diurna', '745-midnight': 'Nocturna', '745-dusk': 'Crepuscular',
+
+    // Shellos & Gastrodon
+    '422': 'Mar Oeste', '422-east': 'Mar Este',
+    '423': 'Mar Oeste', '423-east': 'Mar Este',
+
+    // Gender Forms
+    '3-male': 'Macho', '3-female': 'Hembra',
+    '12-male': 'Macho', '12-female': 'Hembra',
+    '19-male': 'Macho', '19-female': 'Hembra',
+    '20-male': 'Macho', '20-female': 'Hembra',
+    '25-male': 'Macho', '25-female': 'Hembra',
+    '26-male': 'Macho', '26-female': 'Hembra',
+    '41-male': 'Macho', '41-female': 'Hembra',
+    '42-male': 'Macho', '42-female': 'Hembra',
+    '44-male': 'Macho', '44-female': 'Hembra',
+    '45-male': 'Macho', '45-female': 'Hembra',
+    '64-male': 'Macho', '64-female': 'Hembra',
+    '65-male': 'Macho', '65-female': 'Hembra',
+    '84-male': 'Macho', '84-female': 'Hembra',
+    '85-male': 'Macho', '85-female': 'Hembra',
+    '97-male': 'Macho', '97-female': 'Hembra',
+    '111-male': 'Macho', '111-female': 'Hembra',
+    '112-male': 'Macho', '112-female': 'Hembra',
+    '118-male': 'Macho', '118-female': 'Hembra',
+    '119-male': 'Macho', '119-female': 'Hembra',
+    '123-male': 'Macho', '123-female': 'Hembra',
+    '129-male': 'Macho', '129-female': 'Hembra',
+    '130-male': 'Macho', '130-female': 'Hembra',
+    '133-male': 'Macho', '133-female': 'Hembra',
+    '154-male': 'Macho', '154-female': 'Hembra',
+    '165-male': 'Macho', '165-female': 'Hembra',
+    '166-male': 'Macho', '166-female': 'Hembra',
+    '178-male': 'Macho', '178-female': 'Hembra',
+    '185-male': 'Macho', '185-female': 'Hembra',
+    '186-male': 'Macho', '186-female': 'Hembra',
+    '190-male': 'Macho', '190-female': 'Hembra',
+    '194-male': 'Macho', '194-female': 'Hembra',
+    '195-male': 'Macho', '195-female': 'Hembra',
+    '198-male': 'Macho', '198-female': 'Hembra',
+    '202-male': 'Macho', '202-female': 'Hembra',
+    '203-male': 'Macho', '203-female': 'Hembra',
+    '207-male': 'Macho', '207-female': 'Hembra',
+    '208-male': 'Macho', '208-female': 'Hembra',
+    '212-male': 'Macho', '212-female': 'Hembra',
+    '214-male': 'Macho', '214-female': 'Hembra',
+    '215-male': 'Macho', '215-female': 'Hembra',
+    '217-male': 'Macho', '217-female': 'Hembra',
+    '221-male': 'Macho', '221-female': 'Hembra',
+    '224-male': 'Macho', '224-female': 'Hembra',
+    '229-male': 'Macho', '229-female': 'Hembra',
+    '232-male': 'Macho', '232-female': 'Hembra',
+    '255-male': 'Macho', '255-female': 'Hembra',
+    '256-male': 'Macho', '256-female': 'Hembra',
+    '257-male': 'Macho', '257-female': 'Hembra',
+    '267-male': 'Macho', '267-female': 'Hembra',
+    '269-male': 'Macho', '269-female': 'Hembra',
+    '272-male': 'Macho', '272-female': 'Hembra',
+    '274-male': 'Macho', '274-female': 'Hembra',
+    '275-male': 'Macho', '275-female': 'Hembra',
+    '307-male': 'Macho', '307-female': 'Hembra',
+    '308-male': 'Macho', '308-female': 'Hembra',
+    '315-male': 'Macho', '315-female': 'Hembra',
+    '316-male': 'Macho', '316-female': 'Hembra',
+    '317-male': 'Macho', '317-female': 'Hembra',
+    '322-male': 'Macho', '322-female': 'Hembra',
+    '323-male': 'Macho', '323-female': 'Hembra',
+    '332-male': 'Macho', '332-female': 'Hembra',
+    '350-male': 'Macho', '350-female': 'Hembra',
+    '369-male': 'Macho', '369-female': 'Hembra',
+    '396-male': 'Macho', '396-female': 'Hembra',
+    '397-male': 'Macho', '397-female': 'Hembra',
+    '398-male': 'Macho', '398-female': 'Hembra',
+    '399-male': 'Macho', '399-female': 'Hembra',
+    '400-male': 'Macho', '400-female': 'Hembra',
+    '401-male': 'Macho', '401-female': 'Hembra',
+    '402-male': 'Macho', '402-female': 'Hembra',
+    '403-male': 'Macho', '403-female': 'Hembra',
+    '404-male': 'Macho', '404-female': 'Hembra',
+    '405-male': 'Macho', '405-female': 'Hembra',
+    '407-male': 'Macho', '407-female': 'Hembra',
+    '415-male': 'Macho', '415-female': 'Hembra',
+    '417-male': 'Macho', '417-female': 'Hembra',
+    '418-male': 'Macho', '418-female': 'Hembra',
+    '419-male': 'Macho', '419-female': 'Hembra',
+    '424-male': 'Macho', '424-female': 'Hembra',
+    '443-male': 'Macho', '443-female': 'Hembra',
+    '444-male': 'Macho', '444-female': 'Hembra',
+    '445-male': 'Macho', '445-female': 'Hembra',
+    '449-male': 'Macho', '449-female': 'Hembra',
+    '450-male': 'Macho', '450-female': 'Hembra',
+    '453-male': 'Macho', '453-female': 'Hembra',
+    '454-male': 'Macho', '454-female': 'Hembra',
+    '456-male': 'Macho', '456-female': 'Hembra',
+    '457-male': 'Macho', '457-female': 'Hembra',
+    '459-male': 'Macho', '459-female': 'Hembra',
+    '460-male': 'Macho', '460-female': 'Hembra',
+    '461-male': 'Macho', '461-female': 'Hembra',
+    '464-male': 'Macho', '464-female': 'Hembra',
+    '465-male': 'Macho', '465-female': 'Hembra',
+    '473-male': 'Macho', '473-female': 'Hembra',
+    '215-hisui-male': 'Macho', '215-hisui-female': 'Hembra',
+    '521-male': 'Macho', '521-female': 'Hembra',
+    '592-male': 'Macho', '592-female': 'Hembra',
+    '593-male': 'Macho', '593-female': 'Hembra',
+    '668-male': 'Macho', '668-female': 'Hembra',
+    '678-male': 'Macho', '678-female': 'Hembra',
+    '876-male': 'Macho', '876-female': 'Hembra',
+    '902-male': 'Macho', '902-female': 'Hembra',
+    '916-male': 'Macho', '916-female': 'Hembra',
+};
+

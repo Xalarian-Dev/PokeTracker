@@ -9,7 +9,7 @@ interface MetadataConfig {
 export const useMetadata = (config: MetadataConfig = {}) => {
     const { t, language } = useLanguage();
 
-    const canonicalUrl = config.canonicalUrl || 'https://pokemonshinytracker.vercel.app';
+    const canonicalUrl = config.canonicalUrl || 'https://pokemonshinytracker.vercel.app/';
     const ogImage = config.ogImage || '/og-image.png';
 
     useEffect(() => {
@@ -21,7 +21,8 @@ export const useMetadata = (config: MetadataConfig = {}) => {
         const langMap: Record<string, string> = {
             'fr': 'fr',
             'en': 'en',
-            'jp': 'ja'
+            'jp': 'ja',
+            'es': 'es'
         };
         htmlElement.setAttribute('lang', langMap[language] || 'en');
 
@@ -47,7 +48,8 @@ export const useMetadata = (config: MetadataConfig = {}) => {
         updateMetaTag('og:url', canonicalUrl, 'property');
         updateMetaTag('og:image', `${canonicalUrl}${ogImage}`, 'property');
         updateMetaTag('og:site_name', t('seo_app_name'), 'property');
-        updateMetaTag('og:locale', langMap[language] === 'ja' ? 'ja_JP' : langMap[language] === 'fr' ? 'fr_FR' : 'en_US', 'property');
+        const localeMap: Record<string, string> = { 'ja': 'ja_JP', 'fr': 'fr_FR', 'es': 'es_ES', 'en': 'en_US' };
+        updateMetaTag('og:locale', localeMap[langMap[language] || 'en'] || 'en_US', 'property');
 
         // Twitter Cards
         updateMetaTag('twitter:card', 'summary_large_image');
@@ -80,12 +82,18 @@ export const useMetadata = (config: MetadataConfig = {}) => {
             "url": canonicalUrl,
             "applicationCategory": "GameApplication",
             "operatingSystem": "Web Browser",
+            "browserRequirements": "Requires JavaScript. Requires HTML5.",
+            "availableLanguage": ["fr", "en", "ja", "es"],
             "offers": {
                 "@type": "Offer",
                 "price": "0",
                 "priceCurrency": "USD"
             },
-            "inLanguage": [langMap[language] || 'en', 'fr', 'en', 'ja']
+            "author": {
+                "@type": "Organization",
+                "name": "PokeTracker"
+            },
+            "inLanguage": [langMap[language] || 'en', 'fr', 'en', 'ja', 'es']
         };
 
         scriptTag.textContent = JSON.stringify(structuredData);

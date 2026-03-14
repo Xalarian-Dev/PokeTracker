@@ -2,14 +2,16 @@ import React, { createContext, useState, useContext, useEffect, useMemo } from '
 import * as frTranslations from '../i18n/fr';
 import * as enTranslations from '../i18n/en';
 import * as jpTranslations from '../i18n/jp';
+import * as esTranslations from '../i18n/es';
 
 const translations = {
   fr: frTranslations,
   en: enTranslations,
-  jp: jpTranslations
+  jp: jpTranslations,
+  es: esTranslations
 };
 
-type Language = 'fr' | 'en' | 'jp';
+type Language = 'fr' | 'en' | 'jp' | 'es';
 
 interface LanguageContextType {
   language: Language;
@@ -28,7 +30,7 @@ export const LanguageProvider = ({ children }: React.PropsWithChildren) => {
   const [language, setLanguage] = useState<Language>(() => {
     // 1. Check local storage
     const storedLang = localStorage.getItem('shinyTrackerLang');
-    if (storedLang === 'fr' || storedLang === 'en' || storedLang === 'jp') {
+    if (storedLang === 'fr' || storedLang === 'en' || storedLang === 'jp' || storedLang === 'es') {
       return storedLang as Language;
     }
 
@@ -39,6 +41,9 @@ export const LanguageProvider = ({ children }: React.PropsWithChildren) => {
     }
     if (browserLang.startsWith('ja')) {
       return 'jp';
+    }
+    if (browserLang.startsWith('es')) {
+      return 'es';
     }
 
     // 3. Default

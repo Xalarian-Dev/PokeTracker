@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import type { PokemonForm } from '../types';
 import { SparklesIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
-import { pokemonFormsEN, pokemonFormsFR, pokemonFormsJP } from '../i18n/pokemon-forms';
+import { pokemonFormsEN, pokemonFormsFR, pokemonFormsJP, pokemonFormsES } from '../i18n/pokemon-forms';
 import { ui as uiEN } from '../i18n/en';
 import { ui as uiFR } from '../i18n/fr';
 import { ui as uiJP } from '../i18n/jp';
+import { ui as uiES } from '../i18n/es';
 
 const HOME_SPRITE_BASE_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/';
 
@@ -14,12 +15,14 @@ const formTranslations = {
     en: pokemonFormsEN,
     fr: pokemonFormsFR,
     jp: pokemonFormsJP,
+    es: pokemonFormsES,
 };
 
 const uiTranslations = {
     en: uiEN,
     fr: uiFR,
     jp: uiJP,
+    es: uiES,
 };
 
 interface FormsModalProps {

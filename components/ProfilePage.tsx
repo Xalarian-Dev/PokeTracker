@@ -3,7 +3,7 @@ import { useUser, useClerk } from '@clerk/clerk-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getUserPreferences, saveUserPreferences, deleteUserData } from '../services/supabase';
 import { INDIVIDUAL_GAME_LIST } from '../data/games';
-import { UKFlag, FranceFlag, JapanFlag } from './Icons';
+import { UKFlag, FranceFlag, JapanFlag, SpainFlag } from './Icons';
 const DataExport = lazy(() => import('./DataExport').then(module => ({ default: module.DataExport })));
 import {
     Dialog,
@@ -25,7 +25,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
     const { user } = useUser();
     const { signOut } = useClerk();
     const { language, setLanguage, t, getGameName } = useLanguage();
-    const [selectedLanguage, setSelectedLanguage] = useState<'fr' | 'en' | 'jp'>(language);
+    const [selectedLanguage, setSelectedLanguage] = useState<'fr' | 'en' | 'jp' | 'es'>(language);
     const [ownedGames, setOwnedGames] = useState<string[]>([]);
     const [displayName, setDisplayName] = useState<string>('');
     const [loading, setLoading] = useState(true);
@@ -205,6 +205,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
                         {[
                             { code: 'en' as const, label: 'English', FlagComponent: UKFlag },
                             { code: 'fr' as const, label: 'Français', FlagComponent: FranceFlag },
+                            { code: 'es' as const, label: 'Español', FlagComponent: SpainFlag },
                             { code: 'jp' as const, label: '日本語', FlagComponent: JapanFlag }
                         ].map(lang => (
                             <button

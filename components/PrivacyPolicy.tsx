@@ -6,7 +6,7 @@ import { useLegalModal } from '../contexts/LegalModalContext';
 export const PrivacyPolicy: React.FC = () => {
     const { language } = useLanguage();
     const { close } = useLegalModal();
-    const t = getGdprTranslations(language as 'fr' | 'en' | 'jp');
+    const t = getGdprTranslations(language as 'fr' | 'en' | 'jp' | 'es');
 
     return (
         <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">

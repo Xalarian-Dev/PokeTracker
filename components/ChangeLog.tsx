@@ -4,6 +4,7 @@ import { useLegalModal } from '../contexts/LegalModalContext';
 import { changelogEN } from '../i18n/changelog-en';
 import { changelogFR } from '../i18n/changelog-fr';
 import { changelogJP } from '../i18n/changelog-jp';
+import { changelogES } from '../i18n/changelog-es';
 
 export const ChangeLog: React.FC = () => {
     const { language } = useLanguage();
@@ -12,7 +13,8 @@ export const ChangeLog: React.FC = () => {
     const content = {
         fr: changelogFR,
         en: changelogEN,
-        jp: changelogJP
+        jp: changelogJP,
+        es: changelogES
     };
 
     const t = content[language as keyof typeof content] || content.en;
