@@ -4,14 +4,21 @@ import * as enTranslations from '../i18n/en';
 import * as jpTranslations from '../i18n/jp';
 import * as esTranslations from '../i18n/es';
 
-const translations = {
-  fr: frTranslations,
-  en: enTranslations,
-  jp: jpTranslations,
-  es: esTranslations
-};
-
 type Language = 'fr' | 'en' | 'jp' | 'es';
+
+interface TranslationModule {
+  ui: typeof frTranslations.ui;
+  pokemon: typeof frTranslations.pokemon;
+  games: typeof frTranslations.games;
+  gameVersions: Record<string, string>;
+}
+
+const translations: Record<Language, TranslationModule> = {
+  fr: frTranslations as TranslationModule,
+  en: enTranslations as TranslationModule,
+  jp: jpTranslations as TranslationModule,
+  es: esTranslations as TranslationModule,
+};
 
 interface LanguageContextType {
   language: Language;
@@ -71,8 +78,6 @@ export const LanguageProvider = ({ children }: React.PropsWithChildren) => {
   };
 
   const getGameName = (id: string): string => {
-    // Check individual versions first (e.g. 'sw' -> 'Sword')
-    // @ts-ignore
     const versions = translations[language].gameVersions || translations['en'].gameVersions;
     if (versions && versions[id]) {
       return versions[id];
@@ -88,13 +93,11 @@ export const LanguageProvider = ({ children }: React.PropsWithChildren) => {
   }
 
   const getRegionName = (id: string): string => {
-    // @ts-ignore - regions might not exist yet on all translation objects during migration
-    const regions = translations[language].ui.regions || translations['en'].ui.regions;
+    const regions = (translations[language].ui as any).regions || (translations['en'].ui as any).regions;
     return regions[id] || id;
   };
 
   const gameVersions = useMemo(() => {
-    // @ts-ignore
     return translations[language].gameVersions || translations['en'].gameVersions || {};
   }, [language]);
 

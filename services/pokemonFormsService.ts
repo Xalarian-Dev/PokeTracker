@@ -1,55 +1,10 @@
 // Service pour gérer les formes de Pokémon (shiny + favorite)
 
+import { apiRequest } from './authTokenStore';
+
 export interface PokemonFormsData {
     shinyForms: Record<string, string[]>;
     favoriteForms: Record<string, string>;
-}
-
-/**
- * Helper: Get Clerk authentication token
- */
-async function getAuthToken(): Promise<string> {
-    const getToken = (window as any).__clerk_getToken;
-    if (!getToken) {
-        throw new Error('Clerk getToken function not available');
-    }
-
-    const token = await getToken();
-    if (!token) {
-        throw new Error('No authentication token available');
-    }
-    return token;
-}
-
-/**
- * Helper: Make authenticated API request
- */
-async function apiRequest<T>(
-    endpoint: string,
-    options: RequestInit = {}
-): Promise<T> {
-    const token = await getAuthToken();
-
-    const response = await fetch(`/api/${endpoint}`, {
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            ...options.headers,
-        },
-    });
-
-    if (!response.ok) {
-        if (response.status === 401) {
-            window.dispatchEvent(new CustomEvent('session-expired'));
-            throw new Error('Session expired');
-        }
-
-        const error = await response.json().catch(() => ({ error: 'Request failed' }));
-        throw new Error(error.error || `API request failed: ${response.status}`);
-    }
-
-    return response.json();
 }
 
 /**
@@ -57,10 +12,8 @@ async function apiRequest<T>(
  */
 export async function loadPokemonForms(): Promise<PokemonFormsData> {
     try {
-        const data = await apiRequest<PokemonFormsData>('pokemon-forms');
-        return data;
-    } catch (error) {
-        console.error('Error loading pokemon forms:', error);
+        return await apiRequest<PokemonFormsData>('pokemon-forms');
+    } catch {
         return { shinyForms: {}, favoriteForms: {} };
     }
 }
@@ -83,10 +36,8 @@ export async function toggleFormShiny(
                 isShiny,
             }),
         });
-
         return true;
-    } catch (error) {
-        console.error('Error toggling form shiny:', error);
+    } catch {
         return false;
     }
 }
@@ -107,10 +58,8 @@ export async function setFavoriteForm(
                 formId,
             }),
         });
-
         return true;
-    } catch (error) {
-        console.error('Error setting favorite form:', error);
+    } catch {
         return false;
     }
 }

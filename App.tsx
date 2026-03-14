@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useMemo, lazy, Suspense, useEffect } from 'react';
 import { ClerkProvider, SignedIn, SignedOut, useUser, useClerk } from '@clerk/clerk-react';
 import ShinyTracker from './components/ShinyTracker';
+import { ErrorBoundary } from './components/ErrorBoundary';
 const ProfilePage = lazy(() => import('./components/ProfilePage'));
 import { POKEMON_LIST as BASE_POKEMON_LIST } from './data/pokemon';
 import type { Pokemon, User } from './types';
@@ -61,7 +62,6 @@ const AppContent = () => {
     return {
       email: clerkUser.primaryEmailAddress?.emailAddress || '',
       username: clerkUser.username || clerkUser.firstName || clerkUser.id,
-      passwordHash: '', // Not needed with Clerk
     };
   }, [clerkUser]);
 
@@ -150,7 +150,9 @@ const App = () => {
     >
       <LanguageProvider>
         <LegalModalProvider>
-          <AppContent />
+          <ErrorBoundary>
+            <AppContent />
+          </ErrorBoundary>
         </LegalModalProvider>
       </LanguageProvider>
     </ClerkProvider>

@@ -37,12 +37,21 @@ export async function authenticateRequest(
     }
 }
 
+const ALLOWED_ORIGINS = [
+    'https://pokemonshinytracker.vercel.app',
+    'http://localhost:5173',
+    'http://localhost:3000',
+];
+
 /**
  * Set CORS headers for API responses
  */
-export function setCorsHeaders(res: VercelResponse) {
+export function setCorsHeaders(req: VercelRequest, res: VercelResponse) {
+    const origin = req.headers.origin;
+    if (origin && ALLOWED_ORIGINS.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
     res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
     res.setHeader(
         'Access-Control-Allow-Headers',
@@ -55,7 +64,7 @@ export function setCorsHeaders(res: VercelResponse) {
  */
 export function handleOptions(req: VercelRequest, res: VercelResponse): boolean {
     if (req.method === 'OPTIONS') {
-        setCorsHeaders(res);
+        setCorsHeaders(req, res);
         res.status(200).end();
         return true;
     }

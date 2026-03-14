@@ -19,5 +19,4 @@ export interface PokemonForm {
 export interface User {
   username: string;
   email: string;
-  passwordHash?: string; // Simulated security
 }

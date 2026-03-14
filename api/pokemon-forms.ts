@@ -11,7 +11,7 @@ import { supabaseAdmin } from './_lib/supabase.js';
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Handle CORS preflight
     if (handleOptions(req, res)) return;
-    setCorsHeaders(res);
+    setCorsHeaders(req, res);
 
     // Authenticate user
     const userId = await authenticateRequest(req, res);

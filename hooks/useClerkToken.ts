@@ -1,22 +1,19 @@
 import { useAuth } from '@clerk/clerk-react';
 import { useEffect } from 'react';
+import { setGetTokenFn, clearGetTokenFn } from '../services/authTokenStore';
 
 /**
- * Hook to manage Clerk session token for API authentication
- * Stores the getToken function in window for use by API requests
- * This ensures we always get a fresh token, avoiding expiration issues
+ * Hook to manage Clerk session token for API authentication.
+ * Stores the getToken function in a module-scoped variable (not window).
  */
 export function useClerkToken() {
     const { getToken, isSignedIn } = useAuth();
 
     useEffect(() => {
         if (isSignedIn) {
-            // Store getToken function for API requests
-            // This allows API calls to always get a fresh token
-            (window as any).__clerk_getToken = getToken;
+            setGetTokenFn(getToken);
         } else {
-            // Clear function when user signs out
-            (window as any).__clerk_getToken = null;
+            clearGetTokenFn();
         }
     }, [isSignedIn, getToken]);
 }

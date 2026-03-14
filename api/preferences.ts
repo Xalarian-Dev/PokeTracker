@@ -11,7 +11,7 @@ import { supabaseAdmin } from './_lib/supabase.js';
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Handle CORS preflight
     if (handleOptions(req, res)) return;
-    setCorsHeaders(res);
+    setCorsHeaders(req, res);
 
     // Authenticate user
     const userId = await authenticateRequest(req, res);
@@ -64,7 +64,7 @@ async function handlePut(userId: string, req: VercelRequest, res: VercelResponse
     const { language, ownedGames, displayName } = req.body;
 
     // Validate input
-    if (!language || !['fr', 'en', 'jp'].includes(language)) {
+    if (!language || !['fr', 'en', 'jp', 'es'].includes(language)) {
         return res.status(400).json({ error: 'Invalid language' });
     }
 
