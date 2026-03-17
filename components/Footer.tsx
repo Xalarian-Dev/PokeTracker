@@ -56,6 +56,7 @@ export const Footer: React.FC = () => {
                             {language === 'fr' && 'Suivez votre collection de Pokémon shiny à travers toutes les générations.'}
                             {language === 'en' && 'Track your shiny Pokemon collection across all generations.'}
                             {language === 'jp' && 'すべての世代の色違いポケモンコレクションを追跡します。'}
+                            {language === 'es' && 'Sigue tu colección de Pokémon shiny a través de todas las generaciones.'}
                         </p>
                     </div>
 
@@ -65,6 +66,7 @@ export const Footer: React.FC = () => {
                             {language === 'fr' && 'Légal'}
                             {language === 'en' && 'Legal'}
                             {language === 'jp' && '法的情報'}
+                            {language === 'es' && 'Legal'}
                         </h3>
                         <ul className="space-y-2">
                             <li>
@@ -115,6 +117,7 @@ export const Footer: React.FC = () => {
                                 {language === 'fr' && 'Contactez-nous par email'}
                                 {language === 'en' && 'Contact us by email'}
                                 {language === 'jp' && 'メールでお問い合わせ'}
+                                {language === 'es' && 'Contáctenos por email'}
                             </a>
                             <p className="text-gray-500 text-xs">
                                 {t.footer_made_by} <span className="text-purple-400 font-medium">Xalarian</span>
@@ -131,6 +134,17 @@ export const Footer: React.FC = () => {
                             {t.footer_copyright}
                         </p>
                         <div className="flex items-center gap-4">
+                            <a
+                                href="https://ko-fi.com/xalarian"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-gray-500 hover:text-yellow-400 transition-colors duration-200"
+                                aria-label="Support on Ko-fi"
+                            >
+                                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.363.407 0 0 1.565-1.782 3.468-.963 1.904.82 1.832 3.011.723 4.311zm6.173.478c-.928.116-1.682.028-1.682.028V7.284h1.77s1.971.551 1.971 2.638c0 1.913-.985 2.667-2.059 3.015z" />
+                                </svg>
+                            </a>
                             <a
                                 href="https://github.com/Xalarian-Dev"
                                 target="_blank"
