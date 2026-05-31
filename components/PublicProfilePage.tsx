@@ -14,7 +14,7 @@ const TOTAL = POKEMON_LIST.length;
 
 export const PublicProfilePage: React.FC = () => {
     const { trainerId } = useParams<{ trainerId: string }>();
-    const { t } = useLanguage();
+    const { t, getPokemonName } = useLanguage();
 
     const [profile, setProfile] = useState<PublicProfile | null | 'loading' | 'not_found'>('loading');
     const [copied, setCopied] = useState(false);
@@ -148,7 +148,7 @@ export const PublicProfilePage: React.FC = () => {
                                         <div
                                             key={pokemon.id}
                                             className="bg-gray-800 rounded border border-amber-400/40 aspect-square flex items-center justify-center"
-                                            title={pokemon.name}
+                                            title={getPokemonName(pokemon.id) || pokemon.name}
                                             style={{ boxShadow: '0 0 6px 1px rgba(251,191,36,0.2)' }}
                                         >
                                             <img
