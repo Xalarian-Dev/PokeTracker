@@ -144,43 +144,29 @@ const ProfilePage: React.FC = () => {
                     <div className="w-14 h-14 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-gray-900 font-bold text-xl shrink-0 shadow-lg">
                         {initials}
                     </div>
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                         <p className="font-bold text-lg truncate">{user?.firstName || user?.username}</p>
                         <p className="text-sm text-gray-400 truncate">{user?.primaryEmailAddress?.emailAddress}</p>
-                    </div>
-                    {trainerId && (
-                        <div className="ml-auto shrink-0 text-right hidden sm:block">
-                            <p className="text-xs text-gray-500 mb-0.5">{t('trainer_id')}</p>
-                            <p className="font-mono font-bold text-yellow-400">{trainerId}</p>
-                        </div>
-                    )}
-                </div>
-
-                {/* Trainer ID */}
-                {trainerId && (
-                    <Section title={t('trainer_id_your')}>
-                        <div className="flex items-center gap-3">
-                            <div className="flex-1 bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 font-mono text-yellow-400 font-bold text-base">
-                                {trainerId}
+                        {trainerId && (
+                            <div className="flex items-center gap-2 mt-2">
+                                <p className="font-mono font-bold text-yellow-400 text-sm">{trainerId}</p>
+                                <button
+                                    onClick={() => {
+                                        navigator.clipboard.writeText(`${window.location.origin}/u/${trainerId}`);
+                                        setProfileLinkCopied(true);
+                                        setTimeout(() => setProfileLinkCopied(false), 2000);
+                                    }}
+                                    className="flex items-center gap-1 px-2.5 py-1 bg-gray-700 hover:bg-gray-600 rounded-md text-xs font-medium transition-colors"
+                                >
+                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                    </svg>
+                                    {profileLinkCopied ? t('public_profile_link_copied') : t('public_profile_copy_link')}
+                                </button>
                             </div>
-                            <button
-                                onClick={() => {
-                                    navigator.clipboard.writeText(`${window.location.origin}/u/${trainerId}`);
-                                    setProfileLinkCopied(true);
-                                    setTimeout(() => setProfileLinkCopied(false), 2000);
-                                }}
-                                className="shrink-0 flex items-center gap-2 px-4 py-2.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm font-medium transition-colors"
-                            >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                </svg>
-                                {profileLinkCopied ? t('public_profile_link_copied') : t('public_profile_copy_link')}
-                            </button>
-                        </div>
-                        <p className="text-xs text-gray-600 mt-2">{window.location.origin}/u/{trainerId}</p>
-                        <p className="text-xs text-yellow-400/60 mt-1">{t('trainer_id_immutable_note')}</p>
-                    </Section>
-                )}
+                        )}
+                    </div>
+                </div>
 
                 {/* Language */}
                 <Section title={t('preferred_language')}>
