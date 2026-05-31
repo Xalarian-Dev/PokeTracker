@@ -58,19 +58,6 @@ export const PublicProfilePage: React.FC = () => {
     const completion = TOTAL > 0 ? ((profile.shiny_count / TOTAL) * 100).toFixed(1) : '0.0';
     const shinySet = new Set(profile.shinies);
 
-    // Build favourite forms list: { pokemonId, formId, spriteUrl }
-    const favourites = Object.entries(profile.favourite_forms).map(([pokemonId, formId]) => {
-        const formData = POKEMON_WITH_MULTIPLE_FORMS[pokemonId];
-        const form = formData?.forms.find(f => f.id === formId);
-        const spriteId = form?.spriteId ?? pokemonId;
-        return {
-            pokemonId,
-            formId,
-            name: form?.name ?? formId,
-            spriteUrl: getSpriteUrl(String(spriteId), shinySet.has(pokemonId)),
-        };
-    });
-
     return (
         <div className="min-h-screen bg-gray-900 text-white">
             {/* Header */}
@@ -138,28 +125,6 @@ export const PublicProfilePage: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Favourite forms */}
-                {favourites.length > 0 && (
-                    <section className="mb-10">
-                        <h2 className="text-xl font-bold text-white mb-4">{t('public_profile_favourite_forms')}</h2>
-                        <div className="flex flex-wrap gap-3">
-                            {favourites.map(fav => (
-                                <div key={`${fav.pokemonId}-${fav.formId}`}
-                                    className="bg-gray-800 border border-gray-700 rounded-xl p-3 flex flex-col items-center w-24">
-                                    <img
-                                        src={fav.spriteUrl}
-                                        alt={fav.name}
-                                        className="w-16 h-16 object-contain"
-                                        loading="lazy"
-                                        decoding="async"
-                                    />
-                                    <p className="text-xs text-gray-300 text-center mt-1 truncate w-full">{fav.name}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                )}
-
                 {/* Shiny grid */}
                 <section>
                     <h2 className="text-xl font-bold text-white mb-4">
@@ -182,14 +147,14 @@ export const PublicProfilePage: React.FC = () => {
                                     return (
                                         <div
                                             key={pokemon.id}
-                                            className="bg-gray-800 rounded border border-amber-400/40 p-1 flex flex-col items-center"
+                                            className="bg-gray-800 rounded border border-amber-400/40 aspect-square flex items-center justify-center"
                                             title={pokemon.name}
                                             style={{ boxShadow: '0 0 6px 1px rgba(251,191,36,0.2)' }}
                                         >
                                             <img
                                                 src={spriteUrl}
                                                 alt={pokemon.name}
-                                                className="w-full aspect-square object-contain"
+                                                className="w-full h-full object-contain p-0.5"
                                                 loading="lazy"
                                                 decoding="async"
                                             />
