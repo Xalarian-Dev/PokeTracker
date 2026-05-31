@@ -22,7 +22,7 @@ export const CookieConsent: React.FC = () => {
             <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[9998]" />
 
             {/* Banner */}
-            <div className="fixed bottom-0 left-0 right-0 z-[9999] animate-slide-up">
+            <div className="fixed bottom-0 left-0 right-0 z-[9999] animate-slide-up" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
                 <div className="bg-gray-800 border-t-2 border-purple-500 shadow-2xl">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">

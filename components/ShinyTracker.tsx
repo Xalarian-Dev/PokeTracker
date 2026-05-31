@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import type { Pokemon, User } from '../types';
 import Header from './Header';
 import LeftSidebar from './LeftSidebar';
@@ -36,16 +36,19 @@ const CustomSidebarToggle = () => {
 };
 
 const MobileSidebarToggle = () => {
-  const { toggleSidebar } = useSidebar();
+  const { open, toggleSidebar } = useSidebar();
 
   return (
     <button
       onClick={toggleSidebar}
-      className="md:hidden fixed left-0 top-1/2 -translate-y-1/2 h-16 w-10 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-r-lg flex items-center justify-center text-white shadow-lg transition-all z-30"
-      aria-label="Toggle sidebar"
+      className="md:hidden fixed left-0 top-1/2 -translate-y-1/2 h-16 w-10 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-r-lg flex items-center justify-center text-white shadow-lg transition-all z-[60]"
+      aria-label={open ? "Fermer le panneau" : "Ouvrir le panneau"}
     >
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        {open
+          ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        }
       </svg>
     </button>
   );
@@ -77,26 +80,27 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
     hideShinyLocked, setHideShinyLocked,
     activeFilter, setActiveFilter,
     selectedGame, setSelectedGame,
+    disabledDlcs, toggleDlc,
     setScrollTrigger,
     displayedPokemon, activeCount,
     regionRefs, genRefs,
   } = useFilters({ pokemonList, shinyPokemons });
 
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [confirmModal, setConfirmModal] = useState<{
     isOpen: boolean;
     message: string;
     onConfirm: () => void;
   }>({ isOpen: false, message: '', onConfirm: () => { } });
 
-  // Scroll detection with passive listener
+  // Scroll detection on the inner overflow container (not window)
   useEffect(() => {
-    const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 300);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    const handleScroll = () => setShowScrollTop(el.scrollTop > 300);
+    el.addEventListener('scroll', handleScroll, { passive: true });
+    return () => el.removeEventListener('scroll', handleScroll);
   }, []);
 
   const shinyCount = shinyPokemons.size;
@@ -146,7 +150,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
   }, [t, displayedPokemon, setShinyPokemons]);
 
   const scrollToTop = useCallback(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   return (
@@ -161,6 +165,8 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
               setActiveFilter={setActiveFilter}
               selectedGame={selectedGame}
               setSelectedGame={setSelectedGame}
+              disabledDlcs={disabledDlcs}
+              toggleDlc={toggleDlc}
               showOnlyShiny={showOnlyShiny}
               setShowOnlyShiny={setShowOnlyShiny}
               showMissingShiny={showMissingShiny}
@@ -190,8 +196,8 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
           />
 
           <div className={`flex flex-1 overflow-hidden ${confirmModal.isOpen ? 'blur-sm select-none' : ''}`}>
-            <div className="flex-1 overflow-y-auto overflow-x-hidden w-full">
-              <div className="md:px-4 py-6 w-full">
+            <div ref={scrollContainerRef} className="flex-1 overflow-y-auto overflow-x-hidden w-full">
+              <div className="pl-10 md:pl-0 md:px-4 py-6 w-full">
                 <SearchBarWithProgress
                   searchTerm={searchTerm}
                   onSearchChange={setSearchTerm}

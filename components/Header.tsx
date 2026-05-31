@@ -52,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({
               href="https://ko-fi.com/xalarian"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-300 hover:text-yellow-400 transition-colors duration-200"
+              className="p-2 -m-2 text-gray-300 hover:text-yellow-400 transition-colors duration-200"
               aria-label="Support on Ko-fi"
               title="Support on Ko-fi"
             >

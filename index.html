@@ -65,6 +65,7 @@
   <!-- Theme Color -->
   <meta name="theme-color" content="#1f2937" />
   <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="PokeTracker" />
 
@@ -99,6 +100,11 @@
     <p>Aplicaci&oacute;n web gratuita para rastrear tus Pok&eacute;mon shiny. Gestiona tu colecci&oacute;n, filtra por generaci&oacute;n y juegos. Compatible Gen 1 a Gen 9.</p>
     <p>無料の色違いポケモン追跡アプリ。コレクションを管理し、世代やゲームでフィルタリング。第1世代から第9世代まで対応。</p>
   </noscript>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js');
+    }
+  </script>
   <script type="module" src="/index.tsx"></script>
 </body>
 

@@ -507,6 +507,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
           width="96"
           height="96"
           loading="lazy"
+          decoding="async"
         />
       </div>
       <div className="text-center mt-2 w-full px-0.5 overflow-hidden">

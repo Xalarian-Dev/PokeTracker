@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import type { Pokemon } from '../types';
-import { POKEMON_AVAILABILITY, GAME_GROUP_MAP, SHINY_LOCKED_POKEMON } from '../data/games';
+import { POKEMON_AVAILABILITY, GAME_GROUP_MAP, GAME_DLCS, SHINY_LOCKED_POKEMON } from '../data/games';
 
 interface UseFiltersParams {
     pokemonList: Pokemon[];
@@ -15,6 +15,7 @@ export function useFilters({ pokemonList, shinyPokemons }: UseFiltersParams) {
     const [hideShinyLocked, setHideShinyLocked] = useState(false);
     const [activeFilter, setActiveFilter] = useState<{ type: 'gen' | 'region'; value: string | number } | null>(null);
     const [selectedGame, setSelectedGame] = useState<string | null>(null);
+    const [disabledDlcs, setDisabledDlcs] = useState<Set<string>>(new Set());
     const [scrollTrigger, setScrollTrigger] = useState(0);
 
     const regionRefs = useRef<Record<string, HTMLDivElement | null>>({
@@ -30,19 +31,24 @@ export function useFilters({ pokemonList, shinyPokemons }: UseFiltersParams) {
             pokemon.id.toString().includes(searchTerm);
         const matchesGen = !activeFilter || activeFilter.type !== 'gen' || pokemon.generation === activeFilter.value;
         const matchesRegion = !activeFilter || activeFilter.type !== 'region' || pokemon.region === activeFilter.value;
-        const matchesGame = !selectedGame || (
-            POKEMON_AVAILABILITY[pokemon.id] &&
-            POKEMON_AVAILABILITY[pokemon.id].some(gameCode => {
-                const groupGames = GAME_GROUP_MAP[selectedGame];
-                return groupGames ? groupGames.includes(gameCode) : gameCode === selectedGame;
-            })
-        );
+        const matchesGame = !selectedGame || (() => {
+            if (!POKEMON_AVAILABILITY[pokemon.id]) return false;
+            const groupGames = GAME_GROUP_MAP[selectedGame];
+            if (!groupGames) return POKEMON_AVAILABILITY[pokemon.id].includes(selectedGame);
+            const disabledCodes = new Set(
+                (GAME_DLCS[selectedGame] || [])
+                    .filter(dlc => disabledDlcs.has(dlc.id))
+                    .flatMap(dlc => dlc.codes)
+            );
+            const effectiveCodes = groupGames.filter(code => !disabledCodes.has(code));
+            return POKEMON_AVAILABILITY[pokemon.id].some(code => effectiveCodes.includes(code));
+        })();
         const matchesShinyFilter = !showOnlyShiny || shinyPokemons.has(pokemon.id);
         const matchesMissingFilter = !showMissingShiny || !shinyPokemons.has(pokemon.id);
         const matchesShinyLockedFilter = !hideShinyLocked || !selectedGame || !(SHINY_LOCKED_POKEMON[selectedGame] || []).includes(pokemon.id);
 
         return !(matchesSearch && matchesGen && matchesRegion && matchesGame && matchesShinyFilter && matchesMissingFilter && matchesShinyLockedFilter);
-    }, [searchTerm, activeFilter, selectedGame, showOnlyShiny, showMissingShiny, shinyPokemons, hideShinyLocked]);
+    }, [searchTerm, activeFilter, selectedGame, disabledDlcs, showOnlyShiny, showMissingShiny, shinyPokemons, hideShinyLocked]);
 
     const displayedPokemon = useMemo(() => {
         const normalPokemon = pokemonList.filter(p => !p.region);
@@ -66,7 +72,7 @@ export function useFilters({ pokemonList, shinyPokemons }: UseFiltersParams) {
                 Paldea: regionalByRegion.Paldea.map(p => ({ ...p, isGrayedOut: isPokemonFiltered(p) })).filter(p => !shouldHide || !p.isGrayedOut)
             }
         };
-    }, [pokemonList, searchTerm, activeFilter, selectedGame, showOnlyShiny, showMissingShiny, shinyPokemons, hideGrayedPokemon, isPokemonFiltered]);
+    }, [pokemonList, searchTerm, activeFilter, selectedGame, disabledDlcs, showOnlyShiny, showMissingShiny, shinyPokemons, hideGrayedPokemon, isPokemonFiltered]);
 
     const activeCount = useMemo(() => {
         const normalActive = displayedPokemon.normal.filter(p => !p.isGrayedOut).length;
@@ -75,6 +81,20 @@ export function useFilters({ pokemonList, shinyPokemons }: UseFiltersParams) {
             .filter((p: any) => !p.isGrayedOut).length;
         return normalActive + regionalActive;
     }, [displayedPokemon]);
+
+    const toggleDlc = useCallback((dlcId: string) => {
+        setDisabledDlcs(prev => {
+            const next = new Set(prev);
+            if (next.has(dlcId)) next.delete(dlcId);
+            else next.add(dlcId);
+            return next;
+        });
+    }, []);
+
+    // Reset DLC filter when game changes
+    useEffect(() => {
+        setDisabledDlcs(new Set());
+    }, [selectedGame]);
 
     // Auto-scroll on filter change
     useEffect(() => {
@@ -118,6 +138,7 @@ export function useFilters({ pokemonList, shinyPokemons }: UseFiltersParams) {
         hideShinyLocked, setHideShinyLocked,
         activeFilter, setActiveFilter,
         selectedGame, setSelectedGame,
+        disabledDlcs, toggleDlc,
         scrollTrigger, setScrollTrigger,
         displayedPokemon,
         activeCount,

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { DiceIcon } from './Icons';
 import { useLanguage } from '../contexts/LanguageContext';
-import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON, GAME_GROUP_MAP } from '../data/games';
+import { POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON, GAME_GROUP_MAP, GAME_DLCS } from '../data/games';
 import type { Pokemon } from '../types';
 import { Button, Input, Textarea, FilterChip, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Label } from './ui';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui';
@@ -18,6 +18,8 @@ interface LeftSidebarProps {
     setActiveFilter: (filter: { type: 'gen' | 'region'; value: string | number } | null) => void;
     selectedGame: string | null;
     setSelectedGame: (game: string | null) => void;
+    disabledDlcs: Set<string>;
+    toggleDlc: (dlcId: string) => void;
     showOnlyShiny: boolean;
     setShowOnlyShiny: (show: boolean) => void;
     showMissingShiny: boolean;
@@ -259,7 +261,7 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = (props) => {
                                     </div>
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto justify-center pb-4">
+                                    <div className="flex flex-wrap gap-2 justify-center pb-4">
                                         {Object.entries(gameList).map(([gameId, gameName]) => (
                                             <FilterChip
                                                 key={gameId}
@@ -270,6 +272,22 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = (props) => {
                                             />
                                         ))}
                                     </div>
+                                    {props.selectedGame && GAME_DLCS[props.selectedGame] && (
+                                        <div className="mt-2 pt-2 border-t border-gray-700">
+                                            <p className="text-xs text-gray-400 text-center mb-2">{t('filter_dlc_hide')}</p>
+                                            <div className="flex flex-wrap gap-2 justify-center">
+                                                {GAME_DLCS[props.selectedGame].map(dlc => (
+                                                    <FilterChip
+                                                        key={dlc.id}
+                                                        label={t(dlc.nameKey as any)}
+                                                        isActive={!props.disabledDlcs.has(dlc.id)}
+                                                        variant="filter"
+                                                        onClick={() => props.toggleDlc(dlc.id)}
+                                                    />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                 </AccordionContent>
                             </AccordionItem>
 
@@ -479,7 +497,8 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = (props) => {
                 <div className="flex gap-2">
                     <button
                         onClick={() => setActiveTab('filters')}
-                        className={`flex-1 py-2 px-4 rounded transition-colors ${activeTab === 'filters'
+                        aria-label={t('filters')}
+                        className={`flex-1 min-h-[44px] py-2 px-4 rounded transition-colors ${activeTab === 'filters'
                             ? 'bg-purple-600 text-white'
                             : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                             }`}
@@ -490,7 +509,8 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = (props) => {
                     </button>
                     <button
                         onClick={() => setActiveTab('randomHunt')}
-                        className={`flex-1 py-2 px-4 rounded transition-colors ${activeTab === 'randomHunt'
+                        aria-label={t('random_hunt')}
+                        className={`flex-1 min-h-[44px] py-2 px-4 rounded transition-colors ${activeTab === 'randomHunt'
                             ? 'bg-yellow-500 text-gray-900'
                             : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                             }`}
@@ -499,7 +519,8 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = (props) => {
                     </button>
                     <button
                         onClick={() => setActiveTab('feedback')}
-                        className={`flex-1 py-2 px-4 rounded transition-colors ${activeTab === 'feedback'
+                        aria-label={t('report')}
+                        className={`flex-1 min-h-[44px] py-2 px-4 rounded transition-colors ${activeTab === 'feedback'
                             ? 'bg-red-600 text-white'
                             : 'bg-red-900/50 text-gray-300 hover:bg-red-900/70'
                             }`}

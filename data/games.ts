@@ -76,6 +76,20 @@ export const GAME_GROUP_MAP: Record<string, string[]> = {
     'lza': ['lpza', 'lpzadlc1'],
 };
 
+export const GAME_DLCS: Record<string, { id: string; nameKey: string; codes: string[] }[]> = {
+    'swsh': [
+        { id: 'swsh-dlc1', nameKey: 'dlc_isle_of_armor', codes: ['swdlc1', 'shdlc1'] },
+        { id: 'swsh-dlc2', nameKey: 'dlc_crown_tundra', codes: ['swdlc2', 'shdlc2'] },
+    ],
+    'sv': [
+        { id: 'sv-dlc1', nameKey: 'dlc_teal_mask', codes: ['scdlc1', 'vdlc1'] },
+        { id: 'sv-dlc2', nameKey: 'dlc_indigo_disk', codes: ['scdlc2', 'vdlc2'] },
+    ],
+    'lza': [
+        { id: 'lza-dlc1', nameKey: 'dlc_mega_dimension', codes: ['lpzadlc1'] },
+    ],
+};
+
 // Liste des Pokémon Shiny Lock par groupe de jeux
 export const SHINY_LOCKED_POKEMON: Record<string, string[]> = {
     // Génération V

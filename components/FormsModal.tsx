@@ -64,8 +64,8 @@ const FormsModal: React.FC<FormsModalProps> = ({
 
     const modalContent = (
         <div
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
-            style={{ zIndex: 9999 }}
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center"
+            style={{ zIndex: 9999, padding: 'max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left))' }}
             onClick={(e) => {
                 e.stopPropagation();
                 onClose();
@@ -132,7 +132,7 @@ const FormsModal: React.FC<FormsModalProps> = ({
                                 {/* Favorite Heart Icon - Top Left */}
                                 <button
                                     onClick={handleFavoriteClick}
-                                    className="absolute top-2 left-2 z-20 transition-all hover:scale-125"
+                                    className="absolute top-1 left-1 z-20 p-1.5 transition-all hover:scale-125"
                                     title="Set as favorite form to display in main list"
                                 >
                                     {isFavorite ? (

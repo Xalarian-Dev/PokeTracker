@@ -51,6 +51,7 @@ export const ui = {
     raidEvent: "Evento de Incursi\u00f3n",
     raid_event: "Evento de Incursi\u00f3n",
     dynamax_adventure: "Aventura Dynamax",
+    filter_dlc_hide: "Ocultar DLC",
     dlc_isle_of_armor: "DLC La Isla de la Armadura",
     dlc_crown_tundra: "DLC Las Nieves de la Corona",
     dlc_teal_mask: "DLC La M\u00e1scara Turquesa",

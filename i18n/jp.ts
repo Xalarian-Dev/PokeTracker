@@ -48,6 +48,7 @@ export const ui = {
     spaceTimeDistortion: '時空の歪み',
     raid_event: "レイドイベント",
     dynamax_adventure: "ダイマックスアドベンチャー",
+    filter_dlc_hide: "DLCを非表示",
     dlc_isle_of_armor: "鎧の孤島",
     dlc_crown_tundra: "冠の雪原",
     dlc_teal_mask: "碧の仮面",

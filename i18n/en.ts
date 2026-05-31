@@ -51,6 +51,7 @@ export const ui = {
     raidEvent: "Raid Event",
     raid_event: "Raid Event",
     dynamax_adventure: "Dynamax Adventure",
+    filter_dlc_hide: "Hide DLCs",
     dlc_isle_of_armor: "Isle of Armor DLC",
     dlc_crown_tundra: "Crown Tundra DLC",
     dlc_teal_mask: "The Teal Mask DLC",

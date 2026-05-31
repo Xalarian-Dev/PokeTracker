@@ -48,6 +48,7 @@ export const ui = {
     shiny_lock: "Shiny Lock",
     raid_event: "Raid Événement",
     dynamax_adventure: "Expédition Dynamax",
+    filter_dlc_hide: "Masquer les DLC",
     dlc_isle_of_armor: "DLC L'île Solitaire de l'Armure",
     dlc_crown_tundra: "DLC Les Terres Enneigées de la Couronne",
     dlc_teal_mask: "DLC Le Masque Turquoise",

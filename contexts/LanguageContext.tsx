@@ -23,7 +23,7 @@ const translations: Record<Language, TranslationModule> = {
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: keyof typeof frTranslations.ui, replacements?: Record<string, string | number>) => string;
+  t: (key: string, replacements?: Record<string, string | number>) => string;
   getPokemonName: (id: string) => string;
   getGameName: (id: string) => string;
   getGameList: () => Record<string, string>;
@@ -62,9 +62,20 @@ export const LanguageProvider = ({ children }: React.PropsWithChildren) => {
     localStorage.setItem('shinyTrackerLang', lang);
   };
 
-  const t = (key: keyof typeof frTranslations.ui, replacements?: Record<string, string | number>): string => {
-    let translation = translations[language].ui[key] || translations['en'].ui[key] || String(key);
-    if (replacements && translation) {
+  const t = (key: string, replacements?: Record<string, string | number>): string => {
+    const resolve = (ui: Record<string, unknown>, path: string): string => {
+      const parts = path.split('.');
+      let current: unknown = ui;
+      for (const part of parts) {
+        if (current == null || typeof current !== 'object') return '';
+        current = (current as Record<string, unknown>)[part];
+      }
+      return typeof current === 'string' ? current : '';
+    };
+    let translation = resolve(translations[language].ui as Record<string, unknown>, key)
+      || resolve(translations['en'].ui as Record<string, unknown>, key)
+      || key;
+    if (replacements) {
       Object.keys(replacements).forEach(rKey => {
         translation = translation.replace(`{${rKey}}`, String(replacements[rKey]));
       });

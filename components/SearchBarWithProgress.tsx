@@ -52,7 +52,7 @@ export const SearchBarWithProgress: React.FC<SearchBarWithProgressProps> = ({
                         placeholder={t('search_placeholder')}
                         value={searchTerm}
                         onChange={(e) => onSearchChange(e.target.value)}
-                        className="block w-full pl-8 md:pl-10 pr-2 md:pr-3 py-2 md:py-3 text-xs md:text-base border border-gray-600 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-poke-yellow focus:border-transparent"
+                        className="block w-full pl-8 md:pl-10 pr-2 md:pr-3 py-2 md:py-3 text-base border border-gray-600 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-poke-yellow focus:border-transparent"
                     />
                 </div>
             </div>

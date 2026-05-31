@@ -115,7 +115,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
                         ref={(el) => { regionRefs.current[region] = el; }}
                     >
                         <div className="flex justify-center mb-4">
-                            <div style={{ width: '1160px', maxWidth: '100%' }}>
+                            <div className="w-full md:max-w-[1160px]">
                                 <h2 className="text-2xl font-bold text-poke-yellow">
                                     {region === 'Alola' ? t('regional_forms_alola') :
                                         region === 'Galar' ? t('regional_forms_galar') :

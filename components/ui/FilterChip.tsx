@@ -33,13 +33,13 @@ export const FilterChip: React.FC<FilterChipProps> = ({
 
     const variantClasses = {
         filter: cn(
-            "px-2 py-1 sm:px-3 sm:py-1.5 text-xs rounded-lg focus:ring-poke-yellow",
+            "px-3 py-2 text-xs rounded-lg focus:ring-poke-yellow min-h-[36px]",
             isActive
                 ? "bg-poke-yellow text-gray-900"
                 : "bg-dark-700 hover:bg-dark-600 text-white"
         ),
         game: cn(
-            "px-2 py-1 text-xs rounded-full focus:ring-blue-500 whitespace-nowrap",
+            "px-3 py-2 text-xs rounded-full focus:ring-blue-500 whitespace-nowrap min-h-[36px]",
             isActive
                 ? "bg-blue-500 text-white"
                 : "bg-dark-700 hover:bg-dark-600 text-white"

@@ -1,7 +1,4 @@
 export const clerkAppearance = {
-    baseTheme: {
-        dark: true,
-    },
     variables: {
         colorPrimary: '#4f46e5', // indigo-600
         colorBackground: '#111827', // gray-900

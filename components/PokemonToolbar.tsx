@@ -19,19 +19,10 @@ const PokemonToolbar: React.FC<PokemonToolbarProps> = ({
 
     return (
         <>
-            {/* Mobile Counter */}
-            {activeCount > 0 && (
-                <div className="mb-4 px-2 block md:hidden">
-                    <div className="text-gray-400 text-xs text-left">
-                        {t('pokemon_shown', { count: activeCount })}
-                    </div>
-                </div>
-            )}
-
-            {/* Desktop Action Buttons with Counter */}
+            {/* Action Buttons with Counter */}
             {!loading && activeCount > 0 && (
-                <div className="mb-4 w-full md:max-w-[1160px] md:mx-auto px-1 md:px-0 hidden md:block">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 md:gap-4">
+                <div className="mb-4 w-full md:max-w-[1160px] md:mx-auto px-1 md:px-0">
+                    <div className="flex flex-row justify-between items-center gap-2 md:gap-4">
                         <div className="text-gray-400 text-xs md:text-sm">
                             {t('pokemon_shown', { count: activeCount })}
                         </div>

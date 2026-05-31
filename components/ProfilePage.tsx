@@ -125,7 +125,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white p-6">
+        <div className="min-h-screen bg-gray-900 text-white p-6 pt-20 md:pt-6">
             {/* Delete Confirmation Modal */}
             <Dialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
                 <DialogContent>
@@ -194,14 +194,16 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
                         onChange={(e) => setDisplayName(e.target.value)}
                         placeholder={t('display_name_placeholder')}
                         maxLength={30}
-                        helperText={`${displayName ? `"${displayName}"` : user?.username || user?.firstName || 'Your username'} ${t('will_be_displayed')}`}
                     />
+                    <p className="text-sm text-gray-400 mt-1">
+                        {`${displayName ? `"${displayName}"` : user?.username || user?.firstName || 'Your username'} ${t('will_be_displayed')}`}
+                    </p>
                 </Card>
 
                 {/* Language Selection */}
                 <Card className="mb-6">
                     <h3 className="text-lg font-bold mb-4">{t('preferred_language')}</h3>
-                    <div className="flex space-x-4">
+                    <div className="flex flex-wrap gap-3">
                         {[
                             { code: 'en' as const, label: 'English', FlagComponent: UKFlag },
                             { code: 'fr' as const, label: 'Français', FlagComponent: FranceFlag },
@@ -248,7 +250,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-96 overflow-y-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                         {Object.entries(INDIVIDUAL_GAME_LIST).map(([gameId, gameName]) => (
                             <label
                                 key={gameId}

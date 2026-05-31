@@ -178,7 +178,7 @@ export function usePokemonData({ username }: UsePokemonDataParams) {
         const newShinyState = !isCurrentlyShiny;
 
         setShinyForms(prev => {
-            const newMap = new Map(prev);
+            const newMap = new Map<string, Set<string>>(prev);
             const existingShiny = newMap.get(pokemonId);
             const shinySet: Set<string> = existingShiny ? new Set(existingShiny) : new Set<string>();
 
