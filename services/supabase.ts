@@ -88,7 +88,6 @@ export interface UserPreferences {
 
 export interface PublicProfile {
     trainer_id: string;
-    display_name: string;
     shiny_count: number;
     shinies: string[];
     favourite_forms: Record<string, string>;

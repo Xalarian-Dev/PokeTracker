@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useMemo, lazy, Suspense, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useMemo, lazy, Suspense, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ClerkProvider, SignedIn, SignedOut, useUser, useClerk } from '@clerk/clerk-react';
 import ShinyTracker from './components/ShinyTracker';
 import { ErrorBoundary } from './components/ErrorBoundary';
@@ -26,10 +26,9 @@ const Spinner = () => (
   </div>
 );
 
-const AppContent = () => {
+const AppShell = () => {
   const { user: clerkUser, isLoaded } = useUser();
   const { signOut } = useClerk();
-  const [currentPage, setCurrentPage] = useState<'tracker' | 'profile'>('tracker');
   const { getPokemonName, t } = useLanguage();
   const { currentPage: legalPage } = useLegalModal();
 
@@ -64,24 +63,29 @@ const AppContent = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <div className="flex-1">
-        <SignedOut>
-          <ShinyTracker user={null} onLogout={() => {}} pokemonList={pokemonList} />
-        </SignedOut>
+        <Routes>
+          <Route path="/" element={
+            <>
+              <SignedOut>
+                <ShinyTracker user={null} onLogout={() => {}} pokemonList={pokemonList} />
+              </SignedOut>
+              <SignedIn>
+                <ShinyTracker user={user} onLogout={() => {}} pokemonList={pokemonList} />
+              </SignedIn>
+            </>
+          } />
 
-        <SignedIn>
-          {currentPage === 'tracker' ? (
-            <ShinyTracker
-              user={user}
-              onLogout={() => {}}
-              onProfileClick={() => setCurrentPage('profile')}
-              pokemonList={pokemonList}
-            />
-          ) : (
-            <Suspense fallback={<Spinner />}>
-              <ProfilePage onBack={() => setCurrentPage('tracker')} />
-            </Suspense>
-          )}
-        </SignedIn>
+          <Route path="/profile" element={
+            <SignedIn>
+              <Suspense fallback={<Spinner />}>
+                <ProfilePage />
+              </Suspense>
+            </SignedIn>
+          } />
+
+          {/* Redirect unknown paths to home */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </div>
 
       <Footer />
@@ -116,7 +120,7 @@ const App = () => (
           <ClerkProvider publishableKey={clerkPublishableKey} appearance={clerkAppearance}>
             <LegalModalProvider>
               <ErrorBoundary>
-                <AppContent />
+                <AppShell />
               </ErrorBoundary>
             </LegalModalProvider>
           </ClerkProvider>

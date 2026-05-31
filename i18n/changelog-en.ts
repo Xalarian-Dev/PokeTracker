@@ -24,6 +24,8 @@ export const changelogEN: ChangeLogEntry = {
         "Forms on mobile: multi-form Pokémon (Rotom, Arceus, Vivillon…) now have a '+' button on mobile cards, opening the full forms modal",
         "Shiny lock badge on mobile: a lock icon now appears on mobile cards for shiny-locked Pokémon",
         "Mark All / Unmark All available on mobile: bulk actions are no longer desktop-only",
+        "Profile page redesign: fully reworked to match the app's dark theme — game chips replace checkboxes, yellow accents, consistent layout",
+        "Profile page now has its own URL (/profile): browser back/forward buttons work correctly and the page is bookmarkable",
     ],
     technical: "Fixes & Improvements",
     technicalList: [

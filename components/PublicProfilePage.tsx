@@ -89,11 +89,11 @@ export const PublicProfilePage: React.FC = () => {
                 <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-10">
                     {/* Avatar placeholder */}
                     <div className="w-20 h-20 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shrink-0 text-gray-900 font-bold text-3xl shadow-lg">
-                        {profile.display_name.charAt(0).toUpperCase()}
+                        {profile.trainer_id.charAt(0).toUpperCase()}
                     </div>
 
                     <div className="flex-1 text-center sm:text-left">
-                        <h1 className="text-3xl font-bold text-white">{profile.display_name}</h1>
+                        <h1 className="text-3xl font-bold text-white">{profile.trainer_id}</h1>
                         <p className="text-gray-400 text-sm mt-1">
                             <span className="font-mono bg-gray-800 px-2 py-0.5 rounded text-yellow-400">
                                 /u/{profile.trainer_id}

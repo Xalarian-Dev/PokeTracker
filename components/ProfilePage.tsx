@@ -1,26 +1,28 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useUser, useClerk } from '@clerk/clerk-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getUserPreferences, saveUserPreferences, deleteUserData } from '../services/supabase';
 import { INDIVIDUAL_GAME_LIST } from '../data/games';
 import { UKFlag, FranceFlag, JapanFlag, SpainFlag } from './Icons';
+import { MasterBallIcon } from './Icons';
 const DataExport = lazy(() => import('./DataExport').then(module => ({ default: module.DataExport })));
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
+    Dialog, DialogContent, DialogDescription,
+    DialogFooter, DialogHeader, DialogTitle,
 } from './ui';
 import { Button } from './ui';
-import { Card, CardContent, CardHeader, CardTitle } from './ui';
 
-interface ProfilePageProps {
-    onBack: () => void;
-}
+const Section: React.FC<{ title: string; children: React.ReactNode; className?: string }> = ({ title, children, className = '' }) => (
+    <div className={`bg-gray-800/60 border border-gray-700 rounded-xl p-5 ${className}`}>
+        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">{title}</h3>
+        {children}
+    </div>
+);
 
-const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
+const ProfilePage: React.FC = () => {
+    const navigate = useNavigate();
+    const onBack = () => navigate('/');
     const { user } = useUser();
     const { signOut } = useClerk();
     const { language, setLanguage, t, getGameName } = useLanguage();
@@ -30,50 +32,34 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
     const [profileLinkCopied, setProfileLinkCopied] = useState(false);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-    const [message, setMessage] = useState<string | null>(null);
+    const [saved, setSaved] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [deleting, setDeleting] = useState(false);
 
-    // Load user preferences
     useEffect(() => {
-        const loadPreferences = async () => {
-            if (!user?.id) return;
-
-            try {
-                const prefs = await getUserPreferences(user.id);
+        if (!user?.id) return;
+        getUserPreferences(user.id)
+            .then(prefs => {
                 if (prefs) {
                     setSelectedLanguage(prefs.preferred_language);
                     setOwnedGames(prefs.owned_games);
                     setTrainerId(prefs.trainer_id || null);
                 }
-            } catch (error) {
-                console.error('Error loading preferences:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadPreferences();
+            })
+            .catch(console.error)
+            .finally(() => setLoading(false));
     }, [user?.id]);
 
     const handleSave = async () => {
         if (!user?.id) return;
-
         setSaving(true);
-        setMessage(null);
-
         try {
             await saveUserPreferences(user.id, selectedLanguage, ownedGames);
-            setLanguage(selectedLanguage); // Update app language
-            setMessage(t('preferences_saved'));
-
-            // Redirect to tracker after 1 second
-            setTimeout(() => {
-                onBack();
-            }, 1000);
-        } catch (error) {
-            console.error('Error saving preferences:', error);
-            setMessage('Error saving preferences');
+            setLanguage(selectedLanguage);
+            setSaved(true);
+            setTimeout(() => { setSaved(false); onBack(); }, 1000);
+        } catch (e) {
+            console.error(e);
         } finally {
             setSaving(false);
         }
@@ -81,244 +67,198 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
 
     const handleDeleteAccount = async () => {
         if (!user?.id) return;
-
         setDeleting(true);
         try {
-            // Delete all user data from Supabase
             await deleteUserData(user.id);
-
-            // Delete Clerk account
             await user.delete();
-
-            // Sign out
             await signOut();
-        } catch (error) {
-            console.error('Error deleting account:', error);
-            setMessage('Error deleting account');
+        } catch (e) {
+            console.error(e);
             setDeleting(false);
             setShowDeleteConfirm(false);
         }
     };
 
-    const toggleGame = (gameId: string) => {
-        setOwnedGames(prev =>
-            prev.includes(gameId)
-                ? prev.filter(id => id !== gameId)
-                : [...prev, gameId]
-        );
-    };
-
-    const selectAllGames = () => {
-        setOwnedGames(Object.keys(INDIVIDUAL_GAME_LIST));
-    };
-
-    const deselectAllGames = () => {
-        setOwnedGames([]);
-    };
+    const toggleGame = (gameId: string) =>
+        setOwnedGames(prev => prev.includes(gameId) ? prev.filter(id => id !== gameId) : [...prev, gameId]);
 
     if (loading) {
         return (
             <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-                <p className="text-gray-400">Loading...</p>
+                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-yellow-400" />
             </div>
         );
     }
 
+    const initials = (user?.firstName?.[0] || user?.username?.[0] || '?').toUpperCase();
+
     return (
-        <div className="min-h-screen bg-gray-900 text-white p-6 pt-20 md:pt-6">
+        <div className="min-h-screen bg-gray-900 text-white">
             {/* Delete Confirmation Modal */}
             <Dialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>⚠️ {t('delete_account_title')}</DialogTitle>
-                        <DialogDescription>
-                            {t('delete_account_warning')}
-                        </DialogDescription>
+                        <DialogDescription>{t('delete_account_warning')}</DialogDescription>
                     </DialogHeader>
-                    <ul className="list-disc list-inside text-gray-400 mb-6 space-y-1">
+                    <ul className="list-disc list-inside text-gray-400 mb-4 space-y-1 text-sm">
                         <li>{t('delete_account_data_1')}</li>
                         <li>{t('delete_account_data_2')}</li>
                         <li>{t('delete_account_data_3')}</li>
                     </ul>
-                    <p className="text-red-400 font-bold mb-6">{t('delete_account_irreversible')}</p>
+                    <p className="text-red-400 font-bold text-sm mb-4">{t('delete_account_irreversible')}</p>
                     <DialogFooter>
-                        <Button
-                            variant="outline"
-                            onClick={() => setShowDeleteConfirm(false)}
-                            disabled={deleting}
-                        >
+                        <Button variant="outline" onClick={() => setShowDeleteConfirm(false)} disabled={deleting}>
                             {t('cancel')}
                         </Button>
-                        <Button
-                            variant="destructive"
-                            onClick={handleDeleteAccount}
-                            disabled={deleting}
-                        >
+                        <Button variant="destructive" onClick={handleDeleteAccount} disabled={deleting}>
                             {deleting ? t('deleting') : t('delete_forever')}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
 
-            <div className="max-w-4xl mx-auto">
-                {/* Header */}
-                <div className="flex items-center justify-between mb-8">
-                    <h1 className="text-3xl font-bold">{t('my_profile')}</h1>
-                    <Button
-                        variant="ghost"
-                        onClick={onBack}
-                    >
-                        ← {t('back')}
-                    </Button>
-                </div>
-
-                {/* User Info */}
-                <Card className="mb-6">
-                    <div className="flex items-center space-x-4">
-                        <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-2xl">
-                            {user?.firstName?.[0] || user?.username?.[0] || '👤'}
-                        </div>
-                        <div>
-                            <h2 className="text-xl font-bold">{user?.firstName || user?.username}</h2>
-                            <p className="text-gray-400">{user?.primaryEmailAddress?.emailAddress}</p>
-                        </div>
+            {/* Top bar */}
+            <div className="sticky top-0 z-10 bg-gray-900/80 backdrop-blur-sm border-b border-gray-800">
+                <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <MasterBallIcon className="w-5 h-5" />
+                        <span className="font-bold text-yellow-400 text-sm">{t('my_profile')}</span>
                     </div>
-                </Card>
+                    <button
+                        onClick={onBack}
+                        className="flex items-center gap-1 text-sm text-gray-400 hover:text-white transition-colors"
+                    >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                        {t('back')}
+                    </button>
+                </div>
+            </div>
+
+            <div className="max-w-3xl mx-auto px-4 py-8 space-y-4">
+
+                {/* Identity */}
+                <div className="bg-gray-800/60 border border-gray-700 rounded-xl p-5 flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-gray-900 font-bold text-xl shrink-0 shadow-lg">
+                        {initials}
+                    </div>
+                    <div className="min-w-0">
+                        <p className="font-bold text-lg truncate">{user?.firstName || user?.username}</p>
+                        <p className="text-sm text-gray-400 truncate">{user?.primaryEmailAddress?.emailAddress}</p>
+                    </div>
+                    {trainerId && (
+                        <div className="ml-auto shrink-0 text-right hidden sm:block">
+                            <p className="text-xs text-gray-500 mb-0.5">{t('trainer_id')}</p>
+                            <p className="font-mono font-bold text-yellow-400">{trainerId}</p>
+                        </div>
+                    )}
+                </div>
 
                 {/* Trainer ID */}
                 {trainerId && (
-                    <Card className="mb-6">
-                        <h3 className="text-lg font-bold mb-1">{t('trainer_id_your')}</h3>
-                        <p className="text-xs text-gray-500 mb-3">{t('trainer_id_immutable_note')}</p>
+                    <Section title={t('trainer_id_your')}>
                         <div className="flex items-center gap-3">
-                            <div className="flex-1 bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 font-mono text-yellow-400 text-lg font-bold">
+                            <div className="flex-1 bg-gray-900 border border-gray-700 rounded-lg px-4 py-2.5 font-mono text-yellow-400 font-bold text-base">
                                 {trainerId}
                             </div>
                             <button
                                 onClick={() => {
-                                    const url = `${window.location.origin}/u/${trainerId}`;
-                                    navigator.clipboard.writeText(url);
+                                    navigator.clipboard.writeText(`${window.location.origin}/u/${trainerId}`);
                                     setProfileLinkCopied(true);
                                     setTimeout(() => setProfileLinkCopied(false), 2000);
                                 }}
-                                className="shrink-0 px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm font-medium transition-colors"
+                                className="shrink-0 flex items-center gap-2 px-4 py-2.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm font-medium transition-colors"
                             >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                </svg>
                                 {profileLinkCopied ? t('public_profile_link_copied') : t('public_profile_copy_link')}
                             </button>
                         </div>
-                        <p className="text-xs text-gray-500 mt-2">
-                            {window.location.origin}/u/{trainerId}
-                        </p>
-                    </Card>
+                        <p className="text-xs text-gray-600 mt-2">{window.location.origin}/u/{trainerId}</p>
+                        <p className="text-xs text-yellow-400/60 mt-1">{t('trainer_id_immutable_note')}</p>
+                    </Section>
                 )}
 
-                {/* Language Selection */}
-                <Card className="mb-6">
-                    <h3 className="text-lg font-bold mb-4">{t('preferred_language')}</h3>
-                    <div className="flex flex-wrap gap-3">
-                        {[
-                            { code: 'en' as const, label: 'English', FlagComponent: UKFlag },
-                            { code: 'fr' as const, label: 'Français', FlagComponent: FranceFlag },
-                            { code: 'es' as const, label: 'Español', FlagComponent: SpainFlag },
-                            { code: 'jp' as const, label: '日本語', FlagComponent: JapanFlag }
-                        ].map(lang => (
+                {/* Language */}
+                <Section title={t('preferred_language')}>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        {([
+                            { code: 'en' as const, label: 'English',  Flag: UKFlag },
+                            { code: 'fr' as const, label: 'Français', Flag: FranceFlag },
+                            { code: 'es' as const, label: 'Español',  Flag: SpainFlag },
+                            { code: 'jp' as const, label: '日本語',   Flag: JapanFlag },
+                        ] as const).map(({ code, label, Flag }) => (
                             <button
-                                key={lang.code}
-                                onClick={() => setSelectedLanguage(lang.code)}
-                                className={`flex-1 px-4 py-3 rounded-lg border-2 transition-all ${selectedLanguage === lang.code
-                                    ? 'border-indigo-500 bg-indigo-500/20'
-                                    : 'border-gray-600 hover:border-gray-500'
-                                    }`}
+                                key={code}
+                                onClick={() => setSelectedLanguage(code)}
+                                className={`flex flex-col items-center gap-2 py-3 rounded-lg border-2 transition-all ${
+                                    selectedLanguage === code
+                                        ? 'border-yellow-400 bg-yellow-400/10 text-white'
+                                        : 'border-gray-700 bg-gray-800/40 text-gray-400 hover:border-gray-500 hover:text-white'
+                                }`}
                             >
-                                <div className="flex items-center justify-center mb-2">
-                                    <lang.FlagComponent className="w-8 h-6 shadow-sm" />
-                                </div>
-                                <span className="text-sm">{lang.label}</span>
+                                <Flag className="w-7 h-5 shadow-sm" />
+                                <span className="text-xs font-medium">{label}</span>
                             </button>
                         ))}
                     </div>
-                </Card>
+                </Section>
 
                 {/* Owned Games */}
-                <Card className="mb-6">
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-bold">{t('owned_games')}</h3>
-                        <div className="space-x-2">
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={selectAllGames}
-                            >
+                <Section title={t('owned_games')}>
+                    <div className="flex items-center justify-between mb-3">
+                        <p className="text-xs text-gray-500">
+                            {ownedGames.length} {ownedGames.length === 1 ? t('game_selected') : t('games_selected')}
+                        </p>
+                        <div className="flex items-center gap-3 text-xs">
+                            <button onClick={() => setOwnedGames(Object.keys(INDIVIDUAL_GAME_LIST))} className="text-yellow-400 hover:text-yellow-300 transition-colors">
                                 {t('select_all_games')}
-                            </Button>
-                            <span className="text-gray-600">|</span>
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={deselectAllGames}
-                            >
+                            </button>
+                            <span className="text-gray-700">|</span>
+                            <button onClick={() => setOwnedGames([])} className="text-gray-400 hover:text-white transition-colors">
                                 {t('deselect_all_games')}
-                            </Button>
+                            </button>
                         </div>
                     </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                        {Object.entries(INDIVIDUAL_GAME_LIST).map(([gameId, gameName]) => (
-                            <label
-                                key={gameId}
-                                className="flex items-center space-x-3 p-3 bg-gray-700/50 rounded-lg hover:bg-gray-700 cursor-pointer transition-colors"
-                            >
-                                <input
-                                    type="checkbox"
-                                    checked={ownedGames.includes(gameId)}
-                                    onChange={() => toggleGame(gameId)}
-                                    className="w-5 h-5 rounded border-gray-600 text-indigo-500 focus:ring-indigo-500 focus:ring-offset-gray-800"
-                                />
-                                <span className="text-sm">{getGameName(gameId)}</span>
-                            </label>
-                        ))}
+                    <div className="flex flex-wrap gap-2">
+                        {Object.entries(INDIVIDUAL_GAME_LIST).map(([gameId, _]) => {
+                            const active = ownedGames.includes(gameId);
+                            return (
+                                <button
+                                    key={gameId}
+                                    onClick={() => toggleGame(gameId)}
+                                    className={`px-2.5 py-1 text-xs rounded-full border transition-all ${
+                                        active
+                                            ? 'border-yellow-400/60 bg-yellow-400/15 text-yellow-300'
+                                            : 'border-gray-700 bg-gray-800/40 text-gray-500 hover:border-gray-500 hover:text-gray-300'
+                                    }`}
+                                >
+                                    {getGameName(gameId)}
+                                </button>
+                            );
+                        })}
                     </div>
-
-                    <p className="text-sm text-gray-400 mt-4">
-                        {ownedGames.length} {ownedGames.length === 1 ? t('game_selected') : t('games_selected')}
-                    </p>
-                </Card>
+                </Section>
 
                 {/* Data Export */}
-                <div className="mb-6">
-                    <Suspense fallback={
-                        <div className="text-center text-gray-400 py-4">
-                            Loading export options...
-                        </div>
-                    }>
-                        <DataExport />
-                    </Suspense>
-                </div>
+                <Suspense fallback={<div className="text-center text-gray-500 py-4 text-sm">...</div>}>
+                    <DataExport />
+                </Suspense>
 
-                {/* Action Buttons */}
-                <div className="mt-6">
-                    {message && (
-                        <p className={`text-sm mb-3 ${message.includes('Error') ? 'text-red-400' : 'text-green-400'}`}>
-                            {message}
-                        </p>
-                    )}
-                    <div className="flex justify-between items-center">
-                        <Button
-                            size="lg"
-                            onClick={handleSave}
-                            disabled={saving}
-                        >
-                            {saving ? 'Saving...' : t('save_preferences')}
-                        </Button>
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => setShowDeleteConfirm(true)}
-                            className="text-red-400/70 hover:text-red-400 border border-red-600/50 hover:bg-red-600/10"
-                        >
-                            {t('delete_account')}
-                        </Button>
-                    </div>
+                {/* Actions */}
+                <div className="flex items-center justify-between pt-2">
+                    <button
+                        onClick={() => setShowDeleteConfirm(true)}
+                        className="text-xs text-red-500/60 hover:text-red-400 transition-colors"
+                    >
+                        {t('delete_account')}
+                    </button>
+                    <Button onClick={handleSave} disabled={saving || saved}>
+                        {saved ? `✓ ${t('preferences_saved')}` : saving ? '...' : t('save_preferences')}
+                    </Button>
                 </div>
             </div>
         </div>

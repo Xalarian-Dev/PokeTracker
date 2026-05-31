@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { Pokemon, User } from '../types';
 import Header from './Header';
 import LeftSidebar from './LeftSidebar';
@@ -59,12 +60,12 @@ const MobileSidebarToggle = () => {
 interface ShinyTrackerProps {
   user: User | null;
   onLogout: () => void;
-  onProfileClick?: () => void;
   pokemonList: Pokemon[];
 }
 
-const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileClick, pokemonList }) => {
+const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, pokemonList }) => {
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
   const { t } = useLanguage();
 
   const {
@@ -165,7 +166,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-gray-900 text-white">
-      <Header user={user} onLogout={onLogout} onProfileClick={onProfileClick} trainerId={trainerId} />
+      <Header user={user} onLogout={onLogout} onProfileClick={() => navigate('/profile')} trainerId={trainerId} />
 
       {/* Trainer ID setup — shown once after load for users without one yet */}
       {user && !loading && trainerId === null && (

@@ -13,6 +13,8 @@ export const changelogES: ChangeLogEntry = {
         "Formas en móvil: los Pokémon con múltiples formas (Rotom, Arceus, Vivillon…) ahora tienen un botón '+' en las tarjetas móviles que abre el modal completo de formas",
         "Insignia Shiny Lock en móvil: aparece un icono de candado en las tarjetas móviles para Pokémon con Shiny Lock",
         "Marcar todo / Desmarcar todo disponible en móvil: las acciones masivas ya no son exclusivas del escritorio",
+        "Rediseño de la página de Perfil: completamente renovada para coincidir con el tema oscuro de la aplicación — chips de juegos en lugar de casillas de verificación, acentos amarillos, diseño coherente",
+        "La página de Perfil ahora tiene su propia URL (/profile): los botones atrás/adelante del navegador funcionan correctamente y la página se puede guardar en marcadores",
     ],
     technical: "Correcciones y Mejoras",
     technicalList: [

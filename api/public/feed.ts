@@ -53,7 +53,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     pokemon_id: row.pokemon_id,
                     caught_at: row.caught_at,
                     trainer_id: trainerId,
-                    display_name: row.user_preferences.display_name || trainerId,
+                    display_name: trainerId,
                 });
                 return acc;
             }, [])

@@ -13,6 +13,8 @@ export const changelogFR: ChangeLogEntry = {
         "Formes sur mobile : les Pokémon multi-formes (Motisma, Arceus, Vivillon…) disposent d'un bouton '+' sur les cartes mobiles, ouvrant la modale complète des formes",
         "Badge Shiny Lock sur mobile : une icône de cadenas apparaît sur les cartes mobiles pour les Pokémon avec Shiny Lock",
         "Tout marquer / Tout démarquer disponible sur mobile : les actions en masse ne sont plus réservées au bureau",
+        "Refonte de la page Profil : entièrement retravaillée pour correspondre au thème sombre de l'application — chips de jeux à la place des cases à cocher, accents jaunes, mise en page cohérente",
+        "La page Profil a maintenant sa propre URL (/profile) : les boutons précédent/suivant du navigateur fonctionnent correctement et la page est enregistrable en favoris",
     ],
     technical: "Corrections & Améliorations",
     technicalList: [

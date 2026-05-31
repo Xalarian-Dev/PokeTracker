@@ -24,7 +24,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Resolve trainer_id → user_id + display_name
         const { data: prefs, error: prefsError } = await supabaseAdmin
             .from('user_preferences')
-            .select('user_id, display_name, trainer_id')
+            .select('user_id, trainer_id')
             .eq('trainer_id', trainerId)
             .maybeSingle();
 
@@ -73,7 +73,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         return res.status(200).json({
             trainer_id: prefs.trainer_id,
-            display_name: prefs.display_name || prefs.trainer_id,
             shiny_count: shinies.length,
             shinies,
             favourite_forms: favouriteForms,
