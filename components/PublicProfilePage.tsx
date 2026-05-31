@@ -133,7 +133,7 @@ export const PublicProfilePage: React.FC = () => {
                     {profile.shiny_count === 0 ? (
                         <p className="text-gray-500 text-center py-12">{t('public_profile_empty')}</p>
                     ) : (
-                        <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-1 sm:gap-2">
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(56px, 1fr))', gap: '4px' }}>
                             {POKEMON_LIST
                                 .filter(p => shinySet.has(p.id))
                                 .map(pokemon => {
@@ -157,6 +157,10 @@ export const PublicProfilePage: React.FC = () => {
                                                 className="w-full h-full object-contain p-0.5"
                                                 loading="lazy"
                                                 decoding="async"
+                                                onError={(e) => {
+                                                    const card = e.currentTarget.parentElement;
+                                                    if (card) card.style.display = 'none';
+                                                }}
                                             />
                                         </div>
                                     );
