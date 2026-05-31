@@ -158,6 +158,38 @@ export const ui = {
     },
     // ChangeLog
     changelog: "What's New",
+    // Trainer ID
+    trainer_id: "Trainer ID",
+    trainer_id_choose: "Choose your Trainer ID",
+    trainer_id_description: "Your Trainer ID is your unique public identifier. It will appear in your profile URL and cannot be changed once set.",
+    trainer_id_placeholder: "e.g. AshKetchum",
+    trainer_id_rules: "3–20 characters · letters, numbers, - and _ only",
+    trainer_id_available: "Available!",
+    trainer_id_taken: "Already taken",
+    trainer_id_invalid: "Invalid format",
+    trainer_id_checking: "Checking...",
+    trainer_id_confirm: "Confirm Trainer ID",
+    trainer_id_set_success: "Trainer ID set!",
+    trainer_id_your: "Your Trainer ID",
+    trainer_id_immutable_note: "This cannot be changed later.",
+    // Public profile
+    public_profile_shinies: "Shinies caught",
+    public_profile_completion: "Completion",
+    public_profile_favourite_forms: "Favourite Forms",
+    public_profile_not_found: "Trainer not found",
+    public_profile_not_found_desc: "No trainer exists with this ID.",
+    public_profile_empty: "No shinies caught yet...",
+    public_profile_copy_link: "Copy profile link",
+    public_profile_link_copied: "Link copied!",
+    public_profile_open_tracker: "Open your own tracker",
+    public_profile_view: "View public profile",
+    // Community feed
+    community_feed: "Community",
+    community_feed_empty: "No captures yet. Be the first!",
+    community_feed_loading: "Loading feed...",
+    community_feed_captured: "captured a Shiny {pokemon}",
+    community_feed_live: "Live",
+    community_feed_new: "New",
 };
 
 export const games: Record<string, string> = GAME_LIST;

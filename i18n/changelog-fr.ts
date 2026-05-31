@@ -3,13 +3,16 @@ import { ChangeLogEntry } from './changelog-en';
 export const changelogFR: ChangeLogEntry = {
     title: "Nouveautés",
     date: "31 mai 2026",
-    sectionTitle: "Refonte Mobile, Filtre DLC & Performances",
+    sectionTitle: "Fonctionnalités Communautaires, Profils Publics & Filtre DLC",
     features: "Nouvelles fonctionnalités",
     featuresList: [
-        "Filtre DLC : En sélectionnant Épée/Bouclier, Écarlate/Violet ou Légendes Z-A, des boutons DLC apparaissent sous le filtre de jeu — actifs quand affichés, grisés quand masqués",
-        "Formes sur mobile : Les Pokémon multi-formes (Motisma, Arceus, Vivillon…) disposent désormais d'un bouton '+' sur les cartes mobiles, ouvrant la modale complète des formes",
-        "Badge Shiny Lock sur mobile : Une icône de cadenas apparaît sur les cartes mobiles pour les Pokémon avec Shiny Lock",
-        "Tout marquer / Tout démarquer disponible sur mobile : Les actions en masse ne sont plus réservées au bureau",
+        "ID Dresseur : choisissez un identifiant unique et permanent à la première connexion — utilisé dans l'URL de votre profil public (/u/votre-id) et affiché dans l'en-tête",
+        "Profils publics : visitez la page de n'importe quel dresseur pour parcourir sa collection de shiny, ses stats, son pourcentage de complétion et ses formes favorites",
+        "Fil communautaire : un panneau en direct sur la droite affiche les captures récentes de shiny de tous les dresseurs en temps réel — cliquez sur une entrée pour visiter leur profil",
+        "Filtre DLC : en sélectionnant Épée/Bouclier, Écarlate/Violet ou Légendes Z-A, des boutons DLC apparaissent sous le filtre de jeu — actifs quand affichés, grisés quand masqués",
+        "Formes sur mobile : les Pokémon multi-formes (Motisma, Arceus, Vivillon…) disposent d'un bouton '+' sur les cartes mobiles, ouvrant la modale complète des formes",
+        "Badge Shiny Lock sur mobile : une icône de cadenas apparaît sur les cartes mobiles pour les Pokémon avec Shiny Lock",
+        "Tout marquer / Tout démarquer disponible sur mobile : les actions en masse ne sont plus réservées au bureau",
     ],
     technical: "Corrections & Améliorations",
     technicalList: [
@@ -23,7 +26,6 @@ export const changelogFR: ChangeLogEntry = {
         "Cache des sprites : un service worker met en cache tous les sprites Pokémon après le premier chargement — instantané lors des visites suivantes",
         "Ajout de decoding='async' sur toutes les images de sprites pour réduire les saccades lors du défilement",
         "Boutons des onglets du panneau, FilterChips et autres zones tactiles agrandis pour atteindre le minimum de 44px",
-        "Le sélecteur de langue dans le profil s'adapte maintenant sur les petits écrans au lieu de déborder",
         "Correction de toutes les erreurs TypeScript préexistantes (@types/react manquant, import.meta.env, types de composants de classe)",
     ],
     close: "Fermer"

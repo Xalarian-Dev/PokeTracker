@@ -13,6 +13,8 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { usePokemonData } from '../hooks/usePokemonData';
 import { useFilters } from '../hooks/useFilters';
 import { useIsMobile } from '../hooks/use-mobile';
+import { TrainerIdSetup } from './TrainerIdSetup';
+import { RightSidebar } from './RightSidebar';
 
 const CustomSidebarToggle = () => {
   const { open, toggleSidebar } = useSidebar();
@@ -67,7 +69,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
 
   const {
     shinyPokemons, setShinyPokemons, loading,
-    ownedGames, displayName,
+    ownedGames, trainerId, setTrainerIdState,
     validatedForms, shinyForms, favoriteForms,
     userId, toggleShiny, toggleForm, setFavoriteForm,
   } = usePokemonData({ username: user?.username ?? null });
@@ -94,13 +96,20 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
     onConfirm: () => void;
   }>({ isOpen: false, message: '', onConfirm: () => { } });
 
-  // Scroll detection on the inner overflow container (not window)
+  // Scroll detection — listen on both window and inner container to cover all layout modes
   useEffect(() => {
+    const handleScroll = () => {
+      const windowScroll = window.scrollY > 300;
+      const innerScroll = (scrollContainerRef.current?.scrollTop ?? 0) > 300;
+      setShowScrollTop(windowScroll || innerScroll);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    scrollContainerRef.current?.addEventListener('scroll', handleScroll, { passive: true });
     const el = scrollContainerRef.current;
-    if (!el) return;
-    const handleScroll = () => setShowScrollTop(el.scrollTop > 300);
-    el.addEventListener('scroll', handleScroll, { passive: true });
-    return () => el.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      el?.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const shinyCount = shinyPokemons.size;
@@ -150,12 +159,18 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
   }, [t, displayedPokemon, setShinyPokemons]);
 
   const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-gray-900 text-white">
-      <Header user={user} onLogout={onLogout} onProfileClick={onProfileClick} displayName={displayName} />
+      <Header user={user} onLogout={onLogout} onProfileClick={onProfileClick} trainerId={trainerId} />
+
+      {/* Trainer ID setup — shown once after load for users without one yet */}
+      {user && !loading && trainerId === null && (
+        <TrainerIdSetup onComplete={(id) => setTrainerIdState(id)} />
+      )}
 
       <SidebarProvider defaultOpen={false}>
         <Sidebar side="left" collapsible="offcanvas" className="border-r border-gray-700">
@@ -186,6 +201,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, onProfileCl
         </Sidebar>
 
         <MobileSidebarToggle />
+        <RightSidebar />
 
         <main className="flex flex-1 flex-col pt-16 md:pt-0">
           <ConfirmationModal

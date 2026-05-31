@@ -83,6 +83,15 @@ export interface UserPreferences {
     preferred_language: 'fr' | 'en' | 'jp' | 'es';
     owned_games: string[];
     display_name?: string;
+    trainer_id?: string;
+}
+
+export interface PublicProfile {
+    trainer_id: string;
+    display_name: string;
+    shiny_count: number;
+    shinies: string[];
+    favourite_forms: Record<string, string>;
 }
 
 /**
@@ -117,6 +126,36 @@ export async function saveUserPreferences(
  */
 export async function createDefaultPreferences(userId: string): Promise<void> {
     await saveUserPreferences(userId, 'fr', []);
+}
+
+/**
+ * Check trainer ID availability (no auth)
+ */
+export async function checkTrainerIdAvailability(trainerId: string): Promise<boolean> {
+    const res = await fetch(`/api/trainer-id?id=${encodeURIComponent(trainerId)}`);
+    if (!res.ok) return false;
+    const data = await res.json();
+    return data.available === true;
+}
+
+/**
+ * Set trainer ID for the current user (auth required, immutable)
+ */
+export async function setTrainerId(trainerId: string): Promise<void> {
+    await apiRequest('trainer-id', {
+        method: 'POST',
+        body: JSON.stringify({ trainerId }),
+    });
+}
+
+/**
+ * Fetch a public profile by trainer ID (no auth)
+ */
+export async function fetchPublicProfile(trainerId: string): Promise<PublicProfile | null> {
+    const res = await fetch(`/api/public/${encodeURIComponent(trainerId)}`);
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error('Failed to fetch profile');
+    return res.json();
 }
 
 /**

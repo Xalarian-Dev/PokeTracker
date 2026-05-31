@@ -158,6 +158,38 @@ export const ui = {
     },
     // ChangeLog
     changelog: "Novedades",
+    // Trainer ID
+    trainer_id: "ID de Entrenador",
+    trainer_id_choose: "Elige tu ID de Entrenador",
+    trainer_id_description: "Tu ID de Entrenador es tu identificador público único. Aparecerá en la URL de tu perfil y no podrá modificarse una vez establecido.",
+    trainer_id_placeholder: "ej. AshKetchum",
+    trainer_id_rules: "3–20 caracteres · solo letras, números, - y _",
+    trainer_id_available: "¡Disponible!",
+    trainer_id_taken: "Ya está en uso",
+    trainer_id_invalid: "Formato inválido",
+    trainer_id_checking: "Comprobando...",
+    trainer_id_confirm: "Confirmar ID de Entrenador",
+    trainer_id_set_success: "¡ID de Entrenador establecido!",
+    trainer_id_your: "Tu ID de Entrenador",
+    trainer_id_immutable_note: "Este ID no se podrá cambiar después.",
+    // Perfil público
+    public_profile_shinies: "Shiny capturados",
+    public_profile_completion: "Completado",
+    public_profile_favourite_forms: "Formas Favoritas",
+    public_profile_not_found: "Entrenador no encontrado",
+    public_profile_not_found_desc: "No existe ningún entrenador con este ID.",
+    public_profile_empty: "Ningún shiny capturado aún...",
+    public_profile_copy_link: "Copiar enlace del perfil",
+    public_profile_link_copied: "¡Enlace copiado!",
+    public_profile_open_tracker: "Abrir tu propio rastreador",
+    public_profile_view: "Ver perfil público",
+    // Feed comunitario
+    community_feed: "Comunidad",
+    community_feed_empty: "Ninguna captura todavía. ¡Sé el primero!",
+    community_feed_loading: "Cargando feed...",
+    community_feed_captured: "capturó un {pokemon} Shiny",
+    community_feed_live: "En vivo",
+    community_feed_new: "Nuevo",
 };
 
 export const games: Record<string, string> = {

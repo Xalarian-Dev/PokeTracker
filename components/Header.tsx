@@ -10,14 +10,14 @@ interface HeaderProps {
   user: User | null;
   onLogout: () => void;
   onProfileClick?: () => void;
-  displayName?: string | null;
+  trainerId?: string | null;
 }
 
 const Header: React.FC<HeaderProps> = ({
   user,
   onLogout,
   onProfileClick,
-  displayName
+  trainerId
 }) => {
   const { user: clerkUser } = useUser();
   const { t } = useLanguage();
@@ -38,11 +38,11 @@ const Header: React.FC<HeaderProps> = ({
 
           {/* Right Side Actions */}
           <div className="flex items-center space-x-2 sm:space-x-4">
-            {/* Trainer Name */}
-            {clerkUser && (
+            {/* Trainer ID */}
+            {clerkUser && trainerId && (
               <span className="hidden md:block text-gray-300 text-sm">
-                {t('trainer')}: <span className="font-semibold text-white">
-                  {displayName || clerkUser.username || clerkUser.firstName || 'Trainer'}
+                {t('trainer')}: <span className="font-semibold text-yellow-400 font-mono">
+                  {trainerId}
                 </span>
               </span>
             )}

@@ -155,6 +155,38 @@ export const ui = {
     },
     // ChangeLog
     changelog: "更新履歴",
+    // トレーナーID
+    trainer_id: "トレーナーID",
+    trainer_id_choose: "トレーナーIDを選択",
+    trainer_id_description: "トレーナーIDはあなたの公開識別子です。プロフィールURLに表示され、一度設定すると変更できません。",
+    trainer_id_placeholder: "例：サトシ",
+    trainer_id_rules: "3〜20文字・英数字、-、_のみ使用可能",
+    trainer_id_available: "使用可能！",
+    trainer_id_taken: "すでに使用されています",
+    trainer_id_invalid: "無効な形式です",
+    trainer_id_checking: "確認中...",
+    trainer_id_confirm: "トレーナーIDを確定",
+    trainer_id_set_success: "トレーナーIDを設定しました！",
+    trainer_id_your: "あなたのトレーナーID",
+    trainer_id_immutable_note: "このIDは後から変更できません。",
+    // 公開プロフィール
+    public_profile_shinies: "捕まえた色違い",
+    public_profile_completion: "達成率",
+    public_profile_favourite_forms: "お気に入りフォルム",
+    public_profile_not_found: "トレーナーが見つかりません",
+    public_profile_not_found_desc: "このIDを持つトレーナーは存在しません。",
+    public_profile_empty: "まだ色違いを捕まえていません...",
+    public_profile_copy_link: "プロフィールリンクをコピー",
+    public_profile_link_copied: "リンクをコピーしました！",
+    public_profile_open_tracker: "自分のトラッカーを開く",
+    public_profile_view: "公開プロフィールを見る",
+    // コミュニティフィード
+    community_feed: "コミュニティ",
+    community_feed_empty: "まだ捕獲がありません。最初になりましょう！",
+    community_feed_loading: "読み込み中...",
+    community_feed_captured: "{pokemon}（色違い）を捕まえました",
+    community_feed_live: "ライブ",
+    community_feed_new: "新着",
 };
 
 export const games: Record<string, string> = {

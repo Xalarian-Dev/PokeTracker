@@ -39,7 +39,7 @@ export const FilterChip: React.FC<FilterChipProps> = ({
                 : "bg-dark-700 hover:bg-dark-600 text-white"
         ),
         game: cn(
-            "px-3 py-2 text-xs rounded-full focus:ring-blue-500 whitespace-nowrap min-h-[36px]",
+            "px-2 py-1 text-xs rounded-full focus:ring-blue-500 whitespace-nowrap",
             isActive
                 ? "bg-blue-500 text-white"
                 : "bg-dark-700 hover:bg-dark-600 text-white"

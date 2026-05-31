@@ -14,7 +14,6 @@ import {
     DialogTitle,
 } from './ui';
 import { Button } from './ui';
-import { Input } from './ui';
 import { Card, CardContent, CardHeader, CardTitle } from './ui';
 
 interface ProfilePageProps {
@@ -27,7 +26,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
     const { language, setLanguage, t, getGameName } = useLanguage();
     const [selectedLanguage, setSelectedLanguage] = useState<'fr' | 'en' | 'jp' | 'es'>(language);
     const [ownedGames, setOwnedGames] = useState<string[]>([]);
-    const [displayName, setDisplayName] = useState<string>('');
+    const [trainerId, setTrainerId] = useState<string | null>(null);
+    const [profileLinkCopied, setProfileLinkCopied] = useState(false);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState<string | null>(null);
@@ -44,7 +44,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
                 if (prefs) {
                     setSelectedLanguage(prefs.preferred_language);
                     setOwnedGames(prefs.owned_games);
-                    setDisplayName(prefs.display_name || '');
+                    setTrainerId(prefs.trainer_id || null);
                 }
             } catch (error) {
                 console.error('Error loading preferences:', error);
@@ -63,7 +63,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
         setMessage(null);
 
         try {
-            await saveUserPreferences(user.id, selectedLanguage, ownedGames, displayName || undefined);
+            await saveUserPreferences(user.id, selectedLanguage, ownedGames);
             setLanguage(selectedLanguage); // Update app language
             setMessage(t('preferences_saved'));
 
@@ -185,20 +185,32 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onBack }) => {
                     </div>
                 </Card>
 
-                {/* Display Name */}
-                <Card className="mb-6">
-                    <h3 className="text-lg font-bold mb-4">{t('display_name')}</h3>
-                    <Input
-                        type="text"
-                        value={displayName}
-                        onChange={(e) => setDisplayName(e.target.value)}
-                        placeholder={t('display_name_placeholder')}
-                        maxLength={30}
-                    />
-                    <p className="text-sm text-gray-400 mt-1">
-                        {`${displayName ? `"${displayName}"` : user?.username || user?.firstName || 'Your username'} ${t('will_be_displayed')}`}
-                    </p>
-                </Card>
+                {/* Trainer ID */}
+                {trainerId && (
+                    <Card className="mb-6">
+                        <h3 className="text-lg font-bold mb-1">{t('trainer_id_your')}</h3>
+                        <p className="text-xs text-gray-500 mb-3">{t('trainer_id_immutable_note')}</p>
+                        <div className="flex items-center gap-3">
+                            <div className="flex-1 bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 font-mono text-yellow-400 text-lg font-bold">
+                                {trainerId}
+                            </div>
+                            <button
+                                onClick={() => {
+                                    const url = `${window.location.origin}/u/${trainerId}`;
+                                    navigator.clipboard.writeText(url);
+                                    setProfileLinkCopied(true);
+                                    setTimeout(() => setProfileLinkCopied(false), 2000);
+                                }}
+                                className="shrink-0 px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm font-medium transition-colors"
+                            >
+                                {profileLinkCopied ? t('public_profile_link_copied') : t('public_profile_copy_link')}
+                            </button>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-2">
+                            {window.location.origin}/u/{trainerId}
+                        </p>
+                    </Card>
+                )}
 
                 {/* Language Selection */}
                 <Card className="mb-6">

@@ -14,13 +14,16 @@ export interface ChangeLogEntry {
 export const changelogEN: ChangeLogEntry = {
     title: "What's New",
     date: "May 31, 2026",
-    sectionTitle: "Mobile Overhaul, DLC Filter & Performance",
+    sectionTitle: "Community Features, Public Profiles & DLC Filter",
     features: "New Features",
     featuresList: [
-        "DLC filter: When selecting Sword/Shield, Scarlet/Violet or Legends Z-A, DLC toggles appear below the game filter — highlighted when shown, gray when hidden",
-        "Forms on mobile: Multi-form Pokémon (Rotom, Arceus, Vivillon…) now have a '+' button on mobile cards, opening the full forms modal",
-        "Shiny lock badge on mobile: A lock icon now appears on mobile cards for shiny-locked Pokémon",
-        "Mark All / Unmark All available on mobile: Bulk actions are no longer desktop-only",
+        "Trainer ID: choose a unique, permanent identifier at first login — used in your public profile URL (/u/your-id) and shown in the header",
+        "Public profiles: visit any trainer's page to browse their full shiny collection, stats, completion percentage and favourite forms",
+        "Community feed: a live right-side panel shows recent shiny captures from all trainers in real time — click any entry to visit their profile",
+        "DLC filter: when selecting Sword/Shield, Scarlet/Violet or Legends Z-A, DLC toggles appear below the game filter — highlighted when shown, gray when hidden",
+        "Forms on mobile: multi-form Pokémon (Rotom, Arceus, Vivillon…) now have a '+' button on mobile cards, opening the full forms modal",
+        "Shiny lock badge on mobile: a lock icon now appears on mobile cards for shiny-locked Pokémon",
+        "Mark All / Unmark All available on mobile: bulk actions are no longer desktop-only",
     ],
     technical: "Fixes & Improvements",
     technicalList: [
@@ -34,7 +37,6 @@ export const changelogEN: ChangeLogEntry = {
         "Sprite caching: service worker now caches all Pokémon sprites after first load — instant on repeat visits",
         "Added decoding='async' to all sprite images to reduce main-thread jank while scrolling",
         "Sidebar tab buttons, FilterChips and other touch targets enlarged to meet the 44px minimum",
-        "Language selector in profile page now wraps on small screens instead of overflowing",
         "Fixed all pre-existing TypeScript errors (missing @types/react, import.meta.env, class component types)",
     ],
     close: "Close"

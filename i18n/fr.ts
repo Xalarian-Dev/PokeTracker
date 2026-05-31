@@ -155,6 +155,38 @@ export const ui = {
     },
     // ChangeLog
     changelog: "Nouveautés",
+    // Trainer ID
+    trainer_id: "ID Dresseur",
+    trainer_id_choose: "Choisissez votre ID Dresseur",
+    trainer_id_description: "Votre ID Dresseur est votre identifiant public unique. Il apparaîtra dans l'URL de votre profil et ne pourra plus être modifié une fois défini.",
+    trainer_id_placeholder: "ex. SachaDeRouge",
+    trainer_id_rules: "3–20 caractères · lettres, chiffres, - et _ uniquement",
+    trainer_id_available: "Disponible !",
+    trainer_id_taken: "Déjà pris",
+    trainer_id_invalid: "Format invalide",
+    trainer_id_checking: "Vérification...",
+    trainer_id_confirm: "Confirmer l'ID Dresseur",
+    trainer_id_set_success: "ID Dresseur défini !",
+    trainer_id_your: "Votre ID Dresseur",
+    trainer_id_immutable_note: "Cet ID ne pourra plus être modifié.",
+    // Profil public
+    public_profile_shinies: "Shiny capturés",
+    public_profile_completion: "Complétion",
+    public_profile_favourite_forms: "Formes Favorites",
+    public_profile_not_found: "Dresseur introuvable",
+    public_profile_not_found_desc: "Aucun dresseur n'existe avec cet ID.",
+    public_profile_empty: "Aucun shiny capturé pour l'instant...",
+    public_profile_copy_link: "Copier le lien du profil",
+    public_profile_link_copied: "Lien copié !",
+    public_profile_open_tracker: "Ouvrir votre propre traqueur",
+    public_profile_view: "Voir le profil public",
+    // Fil communautaire
+    community_feed: "Communauté",
+    community_feed_empty: "Aucune capture pour l'instant. Soyez le premier !",
+    community_feed_loading: "Chargement du fil...",
+    community_feed_captured: "a capturé un {pokemon} Shiny",
+    community_feed_live: "En direct",
+    community_feed_new: "Nouveau",
 };
 
 export const games: Record<string, string> = {

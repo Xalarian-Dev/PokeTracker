@@ -22,6 +22,7 @@ export function usePokemonData({ username }: UsePokemonDataParams) {
     const [loading, setLoading] = useState(true);
     const [ownedGames, setOwnedGames] = useState<string[]>([]);
     const [displayName, setDisplayName] = useState<string | null>(null);
+    const [trainerId, setTrainerIdState] = useState<string | null>(null);
     const [validatedForms, setValidatedForms] = useState<Map<string, Set<string>>>(new Map());
     const [shinyForms, setShinyForms] = useState<Map<string, Set<string>>>(new Map());
     const [favoriteForms, setFavoriteForms] = useState<Map<string, string>>(new Map());
@@ -63,6 +64,7 @@ export function usePokemonData({ username }: UsePokemonDataParams) {
                 const prefs = await getUserPreferences(userId);
                 if (prefs?.owned_games) setOwnedGames(prefs.owned_games);
                 if (prefs?.display_name) setDisplayName(prefs.display_name);
+                if (prefs?.trainer_id) setTrainerIdState(prefs.trainer_id);
 
                 try {
                     const formsData = await loadPokemonForms();
@@ -241,6 +243,8 @@ export function usePokemonData({ username }: UsePokemonDataParams) {
         loading,
         ownedGames,
         displayName,
+        trainerId,
+        setTrainerIdState,
         validatedForms,
         shinyForms,
         favoriteForms,
