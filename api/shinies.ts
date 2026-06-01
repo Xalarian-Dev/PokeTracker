@@ -71,12 +71,55 @@ async function handlePost(userId: string, req: VercelRequest, res: VercelRespons
         .insert({ user_id: userId, pokemon_id: pokemonId });
 
     if (error) {
-        // Ignore duplicate errors (23505 = unique constraint violation)
         if (error.code === '23505') {
             return res.status(200).json({ message: 'Pokemon already marked as shiny' });
         }
         console.error('Error adding shiny:', error);
         return res.status(500).json({ error: 'Failed to add shiny Pokemon' });
+    }
+
+    // Write to community feed if user has a trainer_id and hasn't hit the cap
+    try {
+        const { data: prefs } = await supabaseAdmin
+            .from('user_preferences')
+            .select('trainer_id')
+            .eq('user_id', userId)
+            .maybeSingle();
+
+        if (prefs?.trainer_id) {
+            const trainerId = prefs.trainer_id;
+
+            // Enforce max 2 entries per user in the feed
+            const { count } = await supabaseAdmin
+                .from('community_feed')
+                .select('id', { count: 'exact', head: true })
+                .eq('user_id', userId);
+
+            if ((count ?? 0) < 2) {
+                await supabaseAdmin
+                    .from('community_feed')
+                    .insert({ user_id: userId, trainer_id: trainerId, pokemon_id: pokemonId });
+            } else {
+                // Replace the oldest entry so the feed stays fresh
+                const { data: oldest } = await supabaseAdmin
+                    .from('community_feed')
+                    .select('id')
+                    .eq('user_id', userId)
+                    .order('caught_at', { ascending: true })
+                    .limit(1)
+                    .maybeSingle();
+
+                if (oldest) {
+                    await supabaseAdmin
+                        .from('community_feed')
+                        .update({ pokemon_id: pokemonId, caught_at: new Date().toISOString() })
+                        .eq('id', oldest.id);
+                }
+            }
+        }
+    } catch (feedErr) {
+        // Non-fatal: shiny was saved, feed update failed
+        console.error('Community feed write error:', feedErr);
     }
 
     return res.status(201).json({ message: 'Shiny Pokemon added successfully' });
