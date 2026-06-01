@@ -58,6 +58,21 @@ export const CommunityFeed: React.FC = () => {
         newIdTimeouts.current.delete(id);
     }, []);
 
+    const mergeEntries = useCallback((fresh: FeedEntry[]) => {
+        setEntries(prev => {
+            const prevIds = new Set(prev.map(e => e.id));
+            const newEntries = fresh
+                .filter(e => !prevIds.has(e.id))
+                .map(e => ({ ...e, isNew: true }));
+            if (newEntries.length === 0) return prev;
+            newEntries.forEach(e => {
+                const t = setTimeout(() => clearNew(e.id), 4000);
+                newIdTimeouts.current.set(e.id, t);
+            });
+            return [...newEntries, ...prev].slice(0, 20);
+        });
+    }, [clearNew]);
+
     // Initial load
     useEffect(() => {
         fetchFeed().then(data => {
@@ -66,27 +81,33 @@ export const CommunityFeed: React.FC = () => {
         });
     }, []);
 
-    // Real-time subscription on community_feed (skipped in dev — mock data is used instead)
+    // Polling every 15s — reliable fallback
+    useEffect(() => {
+        if (import.meta.env.DEV) return;
+        const interval = setInterval(async () => {
+            const fresh = await fetchFeed();
+            mergeEntries(fresh);
+        }, 15000);
+        return () => clearInterval(interval);
+    }, [mergeEntries]);
+
+    // Real-time subscription — instant updates when it works
     useEffect(() => {
         if (import.meta.env.DEV) return;
         const channel = supabase
-            .channel('community-feed')
+            .channel('community-feed-rt')
             .on(
                 'postgres_changes',
                 { event: 'INSERT', schema: 'public', table: 'community_feed' },
                 (payload) => {
                     const row = payload.new as any;
-                    const entry: FeedEntry = {
+                    mergeEntries([{
                         id: row.id,
                         pokemon_id: row.pokemon_id,
                         caught_at: row.caught_at,
                         trainer_id: row.trainer_id,
                         display_name: row.trainer_id,
-                        isNew: true,
-                    };
-                    const timeout = setTimeout(() => clearNew(entry.id), 4000);
-                    newIdTimeouts.current.set(entry.id, timeout);
-                    setEntries(prev => [entry, ...prev].slice(0, 20));
+                    }]);
                 }
             )
             .subscribe();
@@ -95,7 +116,7 @@ export const CommunityFeed: React.FC = () => {
             supabase.removeChannel(channel);
             newIdTimeouts.current.forEach(t => clearTimeout(t));
         };
-    }, [clearNew]);
+    }, [mergeEntries]);
 
     if (loading) {
         return (
