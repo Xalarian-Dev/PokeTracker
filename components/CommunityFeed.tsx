@@ -41,10 +41,19 @@ const MOCK_FEED: FeedEntry[] = [
 
 async function fetchFeed(): Promise<FeedEntry[]> {
     if (import.meta.env.DEV) return MOCK_FEED;
-    const res = await fetch('/api/public/feed', { cache: 'no-store' });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return data.feed || [];
+    const { data, error } = await supabase
+        .from('community_feed')
+        .select('id, pokemon_id, caught_at, trainer_id')
+        .order('caught_at', { ascending: false })
+        .limit(20);
+    if (error || !data) return [];
+    return data.map(row => ({
+        id: row.id,
+        pokemon_id: row.pokemon_id,
+        caught_at: row.caught_at,
+        trainer_id: row.trainer_id,
+        display_name: row.trainer_id,
+    }));
 }
 
 export const CommunityFeed: React.FC = () => {
