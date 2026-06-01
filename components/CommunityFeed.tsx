@@ -41,7 +41,7 @@ const MOCK_FEED: FeedEntry[] = [
 
 async function fetchFeed(): Promise<FeedEntry[]> {
     if (import.meta.env.DEV) return MOCK_FEED;
-    const res = await fetch('/api/public/feed');
+    const res = await fetch('/api/public/feed', { cache: 'no-store' });
     if (!res.ok) return [];
     const data = await res.json();
     return data.feed || [];
@@ -87,7 +87,7 @@ export const CommunityFeed: React.FC = () => {
         const interval = setInterval(async () => {
             const fresh = await fetchFeed();
             mergeEntries(fresh);
-        }, 15000);
+        }, 10000);
         return () => clearInterval(interval);
     }, [mergeEntries]);
 

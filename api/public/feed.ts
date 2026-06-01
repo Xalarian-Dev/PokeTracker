@@ -35,7 +35,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             display_name: row.trainer_id,
         }));
 
-        res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=30');
+        res.setHeader('Cache-Control', 'no-store');
         return res.status(200).json({ feed });
     } catch (error) {
         console.error('Feed error:', error);
