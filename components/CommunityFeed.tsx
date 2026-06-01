@@ -90,15 +90,30 @@ export const CommunityFeed: React.FC = () => {
         });
     }, []);
 
-    // Polling every 15s — reliable fallback
+    // Polling every 10s — replaces full list, detects new and removed entries
     useEffect(() => {
         if (import.meta.env.DEV) return;
         const interval = setInterval(async () => {
             const fresh = await fetchFeed();
-            mergeEntries(fresh);
+            setEntries(prev => {
+                if (!fresh.length && !prev.length) return prev;
+                const prevMap = new Map(prev.map(e => [e.id, e]));
+                const unchanged =
+                    fresh.length === prev.length &&
+                    fresh.every((e, i) => e.id === prev[i]?.id);
+                if (unchanged) return prev;
+                // Mark brand-new entries and schedule badge clear
+                return fresh.map(e => {
+                    if (prevMap.has(e.id)) return prevMap.get(e.id)!;
+                    const entry = { ...e, isNew: true };
+                    const t = setTimeout(() => clearNew(e.id), 4000);
+                    newIdTimeouts.current.set(e.id, t);
+                    return entry;
+                });
+            });
         }, 10000);
         return () => clearInterval(interval);
-    }, [mergeEntries]);
+    }, [clearNew]);
 
     // Real-time subscription — instant updates when it works
     useEffect(() => {
