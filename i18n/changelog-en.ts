@@ -13,7 +13,7 @@ export interface ChangeLogEntry {
 
 export const changelogEN: ChangeLogEntry = {
     title: "What's New",
-    date: "May 31, 2026",
+    date: "June 16, 2026",
     sectionTitle: "Community Features, Public Profiles & DLC Filter",
     features: "New Features",
     featuresList: [
@@ -40,6 +40,7 @@ export const changelogEN: ChangeLogEntry = {
         "Added decoding='async' to all sprite images to reduce main-thread jank while scrolling",
         "Sidebar tab buttons, FilterChips and other touch targets enlarged to meet the 44px minimum",
         "Fixed all pre-existing TypeScript errors (missing @types/react, import.meta.env, class component types)",
+        "Community feed: fixed duplicate entries and stuck/stale captures, raised the per-trainer limit to 3 recent catches, and the panel now shows up to 40 entries",
     ],
     close: "Close"
 };

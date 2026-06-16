@@ -87,31 +87,10 @@ async function handlePost(userId: string, req: VercelRequest, res: VercelRespons
             .maybeSingle();
 
         if (prefs?.trainer_id) {
-            const trainerId = prefs.trainer_id;
-
-            // Enforce max 2 entries per user in the feed
-            const { count } = await supabaseAdmin
-                .from('community_feed')
-                .select('id', { count: 'exact', head: true })
-                .eq('user_id', userId);
-
-            if ((count ?? 0) >= 2) {
-                // Delete the oldest entry to stay within the cap
-                const { data: oldest } = await supabaseAdmin
-                    .from('community_feed')
-                    .select('id')
-                    .eq('user_id', userId)
-                    .order('caught_at', { ascending: true })
-                    .limit(1)
-                    .maybeSingle();
-                if (oldest) {
-                    await supabaseAdmin.from('community_feed').delete().eq('id', oldest.id);
-                }
-            }
-            // Always INSERT — new UUID so real-time and polling detect it as a new entry
+            // Cap enforcement (max 2 per user) is handled atomically by a DB trigger
             await supabaseAdmin
                 .from('community_feed')
-                .insert({ user_id: userId, trainer_id: trainerId, pokemon_id: pokemonId });
+                .insert({ user_id: userId, trainer_id: prefs.trainer_id, pokemon_id: pokemonId });
         }
     } catch (feedErr) {
         // Non-fatal: shiny was saved, feed update failed

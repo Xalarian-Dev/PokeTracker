@@ -2,7 +2,7 @@ import { ChangeLogEntry } from './changelog-en';
 
 export const changelogJP: ChangeLogEntry = {
     title: "更新履歴",
-    date: "2026年5月31日",
+    date: "2026年6月16日",
     sectionTitle: "コミュニティ機能・公開プロフィール・DLCフィルター",
     features: "新機能",
     featuresList: [
@@ -29,6 +29,7 @@ export const changelogJP: ChangeLogEntry = {
         "すべてのスプライト画像にdecoding='async'を追加し、スクロール時のメインスレッドへの影響を軽減",
         "サイドバータブボタン、FilterChip、その他のタッチターゲットを44pxの最小サイズに拡大",
         "既存のTypeScriptエラーをすべて修正（@types/react未インストール、import.meta.env、クラスコンポーネント型）",
+        "コミュニティフィード：重複エントリーや表示が更新されない問題を修正、トレーナーごとの上限を最新3件に拡大、パネルに最大40件まで表示されるようになりました",
     ],
     close: "閉じる"
 };

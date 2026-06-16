@@ -2,7 +2,7 @@ import { ChangeLogEntry } from './changelog-en';
 
 export const changelogFR: ChangeLogEntry = {
     title: "Nouveautés",
-    date: "31 mai 2026",
+    date: "16 juin 2026",
     sectionTitle: "Fonctionnalités Communautaires, Profils Publics & Filtre DLC",
     features: "Nouvelles fonctionnalités",
     featuresList: [
@@ -29,6 +29,7 @@ export const changelogFR: ChangeLogEntry = {
         "Ajout de decoding='async' sur toutes les images de sprites pour réduire les saccades lors du défilement",
         "Boutons des onglets du panneau, FilterChips et autres zones tactiles agrandis pour atteindre le minimum de 44px",
         "Correction de toutes les erreurs TypeScript préexistantes (@types/react manquant, import.meta.env, types de composants de classe)",
+        "Fil communautaire : correction des entrées dupliquées et des captures bloquées/obsolètes, limite par dresseur portée à 3 captures récentes, et le panneau affiche désormais jusqu'à 40 entrées",
     ],
     close: "Fermer"
 };

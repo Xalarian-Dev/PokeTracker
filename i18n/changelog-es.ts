@@ -2,7 +2,7 @@ import { ChangeLogEntry } from './changelog-en';
 
 export const changelogES: ChangeLogEntry = {
     title: "Novedades",
-    date: "31 de mayo de 2026",
+    date: "16 de junio de 2026",
     sectionTitle: "Funciones Comunitarias, Perfiles Públicos y Filtro DLC",
     features: "Nuevas funcionalidades",
     featuresList: [
@@ -29,6 +29,7 @@ export const changelogES: ChangeLogEntry = {
         "Añadido decoding='async' en todas las imágenes de sprites para reducir las interrupciones al desplazarse",
         "Botones de pestañas del panel, FilterChips y otros objetivos táctiles ampliados para cumplir el mínimo de 44px",
         "Corrección de todos los errores TypeScript preexistentes (@types/react faltante, import.meta.env, tipos de componentes de clase)",
+        "Feed comunitario: corregidas las entradas duplicadas y las capturas atascadas/obsoletas, el límite por entrenador sube a 3 capturas recientes, y el panel ahora muestra hasta 40 entradas",
     ],
     close: "Cerrar"
 };

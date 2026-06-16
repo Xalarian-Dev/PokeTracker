@@ -44,8 +44,8 @@ async function fetchFeed(): Promise<FeedEntry[]> {
     const { data, error } = await supabase
         .from('community_feed')
         .select('id, pokemon_id, caught_at, trainer_id')
-        .order('caught_at', { ascending: false })
-        .limit(20);
+        .order('seq', { ascending: false })
+        .limit(40);
     if (error || !data) return [];
     return data.map(row => ({
         id: row.id,
@@ -78,7 +78,7 @@ export const CommunityFeed: React.FC = () => {
                 const t = setTimeout(() => clearNew(e.id), 4000);
                 newIdTimeouts.current.set(e.id, t);
             });
-            return [...newEntries, ...prev].slice(0, 20);
+            return [...newEntries, ...prev].slice(0, 40);
         });
     }, [clearNew]);
 
