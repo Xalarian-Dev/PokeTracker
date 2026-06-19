@@ -44,6 +44,7 @@ async function fetchFeed(): Promise<FeedEntry[]> {
     const { data, error } = await supabase
         .from('community_feed')
         .select('id, pokemon_id, caught_at, trainer_id')
+        .order('caught_at', { ascending: false })
         .order('seq', { ascending: false })
         .limit(40);
     if (error || !data) return [];
