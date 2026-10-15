@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useUser, useAuth } from '@clerk/clerk-react';
+import { useUser, useAuth } from '@clerk/react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { loadPokemonForms, toggleFormShiny, setFavoriteForm as setFavoriteFormAPI } from '../services/pokemonFormsService';
 import {
