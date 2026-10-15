@@ -11,7 +11,10 @@ A modern, cloud-based Pokémon Shiny Tracker built with React, Clerk, and Supaba
 - ✅ **Cloud Storage** - Your shiny collection synced across devices
 - ✅ **Secure Authentication** - Powered by Clerk
 - ✅ **Guest Mode** - Try it out without signing up (localStorage)
-- ✅ **Multi-language** - English, French, Japanese
+- ✅ **Multi-language** - English, French, Spanish, Japanese
+- ✅ **Forms** - Track Pokémon forms (regional, gender...) as shiny or favorite
+- ✅ **Trainer ID & Public Profile** - Each player can get a trainer ID and share a public profile page (`/u/<trainer-id>`)
+- ✅ **Community Feed** - Public feed of the latest shinies caught by players
 - ✅ **Advanced Filters** - By generation, region, game, and more
 - ✅ **Random Hunt** - Get random Pokémon suggestions for your next hunt
 - ✅ **Dark Theme** - Easy on the eyes during long hunting sessions
@@ -26,7 +29,7 @@ A modern, cloud-based Pokémon Shiny Tracker built with React, Clerk, and Supaba
 - **Authentication:** Clerk
 - **Database:** Supabase (PostgreSQL)
 - **Deployment:** Vercel
-- **Real-time:** Supabase Realtime (disabled in MVP)
+- **Real-time:** Supabase Realtime, used only for the community feed (the live sync of a player's own shinies is disabled)
 
 ---
 
@@ -40,7 +43,7 @@ A modern, cloud-based Pokémon Shiny Tracker built with React, Clerk, and Supaba
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/PokeTracker.git
+git clone https://github.com/Xalarian-Dev/PokeTracker.git
 cd PokeTracker
 
 # Install dependencies
@@ -76,29 +79,28 @@ CLERK_SECRET_KEY=your_clerk_secret_key
 
 ## Security Architecture
 
-### Current Implementation (Production-Ready)
+**Authentication:** Clerk, with JWT verification on the server
+**Data Isolation:** enforced server-side by the API (Vercel serverless functions)
+**Row Level Security (RLS):** enabled on the tables, but **no access policy is defined** on the player data tables (see below)
 
-**Authentication:** ✅ Secured by Clerk with JWT verification  
-**Data Isolation:** ✅ Server-side enforcement via backend API  
-**Row Level Security (RLS):** ✅ Enabled on all Supabase tables  
-**API Layer:** ✅ Vercel serverless functions with authentication
-
-### Security Features
+### How it works
 
 1. **Backend API Layer**
-   - All database operations go through authenticated API endpoints
-   - Clerk JWT tokens verified on every request
-   - User ID extracted from verified token, not from client input
+   - All reads and writes of player data go through the API endpoints in `api/`
+   - The Clerk JWT token is verified on every request
+   - The user ID is extracted from the verified token, not from client input
+   - Inputs (Pokémon IDs, display name, owned games) are validated in `api/_lib/validate.ts`
 
-2. **Row Level Security (RLS)**
-   - Enabled on `shiny_pokemon` and `user_preferences` tables
-   - Defense-in-depth: Even if anon key is exposed, RLS prevents unauthorized access
-   - Policies ensure users can only access their own data
+2. **Row Level Security (RLS) without policies**
+   - RLS is enabled on `shiny_pokemon`, `user_preferences` and `pokemon_forms`, with **no policy** (see `supabase_setup.sql` and `supabase_migrations.sql`)
+   - Result: direct access with the public (anon) key is blocked on these tables
+   - Only the backend can read and write them, because the service role key bypasses RLS
+   - Data isolation per user is therefore done **in the API code** (filter on the user ID), not by the database
+   - Exception: `community_feed` has a public read policy (`community_feed_read`, see `supabase_community_feed.sql`), because the feed is public
 
 3. **Service Role Isolation**
-   - Backend uses service role key (never exposed to frontend)
-   - Frontend uses anon key with RLS restrictions
-   - Clear separation of concerns
+   - The backend uses the service role key (never exposed to the frontend)
+   - The frontend uses the anon key, which gives no access to the player data tables
 
 ---
 
@@ -122,19 +124,23 @@ Deployed on Vercel with automatic CI/CD from GitHub.
 
 ## Database Schema
 
-```sql
-CREATE TABLE shiny_pokemon (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id TEXT NOT NULL,
-  pokemon_id TEXT NOT NULL,
-  caught_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  UNIQUE(user_id, pokemon_id)
-);
+The tables live in Supabase (PostgreSQL). Run the SQL files at the root of the repository in the Supabase SQL editor, in this order:
 
-CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
-```
+1. `supabase_setup.sql` - creates `shiny_pokemon` and `user_preferences`, enables RLS
+2. `supabase_migrations.sql` - history of migrations (adds `display_name`, removes old policies, creates `pokemon_forms`). Read it before running: it is a log, not a single script
+3. `supabase_migration_trainer_id.sql` - adds `trainer_id` to `user_preferences`
+4. `supabase_community_feed.sql` - **documentation** of the `community_feed` table as it exists in the real database; do not run it as is on an existing database (some parts are marked "à compléter")
 
-**Note:** RLS is enabled. All data access is controlled by Row Level Security policies.
+Tables:
+
+| Table | Content |
+|---|---|
+| `shiny_pokemon` | Shiny Pokémon caught by each player (`user_id`, `pokemon_id`, `caught_at`) |
+| `user_preferences` | Language, owned games, display name, trainer ID |
+| `pokemon_forms` | Forms of a Pokémon marked shiny or favorite (`pokemon_id`, `form_id`) |
+| `community_feed` | Public feed of the latest catches (`trainer_id`, `pokemon_id`, `caught_at`) |
+
+**Note:** RLS is enabled, and there is no access policy on the player data tables: only the backend (service role key) can access them. See "Security Architecture".
 
 ---
 
@@ -142,7 +148,7 @@ CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
 
 ### Phase 2 : Optimisation ✅ COMPLETE
 - [x] Backend API (Vercel Functions)
-- [x] RLS Supabase activé
+- [x] RLS Supabase activé (sans politique : accès direct bloqué, seul le backend lit et écrit)
 - [x] Authentification JWT sécurisée
 - [x] Migration données localStorage → Supabase
 - [ ] Sync temps réel (infrastructure prête)
@@ -178,16 +184,22 @@ CREATE INDEX idx_shiny_pokemon_user_id ON shiny_pokemon(user_id);
 ```
 PokeTracker/
 ├── api/            (Vercel serverless functions)
-│   ├── _lib/       (shared utilities)
+│   ├── _lib/       (shared utilities: auth, supabase, validate)
+│   ├── public/     (endpoints sans authentification: feed, profil public)
 │   ├── shinies.ts  (shiny Pokemon CRUD)
+│   ├── pokemon-forms.ts (formes de Pokémon)
 │   ├── preferences.ts (user preferences)
+│   ├── trainer-id.ts (identifiant de dresseur)
 │   └── user-data.ts (GDPR deletion)
 ├── components/     (composants React)
 ├── contexts/       (contextes React)
 ├── data/          (données statiques)
 ├── hooks/         (React hooks)
 ├── i18n/          (traductions)
+├── public/        (fichiers statiques: icônes, sitemap, assets)
+├── scripts/       (scripts utilitaires de maintenance)
 ├── services/      (API client layer)
+├── supabase_*.sql (scripts de base de données, voir Database Schema)
 ├── App.tsx        (composant principal)
 ├── index.tsx      (point d'entrée)
 └── index.html     (HTML)
