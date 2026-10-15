@@ -5,7 +5,7 @@ import { supabaseAdmin } from './_lib/supabase.js';
 /**
  * API endpoint for deleting all user data (GDPR compliance)
  * 
- * DELETE /api/user-data - Delete all user data (shinies + preferences)
+ * DELETE /api/user-data - Delete all user data (shinies + preferences + forms)
  */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Handle CORS preflight
@@ -43,11 +43,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             return res.status(500).json({ error: 'Failed to delete user preferences' });
         }
 
+        // Delete saved Pokemon forms (shiny form, favorite form)
+        const { error: formsError } = await supabaseAdmin
+            .from('pokemon_forms')
+            .delete()
+            .eq('user_id', userId);
+
+        if (formsError) {
+            console.error('Error deleting pokemon forms:', formsError);
+            return res.status(500).json({ error: 'Failed to delete Pokemon forms data' });
+        }
+
         return res.status(200).json({
             message: 'All user data deleted successfully',
             deleted: {
                 shinies: true,
                 preferences: true,
+                forms: true,
             }
         });
     } catch (error) {
