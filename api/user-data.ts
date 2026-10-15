@@ -5,7 +5,7 @@ import { supabaseAdmin } from './_lib/supabase.js';
 /**
  * API endpoint for deleting all user data (GDPR compliance)
  * 
- * DELETE /api/user-data - Delete all user data (shinies + preferences + forms)
+ * DELETE /api/user-data - Delete all user data (shinies + preferences + forms + community feed)
  */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Handle CORS preflight
@@ -54,12 +54,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             return res.status(500).json({ error: 'Failed to delete Pokemon forms data' });
         }
 
+        // Delete the user's entries in the public community feed
+        const { error: feedError } = await supabaseAdmin
+            .from('community_feed')
+            .delete()
+            .eq('user_id', userId);
+
+        if (feedError) {
+            console.error('Error deleting community feed entries:', feedError);
+            return res.status(500).json({ error: 'Failed to delete community feed data' });
+        }
+
         return res.status(200).json({
             message: 'All user data deleted successfully',
             deleted: {
                 shinies: true,
                 preferences: true,
                 forms: true,
+                communityFeed: true,
             }
         });
     } catch (error) {
