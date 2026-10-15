@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { authenticateRequest, setCorsHeaders, handleOptions } from './_lib/auth.js';
 import { supabaseAdmin } from './_lib/supabase.js';
+import { isValidPokemonId } from './_lib/validate.js';
 
 /**
  * API endpoint for managing user's shiny Pokemon
@@ -62,7 +63,7 @@ async function handleGet(userId: string, res: VercelResponse) {
 async function handlePost(userId: string, req: VercelRequest, res: VercelResponse) {
     const { pokemonId } = req.body;
 
-    if (!pokemonId || typeof pokemonId !== 'string') {
+    if (!isValidPokemonId(pokemonId)) {
         return res.status(400).json({ error: 'Missing or invalid pokemonId' });
     }
 
@@ -108,7 +109,7 @@ async function handlePost(userId: string, req: VercelRequest, res: VercelRespons
 async function handleDelete(userId: string, req: VercelRequest, res: VercelResponse) {
     const { pokemonId } = req.body;
 
-    if (!pokemonId || typeof pokemonId !== 'string') {
+    if (!isValidPokemonId(pokemonId)) {
         return res.status(400).json({ error: 'Missing or invalid pokemonId' });
     }
 

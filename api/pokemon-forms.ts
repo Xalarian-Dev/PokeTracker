@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { authenticateRequest, setCorsHeaders, handleOptions } from './_lib/auth.js';
 import { supabaseAdmin } from './_lib/supabase.js';
+import { isValidPokemonId } from './_lib/validate.js';
 
 /**
  * API endpoint for managing Pokemon forms (shiny status + favorite form)
@@ -79,6 +80,10 @@ async function handlePost(userId: string, req: VercelRequest, res: VercelRespons
 
     if (!action || !pokemonId || !formId) {
         return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    if (!isValidPokemonId(pokemonId) || !isValidPokemonId(formId)) {
+        return res.status(400).json({ error: 'Invalid pokemonId or formId' });
     }
 
     if (action === 'toggle-shiny') {

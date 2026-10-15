@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { authenticateRequest, setCorsHeaders, handleOptions } from './_lib/auth.js';
 import { supabaseAdmin } from './_lib/supabase.js';
+import { isValidDisplayName, isValidOwnedGames } from './_lib/validate.js';
 
 /**
  * API endpoint for managing user preferences
@@ -68,8 +69,12 @@ async function handlePut(userId: string, req: VercelRequest, res: VercelResponse
         return res.status(400).json({ error: 'Invalid language' });
     }
 
-    if (!Array.isArray(ownedGames)) {
-        return res.status(400).json({ error: 'ownedGames must be an array' });
+    if (!isValidOwnedGames(ownedGames)) {
+        return res.status(400).json({ error: 'Invalid ownedGames' });
+    }
+
+    if (!isValidDisplayName(displayName)) {
+        return res.status(400).json({ error: 'Invalid displayName' });
     }
 
     const { error } = await supabaseAdmin
