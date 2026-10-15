@@ -136,24 +136,24 @@ const MobilePokemonCard: React.FC<MobilePokemonCardProps> = ({
 
                 {/* Name & ID */}
                 <div className="text-center w-full overflow-hidden">
-                    <p className="text-[10px] font-bold text-white truncate px-0.5 leading-tight">{pokemon.name}</p>
-                    <p className="text-[9px] text-gray-400 leading-tight">{formattedId}</p>
+                    <p className="text-xs font-bold text-white truncate px-0.5 leading-tight">{pokemon.name}</p>
+                    <p className="text-xs text-gray-400 leading-tight">{formattedId}</p>
                 </div>
 
-                {/* Forms "+" button */}
+                {/* Forms "+" button (zone de toucher de 40 px, pastille visible de 24 px) */}
                 {hasMultipleForms && (
                     <button
                         onClick={handlePlusClick}
-                        className="absolute bottom-0.5 right-0.5 bg-amber-500 text-white w-4 h-4 rounded-full flex items-center justify-center font-bold text-[9px] shadow leading-none z-10"
+                        className="absolute bottom-0 right-0 w-10 h-10 flex items-center justify-center z-10"
                         aria-label={`${pokemon.name} forms`}
                     >
-                        +
+                        <span className="bg-amber-500 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-sm shadow leading-none">+</span>
                     </button>
                 )}
 
                 {/* Form shiny counter */}
                 {hasMultipleForms && formCounter && (
-                    <div className="absolute bottom-0.5 left-0.5 bg-black/70 text-white px-0.5 rounded text-[8px] font-bold leading-tight">
+                    <div className="absolute bottom-0.5 left-0.5 bg-black/70 text-white px-0.5 rounded text-[10px] font-bold leading-tight">
                         {formCounter}
                     </div>
                 )}
