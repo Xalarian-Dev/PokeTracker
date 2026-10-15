@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { useClerk } from '@clerk/clerk-react';
+import { useClerk } from '@clerk/react';
 
 // Configuration
 const INACTIVITY_TIMEOUT = 60 * 60 * 1000; // 1 hour

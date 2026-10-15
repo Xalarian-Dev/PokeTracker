@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useUser } from '@clerk/clerk-react';
+import { useUser } from '@clerk/react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getGdprTranslations } from '../i18n/gdpr-index';
 import { getUserPreferences, fetchShinyPokemon } from '../services/supabase';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUser, useClerk } from '@clerk/clerk-react';
+import { useUser, useClerk } from '@clerk/react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getUserPreferences, saveUserPreferences, deleteUserData } from '../services/supabase';
 import { INDIVIDUAL_GAME_LIST } from '../data/games';

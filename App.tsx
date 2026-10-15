@@ -1,6 +1,6 @@
 import React, { useMemo, lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { ClerkProvider, SignedIn, SignedOut, useUser, useClerk } from '@clerk/clerk-react';
+import { ClerkProvider, Show, useUser, useClerk } from '@clerk/react';
 import ShinyTracker from './components/ShinyTracker';
 import { ErrorBoundary } from './components/ErrorBoundary';
 const ProfilePage = lazy(() => import('./components/ProfilePage'));
@@ -66,21 +66,21 @@ const AppShell = () => {
         <Routes>
           <Route path="/" element={
             <>
-              <SignedOut>
+              <Show when="signed-out">
                 <ShinyTracker user={null} onLogout={() => {}} pokemonList={pokemonList} />
-              </SignedOut>
-              <SignedIn>
+              </Show>
+              <Show when="signed-in">
                 <ShinyTracker user={user} onLogout={() => {}} pokemonList={pokemonList} />
-              </SignedIn>
+              </Show>
             </>
           } />
 
           <Route path="/profile" element={
-            <SignedIn>
+            <Show when="signed-in">
               <Suspense fallback={<Spinner />}>
                 <ProfilePage />
               </Suspense>
-            </SignedIn>
+            </Show>
           } />
 
           {/* Redirect unknown paths to home */}

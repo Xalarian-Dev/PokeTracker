@@ -1,5 +1,5 @@
 import React from 'react';
-import { SignInButton, SignOutButton, useUser } from '@clerk/clerk-react';
+import { SignInButton, SignOutButton, useUser } from '@clerk/react';
 import type { User } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
 import { MasterBallIcon } from './Icons';
