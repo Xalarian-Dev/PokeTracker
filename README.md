@@ -92,15 +92,21 @@ CLERK_SECRET_KEY=your_clerk_secret_key
    - Inputs (Pokémon IDs, display name, owned games) are validated in `api/_lib/validate.ts`
 
 2. **Row Level Security (RLS) without policies**
-   - RLS is enabled on `shiny_pokemon`, `user_preferences` and `pokemon_forms`, with **no policy** (see `supabase_setup.sql` and `supabase_migrations.sql`)
+   - RLS is enabled on `shiny_pokemon` and `pokemon_forms` with **no policy**, and on `user_preferences` with per-user policies based on the Clerk JWT (see `supabase/migrations/20261017000000_baseline_schema.sql`)
    - Result: direct access with the public (anon) key is blocked on these tables
    - Only the backend can read and write them, because the service role key bypasses RLS
    - Data isolation per user is therefore done **in the API code** (filter on the user ID), not by the database
-   - Exception: `community_feed` has a public read policy (`community_feed_read`, see `supabase_community_feed.sql`), because the feed is public
+   - Exception: `community_feed` has a public read policy (`community_feed_read`, see the same baseline file), because the feed is public
 
 3. **Service Role Isolation**
    - The backend uses the service role key (never exposed to the frontend)
    - The frontend uses the anon key, which gives no access to the player data tables
+
+## Database structure and migrations
+
+- The current structure of the Supabase database is in `supabase/migrations/20261017000000_baseline_schema.sql` (state of 2026-10-17, **already applied: do not re-run it**).
+- The old loose scripts are archived in `supabase/legacy/` (history only; they may not match the database).
+- To change the database, add one new numbered file in `supabase/migrations/` (e.g. `20261101000000_my_change.sql`), larger than the last one, wrapped in `begin;` / `commit;`.
 
 ---
 
