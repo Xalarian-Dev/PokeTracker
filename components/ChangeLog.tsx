@@ -20,10 +20,10 @@ export const ChangeLog: React.FC = () => {
     const t = content[language as keyof typeof content] || content.en;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4">
             <div className="bg-gray-800 rounded-xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto border border-gray-700">
                 {/* Header */}
-                <div className="sticky top-0 bg-gradient-to-r from-purple-600 to-indigo-600 p-6 rounded-t-xl">
+                <div className="sticky top-0 bg-linear-to-r from-purple-600 to-indigo-600 p-6 rounded-t-xl">
                     <div className="flex justify-between items-center">
                         <h2 className="text-3xl font-bold text-white">{t.title}</h2>
                         <button
@@ -97,7 +97,7 @@ export const ChangeLog: React.FC = () => {
                 <div className="sticky bottom-0 bg-gray-800 border-t border-gray-700 p-4 rounded-b-xl">
                     <button
                         onClick={close}
-                        className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105"
+                        className="w-full bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105"
                     >
                         {t.close}
                     </button>

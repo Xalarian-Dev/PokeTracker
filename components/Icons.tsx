@@ -90,7 +90,7 @@ export const UKFlag: React.FC<IconProps> = ({ className }) => (
 );
 
 export const JapanFlag: React.FC<IconProps> = ({ className }) => (
-  <svg viewBox="0 0 3 2" className={className} xmlns="http://www.w3.org/2000/svg" shadow-sm="true">
+  <svg viewBox="0 0 3 2" className={className} xmlns="http://www.w3.org/2000/svg" shadow-xs="true">
     <rect width="3" height="2" fill="#fff" />
     <circle cx="1.5" cy="1" r="0.6" fill="#bc002d" />
   </svg>

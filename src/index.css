@@ -1,6 +1,94 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-poke-yellow: #facc15;
+  --color-poke-yellow-light: #fde047;
+  --color-poke-yellow-dark: #eab308;
+
+  --color-poke-red: #dc2626;
+  --color-poke-red-light: #ef4444;
+  --color-poke-red-dark: #b91c1c;
+
+  --color-poke-indigo: #4f46e5;
+  --color-poke-indigo-light: #6366f1;
+  --color-poke-indigo-dark: #4338ca;
+
+  --color-poke-purple: #9333ea;
+  --color-poke-purple-light: #a855f7;
+
+  --color-poke-pink: #ec4899;
+  --color-poke-pink-light: #f472b6;
+
+  --color-dark-300: #d1d5db;
+  --color-dark-400: #9ca3af;
+  --color-dark-500: #6b7280;
+  --color-dark-600: #4b5563;
+  --color-dark-700: #374151;
+  --color-dark-800: #1f2937;
+  --color-dark-900: #111827;
+
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 @layer base {
   :root {
@@ -76,167 +164,167 @@
   }
 }
 
-/* Mobile grid - force 4 equal columns */
-@media (max-width: 767px) {
+@layer utilities {
+  /* Mobile grid - force 4 equal columns */
+  @media (max-width: 767px) {
+    /* Prevent horizontal scroll globally on mobile */
+    html,
+    body {
+      overflow-x: hidden !important;
+      max-width: 100vw !important;
+    }
 
-  /* Prevent horizontal scroll globally on mobile */
-  html,
-  body {
-    overflow-x: hidden !important;
-    max-width: 100vw !important;
+    .mobile-grid-6 {
+      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+      max-width: 100vw !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Constrain all containers */
+    .mobile-grid-6 > * {
+      min-width: 0;
+      box-sizing: border-box;
+    }
   }
 
-  .mobile-grid-6 {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    max-width: 100vw !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
+  /* Desktop grid spacing - every 5 rows */
+  @media (min-width: 768px) {
+    .grid.grid-cols-6 > *:nth-child(n + 31):nth-child(-n + 36),
+    .grid.grid-cols-6 > *:nth-child(n + 61):nth-child(-n + 66),
+    .grid.grid-cols-6 > *:nth-child(n + 91):nth-child(-n + 96),
+    .grid.grid-cols-6 > *:nth-child(n + 121):nth-child(-n + 126),
+    .grid.grid-cols-6 > *:nth-child(n + 151):nth-child(-n + 156),
+    .grid.grid-cols-6 > *:nth-child(n + 181):nth-child(-n + 186),
+    .grid.grid-cols-6 > *:nth-child(n + 211):nth-child(-n + 216),
+    .grid.grid-cols-6 > *:nth-child(n + 241):nth-child(-n + 246),
+    .grid.grid-cols-6 > *:nth-child(n + 271):nth-child(-n + 276),
+    .grid.grid-cols-6 > *:nth-child(n + 301):nth-child(-n + 306),
+    .grid.grid-cols-6 > *:nth-child(n + 331):nth-child(-n + 336),
+    .grid.grid-cols-6 > *:nth-child(n + 361):nth-child(-n + 366),
+    .grid.grid-cols-6 > *:nth-child(n + 391):nth-child(-n + 396),
+    .grid.grid-cols-6 > *:nth-child(n + 421):nth-child(-n + 426),
+    .grid.grid-cols-6 > *:nth-child(n + 451):nth-child(-n + 456),
+    .grid.grid-cols-6 > *:nth-child(n + 481):nth-child(-n + 486),
+    .grid.grid-cols-6 > *:nth-child(n + 511):nth-child(-n + 516),
+    .grid.grid-cols-6 > *:nth-child(n + 541):nth-child(-n + 546),
+    .grid.grid-cols-6 > *:nth-child(n + 571):nth-child(-n + 576),
+    .grid.grid-cols-6 > *:nth-child(n + 601):nth-child(-n + 606),
+    .grid.grid-cols-6 > *:nth-child(n + 631):nth-child(-n + 636),
+    .grid.grid-cols-6 > *:nth-child(n + 661):nth-child(-n + 666),
+    .grid.grid-cols-6 > *:nth-child(n + 691):nth-child(-n + 696),
+    .grid.grid-cols-6 > *:nth-child(n + 721):nth-child(-n + 726),
+    .grid.grid-cols-6 > *:nth-child(n + 751):nth-child(-n + 756),
+    .grid.grid-cols-6 > *:nth-child(n + 781):nth-child(-n + 786),
+    .grid.grid-cols-6 > *:nth-child(n + 811):nth-child(-n + 816),
+    .grid.grid-cols-6 > *:nth-child(n + 841):nth-child(-n + 846),
+    .grid.grid-cols-6 > *:nth-child(n + 871):nth-child(-n + 876),
+    .grid.grid-cols-6 > *:nth-child(n + 901):nth-child(-n + 906),
+    .grid.grid-cols-6 > *:nth-child(n + 931):nth-child(-n + 936),
+    .grid.grid-cols-6 > *:nth-child(n + 961):nth-child(-n + 966),
+    .grid.grid-cols-6 > *:nth-child(n + 991):nth-child(-n + 996),
+    .grid.grid-cols-6 > *:nth-child(n + 1021):nth-child(-n + 1026),
+    .grid.grid-cols-6 > *:nth-child(n + 1051):nth-child(-n + 1056) {
+      margin-top: 1.5rem;
+    }
   }
 
-  /* Constrain all containers */
-  .mobile-grid-6>* {
-    min-width: 0;
-    box-sizing: border-box;
-  }
-}
-
-/* Desktop grid spacing - every 5 rows */
-@media (min-width: 768px) {
-
-  .grid.grid-cols-6>*:nth-child(n+31):nth-child(-n+36),
-  .grid.grid-cols-6>*:nth-child(n+61):nth-child(-n+66),
-  .grid.grid-cols-6>*:nth-child(n+91):nth-child(-n+96),
-  .grid.grid-cols-6>*:nth-child(n+121):nth-child(-n+126),
-  .grid.grid-cols-6>*:nth-child(n+151):nth-child(-n+156),
-  .grid.grid-cols-6>*:nth-child(n+181):nth-child(-n+186),
-  .grid.grid-cols-6>*:nth-child(n+211):nth-child(-n+216),
-  .grid.grid-cols-6>*:nth-child(n+241):nth-child(-n+246),
-  .grid.grid-cols-6>*:nth-child(n+271):nth-child(-n+276),
-  .grid.grid-cols-6>*:nth-child(n+301):nth-child(-n+306),
-  .grid.grid-cols-6>*:nth-child(n+331):nth-child(-n+336),
-  .grid.grid-cols-6>*:nth-child(n+361):nth-child(-n+366),
-  .grid.grid-cols-6>*:nth-child(n+391):nth-child(-n+396),
-  .grid.grid-cols-6>*:nth-child(n+421):nth-child(-n+426),
-  .grid.grid-cols-6>*:nth-child(n+451):nth-child(-n+456),
-  .grid.grid-cols-6>*:nth-child(n+481):nth-child(-n+486),
-  .grid.grid-cols-6>*:nth-child(n+511):nth-child(-n+516),
-  .grid.grid-cols-6>*:nth-child(n+541):nth-child(-n+546),
-  .grid.grid-cols-6>*:nth-child(n+571):nth-child(-n+576),
-  .grid.grid-cols-6>*:nth-child(n+601):nth-child(-n+606),
-  .grid.grid-cols-6>*:nth-child(n+631):nth-child(-n+636),
-  .grid.grid-cols-6>*:nth-child(n+661):nth-child(-n+666),
-  .grid.grid-cols-6>*:nth-child(n+691):nth-child(-n+696),
-  .grid.grid-cols-6>*:nth-child(n+721):nth-child(-n+726),
-  .grid.grid-cols-6>*:nth-child(n+751):nth-child(-n+756),
-  .grid.grid-cols-6>*:nth-child(n+781):nth-child(-n+786),
-  .grid.grid-cols-6>*:nth-child(n+811):nth-child(-n+816),
-  .grid.grid-cols-6>*:nth-child(n+841):nth-child(-n+846),
-  .grid.grid-cols-6>*:nth-child(n+871):nth-child(-n+876),
-  .grid.grid-cols-6>*:nth-child(n+901):nth-child(-n+906),
-  .grid.grid-cols-6>*:nth-child(n+931):nth-child(-n+936),
-  .grid.grid-cols-6>*:nth-child(n+961):nth-child(-n+966),
-  .grid.grid-cols-6>*:nth-child(n+991):nth-child(-n+996),
-  .grid.grid-cols-6>*:nth-child(n+1021):nth-child(-n+1026),
-  .grid.grid-cols-6>*:nth-child(n+1051):nth-child(-n+1056) {
-    margin-top: 1.5rem;
-  }
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #2d3748;
-  /* dark-gray-700 */
-}
-
-::-webkit-scrollbar-thumb {
-  background: #4a5568;
-  /* dark-gray-600 */
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #718096;
-  /* dark-gray-500 */
-}
-
-/* Shiny Pokemon Sparkle Animation */
-
-/* 1. Explosion Effect (Appearance) */
-@keyframes sparkle-explosion {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0) rotate(0deg);
-    top: 50%;
-    left: 50%;
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 
-  10% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1) rotate(45deg);
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
-  100% {
-    opacity: 1;
-    transform: translate(0, 0) scale(1) rotate(360deg);
-    top: var(--tw-top);
-    left: var(--tw-left);
-  }
-}
-
-/* 2. Idle Effect (Looping) */
-@keyframes sparkle-idle {
-  0% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
+  ::-webkit-scrollbar {
+    width: 8px;
   }
 
-  50% {
-    opacity: 0.6;
-    transform: scale(0.8) rotate(10deg);
+  ::-webkit-scrollbar-track {
+    background: #2d3748;
+    /* dark-gray-700 */
   }
 
-  100% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
-}
-
-.animate-sparkle-explosion {
-  /* cubic-bezier for "pop" effect: fast start, slow end */
-  animation: sparkle-explosion 0.8s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
-}
-
-.animate-sparkle-idle {
-  animation: sparkle-idle 2s ease-in-out infinite;
-}
-
-/* Toast Notification Animation */
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, 20px);
+  ::-webkit-scrollbar-thumb {
+    background: #4a5568;
+    /* dark-gray-600 */
+    border-radius: 4px;
   }
 
-  100% {
-    opacity: 1;
-    transform: translate(-50%, 0);
+  ::-webkit-scrollbar-thumb:hover {
+    background: #718096;
+    /* dark-gray-500 */
   }
-}
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.3s ease-out forwards;
+  /* Shiny Pokemon Sparkle Animation */
+
+  /* 1. Explosion Effect (Appearance) */
+  @keyframes sparkle-explosion {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0) rotate(0deg);
+      top: 50%;
+      left: 50%;
+    }
+
+    10% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1) rotate(45deg);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1) rotate(360deg);
+      top: var(--tw-top);
+      left: var(--tw-left);
+    }
+  }
+
+  /* 2. Idle Effect (Looping) */
+  @keyframes sparkle-idle {
+    0% {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    50% {
+      opacity: 0.6;
+      transform: scale(0.8) rotate(10deg);
+    }
+
+    100% {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+  }
+
+  .animate-sparkle-explosion {
+    /* cubic-bezier for "pop" effect: fast start, slow end */
+    animation: sparkle-explosion 0.8s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+  }
+
+  .animate-sparkle-idle {
+    animation: sparkle-idle 2s ease-in-out infinite;
+  }
+
+  /* Toast Notification Animation */
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, 20px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.3s ease-out forwards;
+  }
 }
 
 

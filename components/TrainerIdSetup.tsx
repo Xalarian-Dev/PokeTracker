@@ -64,7 +64,7 @@ export const TrainerIdSetup: React.FC<TrainerIdSetupProps> = ({ onComplete }) =>
     };
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/80 backdrop-blur-xs p-4">
             <div className="bg-gray-800 rounded-2xl shadow-2xl border border-gray-700 w-full max-w-md p-8">
                 {/* Icon */}
                 <div className="flex justify-center mb-6">

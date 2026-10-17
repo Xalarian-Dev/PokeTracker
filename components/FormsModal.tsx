@@ -64,7 +64,7 @@ const FormsModal: React.FC<FormsModalProps> = ({
 
     const modalContent = (
         <div
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center"
+            className="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center"
             style={{ zIndex: 9999, padding: 'max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left))' }}
             onClick={(e) => {
                 e.stopPropagation();

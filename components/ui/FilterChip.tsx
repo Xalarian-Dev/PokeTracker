@@ -29,7 +29,7 @@ export const FilterChip: React.FC<FilterChipProps> = ({
     onClick,
     ...props
 }) => {
-    const baseClasses = "font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800";
+    const baseClasses = "font-medium transition-colors focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800";
 
     const variantClasses = {
         filter: cn(
