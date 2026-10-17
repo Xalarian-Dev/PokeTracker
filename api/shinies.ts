@@ -124,5 +124,17 @@ async function handleDelete(userId: string, req: VercelRequest, res: VercelRespo
         return res.status(500).json({ error: 'Failed to remove shiny Pokemon' });
     }
 
+    // Décision du propriétaire (ticket #2) : retirer un shiny le retire aussi du fil public
+    const { error: feedError } = await supabaseAdmin
+        .from('community_feed')
+        .delete()
+        .eq('user_id', userId)
+        .eq('pokemon_id', pokemonId);
+
+    if (feedError) {
+        // Non-fatal: shiny was removed, feed cleanup failed
+        console.error('Community feed delete error:', feedError);
+    }
+
     return res.status(200).json({ message: 'Shiny Pokemon removed successfully' });
 }
