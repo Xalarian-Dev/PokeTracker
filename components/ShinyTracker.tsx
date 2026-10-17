@@ -44,7 +44,7 @@ const MobileSidebarToggle = () => {
   return (
     <button
       onClick={toggleSidebar}
-      className="md:hidden fixed left-0 top-1/2 -translate-y-1/2 h-16 w-10 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-r-lg flex items-center justify-center text-white shadow-lg transition-all z-[60]"
+      className="md:hidden fixed left-0 top-1/2 -translate-y-1/2 h-16 w-10 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-r-lg flex items-center justify-center text-white shadow-lg transition-all z-60"
       aria-label={open ? "Fermer le panneau" : "Ouvrir le panneau"}
     >
       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -212,7 +212,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, pokemonList
             message={confirmModal.message}
           />
 
-          <div className={`flex flex-1 overflow-hidden ${confirmModal.isOpen ? 'blur-sm select-none' : ''}`}>
+          <div className={`flex flex-1 overflow-hidden ${confirmModal.isOpen ? 'blur-xs select-none' : ''}`}>
             <div ref={scrollContainerRef} className="flex-1 overflow-y-auto overflow-x-hidden w-full">
               <div className="pl-10 md:pl-0 md:px-4 py-6 w-full">
                 <SearchBarWithProgress

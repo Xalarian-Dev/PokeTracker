@@ -13,7 +13,7 @@ export function SessionTimeoutWarning({ secondsRemaining, onStayConnected }: Ses
     const { t } = useLanguage();
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs">
             <div className="bg-gray-800 border border-yellow-500/50 rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in duration-300">
                 {/* Icon */}
                 <div className="flex justify-center mb-4">
@@ -57,7 +57,7 @@ export function SessionTimeoutWarning({ secondsRemaining, onStayConnected }: Ses
                 {/* Action Button */}
                 <button
                     onClick={onStayConnected}
-                    className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-yellow-500/50"
+                    className="w-full bg-linear-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-yellow-500/50"
                 >
                     {t('sessionTimeout.stayConnected')}
                 </button>

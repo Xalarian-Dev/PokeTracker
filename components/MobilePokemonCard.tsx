@@ -147,7 +147,7 @@ const MobilePokemonCard: React.FC<MobilePokemonCardProps> = ({
                         className="absolute bottom-0 right-0 w-10 h-10 flex items-center justify-center z-10"
                         aria-label={`${pokemon.name} forms`}
                     >
-                        <span className="bg-amber-500 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-sm shadow leading-none">+</span>
+                        <span className="bg-amber-500 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-sm shadow-sm leading-none">+</span>
                     </button>
                 )}
 

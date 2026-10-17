@@ -61,7 +61,7 @@ export const PublicProfilePage: React.FC = () => {
     return (
         <div className="min-h-screen bg-gray-900 text-white">
             {/* Header */}
-            <header className="bg-gray-800/80 backdrop-blur-sm shadow-lg sticky top-0 z-50">
+            <header className="bg-gray-800/80 backdrop-blur-xs shadow-lg sticky top-0 z-50">
                 <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
                     <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
                         <MasterBallIcon className="w-7 h-7" />
@@ -75,7 +75,7 @@ export const PublicProfilePage: React.FC = () => {
                 {/* Profile header */}
                 <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-10">
                     {/* Avatar placeholder */}
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shrink-0 text-gray-900 font-bold text-3xl shadow-lg">
+                    <div className="w-20 h-20 rounded-full bg-linear-to-br from-yellow-400 to-orange-500 flex items-center justify-center shrink-0 text-gray-900 font-bold text-3xl shadow-lg">
                         {profile.trainer_id.charAt(0).toUpperCase()}
                     </div>
 
@@ -118,7 +118,7 @@ export const PublicProfilePage: React.FC = () => {
                         <p className="text-gray-400 text-sm mt-1">{t('public_profile_completion')}</p>
                         <div className="mt-2 h-1.5 bg-gray-700 rounded-full overflow-hidden">
                             <div
-                                className="h-full bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full transition-all"
+                                className="h-full bg-linear-to-r from-yellow-400 to-orange-400 rounded-full transition-all"
                                 style={{ width: `${Math.min(parseFloat(completion), 100)}%` }}
                             />
                         </div>

@@ -25,28 +25,28 @@ export const LanguageSelector: React.FC = () => {
                 className={langButtonClasses('en')}
                 title="English"
             >
-                <UKFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-sm" />
+                <UKFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-xs" />
             </button>
             <button
                 onClick={() => setLanguage('fr')}
                 className={langButtonClasses('fr')}
                 title="Français"
             >
-                <FranceFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-sm" />
+                <FranceFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-xs" />
             </button>
             <button
                 onClick={() => setLanguage('es')}
                 className={langButtonClasses('es')}
                 title="Español"
             >
-                <SpainFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-sm" />
+                <SpainFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-xs" />
             </button>
             <button
                 onClick={() => setLanguage('jp')}
                 className={langButtonClasses('jp')}
                 title="日本語"
             >
-                <JapanFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-sm" />
+                <JapanFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-xs" />
             </button>
         </div>
     );

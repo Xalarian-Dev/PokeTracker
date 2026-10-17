@@ -9,7 +9,7 @@ export const TermsOfService: React.FC = () => {
     const t = getGdprTranslations(language as 'fr' | 'en' | 'jp' | 'es');
 
     return (
-        <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+        <div className="fixed inset-0 z-10000 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
             <div className="bg-gray-900 rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col border border-purple-500/30">
                 {/* Header */}
                 <div className="flex items-center justify-between p-6 border-b border-gray-800">

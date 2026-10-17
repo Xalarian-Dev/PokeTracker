@@ -119,7 +119,7 @@ const ProfilePage: React.FC = () => {
             </Dialog>
 
             {/* Top bar */}
-            <div className="sticky top-0 z-10 bg-gray-900/80 backdrop-blur-sm border-b border-gray-800">
+            <div className="sticky top-0 z-10 bg-gray-900/80 backdrop-blur-xs border-b border-gray-800">
                 <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <MasterBallIcon className="w-5 h-5" />
@@ -141,7 +141,7 @@ const ProfilePage: React.FC = () => {
 
                 {/* Identity */}
                 <div className="bg-gray-800/60 border border-gray-700 rounded-xl p-5 flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-gray-900 font-bold text-xl shrink-0 shadow-lg">
+                    <div className="w-14 h-14 rounded-full bg-linear-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-gray-900 font-bold text-xl shrink-0 shadow-lg">
                         {initials}
                     </div>
                     <div className="min-w-0 flex-1">
@@ -186,7 +186,7 @@ const ProfilePage: React.FC = () => {
                                         : 'border-gray-700 bg-gray-800/40 text-gray-400 hover:border-gray-500 hover:text-white'
                                 }`}
                             >
-                                <Flag className="w-7 h-5 shadow-sm" />
+                                <Flag className="w-7 h-5 shadow-xs" />
                                 <span className="text-xs font-medium">{label}</span>
                             </button>
                         ))}

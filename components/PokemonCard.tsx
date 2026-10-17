@@ -320,7 +320,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
       {hasSWSHDLC1 && (
         <div className="absolute top-2 left-2 group/dlc1 pointer-events-auto">
           <IsleOfArmorIcon className="w-6 h-6" />
-          <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/dlc1:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
+          <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/dlc1:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-xs">
             {t('dlc_isle_of_armor')}
           </span>
         </div>
@@ -328,7 +328,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
       {hasSWSHDLC2 && (
         <div className="absolute top-2 left-2 group/dlc2 pointer-events-auto" style={{ marginLeft: hasSWSHDLC1 ? '28px' : '0' }}>
           <CrownTundraIcon className="w-6 h-6" />
-          <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/dlc2:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
+          <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/dlc2:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-xs">
             {t('dlc_crown_tundra')}
           </span>
         </div>
@@ -336,7 +336,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
       {hasSVDLC1 && (
         <div className="absolute top-2 left-2 group/svdlc1 pointer-events-auto">
           <TealMaskIcon className="w-6 h-6" />
-          <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/svdlc1:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
+          <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/svdlc1:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-xs">
             {t('dlc_teal_mask')}
           </span>
         </div>
@@ -344,7 +344,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
       {hasSVDLC2 && (
         <div className="absolute top-2 left-2 group/svdlc2 pointer-events-auto" style={{ marginLeft: hasSVDLC1 ? '28px' : '0' }}>
           <IndigoDiskIcon className="w-6 h-6" />
-          <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/svdlc2:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
+          <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/svdlc2:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-xs">
             {t('dlc_indigo_disk')}
           </span>
         </div>
@@ -352,7 +352,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
       {hasLZADLC1 && (
         <div className="absolute top-2 left-2 group/lzadlc1 pointer-events-auto">
           <MegaDimensionIcon className="w-12 h-6 -ml-1" />
-          <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/lzadlc1:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-sm">
+          <span className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/lzadlc1:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 border border-gray-700 shadow-xl backdrop-blur-xs">
             {t('dlc_mega_dimension')}
           </span>
         </div>
@@ -365,7 +365,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
         {hasEventItem && (
           <div className="group/event relative">
             <EventIcon className="w-5 h-5 drop-shadow-md" />
-            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/event:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/event:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-xs">
               {t('event_item_required')}
             </span>
           </div>
@@ -375,7 +375,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
         {isRaidEvent && (
           <div className="group/raid relative text-purple-400 group-hover:text-purple-300 transition-colors">
             <RaidEventIcon className="w-5 h-5 drop-shadow-md" />
-            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/raid:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/raid:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-xs">
               {t('raid_event')}
             </span>
           </div>
@@ -385,7 +385,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
         {isDynamaxAdventure && (
           <div className="group/dynamax relative text-pink-400 group-hover:text-pink-300 transition-colors">
             <DynamaxAdventureIcon className="w-5 h-5 drop-shadow-md" />
-            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/dynamax:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/dynamax:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-xs">
               {t('dynamax_adventure')}
             </span>
           </div>
@@ -405,7 +405,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
         {isLocked && (
           <div className="group/lock relative text-red-500/80 group-hover:text-red-500 transition-colors">
             <LockIcon className="w-5 h-5" />
-            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/lock:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/lock:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-xs">
               {t('shiny_lock')}
             </span>
           </div>
@@ -419,7 +419,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
               alt={t('friendSafari')}
               className="w-5 h-5 object-contain drop-shadow-md"
             />
-            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/safari:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/safari:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-xs">
               {t('friendSafari')}
             </span>
           </div>
@@ -433,7 +433,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
               alt={t('islandScan')}
               className="w-5 h-5 object-contain drop-shadow-md"
             />
-            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/islandscan:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/islandscan:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-xs">
               {t('islandScan')}
             </span>
           </div>
@@ -447,7 +447,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
               alt={t('ultraWormhole')}
               className="w-5 h-5 object-contain drop-shadow-md"
             />
-            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/wormhole:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/wormhole:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-xs">
               {t('ultraWormhole')}
             </span>
           </div>
@@ -461,7 +461,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
               alt={t('dexNav')}
               className="w-5 h-5 object-contain drop-shadow-md"
             />
-            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/dexnav:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/dexnav:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-xs">
               {t('dexNav')}
             </span>
           </div>
@@ -475,7 +475,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
               alt={t('mirageSpot')}
               className="w-5 h-5 object-contain drop-shadow-md"
             />
-            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/mirage:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/mirage:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-xs">
               {t('mirageSpot')}
             </span>
           </div>
@@ -489,7 +489,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
               alt={t('spaceTimeDistortion')}
               className="w-5 h-5 object-contain drop-shadow-md"
             />
-            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/distort:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-sm">
+            <span className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-gray-900/95 text-[10px] text-white rounded opacity-0 group-hover/distort:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700 shadow-xl backdrop-blur-xs">
               {t('spaceTimeDistortion')}
             </span>
           </div>
@@ -520,7 +520,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
         <>
           {/* Plus Indicator */}
           <div
-            className="absolute bottom-[38px] right-2 bg-gradient-to-br from-amber-400 to-amber-600 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-sm shadow-lg hover:scale-110 transition-transform cursor-pointer z-10"
+            className="absolute bottom-[38px] right-2 bg-linear-to-br from-amber-400 to-amber-600 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-sm shadow-lg hover:scale-110 transition-transform cursor-pointer z-10"
             onClick={handlePlusClick}
             style={{ boxShadow: '0 2px 8px rgba(251, 191, 36, 0.5)', lineHeight: '1' }}
           >
@@ -528,7 +528,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
           </div>
 
           {/* Form Counter */}
-          <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold backdrop-blur-sm border border-white/15 shadow-md z-10">
+          <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-0.5 rounded-lg text-[10px] font-bold backdrop-blur-xs border border-white/15 shadow-md z-10">
             {formCounter}
           </div>
         </>
