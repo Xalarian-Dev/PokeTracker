@@ -190,6 +190,9 @@ export const ui = {
     community_feed_captured: "capturó un {pokemon} Shiny",
     community_feed_live: "En vivo",
     community_feed_new: "Nuevo",
+    stats_tab: "Estadísticas",
+    stats_by_generation: "Por generación",
+    stats_generation_label: "Gen. {n}",
 };
 
 export const games: Record<string, string> = {

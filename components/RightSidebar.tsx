@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import type { Pokemon } from '../types';
 import { CommunityFeed } from './CommunityFeed';
+import { GenerationStats } from './GenerationStats';
 
-export const RightSidebar: React.FC = () => {
+interface RightSidebarProps {
+    pokemonList: Pokemon[];
+    shinyPokemons: Set<string>;
+}
+
+export const RightSidebar: React.FC<RightSidebarProps> = ({ pokemonList, shinyPokemons }) => {
     const { t } = useLanguage();
     const [isOpen, setIsOpen] = useState(false);
+    const [tab, setTab] = useState<'community' | 'stats'>('community');
 
     return (
         <>
@@ -65,9 +73,30 @@ export const RightSidebar: React.FC = () => {
                     </button>
                 </div>
 
-                {/* Feed — scrollable */}
+                {/* Tabs */}
+                <div className="flex border-b border-gray-700 shrink-0" role="tablist">
+                    {(['community', 'stats'] as const).map(id => (
+                        <button
+                            key={id}
+                            role="tab"
+                            aria-selected={tab === id}
+                            onClick={() => setTab(id)}
+                            className={`flex-1 px-3 py-2 text-xs font-medium transition-colors ${
+                                tab === id
+                                    ? 'text-yellow-400 border-b-2 border-yellow-400'
+                                    : 'text-gray-400 hover:text-white'
+                            }`}
+                        >
+                            {t(id === 'community' ? 'community_feed' : 'stats_tab')}
+                        </button>
+                    ))}
+                </div>
+
+                {/* Content — scrollable */}
                 <div className="flex-1 overflow-y-auto">
-                    <CommunityFeed />
+                    {tab === 'community'
+                        ? <CommunityFeed />
+                        : <GenerationStats pokemonList={pokemonList} shinyPokemons={shinyPokemons} />}
                 </div>
             </div>
         </>

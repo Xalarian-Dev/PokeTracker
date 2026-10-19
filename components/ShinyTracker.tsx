@@ -202,7 +202,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, pokemonList
         </Sidebar>
 
         <MobileSidebarToggle />
-        <RightSidebar />
+        <RightSidebar pokemonList={pokemonList} shinyPokemons={shinyPokemons} />
 
         <main className="flex flex-1 flex-col pt-16 md:pt-0">
           <ConfirmationModal
