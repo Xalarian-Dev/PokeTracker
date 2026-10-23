@@ -3,6 +3,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import type { Pokemon } from '../types';
 import { CommunityFeed } from './CommunityFeed';
 import { GenerationStats } from './GenerationStats';
+import { GameStats } from './GameStats';
 
 interface RightSidebarProps {
     pokemonList: Pokemon[];
@@ -96,7 +97,10 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({ pokemonList, shinyPo
                 <div className="flex-1 overflow-y-auto">
                     {tab === 'community'
                         ? <CommunityFeed />
-                        : <GenerationStats pokemonList={pokemonList} shinyPokemons={shinyPokemons} />}
+                        : <>
+                            <GenerationStats pokemonList={pokemonList} shinyPokemons={shinyPokemons} />
+                            <GameStats pokemonList={pokemonList} shinyPokemons={shinyPokemons} />
+                        </>}
                 </div>
             </div>
         </>

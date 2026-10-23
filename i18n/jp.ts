@@ -189,6 +189,7 @@ export const ui = {
     community_feed_new: "新着",
     stats_tab: "統計",
     stats_by_generation: "世代別",
+    stats_by_game: "ゲーム別",
     stats_generation_label: "第{n}世代",
 };
 

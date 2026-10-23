@@ -192,6 +192,7 @@ export const ui = {
     community_feed_new: "Nuevo",
     stats_tab: "Estadísticas",
     stats_by_generation: "Por generación",
+    stats_by_game: "Por juego",
     stats_generation_label: "Gen. {n}",
 };
 
