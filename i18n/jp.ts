@@ -191,6 +191,11 @@ export const ui = {
     stats_by_generation: "世代別",
     stats_by_game: "ゲーム別",
     stats_generation_label: "第{n}世代",
+    stats_special: "スペシャル",
+    stats_special_starters: "御三家",
+    stats_special_legendary: "伝説",
+    stats_special_mythical: "幻",
+    stats_special_regional: "リージョンフォーム",
 };
 
 export const games: Record<string, string> = {
