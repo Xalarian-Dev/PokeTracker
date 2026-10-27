@@ -194,6 +194,11 @@ export const ui = {
     stats_by_generation: "By generation",
     stats_by_game: "By game",
     stats_generation_label: "Gen {n}",
+    stats_special: "Special",
+    stats_special_starters: "Starters",
+    stats_special_legendary: "Legendaries",
+    stats_special_mythical: "Mythicals",
+    stats_regional: "Regional forms",
 };
 
 export const games: Record<string, string> = GAME_LIST;
