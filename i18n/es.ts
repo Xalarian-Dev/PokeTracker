@@ -198,7 +198,7 @@ export const ui = {
     stats_special_starters: "Iniciales",
     stats_special_legendary: "Legendarios",
     stats_special_mythical: "Singulares",
-    stats_special_regional: "Formas regionales",
+    stats_regional: "Formas regionales",
 };
 
 export const games: Record<string, string> = {

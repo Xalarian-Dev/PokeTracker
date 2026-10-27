@@ -21,7 +21,6 @@ export const SpecialStats: React.FC<SpecialStatsProps> = ({ pokemonList, shinyPo
             { key: 'starters', label: t('stats_special_starters'), match: byIds(STARTER_IDS) },
             { key: 'legendary', label: t('stats_special_legendary'), match: byIds(LEGENDARY_IDS) },
             { key: 'mythical', label: t('stats_special_mythical'), match: byIds(MYTHICAL_IDS) },
-            { key: 'regional', label: t('stats_special_regional'), match: (p) => Boolean(p.region) },
         ];
         return defs.map(({ key, label, match }) => {
             let total = 0;

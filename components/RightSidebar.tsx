@@ -4,6 +4,7 @@ import type { Pokemon } from '../types';
 import { CommunityFeed } from './CommunityFeed';
 import { GenerationStats } from './GenerationStats';
 import { SpecialStats } from './SpecialStats';
+import { RegionalStats } from './RegionalStats';
 import { GameStats } from './GameStats';
 
 interface RightSidebarProps {
@@ -101,6 +102,7 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({ pokemonList, shinyPo
                         : <>
                             <GenerationStats pokemonList={pokemonList} shinyPokemons={shinyPokemons} />
                             <SpecialStats pokemonList={pokemonList} shinyPokemons={shinyPokemons} />
+                            <RegionalStats pokemonList={pokemonList} shinyPokemons={shinyPokemons} />
                             <GameStats pokemonList={pokemonList} shinyPokemons={shinyPokemons} />
                         </>}
                 </div>

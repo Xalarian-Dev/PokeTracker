@@ -195,7 +195,7 @@ export const ui = {
     stats_special_starters: "御三家",
     stats_special_legendary: "伝説",
     stats_special_mythical: "幻",
-    stats_special_regional: "リージョンフォーム",
+    stats_regional: "リージョンフォーム",
 };
 
 export const games: Record<string, string> = {
