@@ -47,6 +47,10 @@ export const SpecialStats: React.FC<SpecialStatsProps> = ({ pokemonList, shinyPo
                             shinyCount={shiny}
                             totalPokemon={total}
                             size={80}
+                            {...(key === 'starters' && {
+                                background: 'linear-gradient(to bottom, #e53935 40%, #f5f5f5 60%)',
+                                textOutline: true,
+                            })}
                         />
                         <p className="mt-1 text-sm font-semibold text-white">{label}</p>
                         <p className="text-xs text-gray-400">{shiny} / {total}</p>

@@ -2,12 +2,20 @@ import React, { useMemo } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import type { Pokemon } from '../types';
 import CircularProgress from './CircularProgress';
-import { GAME_LIST, GAME_GROUP_MAP, POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON } from '../data/games';
+import { GAME_LIST, GAME_GROUP_MAP, GAME_COLORS, POKEMON_AVAILABILITY, SHINY_LOCKED_POKEMON } from '../data/games';
 
 interface GameStatsProps {
     pokemonList: Pokemon[];
     shinyPokemons: Set<string>;
 }
+
+/** Fond d'un cercle de jeu : couleur unie douce, ou dégradé diffus pour une paire de jeux */
+const gameBackground = (group: string): string | undefined => {
+    const colors = GAME_COLORS[group];
+    if (!colors) return undefined;
+    if (colors.length === 1) return `radial-gradient(circle at 35% 30%, ${colors[0]}, transparent 95%)`;
+    return `linear-gradient(135deg, ${colors[0]} 15%, ${colors[1]} 85%)`;
+};
 
 export const GameStats: React.FC<GameStatsProps> = ({ pokemonList, shinyPokemons }) => {
     const { t, getGameName } = useLanguage();
@@ -44,6 +52,7 @@ export const GameStats: React.FC<GameStatsProps> = ({ pokemonList, shinyPokemons
                             shinyCount={shiny}
                             totalPokemon={total}
                             size={80}
+                            background={gameBackground(group)}
                         />
                         <p className="mt-1 text-sm font-semibold text-white leading-tight">{getGameName(group)}</p>
                         <p className="text-xs text-gray-400">{shiny} / {total}</p>

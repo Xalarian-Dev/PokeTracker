@@ -1323,3 +1323,30 @@ export const POKEMON_AVAILABILITY: Record<string, string[]> = {
     '713-hisui': ['lpa', 'lpzadlc1'],
     '724-hisui': ['lpa'],
 }
+
+// Couleurs des jeux pour le fond des cercles de l'onglet Statistiques : une couleur, ou deux pour une
+// paire de jeux (rendues en dégradé diffus). Valeurs choisies à la main, volontairement discrètes.
+export const GAME_COLORS: Record<string, [string] | [string, string]> = {
+    'rb': ['#e03a3e', '#3b6fd8'],
+    'ye': ['#f2c230'],
+    'gs': ['#d4a017', '#b0b8c4'],
+    'c': ['#4fc3d9'],
+    'rs': ['#c8283c', '#2a56c6'],
+    'e': ['#2eae5b'],
+    'frlg': ['#e8602c', '#5cae3e'],
+    'dp': ['#7fa6e0', '#e8a3c4'],
+    'pt': ['#9a9fb0'],
+    'hgss': ['#d9a441', '#aab4c0'],
+    'bw': ['#6b6b6b', '#e6e6e6'],
+    'bw2': ['#5a6b8c', '#d5dbe6'],
+    'xy': ['#2a5db0', '#d43a3a'],
+    'oras': ['#d9442f', '#2c5fbf'],
+    'sm': ['#f28c28', '#6a4fb3'],
+    'usum': ['#e8742a', '#3a52a4'],
+    'lgpe': ['#f2c230', '#a8733c'],
+    'swsh': ['#2aa3d8', '#d8345f'],
+    'bdsp': ['#7fa6e0', '#e8a3c4'],
+    'la': ['#a07a45'],
+    'sv': ['#d8452f', '#7a3fb5'],
+    'lza': ['#2fa6c4'],
+};
