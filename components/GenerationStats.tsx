@@ -8,6 +8,9 @@ interface GenerationStatsProps {
     shinyPokemons: Set<string>;
 }
 
+const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+const toRoman = (n: number): string => ROMAN[n - 1] ?? String(n);
+
 export const GenerationStats: React.FC<GenerationStatsProps> = ({ pokemonList, shinyPokemons }) => {
     const { t } = useLanguage();
 
@@ -35,6 +38,8 @@ export const GenerationStats: React.FC<GenerationStatsProps> = ({ pokemonList, s
                             shinyCount={shiny}
                             totalPokemon={total}
                             size={80}
+                            watermark={toRoman(gen)}
+                            background="radial-gradient(circle at 35% 30%, #6d7bd4, transparent 95%)"
                         />
                         <p className="mt-1 text-sm font-semibold text-white">{t('stats_generation_label', { n: gen })}</p>
                         <p className="text-xs text-gray-400">{shiny} / {total}</p>
