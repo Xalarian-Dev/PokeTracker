@@ -1,7 +1,11 @@
 import React, { useMemo, lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ClerkProvider, Show, useUser, useClerk } from '@clerk/react';
-import ShinyTracker from './components/ShinyTracker';
+import AppLayout from './components/AppLayout';
+import CollectionPage from './pages/CollectionPage';
+import StatsPage from './pages/StatsPage';
+import CommunityPage from './pages/CommunityPage';
+import RandomHuntPage from './pages/RandomHuntPage';
 import { ErrorBoundary } from './components/ErrorBoundary';
 const ProfilePage = lazy(() => import('./components/ProfilePage'));
 const PublicProfilePage = lazy(() => import('./components/PublicProfilePage'));
@@ -78,19 +82,15 @@ const AppShell = () => {
   if (!isLoaded) return <Spinner />;
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen pb-16 md:pb-0">
       <div className="flex-1">
         <Routes>
-          <Route path="/" element={
-            <>
-              <Show when="signed-out">
-                <ShinyTracker user={null} onLogout={() => {}} pokemonList={pokemonList} />
-              </Show>
-              <Show when="signed-in">
-                <ShinyTracker user={user} onLogout={() => {}} pokemonList={pokemonList} />
-              </Show>
-            </>
-          } />
+          <Route element={<AppLayout key={user?.username ?? 'guest'} user={user} pokemonList={pokemonList} />}>
+            <Route index element={<CollectionPage />} />
+            <Route path="stats" element={<StatsPage />} />
+            <Route path="communaute" element={<CommunityPage />} />
+            <Route path="chasse" element={<RandomHuntPage />} />
+          </Route>
 
           <Route path="/profile" element={
             <Show when="signed-in">

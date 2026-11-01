@@ -24,7 +24,7 @@ export const SearchBarWithProgress: React.FC<SearchBarWithProgressProps> = ({
     const { t } = useLanguage();
 
     return (
-        <div className="mb-6 w-full max-w-[300px] px-2 md:max-w-[1200px] md:mx-auto md:px-4">
+        <div className="w-full">
             <div className="flex items-center gap-3 md:gap-4">
                 {/* CircularProgress with counter */}
                 <div className="shrink-0 flex items-center gap-1 md:gap-3">

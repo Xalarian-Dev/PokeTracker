@@ -3,6 +3,7 @@ import type { Pokemon } from '../types';
 import PokemonCard from './PokemonCard';
 import MobilePokemonCard from './MobilePokemonCard';
 import { useLanguage } from '../contexts/LanguageContext';
+import { Button } from './ui';
 
 const GENERATION_FIRST_POKEMON: Record<number, number> = {
     1: 1, 2: 152, 3: 252, 4: 387, 5: 494, 6: 650, 7: 722, 8: 810, 9: 906
@@ -26,6 +27,7 @@ interface PokemonGridProps {
     onToggleShiny: (pokemonId: string) => void;
     onToggleForm: (pokemonId: string, formId: string, shouldBeShiny: boolean) => void;
     onSetFavorite: (pokemonId: string, formId: string) => void;
+    onResetFilters: () => void;
     genRefs: React.MutableRefObject<Record<number, HTMLDivElement | null>>;
     regionRefs: React.MutableRefObject<Record<string, HTMLDivElement | null>>;
 }
@@ -43,6 +45,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
     onToggleShiny,
     onToggleForm,
     onSetFavorite,
+    onResetFilters,
     genRefs,
     regionRefs,
 }) => {
@@ -72,7 +75,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
                         <div
                             key={pokemon.id}
                             ref={isFirstOfGen ? (el) => { genRefs.current[parseInt(isFirstOfGen[0])] = el; } : undefined}
-                            style={{ scrollMarginTop: '80px' }}
+                            style={{ scrollMarginTop: '210px' }}
                         >
                             {isMobile ? (
                                 <MobilePokemonCard
@@ -114,7 +117,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
                     <div
                         key={region}
                         className="mt-12"
-                        style={{ scrollMarginTop: '80px' }}
+                        style={{ scrollMarginTop: '210px' }}
                         ref={(el) => { regionRefs.current[region] = el; }}
                     >
                         <div className="flex justify-center mb-4">
@@ -164,10 +167,11 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
                 );
             })}
 
-            {/* No results message */}
+            {/* Aucun résultat : on propose une action */}
             {activeCount === 0 && (
-                <div className="text-center py-16">
-                    <p className="text-xl text-gray-400">{t('no_pokemon_found')}</p>
+                <div className="text-center py-16 flex flex-col items-center gap-4">
+                    <p className="text-xl text-gray-300">{t('no_pokemon_found')}</p>
+                    <Button onClick={onResetFilters}>{t('no_results_reset')}</Button>
                 </div>
             )}
         </>
