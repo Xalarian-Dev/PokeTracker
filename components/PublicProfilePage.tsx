@@ -3,9 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { fetchPublicProfile, type PublicProfile } from '../services/supabase';
 import { POKEMON_LIST, POKEMON_WITH_MULTIPLE_FORMS } from '../data/pokemon';
+import { SPRITE_BASE } from '../data/spriteBase';
 import { MasterBallIcon } from './Icons';
 import LanguageSelector from './LanguageSelector';
-import { SPRITE_BASE } from '../data/spriteBase';
 
 const HOME_SPRITE = SPRITE_BASE;
 const getSpriteUrl = (id: string, shiny = false) =>
