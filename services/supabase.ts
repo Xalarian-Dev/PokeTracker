@@ -4,11 +4,13 @@ import { apiRequest } from './authTokenStore';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('Missing Supabase environment variables');
-}
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+/**
+ * Client Supabase du navigateur : utilisé seulement pour le fil de la communauté (lecture + temps réel).
+ * Absent (null) quand les variables ne sont pas définies, par exemple dans l'image Docker, où la base
+ * est un Postgres ordinaire : le fil passe alors par l'API (/api/public/feed) avec un rafraîchissement
+ * régulier.
+ */
+export const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null;
 
 /**
  * Fetch all shiny Pokemon for a user
@@ -74,6 +76,7 @@ export function subscribeToShinyChanges(
     userId: string,
     callback: (payload: any) => void
 ) {
+    if (!supabase) return null;
     return supabase
         .channel(`shiny_changes_${userId}`)
         .on(
