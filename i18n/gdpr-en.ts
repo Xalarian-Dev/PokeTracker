@@ -102,7 +102,7 @@ To exercise these rights, contact us via the contact form available in the site 
 You can refuse cookies, but some features requiring login will not be available.`,
 
     privacy_section9_title: '9. International Transfers',
-    privacy_section9_content: `Your data is stored on a server rented from OVH (a French company). Some authentication data is processed by Clerk (United States). These transfers are secure and comply with the GDPR.`,
+    privacy_section9_content: `Your data is stored on a server located in Europe, rented from OVH (a French company). Some authentication data is processed by Clerk (United States). These transfers are secure and comply with the GDPR.`,
 
     privacy_section10_title: '10. Changes',
     privacy_section10_content: `We may modify this policy. Important changes will be notified to you by email or via the application.`,

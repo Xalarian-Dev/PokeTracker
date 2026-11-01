@@ -102,7 +102,7 @@ Para ejercer estos derechos, cont\u00e1ctanos a trav\u00e9s del formulario de co
 Puedes rechazar las cookies, pero algunas funcionalidades que requieren inicio de sesi\u00f3n no estar\u00e1n disponibles.`,
 
     privacy_section9_title: '9. Transferencias internacionales',
-    privacy_section9_content: `Tus datos se almacenan en un servidor alquilado a OVH (empresa francesa). Clerk (Estados Unidos) trata algunos datos de autenticación. Estas transferencias son seguras y cumplen con el RGPD.`,
+    privacy_section9_content: `Tus datos se almacenan en un servidor ubicado en Europa, alquilado a OVH (empresa francesa). Clerk (Estados Unidos) trata algunos datos de autenticación. Estas transferencias son seguras y cumplen con el RGPD.`,
 
     privacy_section10_title: '10. Modificaciones',
     privacy_section10_content: `Podemos modificar esta pol\u00edtica. Los cambios importantes te ser\u00e1n notificados por correo electr\u00f3nico o a trav\u00e9s de la aplicaci\u00f3n.`,

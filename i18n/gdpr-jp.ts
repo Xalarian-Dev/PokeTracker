@@ -102,7 +102,7 @@ export const gdprJp = {
 Cookieを拒否することもできますが、ログインが必要な一部の機能は利用できなくなります。`,
 
     privacy_section9_title: '9. 国際データ転送',
-    privacy_section9_content: `お客様のデータは、OVH（フランスの企業）から借りているサーバーに保存されます。認証に関する一部のデータは Clerk（米国）が処理します。これらの転送は安全であり、GDPR準拠です。`,
+    privacy_section9_content: `お客様のデータは、欧州にある、OVH（フランスの企業）から借りているサーバーに保存されます。認証に関する一部のデータは Clerk（米国）が処理します。これらの転送は安全であり、GDPR準拠です。`,
 
     privacy_section10_title: '10. 変更',
     privacy_section10_content: `本ポリシーを変更する場合があります。重要な変更は、メールまたはアプリケーション経由で通知されます。`,

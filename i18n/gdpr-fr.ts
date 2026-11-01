@@ -102,7 +102,7 @@ Pour exercer ces droits, contactez-nous via le formulaire de contact disponible 
 Vous pouvez refuser les cookies, mais certaines fonctionnalités nécessitant une connexion ne seront pas disponibles.`,
 
     privacy_section9_title: '9. Transferts Internationaux',
-    privacy_section9_content: `Vos données sont stockées sur un serveur loué auprès d'OVH (société française). Certaines données d'authentification sont traitées par Clerk (États-Unis). Ces transferts sont sécurisés et conformes au RGPD.`,
+    privacy_section9_content: `Vos données sont stockées sur un serveur situé en Europe, loué auprès d'OVH (société française). Certaines données d'authentification sont traitées par Clerk (États-Unis). Ces transferts sont sécurisés et conformes au RGPD.`,
 
     privacy_section10_title: '10. Modifications',
     privacy_section10_content: `Nous pouvons modifier cette politique. Les changements importants vous seront notifiés par email ou via l'application.`,
