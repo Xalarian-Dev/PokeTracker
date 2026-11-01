@@ -271,7 +271,7 @@ export const ui = {
     migrate_local_data: "この端末に保存されたデータが見つかりました。アカウントに同期しますか？",
     migrate_sync: "同期する",
     migrate_skip: "スキップ",
-    domain_move_title: "PokeTrackerの新しいアドレスができました！",
+    domain_move_title: "PokeTrackerは新しいアドレスになりました！",
     domain_move_message: "pokemonshinytracker.com でご利用ください。ブックマークの更新をお願いします。旧アドレス（vercel.app）からの転送は、数か月後に終了します。",
     domain_move_close: "メッセージを閉じる",
     legend_open: "凡例",
