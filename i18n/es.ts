@@ -148,6 +148,16 @@ export const ui = {
     seo_og_description: "Rastrea todos tus Pok\u00e9mon shiny capturados en todas las generaciones. Filtra por juegos, generaciones y regiones. Guardado autom\u00e1tico del progreso.",
     seo_twitter_description: "\u00a1Aplicaci\u00f3n gratuita para rastrear tu colecci\u00f3n de Pok\u00e9mon shiny. Compatible con todos los juegos Pok\u00e9mon de la Gen 1 a la Gen 9!",
     seo_app_name: "PokeTracker",
+    seo_collection_title: "Colección de Pokémon shiny - PokeTracker",
+    seo_collection_description: "Marca tus Pokémon shiny, filtra por generación, juego o forma regional y descubre cuáles te faltan para completar tu ShinyDex.",
+    seo_stats_title: "Estadísticas shiny - PokeTracker",
+    seo_stats_description: "Sigue tu progreso shiny por generación, por juego y en legendarios, singulares y formas regionales.",
+    seo_community_title: "Comunidad shiny - PokeTracker",
+    seo_community_description: "Descubre las últimas capturas shiny de los entrenadores, con el juego utilizado y el número de encuentros.",
+    seo_hunt_title: "Caza shiny: contador de encuentros - PokeTracker",
+    seo_hunt_description: "Sortea un objetivo shiny o elígelo, cuenta tus encuentros y guarda tu captura con el juego utilizado.",
+    seo_profile_title: "{id}: colección de Pokémon shiny - PokeTracker",
+    seo_profile_description: "Colección de Pokémon shiny del entrenador {id}: {n} shiny de {total}.",
     // Session Timeout
     sessionTimeout: {
         title: "Sesi\u00f3n a punto de expirar",

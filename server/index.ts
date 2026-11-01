@@ -28,6 +28,13 @@ const ROUTES: Record<string, Handler> = {
     '/api/public/feed': publicFeed,
 };
 
+/** Pages de l'application (React Router) : toute autre adresse sans extension répond 404 */
+const APP_ROUTES = new Set(['/', '/collection', '/stats', '/communaute', '/chasse', '/profile']);
+const isAppRoute = (pathname: string) => {
+    const p = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname;
+    return APP_ROUTES.has(p) || /^\/u\/[^/]+$/.test(p); // /u/<identifiant de dresseur>
+};
+
 const MIME: Record<string, string> = {
     '.html': 'text/html; charset=utf-8',
     '.js': 'text/javascript; charset=utf-8',
@@ -113,8 +120,12 @@ function serveStatic(req: http.IncomingMessage, res: http.ServerResponse, url: U
     if (!file.startsWith(STATIC_DIR)) { res.statusCode = 403; return res.end('Forbidden'); }
     let stat = fs.existsSync(file) ? fs.statSync(file) : null;
     if (stat?.isDirectory()) { file = path.join(file, 'index.html'); stat = fs.existsSync(file) ? fs.statSync(file) : null; }
-    // adresse du site (React Router) : on renvoie la page d'accueil de l'application
-    if (!stat && !path.extname(url.pathname)) { file = path.join(STATIC_DIR, 'index.html'); stat = fs.existsSync(file) ? fs.statSync(file) : null; }
+    // adresse du site (React Router) : on renvoie l'application ; pour une adresse qui n'existe pas,
+    // le statut est 404 (l'application affiche sa page « introuvable ») et non un faux 200
+    if (!stat && !path.extname(url.pathname)) {
+        file = path.join(STATIC_DIR, 'index.html'); stat = fs.existsSync(file) ? fs.statSync(file) : null;
+        if (!isAppRoute(url.pathname)) res.statusCode = 404;
+    }
     if (!stat) { res.statusCode = 404; return res.end('Not found'); }
 
     const ext = path.extname(file).toLowerCase();
