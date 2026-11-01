@@ -11,7 +11,7 @@ const NotFound: React.FC = () => {
             <h1 className="text-3xl font-bold text-yellow-400">{t('not_found_title')}</h1>
             <p className="text-gray-300">{t('not_found_text')}</p>
             <Link
-                to="/"
+                to="/collection"
                 className="mt-2 inline-flex items-center justify-center h-11 px-6 rounded-md bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
             >
                 {t('not_found_home')}

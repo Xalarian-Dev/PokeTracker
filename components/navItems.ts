@@ -9,7 +9,7 @@ export interface NavItem {
 
 /** Entrées de la navigation principale (en-tête sur ordinateur, barre du bas sur mobile) */
 export const NAV_ITEMS: NavItem[] = [
-    { to: '/', labelKey: 'nav_collection', icon: LayoutGrid, end: true },
+    { to: '/collection', labelKey: 'nav_collection', icon: LayoutGrid },
     { to: '/stats', labelKey: 'stats_tab', icon: BarChart3 },
     { to: '/communaute', labelKey: 'community_feed', icon: Users },
     { to: '/chasse', labelKey: 'nav_hunt', icon: Dices },

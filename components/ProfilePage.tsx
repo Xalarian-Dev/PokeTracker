@@ -23,7 +23,7 @@ const Section: React.FC<{ title: string; children: React.ReactNode; className?: 
 
 const ProfilePage: React.FC = () => {
     const navigate = useNavigate();
-    const onBack = () => navigate('/');
+    const onBack = () => navigate('/collection');
     const { user } = useUser();
     const { signOut } = useClerk();
     const { language, setLanguage, t, getGameName } = useLanguage();
