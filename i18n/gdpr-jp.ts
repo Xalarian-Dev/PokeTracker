@@ -37,7 +37,7 @@ export const gdprJp = {
 - ユーザー名
 - 固有識別子
 
-**データベース（Supabase）：**
+**データベース（自社サーバーでホスト）：**
 - 捕獲した色違いポケモンのリスト（ID）
 - 所有しているポケモンゲーム
 - カスタム表示名
@@ -65,8 +65,8 @@ export const gdprJp = {
 
 **技術サービスプロバイダー：**
 - **Clerk**（米国）：認証とアカウント管理
-- **Supabase**（米国/EU）：安全なデータストレージ
-- **Vercel**（米国/EU）：アプリケーションホスティング
+- **OVH**（フランスの企業）：サーバーのホスティングとデータの保存
+- **Vercel**（米国）：旧アドレス（vercel.app）からの一時的な転送
 
 これらのサービスはGDPR準拠であり、お客様のデータを保護します。`,
 
@@ -91,7 +91,7 @@ export const gdprJp = {
     privacy_section7_content: `適切なセキュリティ対策を実施しています：
 - 転送中のデータ暗号化（HTTPS）
 - 安全な認証（Clerk）
-- 安全なデータベース（Supabase）
+- 専用サーバー上のデータベース（インターネットから直接アクセス不可）
 - データアクセスの制限`,
 
     privacy_section8_title: '8. Cookie',
@@ -102,7 +102,7 @@ export const gdprJp = {
 Cookieを拒否することもできますが、ログインが必要な一部の機能は利用できなくなります。`,
 
     privacy_section9_title: '9. 国際データ転送',
-    privacy_section9_content: `お客様のデータは米国（Clerk、Vercel）および欧州連合（Supabase、設定による）に転送される場合があります。これらの転送は安全であり、GDPR準拠です。`,
+    privacy_section9_content: `お客様のデータは、欧州にある、OVH（フランスの企業）から借りているサーバーに保存されます。認証に関する一部のデータは Clerk（米国）が処理します。これらの転送は安全であり、GDPR準拠です。`,
 
     privacy_section10_title: '10. 変更',
     privacy_section10_content: `本ポリシーを変更する場合があります。重要な変更は、メールまたはアプリケーション経由で通知されます。`,
@@ -180,9 +180,9 @@ Cookieを拒否することもできますが、ログインが必要な一部�
     terms_section10_title: '10. ホスティング',
     terms_section10_content: `本サイトは以下によってホストされています：
 
-**Vercel Inc.**
-440 N Barranca Ave #4133
-Covina, CA 91723
-United States
-privacy@vercel.com`,
+**OVH SAS**
+2 rue Kellermann
+59100 Roubaix
+France
+https://www.ovhcloud.com`,
 };
