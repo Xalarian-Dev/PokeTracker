@@ -1,5 +1,5 @@
 import React, { useMemo, lazy, Suspense, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ClerkProvider, Show, useUser, useClerk } from '@clerk/react';
 import ShinyTracker from './components/ShinyTracker';
 import { ErrorBoundary } from './components/ErrorBoundary';
@@ -13,6 +13,9 @@ import { useMetadata } from './hooks/useMetadata';
 import { useClerkToken } from './hooks/useClerkToken';
 import { useSessionTimeout } from './hooks/useSessionTimeout';
 import { SessionTimeoutWarning } from './components/SessionTimeoutWarning';
+import { Toaster } from './components/ui';
+import { useToast } from './hooks/use-toast';
+import NotFound from './components/NotFound';
 import { CookieConsent } from './components/CookieConsent';
 import { Footer } from './components/Footer';
 import { LegalModalProvider, useLegalModal } from './contexts/LegalModalContext';
@@ -31,6 +34,7 @@ const AppShell = () => {
   const { signOut } = useClerk();
   const { getPokemonName, t } = useLanguage();
   const { currentPage: legalPage } = useLegalModal();
+  const { toast } = useToast();
 
   useMetadata();
   useClerkToken();
@@ -38,12 +42,25 @@ const AppShell = () => {
 
   useEffect(() => {
     const handleSessionExpired = async () => {
-      alert(t('sessionTimeout.sessionExpired'));
+      // Le message est affiché après le rechargement (toast), sans boîte bloquante.
+      try { sessionStorage.setItem('session-expired', '1'); } catch { /* stockage indisponible */ }
       try { await signOut(); } catch (e) { console.error(e); } finally { window.location.reload(); }
     };
     window.addEventListener('session-expired', handleSessionExpired);
     return () => window.removeEventListener('session-expired', handleSessionExpired);
-  }, [signOut, t]);
+  }, [signOut]);
+
+  useEffect(() => {
+    let expired = false;
+    try {
+      expired = sessionStorage.getItem('session-expired') === '1';
+      if (expired) sessionStorage.removeItem('session-expired');
+    } catch { /* stockage indisponible */ }
+    if (expired) {
+      toast({ title: t('sessionTimeout.sessionExpiredTitle'), description: t('sessionTimeout.sessionExpired') });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const user: User | null = useMemo(() => {
     if (!clerkUser) return null;
@@ -83,13 +100,13 @@ const AppShell = () => {
             </Show>
           } />
 
-          {/* Redirect unknown paths to home */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
 
       <Footer />
       <CookieConsent />
+      <Toaster />
 
       {showWarning && clerkUser && (
         <SessionTimeoutWarning secondsRemaining={secondsRemaining} onStayConnected={resetTimer} />

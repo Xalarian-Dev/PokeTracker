@@ -8,7 +8,6 @@ import PokemonGrid from './PokemonGrid';
 import PokemonToolbar from './PokemonToolbar';
 import ConfirmationModal from './ConfirmationModal';
 import ScrollToTopButton from './ScrollToTopButton';
-import { Toaster } from './ui';
 import { SidebarProvider, Sidebar, SidebarContent, useSidebar } from './ui/sidebar';
 import { useLanguage } from '../contexts/LanguageContext';
 import { usePokemonData } from '../hooks/usePokemonData';
@@ -73,6 +72,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, pokemonList
     ownedGames, trainerId, setTrainerIdState,
     validatedForms, shinyForms, favoriteForms,
     userId, toggleShiny, toggleForm, setFavoriteForm,
+    pendingMigration, confirmMigration, dismissMigration,
   } = usePokemonData({ username: user?.username ?? null });
 
   const {
@@ -94,6 +94,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, pokemonList
   const [confirmModal, setConfirmModal] = useState<{
     isOpen: boolean;
     message: string;
+    confirmLabel?: string;
     onConfirm: () => void;
   }>({ isOpen: false, message: '', onConfirm: () => { } });
 
@@ -121,6 +122,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, pokemonList
     setConfirmModal({
       isOpen: true,
       message: t('mark_all_confirm') || "Are you sure?",
+      confirmLabel: t('mark_all'),
       onConfirm: () => {
         setShinyPokemons(prev => {
           const newSet = new Set(prev);
@@ -142,6 +144,7 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, pokemonList
     setConfirmModal({
       isOpen: true,
       message: t('unmark_all_confirm') || "Are you sure?",
+      confirmLabel: t('unmark_all'),
       onConfirm: () => {
         setShinyPokemons(prev => {
           const newSet = new Set(prev);
@@ -210,6 +213,16 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, pokemonList
             onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
             onConfirm={confirmModal.onConfirm}
             message={confirmModal.message}
+            confirmLabel={confirmModal.confirmLabel}
+          />
+
+          <ConfirmationModal
+            isOpen={pendingMigration !== null}
+            onClose={dismissMigration}
+            onConfirm={confirmMigration}
+            message={t('migrate_local_data')}
+            confirmLabel={t('migrate_sync')}
+            cancelLabel={t('migrate_skip')}
           />
 
           <div className={`flex flex-1 overflow-hidden ${confirmModal.isOpen ? 'blur-xs select-none' : ''}`}>
@@ -228,6 +241,8 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, pokemonList
                   loading={loading}
                   onMarkAll={handleMarkAll}
                   onUnmarkAll={handleUnmarkAll}
+                  selectedGame={selectedGame}
+                  generation={activeFilter?.type === 'gen' ? Number(activeFilter.value) : null}
                 />
 
                 <PokemonGrid
@@ -252,10 +267,9 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, pokemonList
             <ScrollToTopButton
               show={showScrollTop}
               onClick={scrollToTop}
-              ariaLabel="Scroll to top"
+              ariaLabel={t('scroll_to_top')}
             />
 
-            <Toaster />
           </div>
         </main>
       </SidebarProvider>

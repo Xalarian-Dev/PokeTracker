@@ -50,8 +50,10 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-poke-yellow"></div>
+            <div role="status" aria-label={t('loading')} className="mobile-grid-6 grid grid-cols-6 gap-2 md:gap-4 md:max-w-[1160px] md:mx-auto w-full">
+                {Array.from({ length: 24 }, (_, i) => (
+                    <div key={i} className="aspect-square md:aspect-auto md:h-44 rounded-lg bg-gray-800 animate-pulse" />
+                ))}
             </div>
         );
     }
@@ -59,7 +61,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
     return (
         <>
             {/* Normal Pokemon */}
-            <div className="mobile-grid-6 grid grid-cols-6 gap-1 md:gap-4 md:max-w-[1160px] md:mx-auto w-full">
+            <div className="mobile-grid-6 grid grid-cols-6 gap-2 md:gap-4 md:max-w-[1160px] md:mx-auto w-full">
                 {displayedPokemon.normal.map((pokemon) => {
                     const pokemonNumId = parseInt(pokemon.id.split('-')[0]);
                     const isFirstOfGen = Object.entries(GENERATION_FIRST_POKEMON).find(
@@ -79,9 +81,10 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
                                     onToggleShiny={onToggleShiny}
                                     selectedGame={selectedGame}
                                     isGrayedOut={pokemon.isGrayedOut}
-                                    validatedForms={validatedForms.get(pokemon.id) || new Set()}
                                     shinyForms={shinyForms.get(pokemon.id) || new Set()}
                                     onToggleForm={onToggleForm}
+                                    favoriteFormId={favoriteForms.get(pokemon.id)}
+                                    onSetFavorite={onSetFavorite}
                                 />
                             ) : (
                                 <PokemonCard
@@ -125,7 +128,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
                             </div>
                         </div>
 
-                        <div className="mobile-grid-6 grid grid-cols-6 gap-1 md:gap-4 md:max-w-[1160px] md:mx-auto w-full">
+                        <div className="mobile-grid-6 grid grid-cols-6 gap-2 md:gap-4 md:max-w-[1160px] md:mx-auto w-full">
                             {regionalPokemon.map((pokemon) => (
                                 <div key={pokemon.id}>
                                     {isMobile ? (
@@ -135,9 +138,10 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
                                             onToggleShiny={onToggleShiny}
                                             selectedGame={selectedGame}
                                             isGrayedOut={pokemon.isGrayedOut}
-                                            validatedForms={validatedForms.get(pokemon.id) || new Set()}
                                             shinyForms={shinyForms.get(pokemon.id) || new Set()}
                                             onToggleForm={onToggleForm}
+                                            favoriteFormId={favoriteForms.get(pokemon.id)}
+                                            onSetFavorite={onSetFavorite}
                                         />
                                     ) : (
                                         <PokemonCard
@@ -163,7 +167,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
             {/* No results message */}
             {activeCount === 0 && (
                 <div className="text-center py-16">
-                    <p className="text-xl text-gray-500">{t('no_pokemon_found')}</p>
+                    <p className="text-xl text-gray-400">{t('no_pokemon_found')}</p>
                 </div>
             )}
         </>

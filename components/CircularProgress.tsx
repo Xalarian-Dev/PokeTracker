@@ -48,7 +48,15 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
 
     return (
         <div className="flex flex-col items-center justify-center" style={{ padding: showLabel ? '1.5rem' : '0' }}>
-            <div className="relative" style={{ width: size, height: size }}>
+            <div
+                className="relative"
+                style={{ width: size, height: size }}
+                role="progressbar"
+                aria-label={t('shinydex_completed')}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={Math.round(progress)}
+            >
                 {/* Background Circle */}
                 <svg className="transform -rotate-90" width={size} height={size}>
                     <circle

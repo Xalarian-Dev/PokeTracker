@@ -12,6 +12,7 @@ import {
     DialogFooter, DialogHeader, DialogTitle,
 } from './ui';
 import { Button } from './ui';
+import { useToast } from '../hooks/use-toast';
 
 const Section: React.FC<{ title: string; children: React.ReactNode; className?: string }> = ({ title, children, className = '' }) => (
     <div className={`bg-gray-800/60 border border-gray-700 rounded-xl p-5 ${className}`}>
@@ -26,6 +27,7 @@ const ProfilePage: React.FC = () => {
     const { user } = useUser();
     const { signOut } = useClerk();
     const { language, setLanguage, t, getGameName } = useLanguage();
+    const { toast } = useToast();
     const [selectedLanguage, setSelectedLanguage] = useState<'fr' | 'en' | 'jp' | 'es'>(language);
     const [ownedGames, setOwnedGames] = useState<string[]>([]);
     const [trainerId, setTrainerId] = useState<string | null>(null);
@@ -57,9 +59,11 @@ const ProfilePage: React.FC = () => {
             await saveUserPreferences(user.id, selectedLanguage, ownedGames);
             setLanguage(selectedLanguage);
             setSaved(true);
-            setTimeout(() => { setSaved(false); onBack(); }, 1000);
+            toast({ title: t('preferences_saved') });
+            setTimeout(() => setSaved(false), 2000);
         } catch (e) {
             console.error(e);
+            toast({ title: t('save_error'), variant: 'destructive' });
         } finally {
             setSaving(false);
         }
@@ -74,6 +78,7 @@ const ProfilePage: React.FC = () => {
             await signOut();
         } catch (e) {
             console.error(e);
+            toast({ title: t('delete_account_error'), variant: 'destructive' });
             setDeleting(false);
             setShowDeleteConfirm(false);
         }
@@ -196,7 +201,7 @@ const ProfilePage: React.FC = () => {
                 {/* Owned Games */}
                 <Section title={t('owned_games')}>
                     <div className="flex items-center justify-between mb-3">
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-gray-400">
                             {ownedGames.length} {ownedGames.length === 1 ? t('game_selected') : t('games_selected')}
                         </p>
                         <div className="flex items-center gap-3 text-xs">
@@ -219,7 +224,7 @@ const ProfilePage: React.FC = () => {
                                     className={`px-2.5 py-1 text-xs rounded-full border transition-all ${
                                         active
                                             ? 'border-yellow-400/60 bg-yellow-400/15 text-yellow-300'
-                                            : 'border-gray-700 bg-gray-800/40 text-gray-500 hover:border-gray-500 hover:text-gray-300'
+                                            : 'border-gray-700 bg-gray-800/40 text-gray-400 hover:border-gray-500 hover:text-gray-300'
                                     }`}
                                 >
                                     {getGameName(gameId)}
@@ -230,7 +235,7 @@ const ProfilePage: React.FC = () => {
                 </Section>
 
                 {/* Data Export */}
-                <Suspense fallback={<div className="text-center text-gray-500 py-4 text-sm">...</div>}>
+                <Suspense fallback={<div className="text-center text-gray-400 py-4 text-sm">...</div>}>
                     <DataExport />
                 </Suspense>
 
@@ -238,7 +243,7 @@ const ProfilePage: React.FC = () => {
                 <div className="flex items-center justify-between pt-2">
                     <button
                         onClick={() => setShowDeleteConfirm(true)}
-                        className="text-xs text-red-500/60 hover:text-red-400 transition-colors"
+                        className="text-sm text-red-400 hover:text-red-300 underline-offset-2 hover:underline py-2 transition-colors"
                     >
                         {t('delete_account')}
                     </button>

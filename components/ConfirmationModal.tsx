@@ -16,9 +16,11 @@ interface ConfirmationModalProps {
     onConfirm: () => void;
     message: string;
     title?: string;
+    confirmLabel?: string;
+    cancelLabel?: string;
 }
 
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onClose, onConfirm, message, title }) => {
+const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onClose, onConfirm, message, title, confirmLabel, cancelLabel }) => {
     const { t } = useLanguage();
 
     return (
@@ -30,7 +32,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onClose, 
                 </DialogHeader>
                 <DialogFooter>
                     <Button variant="outline" onClick={onClose}>
-                        {t('no')}
+                        {cancelLabel || t('cancel')}
                     </Button>
                     <Button
                         onClick={() => {
@@ -38,7 +40,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onClose, 
                             onClose();
                         }}
                     >
-                        {t('yes')}
+                        {confirmLabel || t('yes')}
                     </Button>
                 </DialogFooter>
             </DialogContent>
