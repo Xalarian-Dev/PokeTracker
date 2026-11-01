@@ -22,6 +22,7 @@ import { Toaster } from './components/ui';
 import { useToast } from './hooks/use-toast';
 import NotFound from './components/NotFound';
 import { CookieConsent } from './components/CookieConsent';
+import { DomainMoveBanner } from './components/DomainMoveBanner';
 import { Footer } from './components/Footer';
 import { LegalModalProvider, useLegalModal } from './contexts/LegalModalContext';
 const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'));
@@ -84,6 +85,7 @@ const AppShell = () => {
 
   return (
     <div className="flex flex-col min-h-screen pb-16 md:pb-0">
+      <DomainMoveBanner />
       <div className="flex-1">
         <Routes>
           <Route element={<AppLayout key={user?.username ?? 'guest'} user={user} pokemonList={pokemonList} />}>

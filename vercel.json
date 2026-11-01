@@ -8,7 +8,7 @@
                     "value": "pokemonshinytracker.vercel.app"
                 }
             ],
-            "destination": "https://pokemonshinytracker.com/:path*",
+            "destination": "https://pokemonshinytracker.com/:path*?depuis=vercel",
             "permanent": true
         }
     ],
