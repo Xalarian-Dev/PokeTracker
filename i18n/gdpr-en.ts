@@ -37,7 +37,7 @@ export const gdprEn = {
 - Username
 - Unique identifier
 
-**In our database (Supabase):**
+**In our database (hosted on our own server):**
 - List of caught shiny Pokemon (IDs)
 - Owned Pokemon games
 - Custom display name
@@ -65,8 +65,8 @@ export const gdprEn = {
 
 **Technical service providers:**
 - **Clerk** (USA): Authentication and account management
-- **Supabase** (USA/EU): Secure data storage
-- **Vercel** (USA/EU): Application hosting
+- **OVH** (French company): server hosting and storage of your data
+- **Vercel** (USA): temporary redirection from the site's former address (vercel.app)
 
 These services are GDPR compliant and protect your data.`,
 
@@ -91,7 +91,7 @@ To exercise these rights, contact us via the contact form available in the site 
     privacy_section7_content: `We implement appropriate security measures:
 - Data encryption in transit (HTTPS)
 - Secure authentication (Clerk)
-- Secure database (Supabase)
+- Database on a private server, not directly reachable from the Internet
 - Restricted data access`,
 
     privacy_section8_title: '8. Cookies',
@@ -102,7 +102,7 @@ To exercise these rights, contact us via the contact form available in the site 
 You can refuse cookies, but some features requiring login will not be available.`,
 
     privacy_section9_title: '9. International Transfers',
-    privacy_section9_content: `Your data may be transferred to the United States (Clerk, Vercel) and the European Union (Supabase depending on configuration). These transfers are secure and GDPR compliant.`,
+    privacy_section9_content: `Your data is stored on a server rented from OVH (a French company). Some authentication data is processed by Clerk (United States). These transfers are secure and comply with the GDPR.`,
 
     privacy_section10_title: '10. Changes',
     privacy_section10_content: `We may modify this policy. Important changes will be notified to you by email or via the application.`,
@@ -180,9 +180,9 @@ Important changes will be communicated via the application.`,
     terms_section10_title: '10. Hosting',
     terms_section10_content: `The website is hosted by:
 
-**Vercel Inc.**
-440 N Barranca Ave #4133
-Covina, CA 91723
-United States
-privacy@vercel.com`,
+**OVH SAS**
+2 rue Kellermann
+59100 Roubaix
+France
+https://www.ovhcloud.com`,
 };

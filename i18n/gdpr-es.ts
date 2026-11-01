@@ -37,7 +37,7 @@ export const gdprEs = {
 - Nombre de usuario
 - Identificador \u00fanico
 
-**En nuestra base de datos (Supabase):**
+**En nuestra base de datos (alojada en nuestro propio servidor):**
 - Lista de Pok\u00e9mon shiny capturados (IDs)
 - Juegos Pok\u00e9mon que posees
 - Nombre para mostrar personalizado
@@ -65,8 +65,8 @@ export const gdprEs = {
 
 **Proveedores de servicios t\u00e9cnicos:**
 - **Clerk** (EE.UU.): Autenticaci\u00f3n y gesti\u00f3n de cuentas
-- **Supabase** (EE.UU./UE): Almacenamiento seguro de datos
-- **Vercel** (EE.UU./UE): Alojamiento de la aplicaci\u00f3n
+- **OVH** (empresa francesa): alojamiento del servidor y almacenamiento de tus datos
+- **Vercel** (EE.UU.): redirección temporal desde la antigua dirección del sitio (vercel.app)
 
 Estos servicios cumplen con el RGPD y protegen tus datos.`,
 
@@ -91,7 +91,7 @@ Para ejercer estos derechos, cont\u00e1ctanos a trav\u00e9s del formulario de co
     privacy_section7_content: `Implementamos medidas de seguridad adecuadas:
 - Cifrado de datos en tr\u00e1nsito (HTTPS)
 - Autenticaci\u00f3n segura (Clerk)
-- Base de datos segura (Supabase)
+- Base de datos en un servidor privado, sin acceso directo desde Internet
 - Acceso restringido a los datos`,
 
     privacy_section8_title: '8. Cookies',
@@ -102,7 +102,7 @@ Para ejercer estos derechos, cont\u00e1ctanos a trav\u00e9s del formulario de co
 Puedes rechazar las cookies, pero algunas funcionalidades que requieren inicio de sesi\u00f3n no estar\u00e1n disponibles.`,
 
     privacy_section9_title: '9. Transferencias internacionales',
-    privacy_section9_content: `Tus datos pueden ser transferidos a Estados Unidos (Clerk, Vercel) y la Uni\u00f3n Europea (Supabase seg\u00fan configuraci\u00f3n). Estas transferencias son seguras y cumplen con el RGPD.`,
+    privacy_section9_content: `Tus datos se almacenan en un servidor alquilado a OVH (empresa francesa). Clerk (Estados Unidos) trata algunos datos de autenticación. Estas transferencias son seguras y cumplen con el RGPD.`,
 
     privacy_section10_title: '10. Modificaciones',
     privacy_section10_content: `Podemos modificar esta pol\u00edtica. Los cambios importantes te ser\u00e1n notificados por correo electr\u00f3nico o a trav\u00e9s de la aplicaci\u00f3n.`,
@@ -180,9 +180,9 @@ Los cambios importantes ser\u00e1n comunicados a trav\u00e9s de la aplicaci\u00f
     terms_section10_title: '10. Alojamiento',
     terms_section10_content: `El sitio web est\u00e1 alojado por:
 
-**Vercel Inc.**
-440 N Barranca Ave #4133
-Covina, CA 91723
-United States
-privacy@vercel.com`,
+**OVH SAS**
+2 rue Kellermann
+59100 Roubaix
+France
+https://www.ovhcloud.com`,
 };
