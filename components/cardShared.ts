@@ -27,6 +27,9 @@ const gameColorMap: Record<string, { keys: [Keys, Keys]; colors: [string, string
   sv: { keys: [['sc', 'scdlc1', 'scdlc2'], ['v', 'vdlc1', 'vdlc2']], colors: ['bg-red-700/50', 'bg-purple-800/50'] },
 };
 
+/** Le jeu sélectionné a-t-il un fond de carte coloré par version ? */
+export const hasVersionColors = (game: string | null): boolean => !!game && !!gameColorMap[game];
+
 export function getCardBgColor(pokemonId: string, selectedGame: string | null): string {
   if (selectedGame && gameColorMap[selectedGame]) {
     const { keys, colors } = gameColorMap[selectedGame];

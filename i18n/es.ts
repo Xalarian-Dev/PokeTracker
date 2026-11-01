@@ -201,6 +201,7 @@ export const ui = {
     game_all: "Todos los juegos",
     no_results_reset: "Restablecer filtros",
     report_problem: "Informar de un problema",
+    legend_none: "Ningún icono especial para este juego.",
     legend_multi: "Varias generaciones",
     legend_colors: "Cuando se selecciona un juego con dos versiones, el color de fondo de la tarjeta indica en qué versión está disponible el Pokémon.",
     save_error: "No se pudieron guardar las preferencias. Inténtalo de nuevo.",

@@ -1,13 +1,40 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Info } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Button, Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui';
-import { LEGEND_GROUPS, BADGE_DEFS, BadgeIcon, type BadgeKey, type CardBadge } from './CardBadges';
+import { LEGEND_GROUPS, BADGE_DEFS, BadgeIcon, computeBadges, type BadgeKey, type CardBadge } from './CardBadges';
+import { hasVersionColors } from './cardShared';
+import { POKEMON_LIST } from '../data/pokemon';
 
 /** Fenêtre « Légende » : explique chaque icône des cartes, rangées par génération puis par jeu. */
-const LegendDialog: React.FC = () => {
+interface LegendDialogProps {
+    /** Jeu filtré : la légende ne montre que les icônes qui apparaissent sur ses cartes */
+    selectedGame: string | null;
+    /** Génération filtrée (sans jeu) : la légende se limite à cette génération */
+    generation: number | null;
+}
+
+const LegendDialog: React.FC<LegendDialogProps> = ({ selectedGame, generation }) => {
     const { t, getGameList } = useLanguage();
     const gameList = getGameList();
+
+    // Icônes réellement affichées sur au moins une carte du jeu sélectionné
+    const applicable = useMemo(() => {
+        if (!selectedGame) return null;
+        const keys = new Set<BadgeKey>();
+        for (const p of POKEMON_LIST) computeBadges(p.id, selectedGame).forEach(b => keys.add(b.key));
+        return keys;
+    }, [selectedGame]);
+
+    const groups = LEGEND_GROUPS
+        .filter(g => applicable !== null || generation === null || g.generation === null || g.generation === generation)
+        .map(g => ({
+            ...g,
+            games: g.games
+                .map(x => ({ ...x, keys: x.keys.filter(k => (applicable ? applicable.has(k) : true)) }))
+                .filter(x => x.keys.length > 0),
+        }))
+        .filter(g => g.games.length > 0);
 
     const labelOf = (badge: CardBadge): string => {
         if (badge.key === 'cart') {
@@ -45,7 +72,7 @@ const LegendDialog: React.FC = () => {
                 </DialogHeader>
 
                 <div className="grid gap-5">
-                    {LEGEND_GROUPS.map(group => (
+                    {groups.map(group => (
                         <section key={group.generation ?? 'multi'} aria-labelledby={`legend-gen-${group.generation ?? 'multi'}`}>
                             <h3
                                 id={`legend-gen-${group.generation ?? 'multi'}`}
@@ -65,7 +92,11 @@ const LegendDialog: React.FC = () => {
                     ))}
                 </div>
 
-                <p className="text-sm text-gray-400 border-t border-gray-700 pt-3">{t('legend_colors')}</p>
+                {groups.length === 0 && <p className="text-sm text-gray-300">{t('legend_none')}</p>}
+
+                {(!selectedGame || hasVersionColors(selectedGame)) && (
+                    <p className="text-sm text-gray-400 border-t border-gray-700 pt-3">{t('legend_colors')}</p>
+                )}
             </DialogContent>
         </Dialog>
     );

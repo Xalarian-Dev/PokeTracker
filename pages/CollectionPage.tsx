@@ -87,6 +87,8 @@ const CollectionPage: React.FC = () => {
                     loading={loading}
                     onMarkAll={handleMarkAll}
                     onUnmarkAll={handleUnmarkAll}
+                    selectedGame={filters.selectedGame}
+                    generation={filters.activeFilter?.type === 'gen' ? Number(filters.activeFilter.value) : null}
                 />
 
                 <PokemonGrid
