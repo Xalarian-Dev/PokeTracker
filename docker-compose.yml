@@ -20,6 +20,8 @@ services:
       - NODE_ENV=production
       - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
       - CLERK_SECRET_KEY=${CLERK_SECRET_KEY:?Définissez CLERK_SECRET_KEY dans le fichier .env}
+      # adresse officielle : www.<domaine> y est redirigé (voir server/index.ts) ; une valeur sans rapport avec le site désactive cette redirection
+      - CANONICAL_HOST=${CANONICAL_HOST:-pokemonshinytracker.com}
     volumes:
       - sprites-cache:/app/cache/sprites   # sprites des Pokémon téléchargés une fois puis servis par le site
     depends_on:
