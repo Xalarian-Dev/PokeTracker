@@ -78,7 +78,6 @@ export const changelogEN: ChangeLogEntry[] = [
         ],
         security: "Security & Privacy",
         securityList: [
-            "Legal notice and privacy policy updated: your data is now hosted on an OVH server, no longer with Supabase and Vercel",
             "\"Delete my data\" now also erases your Pokémon forms and your community feed entries",
             "Invalid IDs, usernames and game lists are rejected; vulnerable dependencies updated",
         ],

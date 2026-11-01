@@ -67,7 +67,6 @@ export const changelogES: ChangeLogEntry[] = [
         ],
         security: "Seguridad y privacidad",
         securityList: [
-            "Aviso legal y política de privacidad actualizados: tus datos se alojan ahora en un servidor de OVH, y ya no en Supabase ni Vercel",
             "\"Eliminar mis datos\" también borra tus formas de Pokémon y tus entradas del feed de la comunidad",
             "Se rechazan ID, nombres de usuario y listas de juegos no válidos; dependencias vulnerables actualizadas",
         ],
