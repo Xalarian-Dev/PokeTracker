@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import React, { useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { SignInButton, SignUpButton, useUser } from '@clerk/react';
 import { BarChart3, Dices, LayoutGrid, Languages, User as UserIcon, Users, type LucideIcon } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -25,6 +25,20 @@ const FEATURES: { key: string; icon: LucideIcon }[] = [
 /** Boutons d'inscription et de connexion (modales Clerk) + accès sans compte */
 const HomeActions: React.FC<{ className?: string }> = ({ className = '' }) => {
     const { t } = useLanguage();
+    const { isSignedIn } = useUser();
+    if (isSignedIn) {
+        return (
+            <div className={`flex flex-col sm:flex-row gap-3 ${className}`}>
+                <Button
+                    asChild
+                    size="lg"
+                    className="btn-shimmer bg-gradient-to-b from-yellow-300 to-yellow-500 hover:from-yellow-200 hover:to-yellow-400 text-gray-900 font-bold shadow-lg shadow-yellow-500/25 hover:shadow-yellow-400/40"
+                >
+                    <Link to="/collection">{t('nav_collection')}</Link>
+                </Button>
+            </div>
+        );
+    }
     return (
         <div className={`flex flex-col sm:flex-row gap-3 ${className}`}>
             <SignUpButton mode="modal">
@@ -47,13 +61,19 @@ const HomeActions: React.FC<{ className?: string }> = ({ className = '' }) => {
     );
 };
 
-/** Page d'accueil : présentation du site pour les visiteurs. Un utilisateur connecté va directement à sa collection. */
+/** Page d'accueil : présentation du site pour les visiteurs. Reste visible une fois connecté (bouton du header) ; à la connexion depuis cette page, on est envoyé sur la collection. */
 const HomePage: React.FC = () => {
     const { t } = useLanguage();
     const { isSignedIn } = useUser();
     const { pokemonList } = useCollection();
+    const navigate = useNavigate();
 
-    if (isSignedIn) return <Navigate to="/collection" replace />;
+    // Connexion faite depuis l'accueil : direction la collection. Déjà connecté à l'arrivée : on reste.
+    const wasSignedIn = useRef(isSignedIn);
+    useEffect(() => {
+        if (isSignedIn && !wasSignedIn.current) navigate('/collection', { replace: true });
+        wasSignedIn.current = isSignedIn;
+    }, [isSignedIn, navigate]);
 
     const heroPokemon = HERO_POKEMON
         .map(id => pokemonList.find(p => p.id === id))
