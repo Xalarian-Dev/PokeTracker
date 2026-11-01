@@ -191,6 +191,7 @@ export const ui = {
     community_feed_live: "En vivo",
     community_feed_new: "Nuevo",
     stats_tab: "Estadísticas",
+    legend_multi: "Varias generaciones",
     legend_colors: "Cuando se selecciona un juego con dos versiones, el color de fondo de la tarjeta indica en qué versión está disponible el Pokémon.",
     save_error: "No se pudieron guardar las preferencias. Inténtalo de nuevo.",
     delete_account_error: "No se pudo eliminar la cuenta. Inténtalo de nuevo o contáctanos.",

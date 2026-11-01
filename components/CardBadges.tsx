@@ -51,6 +51,33 @@ export const BADGE_ORDER: BadgeKey[] = [
   'event', 'raid', 'dynamax', 'cart', 'lock', 'safari', 'islandscan', 'wormhole', 'dexnav', 'mirage', 'distort',
 ];
 
+/**
+ * Organisation de la légende : par génération, puis par jeu.
+ * `generation: null` = icônes valables pour plusieurs générations (verrou shiny, objet événementiel).
+ */
+export interface LegendGroup {
+  generation: number | null;
+  games: { game: string | null; keys: BadgeKey[] }[];
+}
+
+export const LEGEND_GROUPS: LegendGroup[] = [
+  { generation: null, games: [{ game: null, keys: ['lock', 'event'] }] },
+  { generation: 4, games: [{ game: 'dp', keys: ['cart'] }] },
+  { generation: 6, games: [
+    { game: 'xy', keys: ['safari'] },
+    { game: 'oras', keys: ['dexnav', 'mirage'] },
+  ] },
+  { generation: 7, games: [{ game: 'usum', keys: ['islandscan', 'wormhole'] }] },
+  { generation: 8, games: [
+    { game: 'swsh', keys: ['dynamax', 'swdlc1', 'swdlc2'] },
+    { game: 'la', keys: ['distort'] },
+  ] },
+  { generation: 9, games: [
+    { game: 'sv', keys: ['raid', 'svdlc1', 'svdlc2'] },
+    { game: 'lza', keys: ['lzadlc1'] },
+  ] },
+];
+
 const CART_COLORS: Record<string, string> = {
   FireRed: 'text-red-500', LeafGreen: 'text-green-500', Ruby: 'text-red-600',
   Sapphire: 'text-blue-500', Emerald: 'text-emerald-400',
