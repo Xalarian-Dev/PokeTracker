@@ -98,4 +98,6 @@ Un changement de schéma arrive sous forme d'un nouveau fichier dans `supabase/m
 - **Fil de la communauté** : rafraîchi toutes les 10 secondes (pas de Realtime instantané).
 - **Règles d'accès (RLS)** : inutiles ici, le navigateur ne lit jamais la base directement ; `app` filtre toujours par joueur authentifié.
 - **Sécurité** : la base n'est pas exposée ; seuls les ports de `app` (derrière HTTPS) le sont. Gardez Docker et les images à jour.
+- **Compression et en-têtes** : le serveur compresse le texte (brotli/gzip) et envoie HSTS, `X-Frame-Options`, `Referrer-Policy` et `Permissions-Policy`. Inutile de les répéter dans le proxy (ne pas compresser deux fois).
+- **Sprites des Pokémon** : servis par le site (`/sprites/…`), téléchargés une fois depuis le dépôt PokeAPI puis gardés dans le volume `sprites-cache` (quelques centaines de Mo au maximum). Le volume peut être supprimé sans risque : les sprites sont retéléchargés à la demande. Le serveur doit pouvoir joindre `raw.githubusercontent.com`.
 - Les variables `VITE_SUPABASE_*` et `SUPABASE_SERVICE_ROLE_KEY` ne servent pas ici.

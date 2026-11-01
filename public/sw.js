@@ -19,7 +19,9 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
-  if (url.hostname !== SPRITE_HOST) return;
+  // sprites : servis par notre serveur (/sprites/) ; ancienne adresse GitHub gardée par prudence
+  const isSprite = url.pathname.startsWith('/sprites/') || url.hostname === SPRITE_HOST;
+  if (!isSprite) return;
 
   event.respondWith(
     caches.open(SPRITE_CACHE).then(cache =>

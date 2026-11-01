@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { supabase } from '../services/supabase';
+import { SPRITE_BASE } from '../data/spriteBase';
 
 interface FeedEntry {
     id: string;
@@ -15,7 +16,7 @@ interface FeedEntry {
     isNew?: boolean;
 }
 
-const HOME_SPRITE = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/';
+const HOME_SPRITE = SPRITE_BASE + 'shiny/';
 
 function getSpriteUrl(pokemonId: string): string {
     const numericId = pokemonId.includes('-') ? pokemonId.split('-')[0] : pokemonId;

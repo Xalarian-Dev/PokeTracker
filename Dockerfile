@@ -24,10 +24,12 @@ FROM node:22-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production \
     PORT=3000 \
-    STATIC_DIR=/app/dist
+    STATIC_DIR=/app/dist     SPRITES_DIR=/app/cache/sprites
 
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/dist-server ./dist-server
+# Cache des sprites (volume « sprites-cache » du docker-compose) : accessible à l'utilisateur « node »
+RUN mkdir -p /app/cache/sprites && chown -R node:node /app/cache
 
 USER node
 EXPOSE 3000

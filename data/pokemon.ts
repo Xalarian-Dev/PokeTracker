@@ -1,7 +1,8 @@
 
 import type { Pokemon } from '../types';
+import { SPRITE_BASE } from './spriteBase';
 
-const HOME_SPRITE_BASE_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/';
+const HOME_SPRITE_BASE_URL = SPRITE_BASE;
 
 const getSpriteUrl = (id: number, shiny: boolean = false) => {
   return `${HOME_SPRITE_BASE_URL}${shiny ? 'shiny/' : ''}${id}.png`;

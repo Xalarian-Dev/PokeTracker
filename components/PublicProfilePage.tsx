@@ -3,11 +3,12 @@ import { useParams, Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { fetchPublicProfile, type PublicProfile } from '../services/supabase';
 import { POKEMON_LIST, POKEMON_WITH_MULTIPLE_FORMS } from '../data/pokemon';
+import { SPRITE_BASE } from '../data/spriteBase';
 import { MasterBallIcon } from './Icons';
 import LanguageSelector from './LanguageSelector';
 import { useMetadata } from '../hooks/useMetadata';
 
-const HOME_SPRITE = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/';
+const HOME_SPRITE = SPRITE_BASE;
 const getSpriteUrl = (id: string, shiny = false) =>
     `${HOME_SPRITE}${shiny ? 'shiny/' : ''}${id}.png`;
 

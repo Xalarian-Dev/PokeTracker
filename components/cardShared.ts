@@ -1,6 +1,7 @@
 import type { Pokemon } from '../types';
 import { POKEMON_AVAILABILITY } from '../data/games';
 import { POKEMON_WITH_MULTIPLE_FORMS } from '../data/pokemon';
+import { SPRITE_BASE } from '../data/spriteBase';
 
 type Keys = string | string[];
 
@@ -43,7 +44,7 @@ export function getCardBgColor(pokemonId: string, selectedGame: string | null): 
   return 'bg-gray-800';
 }
 
-const HOME_SPRITE_BASE_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/';
+const HOME_SPRITE_BASE_URL = SPRITE_BASE;
 
 /** Sprite affiché : celui de la forme favorite si elle existe, sinon le sprite d'origine. */
 export function getDisplaySprite(pokemon: Pokemon, isShiny: boolean, favoriteFormId?: string): string {
