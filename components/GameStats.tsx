@@ -40,18 +40,18 @@ export const GameStats: React.FC<GameStatsProps> = ({ pokemonList, shinyPokemons
     }, [pokemonList, shinyPokemons]);
 
     return (
-        <div className="p-4 pt-0">
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">
+        <section className="bg-gray-800 border border-gray-700 rounded-xl p-5">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-300 mb-4">
                 {t('stats_by_game')}
             </h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] gap-x-4 gap-y-5">
                 {games.map(({ group, total, shiny }) => (
                     <div key={group} className="flex flex-col items-center text-center">
                         <CircularProgress
                             progress={(shiny / total) * 100}
                             shinyCount={shiny}
                             totalPokemon={total}
-                            size={80}
+                            size={96}
                             background={gameBackground(group)}
                         />
                         <p className="mt-1 text-sm font-semibold text-white leading-tight">{getGameName(group)}</p>
@@ -59,7 +59,7 @@ export const GameStats: React.FC<GameStatsProps> = ({ pokemonList, shinyPokemons
                     </div>
                 ))}
             </div>
-        </div>
+        </section>
     );
 };
 

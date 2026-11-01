@@ -43,6 +43,7 @@ export const changelogFR: ChangeLogEntry[] = [
         sectionTitle: "Statistiques, légende des icônes et corrections d'interface",
         features: "Nouvelles fonctionnalités",
         featuresList: [
+            "Statistiques : la page occupe toute la largeur sur ordinateur, avec des blocs plus grands ; en-tête compact (icônes seules) sur les écrans moyens pour ne plus chevaucher le nom de dresseur ; « Chasse aléatoire » devient « Chasse » dans le menu",
             "Nouvelle navigation : les languettes latérales sont remplacées par un menu dans l'en-tête (Collection, Statistiques, Communauté, Chasse aléatoire) et par une barre de navigation en bas sur mobile ; chaque page a sa propre adresse (/stats, /communaute, /chasse)",
             "Filtres : une barre fixe sous l'en-tête regroupe la recherche, la génération, le jeu et « manquants / shiny seulement » ; « Tous les filtres » ouvre le détail ; les filtres actifs sont rappelés, se retirent d'un clic, avec « Tout réinitialiser »",
             "« Signaler un problème » se trouve maintenant dans le pied de page",

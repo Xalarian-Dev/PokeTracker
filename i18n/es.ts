@@ -193,6 +193,7 @@ export const ui = {
     stats_tab: "Estadísticas",
     nav_main: "Navegación principal",
     nav_collection: "Colección",
+    nav_hunt: "Caza",
     filters_all: "Todos los filtros",
     filters_reset: "Restablecer todo",
     filters_active_label: "Filtros activos",

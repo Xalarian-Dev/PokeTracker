@@ -34,13 +34,13 @@ const Header: React.FC<HeaderProps> = ({ trainerId }) => {
               <span className="text-base sm:text-xl font-bold text-yellow-400 truncate">{t('shiny_tracker_title')}</span>
             </Link>
 
-            <nav aria-label={t('nav_main')} className="hidden md:block">
+            <nav aria-label={t('nav_main')} className="hidden md:block shrink-0">
               <ul className="flex items-center gap-1">
                 {NAV_ITEMS.map(({ to, labelKey, icon: Icon, end }) => (
                   <li key={to}>
-                    <NavLink to={to} end={end} className={navLinkClass}>
+                    <NavLink to={to} end={end} className={navLinkClass} title={t(labelKey)} aria-label={t(labelKey)}>
                       <Icon className="w-4 h-4" aria-hidden="true" />
-                      {t(labelKey)}
+                      <span className="hidden xl:inline">{t(labelKey)}</span>
                     </NavLink>
                   </li>
                 ))}
@@ -50,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({ trainerId }) => {
 
           <div className="flex items-center gap-2 sm:gap-3">
             {clerkUser && trainerId && (
-              <span className="hidden lg:block text-gray-300 text-sm">
+              <span className="hidden 2xl:block shrink-0 whitespace-nowrap text-gray-300 text-sm max-w-48 truncate" title={`${t('trainer')}: ${trainerId}`}>
                 {t('trainer')}: <span className="font-semibold text-yellow-400 font-mono">{trainerId}</span>
               </span>
             )}
@@ -59,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({ trainerId }) => {
               href="https://ko-fi.com/xalarian"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex p-2 -m-2 text-gray-300 hover:text-yellow-400 transition-colors duration-200"
+              className="hidden lg:inline-flex p-2 -m-2 text-gray-300 hover:text-yellow-400 transition-colors duration-200"
               aria-label={t('support_kofi')}
               title={t('support_kofi')}
             >
@@ -72,9 +72,9 @@ const Header: React.FC<HeaderProps> = ({ trainerId }) => {
 
             {clerkUser && (
               <Button asChild variant="secondary" className="hidden md:inline-flex gap-2">
-                <Link to="/profile">
+                <Link to="/profile" title={t('profile')} aria-label={t('profile')}>
                   <UserIcon className="w-4 h-4" aria-hidden="true" />
-                  {t('profile')}
+                  <span className="hidden xl:inline">{t('profile')}</span>
                 </Link>
               </Button>
             )}

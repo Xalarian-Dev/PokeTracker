@@ -190,6 +190,7 @@ export const ui = {
     stats_tab: "Statistiques",
     nav_main: "Navigation principale",
     nav_collection: "Collection",
+    nav_hunt: "Chasse",
     filters_all: "Tous les filtres",
     filters_reset: "Tout réinitialiser",
     filters_active_label: "Filtres actifs",

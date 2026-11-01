@@ -35,18 +35,18 @@ export const SpecialStats: React.FC<SpecialStatsProps> = ({ pokemonList, shinyPo
     }, [pokemonList, shinyPokemons, t]);
 
     return (
-        <div className="p-4">
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">
+        <section className="bg-gray-800 border border-gray-700 rounded-xl p-5">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-300 mb-4">
                 {t('stats_special')}
             </h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] gap-x-4 gap-y-5">
                 {categories.map(({ key, label, total, shiny }) => (
                     <div key={key} className="flex flex-col items-center">
                         <CircularProgress
                             progress={total > 0 ? (shiny / total) * 100 : 0}
                             shinyCount={shiny}
                             totalPokemon={total}
-                            size={80}
+                            size={96}
                             {...(key === 'starters' && {
                                 background: 'linear-gradient(to bottom, #e53935 40%, #f5f5f5 60%)',
                                 textOutline: true,
@@ -57,7 +57,7 @@ export const SpecialStats: React.FC<SpecialStatsProps> = ({ pokemonList, shinyPo
                     </div>
                 ))}
             </div>
-        </div>
+        </section>
     );
 };
 

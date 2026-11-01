@@ -26,18 +26,18 @@ export const GenerationStats: React.FC<GenerationStatsProps> = ({ pokemonList, s
     }, [pokemonList, shinyPokemons]);
 
     return (
-        <div className="p-4">
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">
+        <section className="bg-gray-800 border border-gray-700 rounded-xl p-5">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-gray-300 mb-4">
                 {t('stats_by_generation')}
             </h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] gap-x-4 gap-y-5">
                 {generations.map(([gen, { total, shiny }]) => (
                     <div key={gen} className="flex flex-col items-center">
                         <CircularProgress
                             progress={total > 0 ? (shiny / total) * 100 : 0}
                             shinyCount={shiny}
                             totalPokemon={total}
-                            size={80}
+                            size={96}
                             watermark={toRoman(gen)}
                             background="radial-gradient(circle at 35% 30%, #6d7bd4, transparent 95%)"
                         />
@@ -46,7 +46,7 @@ export const GenerationStats: React.FC<GenerationStatsProps> = ({ pokemonList, s
                     </div>
                 ))}
             </div>
-        </div>
+        </section>
     );
 };
 

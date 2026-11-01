@@ -54,6 +54,7 @@ export const changelogEN: ChangeLogEntry[] = [
         sectionTitle: "Statistics, Icon Legend & Interface Fixes",
         features: "New Features",
         featuresList: [
+            "Statistics: the page now uses the full width on desktop, with larger blocks; compact header (icons only) on medium screens so it no longer overlaps the trainer name; \"Random Hunt\" becomes \"Hunt\" in the menu",
             "New navigation: the side tabs are replaced by a menu in the header (Collection, Statistics, Community, Random Hunt) and by a bottom navigation bar on mobile; each page has its own address (/stats, /communaute, /chasse)",
             "Filters: a fixed bar under the header groups search, generation, game and \"missing / shiny only\"; \"All filters\" opens the full list; active filters are shown, can be removed with one click, with \"Reset all\"",
             "\"Report a problem\" is now in the footer",

@@ -12,5 +12,5 @@ export const NAV_ITEMS: NavItem[] = [
     { to: '/', labelKey: 'nav_collection', icon: LayoutGrid, end: true },
     { to: '/stats', labelKey: 'stats_tab', icon: BarChart3 },
     { to: '/communaute', labelKey: 'community_feed', icon: Users },
-    { to: '/chasse', labelKey: 'random_hunt', icon: Dices },
+    { to: '/chasse', labelKey: 'nav_hunt', icon: Dices },
 ];

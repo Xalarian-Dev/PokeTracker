@@ -190,6 +190,7 @@ export const ui = {
     stats_tab: "統計",
     nav_main: "メインナビゲーション",
     nav_collection: "コレクション",
+    nav_hunt: "ハント",
     filters_all: "すべてのフィルター",
     filters_reset: "すべてリセット",
     filters_active_label: "適用中のフィルター",
