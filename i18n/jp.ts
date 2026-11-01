@@ -187,6 +187,7 @@ export const ui = {
     community_feed_captured: "{pokemon}（色違い）を捕まえました",
     community_feed_live: "ライブ",
     community_feed_new: "新着",
+    community_feed_encounters: "遭遇 {n} 回",
     stats_tab: "統計",
     nav_main: "メインナビゲーション",
     nav_collection: "コレクション",

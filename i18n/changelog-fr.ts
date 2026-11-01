@@ -43,6 +43,7 @@ export const changelogFR: ChangeLogEntry[] = [
         sectionTitle: "Statistiques, légende des icônes et corrections d'interface",
         features: "Nouvelles fonctionnalités",
         featuresList: [
+            "Communauté : la page occupe toute la largeur sur ordinateur, avec de grandes cartes qui affichent aussi le jeu utilisé et le nombre de rencontres des captures faites depuis la page Chasse",
             "Page « Chasse » : la recherche se parcourt au clavier (↑ ↓ Entrée), affiche aussi les Pokémon déjà capturés (« Déjà capturé ») ; en choisir un montre le jeu et le nombre de rencontres enregistrés, modifiables. L'animation d'étoiles se rejoue à chaque cible choisie",
             "Page « Chasse » : tirez une cible au sort ou choisissez-la vous-même, indiquez le jeu utilisé, comptez vos rencontres (boutons + / −, saisie directe ou clavier : +, − , flèches, Espace), puis « Capturé ! » enregistre le shiny avec le jeu et le nombre de rencontres. La chasse en cours est conservée si vous rechargez la page",
             "Statistiques : la page occupe toute la largeur sur ordinateur, avec des blocs plus grands ; en-tête compact (icônes seules) sur les écrans moyens pour ne plus chevaucher le nom de dresseur ; « Chasse aléatoire » devient « Chasse » dans le menu",

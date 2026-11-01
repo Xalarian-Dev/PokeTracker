@@ -190,6 +190,7 @@ export const ui = {
     community_feed_captured: "captured a Shiny {pokemon}",
     community_feed_live: "Live",
     community_feed_new: "New",
+    community_feed_encounters: "{n} encounter(s)",
     stats_tab: "Statistics",
     nav_main: "Main navigation",
     nav_collection: "Collection",

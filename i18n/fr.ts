@@ -187,6 +187,7 @@ export const ui = {
     community_feed_captured: "a capturé un {pokemon} Shiny",
     community_feed_live: "En direct",
     community_feed_new: "Nouveau",
+    community_feed_encounters: "{n} rencontre(s)",
     stats_tab: "Statistiques",
     nav_main: "Navigation principale",
     nav_collection: "Collection",
