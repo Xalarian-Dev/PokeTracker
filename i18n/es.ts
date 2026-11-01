@@ -4,7 +4,7 @@ import { GAME_LIST, INDIVIDUAL_GAME_LIST } from '../data/games';
 
 export const ui = {
     loading: "Cargando...",
-    welcome_trainer: "Bienvenido, Entrenador!",
+    welcome_trainer: "¡Bienvenido, Entrenador!",
     login_prompt: "Introduce tu nombre para comenzar tu caza de shiny.",
     username_placeholder: "Ash de Pueblo Paleta",
     start_hunt: "Comenzar la caza",
@@ -106,7 +106,7 @@ export const ui = {
     display_name_placeholder: "Introduce tu nombre para mostrar (opcional)",
     will_be_displayed: "se mostrar\u00e1 en la cabecera",
     pokemon_copyright: "Las ilustraciones de Pok\u00e9mon son propiedad de Nintendo, Creatures Inc., GAME FREAK inc. \u00a91995-2025 The Pok\u00e9mon Company",
-    feedback_title: "Reportar un problema",
+    feedback_title: "Informar de un problema",
     feedback_description: "Ay\u00fadanos a mejorar la aplicaci\u00f3n reportando errores, Pok\u00e9mon faltantes o haciendo preguntas.",
     feedback_category: "Categor\u00eda",
     feedback_missing_pokemon: "Pok\u00e9mon faltante",
