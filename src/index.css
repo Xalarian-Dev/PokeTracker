@@ -413,14 +413,18 @@
   animation: blob-drift 16s ease-in-out infinite;
 }
 
-/* Lévitation douce des sprites */
+/* Lévitation douce des sprites.
+   Appliquée à un conteneur (pas à l'image elle-même) : translate3d + très légère rotation, qui
+   varie en continu, pour que le mouvement reste fluide même à faible vitesse (un déplacement
+   de moins d'un pixel par image paraît saccadé sur un simple décalage vertical). */
 @keyframes floaty {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-1.2deg); }
+  50% { transform: translate3d(0, -14px, 0) rotate(1.2deg); }
 }
 .floaty {
   will-change: transform;
-  animation: floaty 5s ease-in-out infinite;
+  backface-visibility: hidden;
+  animation: floaty 6s ease-in-out infinite;
 }
 
 /* Halo derrière un sprite */

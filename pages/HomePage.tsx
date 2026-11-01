@@ -99,15 +99,20 @@ const HomePage: React.FC = () => {
                     <div className="relative flex flex-wrap items-center justify-center gap-2 sm:gap-4" aria-hidden="true">
                         <div className="sprite-halo absolute inset-0 -z-0 scale-110 rounded-full" />
                         {heroPokemon.map((p, i) => (
-                            <img
+                            <div
                                 key={p.id}
-                                src={p.shinySprite}
-                                alt=""
-                                width={160}
-                                height={160}
-                                className={`relative object-contain floaty ${i === 2 ? 'w-36 h-36 sm:w-48 sm:h-48' : 'w-24 h-24 sm:w-32 sm:h-32'}`}
-                                style={{ animationDelay: `${i * -1.1}s` }}
-                            />
+                                className="relative floaty"
+                                style={{ animationDelay: `${i * -1.3}s` }}
+                            >
+                                <img
+                                    src={p.shinySprite}
+                                    alt=""
+                                    width={160}
+                                    height={160}
+                                    decoding="async"
+                                    className={`object-contain ${i === 2 ? 'w-36 h-36 sm:w-48 sm:h-48' : 'w-24 h-24 sm:w-32 sm:h-32'}`}
+                                />
+                            </div>
                         ))}
                     </div>
                 </div>
