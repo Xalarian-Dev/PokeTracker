@@ -23,7 +23,7 @@ const Header: React.FC<HeaderProps> = ({ trainerId }) => {
   const { t } = useLanguage();
 
   return (
-    <header className="bg-gray-900/70 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/20 sticky top-0 z-40">
+    <header className="bg-gray-900/70 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/20 sticky top-0 z-40">
       <div className="w-full mx-auto px-2 md:px-4 lg:px-8 max-w-7xl 2xl:max-w-[1600px]">
         <div className="flex items-center justify-between h-16 gap-2">
           <div className="flex items-center gap-4 min-w-0">
