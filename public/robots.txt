@@ -5,4 +5,4 @@ Allow: /
 Disallow: /api/
 
 # Sitemap
-Sitemap: https://www.pokemonshinytracker.com/sitemap.xml
+Sitemap: https://pokemonshinytracker.com/sitemap.xml

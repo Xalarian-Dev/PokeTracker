@@ -9,7 +9,7 @@ interface MetadataConfig {
 export const useMetadata = (config: MetadataConfig = {}) => {
     const { t, language } = useLanguage();
 
-    const canonicalUrl = config.canonicalUrl || 'https://www.pokemonshinytracker.com/';
+    const canonicalUrl = config.canonicalUrl || 'https://pokemonshinytracker.com/';
     const ogImage = config.ogImage || '/og-image.png';
 
     useEffect(() => {

@@ -54,6 +54,7 @@ export const changelogEN: ChangeLogEntry[] = [
         sectionTitle: "Statistics, Icon Legend & Interface Fixes",
         features: "New Features",
         featuresList: [
+            "New address: PokeTracker now lives at pokemonshinytracker.com. The old address (pokemonshinytracker.vercel.app) redirects automatically to the new one; remember to update your bookmarks. Your account and data are unchanged",
             "\"Hunt\" page: searching for a Pokémon now comes first, followed by the \"Random Hunt\" button",
             "Home page: when you arrive on the site, an introduction (3-step overview, features, live community activity) with sign-up and log-in buttons. The collection now lives at /collection; once logged in, you land straight on it",
             "Community: the page now uses the full width on desktop, with large cards that also show the game used and the number of encounters for catches made from the Hunt page",
