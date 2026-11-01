@@ -72,7 +72,7 @@ const Header: React.FC<HeaderProps> = ({ trainerId }) => {
 
             {clerkUser && (
               <Button asChild variant="secondary" className="hidden md:inline-flex gap-2">
-                <Link to="/profile" title={t('profile')} aria-label={t('profile')}>
+                <Link to="/profile" title={trainerId ? `${t('profile')} (${t('trainer')}: ${trainerId})` : t('profile')} aria-label={trainerId ? `${t('profile')} (${t('trainer')}: ${trainerId})` : t('profile')}>
                   <UserIcon className="w-4 h-4" aria-hidden="true" />
                   <span className="hidden 2xl:inline">{t('profile')}</span>
                 </Link>
