@@ -15,7 +15,7 @@ const CollectionPage: React.FC = () => {
     const isMobile = useIsMobile();
     const {
         pokemonList, shinyPokemons, setShinyPokemons, loading,
-        validatedForms, shinyForms, favoriteForms, toggleShiny, toggleForm, setFavoriteForm,
+        validatedForms, shinyForms, favoriteForms, toggleShiny, toggleForm, setFavoriteForm, shinyDetails,
     } = useCollection();
 
     const filters = useFilters({ pokemonList, shinyPokemons });
@@ -94,6 +94,7 @@ const CollectionPage: React.FC = () => {
                 <PokemonGrid
                     displayedPokemon={displayedPokemon}
                     shinyPokemons={shinyPokemons}
+                    shinyDetails={shinyDetails}
                     validatedForms={validatedForms}
                     shinyForms={shinyForms}
                     favoriteForms={favoriteForms}

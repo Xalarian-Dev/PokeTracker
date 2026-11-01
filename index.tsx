@@ -1,6 +1,10 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+// Police d'affichage (titres, chiffres) : Chakra Petch, auto-hébergée (licence OFL), sous-ensemble latin
+import '@fontsource/chakra-petch/latin-500.css';
+import '@fontsource/chakra-petch/latin-600.css';
+import '@fontsource/chakra-petch/latin-700.css';
 import './src/index.css';
 import App from './App';
 

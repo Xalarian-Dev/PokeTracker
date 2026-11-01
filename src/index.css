@@ -5,6 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  --font-display: 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
@@ -336,6 +337,11 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Titres et chiffres en police d'affichage (les autres textes restent en police système) */
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
   }
 }
 

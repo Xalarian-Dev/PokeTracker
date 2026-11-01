@@ -1,3 +1,4 @@
+import type { ShinyDetails } from '../services/supabase';
 import React from 'react';
 import type { Pokemon } from '../types';
 import PokemonCard from './PokemonCard';
@@ -17,6 +18,8 @@ interface PokemonGridProps {
         regional: Record<'Alola' | 'Galar' | 'Hisui' | 'Paldea', DisplayedPokemon[]>;
     };
     shinyPokemons: Set<string>;
+    /** Jeu et rencontres enregistrés avec certains shiny (page Chasse) */
+    shinyDetails?: Map<string, ShinyDetails>;
     validatedForms: Map<string, Set<string>>;
     shinyForms: Map<string, Set<string>>;
     favoriteForms: Map<string, string>;
@@ -33,6 +36,7 @@ interface PokemonGridProps {
 }
 
 const PokemonGrid: React.FC<PokemonGridProps> = ({
+    shinyDetails,
     displayedPokemon,
     shinyPokemons,
     validatedForms,
@@ -92,6 +96,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
                                 <MobilePokemonCard
                                     pokemon={pokemon}
                                     isShiny={shinyPokemons.has(pokemon.id)}
+                                    details={shinyDetails?.get(pokemon.id)}
                                     onToggleShiny={onToggleShiny}
                                     selectedGame={selectedGame}
                                     isGrayedOut={pokemon.isGrayedOut}
@@ -104,6 +109,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
                                 <PokemonCard
                                     pokemon={pokemon}
                                     isShiny={shinyPokemons.has(pokemon.id)}
+                                    details={shinyDetails?.get(pokemon.id)}
                                     onToggleShiny={onToggleShiny}
                                     selectedGame={selectedGame}
                                     isGrayedOut={pokemon.isGrayedOut}
@@ -149,6 +155,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
                                         <MobilePokemonCard
                                             pokemon={pokemon}
                                             isShiny={shinyPokemons.has(pokemon.id)}
+                                    details={shinyDetails?.get(pokemon.id)}
                                             onToggleShiny={onToggleShiny}
                                             selectedGame={selectedGame}
                                             isGrayedOut={pokemon.isGrayedOut}
@@ -161,6 +168,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
                                         <PokemonCard
                                             pokemon={pokemon}
                                             isShiny={shinyPokemons.has(pokemon.id)}
+                                    details={shinyDetails?.get(pokemon.id)}
                                             onToggleShiny={onToggleShiny}
                                             selectedGame={selectedGame}
                                             isGrayedOut={pokemon.isGrayedOut}

@@ -6,11 +6,14 @@ import { SparklesIcon } from './Icons';
 import { useCardBadges, useBadgeLabel, BadgeIcon, DLC_KEYS } from './CardBadges';
 import { getCardBgColor, getDisplaySprite } from './cardShared';
 import { POKEMON_WITH_MULTIPLE_FORMS } from '../data/pokemon';
+import type { ShinyDetails } from '../services/supabase';
 import FormsModal from './FormsModal';
 
 interface PokemonCardProps {
   pokemon: Pokemon;
   isShiny: boolean;
+  /** Jeu et rencontres enregistrés avec ce shiny (page Chasse), quand on les a */
+  details?: ShinyDetails;
   onToggleShiny: (id: string) => void;
   selectedGame: string | null;
   isGrayedOut?: boolean;
@@ -23,6 +26,7 @@ interface PokemonCardProps {
 
 const PokemonCard: React.FC<PokemonCardProps> = ({
   pokemon,
+  details,
   isShiny,
   onToggleShiny,
   selectedGame,
@@ -33,7 +37,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
   favoriteFormId,
   onSetFavorite
 }) => {
-  const { t } = useLanguage();
+  const { t, getGameName } = useLanguage();
   const [isFormsModalOpen, setIsFormsModalOpen] = useState(false);
 
   let formattedId: string;
@@ -58,6 +62,12 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
   const shinyGlowStyle = isShiny ? {
     boxShadow: '0 0 0 1px rgba(251, 191, 36, 0.35), 0 0 18px 3px rgba(251, 191, 36, 0.32)'
   } : {};
+
+  // « Écarlate · 1 843 rencontres » : seulement quand la donnée existe
+  const captureParts: string[] = [];
+  if (details?.game) captureParts.push(getGameName(details.game));
+  if (details?.encounters !== null && details?.encounters !== undefined) captureParts.push(t('community_feed_encounters', { n: details.encounters.toLocaleString() }));
+  const captureInfo = captureParts.join(' · ');
 
   const badges = useCardBadges(pokemon.id, selectedGame);
   const badgeLabel = useBadgeLabel();
@@ -140,6 +150,9 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
       <div className="text-center mt-2 w-full px-0.5 overflow-hidden">
         <p className="text-sm font-bold text-white truncate">{pokemon.name}</p>
         <p className="text-xs text-gray-400">{formattedId}</p>
+        {isShiny && captureInfo && (
+          <p className="mt-0.5 text-xs text-amber-200/90 truncate" title={captureInfo}>{captureInfo}</p>
+        )}
       </div>
 
       {/* Multiple Forms Indicator and Counter */}

@@ -4,6 +4,8 @@ import { SparklesIcon } from './Icons';
 import { POKEMON_WITH_MULTIPLE_FORMS } from '../data/pokemon';
 import FormsModal from './FormsModal';
 import { getCardBgColor, getDisplaySprite } from './cardShared';
+import type { ShinyDetails } from '../services/supabase';
+import { useLanguage } from '../contexts/LanguageContext';
 import { useCardBadges, useBadgeLabel, BadgeIcon } from './CardBadges';
 
 /** Nombre maximum d'icônes affichées sur une carte mobile (la légende liste toutes les icônes) */
@@ -12,6 +14,8 @@ const MAX_MOBILE_BADGES = 3;
 interface MobilePokemonCardProps {
     pokemon: Pokemon;
     isShiny: boolean;
+    /** Jeu et rencontres enregistrés avec ce shiny (affichés en infobulle sur mobile : la carte est trop petite) */
+    details?: ShinyDetails;
     onToggleShiny: (id: string) => void;
     selectedGame: string | null;
     isGrayedOut?: boolean;
@@ -22,10 +26,15 @@ interface MobilePokemonCardProps {
 }
 
 const MobilePokemonCard: React.FC<MobilePokemonCardProps> = ({
-    pokemon, isShiny, onToggleShiny, selectedGame,
+    pokemon, isShiny, details, onToggleShiny, selectedGame,
     isGrayedOut = false, shinyForms = new Set(), onToggleForm, favoriteFormId, onSetFavorite,
 }) => {
     const [isFormsModalOpen, setIsFormsModalOpen] = useState(false);
+    const { t, getGameName } = useLanguage();
+    const captureTitle = [
+        details?.game ? getGameName(details.game) : null,
+        details?.encounters !== null && details?.encounters !== undefined ? t('community_feed_encounters', { n: details.encounters.toLocaleString() }) : null,
+    ].filter(Boolean).join(' · ');
 
     const formattedId = pokemon.id.includes('-')
         ? `#${pokemon.id.split('-')[0].padStart(3, '0')}`
@@ -64,6 +73,7 @@ const MobilePokemonCard: React.FC<MobilePokemonCardProps> = ({
             <div
                 className={`${cardClasses} ${isGrayedOut ? 'opacity-40 grayscale' : ''}`}
                 style={isShiny ? { boxShadow: '0 0 8px 2px rgba(251, 191, 36, 0.3)' } : {}}
+                title={isShiny && captureTitle ? captureTitle : undefined}
                 onClick={() => onToggleShiny(pokemon.id)}
             >
                 {isShiny && (

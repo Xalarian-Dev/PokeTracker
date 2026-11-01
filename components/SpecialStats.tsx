@@ -9,6 +9,33 @@ interface SpecialStatsProps {
     shinyPokemons: Set<string>;
 }
 
+/** Couronne dorée (légendaires) */
+const CrownDecoration = () => (
+    <svg viewBox="0 0 64 64" width="58%" height="58%" fill="none">
+        <path d="M8 46 L4 20 L20 32 L32 12 L44 32 L60 20 L56 46 Z" fill="#fbbf24" stroke="#f59e0b" strokeWidth="2" strokeLinejoin="round" />
+        <rect x="8" y="48" width="48" height="6" rx="2" fill="#f59e0b" />
+        <circle cx="4" cy="20" r="3" fill="#fde68a" />
+        <circle cx="32" cy="12" r="3.5" fill="#fde68a" />
+        <circle cx="60" cy="20" r="3" fill="#fde68a" />
+    </svg>
+);
+
+/** Quelques étoiles (mythiques) */
+const StarsDecoration = () => (
+    <svg viewBox="0 0 64 64" width="72%" height="72%" fill="#e9d5ff">
+        <path d="M32 6 l3.4 10.2 10.6 .2 -8.5 6.3 3.2 10.1 -8.7 -6.2 -8.7 6.2 3.2 -10.1 -8.5 -6.3 10.6 -.2z" transform="translate(0 -2) scale(1)" />
+        <path d="M12 36 l1.9 5.6 5.9 .1 -4.7 3.5 1.8 5.6 -4.9 -3.4 -4.9 3.4 1.8 -5.6 -4.7 -3.5 5.9 -.1z" />
+        <path d="M52 34 l1.7 5 5.3 .1 -4.2 3.1 1.6 5 -4.4 -3 -4.4 3 1.6 -5 -4.2 -3.1 5.3 -.1z" />
+        <path d="M44 8 l1 3 3.1 .1 -2.5 1.9 1 3 -2.6 -1.8 -2.6 1.8 1 -3 -2.5 -1.9 3.1 -.1z" />
+    </svg>
+);
+
+/** Fond diffus et décor de chaque catégorie spéciale */
+const SPECIAL_STYLE: Record<string, { background?: string; decoration?: React.ReactNode }> = {
+    legendary: { background: 'radial-gradient(circle at 35% 30%, #f59e0b, transparent 95%)', decoration: <CrownDecoration /> },
+    mythical: { background: 'radial-gradient(circle at 35% 30%, #a855f7, transparent 95%)', decoration: <StarsDecoration /> },
+};
+
 export const SpecialStats: React.FC<SpecialStatsProps> = ({ pokemonList, shinyPokemons }) => {
     const { t } = useLanguage();
 
@@ -47,6 +74,7 @@ export const SpecialStats: React.FC<SpecialStatsProps> = ({ pokemonList, shinyPo
                             shinyCount={shiny}
                             totalPokemon={total}
                             size={96}
+                            {...SPECIAL_STYLE[key]}
                             {...(key === 'starters' && {
                                 background: 'linear-gradient(to bottom, #e53935 40%, #f5f5f5 60%)',
                                 textOutline: true,

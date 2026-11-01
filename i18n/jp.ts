@@ -192,6 +192,8 @@ export const ui = {
     nav_main: "メインナビゲーション",
     nav_collection: "コレクション",
     nav_hunt: "ハント",
+    profile_stats_title: "コレクションの数字",
+    profile_collection_total: "色違い（全{n}匹中）",
     home_hero_title: "すべての色違いポケモンを、ひとつの場所で管理",
     home_hero_subtitle: "色違いを記録し、遭遇カウンターで厳選を進め、捕獲をコミュニティと共有しましょう。",
     home_signup: "アカウントを作成",

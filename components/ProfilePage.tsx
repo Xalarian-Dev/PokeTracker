@@ -2,7 +2,13 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser, useClerk } from '@clerk/react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { getUserPreferences, saveUserPreferences, deleteUserData } from '../services/supabase';
+import { getUserPreferences, saveUserPreferences, deleteUserData, fetchShinyCollection } from '../services/supabase';
+import { POKEMON_LIST } from '../data/pokemon';
+import CircularProgress from './CircularProgress';
+import { GenerationStats } from './GenerationStats';
+import { SpecialStats } from './SpecialStats';
+import { RegionalStats } from './RegionalStats';
+import { GameStats } from './GameStats';
 import { INDIVIDUAL_GAME_LIST } from '../data/games';
 import { UKFlag, FranceFlag, JapanFlag, SpainFlag } from './Icons';
 import { MasterBallIcon } from './Icons';
@@ -15,7 +21,7 @@ import { Button } from './ui';
 import { useToast } from '../hooks/use-toast';
 
 const Section: React.FC<{ title: string; children: React.ReactNode; className?: string }> = ({ title, children, className = '' }) => (
-    <div className={`bg-gray-800/60 border border-gray-700 rounded-xl p-5 ${className}`}>
+    <div className={`bg-gray-800/60 border border-white/10 rounded-xl p-5 ${className}`}>
         <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">{title}</h3>
         {children}
     </div>
@@ -37,6 +43,8 @@ const ProfilePage: React.FC = () => {
     const [saved, setSaved] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [deleting, setDeleting] = useState(false);
+    // Collection du joueur, pour les statistiques du profil
+    const [shinies, setShinies] = useState<Set<string>>(new Set());
 
     useEffect(() => {
         if (!user?.id) return;
@@ -50,6 +58,9 @@ const ProfilePage: React.FC = () => {
             })
             .catch(console.error)
             .finally(() => setLoading(false));
+        fetchShinyCollection()
+            .then(({ shinies: owned }) => setShinies(owned))
+            .catch(console.error);
     }, [user?.id]);
 
     const handleSave = async () => {
@@ -98,7 +109,7 @@ const ProfilePage: React.FC = () => {
     const initials = (user?.firstName?.[0] || user?.username?.[0] || '?').toUpperCase();
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white">
+        <div className="app-bg min-h-screen text-white">
             {/* Delete Confirmation Modal */}
             <Dialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
                 <DialogContent>
@@ -124,8 +135,8 @@ const ProfilePage: React.FC = () => {
             </Dialog>
 
             {/* Top bar */}
-            <div className="sticky top-0 z-10 bg-gray-900/80 backdrop-blur-xs border-b border-gray-800">
-                <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
+            <div className="sticky top-0 z-10 bg-gray-900/70 backdrop-blur-md border-b border-white/10">
+                <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <MasterBallIcon className="w-5 h-5" />
                         <span className="font-bold text-yellow-400 text-sm">{t('my_profile')}</span>
@@ -142,34 +153,63 @@ const ProfilePage: React.FC = () => {
                 </div>
             </div>
 
-            <div className="max-w-3xl mx-auto px-4 py-8 space-y-4">
+            <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
 
                 {/* Identity */}
-                <div className="bg-gray-800/60 border border-gray-700 rounded-xl p-5 flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-full bg-linear-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-gray-900 font-bold text-xl shrink-0 shadow-lg">
-                        {initials}
+                <div className="relative overflow-hidden bg-gradient-to-br from-indigo-500/20 via-gray-800/70 to-yellow-400/10 border border-white/10 rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center gap-6">
+                    <div className="flex items-center gap-4 min-w-0 flex-1">
+                        <div className="w-16 h-16 rounded-full bg-linear-to-br from-yellow-300 to-orange-500 flex items-center justify-center text-gray-900 font-bold text-2xl shrink-0 shadow-lg shadow-yellow-500/20 font-display">
+                            {initials}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                            <p className="font-display font-bold text-2xl truncate">{user?.firstName || user?.username}</p>
+                            <p className="text-sm text-gray-400 truncate">{user?.primaryEmailAddress?.emailAddress}</p>
+                            {trainerId && (
+                                <div className="flex flex-wrap items-center gap-2 mt-2">
+                                    <p className="font-mono font-bold text-yellow-400 text-sm">{trainerId}</p>
+                                    <button
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(`${window.location.origin}/u/${trainerId}`);
+                                            setProfileLinkCopied(true);
+                                            setTimeout(() => setProfileLinkCopied(false), 2000);
+                                        }}
+                                        className="flex items-center gap-1 px-2.5 py-1 bg-white/10 hover:bg-white/15 rounded-md text-xs font-medium transition-colors"
+                                    >
+                                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                        </svg>
+                                        {profileLinkCopied ? t('public_profile_link_copied') : t('public_profile_copy_link')}
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                    <div className="min-w-0 flex-1">
-                        <p className="font-bold text-lg truncate">{user?.firstName || user?.username}</p>
-                        <p className="text-sm text-gray-400 truncate">{user?.primaryEmailAddress?.emailAddress}</p>
-                        {trainerId && (
-                            <div className="flex items-center gap-2 mt-2">
-                                <p className="font-mono font-bold text-yellow-400 text-sm">{trainerId}</p>
-                                <button
-                                    onClick={() => {
-                                        navigator.clipboard.writeText(`${window.location.origin}/u/${trainerId}`);
-                                        setProfileLinkCopied(true);
-                                        setTimeout(() => setProfileLinkCopied(false), 2000);
-                                    }}
-                                    className="flex items-center gap-1 px-2.5 py-1 bg-gray-700 hover:bg-gray-600 rounded-md text-xs font-medium transition-colors"
-                                >
-                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                    </svg>
-                                    {profileLinkCopied ? t('public_profile_link_copied') : t('public_profile_copy_link')}
-                                </button>
-                            </div>
-                        )}
+                    <div className="flex items-center gap-4 sm:pr-2">
+                        <CircularProgress
+                            progress={POKEMON_LIST.length > 0 ? (shinies.size / POKEMON_LIST.length) * 100 : 0}
+                            shinyCount={shinies.size}
+                            totalPokemon={POKEMON_LIST.length}
+                            size={104}
+                        />
+                        <div>
+                            <p className="font-display text-3xl font-bold text-yellow-300 tabular-nums">{shinies.size.toLocaleString()}</p>
+                            <p className="text-sm text-gray-300">{t('profile_collection_total', { n: POKEMON_LIST.length.toLocaleString() })}</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Statistiques de la collection */}
+                <div className="space-y-4">
+                    <h2 className="font-display text-xl font-bold">{t('profile_stats_title')}</h2>
+                    <div className="grid gap-4 lg:grid-cols-2">
+                        <div className="lg:col-span-2">
+                            <GenerationStats pokemonList={POKEMON_LIST} shinyPokemons={shinies} />
+                        </div>
+                        <SpecialStats pokemonList={POKEMON_LIST} shinyPokemons={shinies} />
+                        <RegionalStats pokemonList={POKEMON_LIST} shinyPokemons={shinies} />
+                        <div className="lg:col-span-2">
+                            <GameStats pokemonList={POKEMON_LIST} shinyPokemons={shinies} />
+                        </div>
                     </div>
                 </div>
 
