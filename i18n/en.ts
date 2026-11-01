@@ -191,6 +191,7 @@ export const ui = {
     community_feed_live: "Live",
     community_feed_new: "New",
     stats_tab: "Statistics",
+    legend_none: "No special icons for this game.",
     legend_multi: "Several generations",
     legend_colors: "When a game with two versions is selected, a card's background color shows which version the Pokémon is available in.",
     save_error: "Couldn't save your preferences. Please try again.",

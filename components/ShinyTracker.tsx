@@ -241,6 +241,8 @@ const ShinyTracker: React.FC<ShinyTrackerProps> = ({ user, onLogout, pokemonList
                   loading={loading}
                   onMarkAll={handleMarkAll}
                   onUnmarkAll={handleUnmarkAll}
+                  selectedGame={selectedGame}
+                  generation={activeFilter?.type === 'gen' ? Number(activeFilter.value) : null}
                 />
 
                 <PokemonGrid

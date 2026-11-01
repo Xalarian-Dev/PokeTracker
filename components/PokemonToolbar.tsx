@@ -8,6 +8,9 @@ interface PokemonToolbarProps {
     loading: boolean;
     onMarkAll: () => void;
     onUnmarkAll: () => void;
+    /** Filtres courants, pour adapter la légende des icônes */
+    selectedGame: string | null;
+    generation: number | null;
 }
 
 const PokemonToolbar: React.FC<PokemonToolbarProps> = ({
@@ -15,6 +18,8 @@ const PokemonToolbar: React.FC<PokemonToolbarProps> = ({
     loading,
     onMarkAll,
     onUnmarkAll,
+    selectedGame,
+    generation,
 }) => {
     const { t } = useLanguage();
 
@@ -28,7 +33,7 @@ const PokemonToolbar: React.FC<PokemonToolbarProps> = ({
                             {t('pokemon_shown', { count: activeCount })}
                         </div>
                         <div className="flex gap-2">
-                            <LegendDialog />
+                            <LegendDialog selectedGame={selectedGame} generation={generation} />
                             <Button onClick={onMarkAll} variant="secondary" size="sm">
                                 {t('mark_all')}
                             </Button>

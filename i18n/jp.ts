@@ -188,6 +188,7 @@ export const ui = {
     community_feed_live: "ライブ",
     community_feed_new: "新着",
     stats_tab: "統計",
+    legend_none: "このゲームに特別なアイコンはありません。",
     legend_multi: "複数の世代",
     legend_colors: "2つのバージョンがあるゲームを選択すると、カードの背景色でそのポケモンが登場するバージョンがわかります。",
     save_error: "設定を保存できませんでした。もう一度お試しください。",
