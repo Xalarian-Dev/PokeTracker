@@ -2,7 +2,14 @@ export const clerkAppearance = {
     variables: {
         colorPrimary: '#4f46e5', // indigo-600
         colorBackground: '#111827', // gray-900
-        colorInputBackground: '#1f2937', // gray-800
+        // Noms actuels des variables (interface Clerk récente)
+        colorForeground: '#ffffff',
+        colorMutedForeground: '#9ca3af', // gray-400
+        colorInput: '#374151', // gray-700
+        colorInputForeground: '#ffffff',
+        colorNeutral: '#ffffff', // base des gris dérivés (bordures, survols) sur fond sombre
+        // Anciens noms, gardés pour les versions plus anciennes de l'interface
+        colorInputBackground: '#374151',
         colorInputText: '#ffffff',
         colorText: '#ffffff',
         colorTextSecondary: '#9ca3af', // gray-400
@@ -35,8 +42,10 @@ export const clerkAppearance = {
         formFieldLabel: 'text-gray-300 font-medium',
 
         // Links
-        footerActionLink: 'text-indigo-400 hover:text-indigo-300 font-medium',
-        identityPreviewEditButton: 'text-indigo-400 hover:text-indigo-300',
+        // Style direct (les classes Tailwind ne priment pas toujours sur la feuille de Clerk) :
+        // indigo clair, lisible sur le fond sombre (le bleu du bouton principal l'était trop peu)
+        footerActionLink: { color: '#a5b4fc', fontWeight: 500 }, // indigo-300
+        identityPreviewEditButton: { color: '#a5b4fc' },
 
         // Divider
         dividerLine: 'bg-gray-700',
