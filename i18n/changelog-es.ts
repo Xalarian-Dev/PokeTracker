@@ -1,6 +1,7 @@
 import { ChangeLogEntry } from './changelog-en';
 
-export const changelogES: ChangeLogEntry = {
+/** Entrée de juin 2026 (conservée telle quelle) */
+const changelogES_juin2026: ChangeLogEntry = {
     title: "Novedades",
     date: "16 de junio de 2026",
     sectionTitle: "Funciones Comunitarias, Perfiles Públicos y Filtro DLC",
@@ -33,3 +34,40 @@ export const changelogES: ChangeLogEntry = {
     ],
     close: "Cerrar"
 };
+
+/** Entrées du journal « Nouveautés », de la plus récente à la plus ancienne */
+export const changelogES: ChangeLogEntry[] = [
+    {
+        title: "Novedades",
+        date: "1 de noviembre de 2026",
+        sectionTitle: "Estadísticas, leyenda de iconos y correcciones de interfaz",
+        features: "Nuevas funcionalidades",
+        featuresList: [
+            "Estadísticas: nuevos bloques de progreso por generación, por juego, \"Especial\" (iniciales, legendarios, singulares) y formas regionales",
+            "Leyenda de iconos: un botón \"Leyenda\" explica los iconos de las tarjetas, agrupados por generación y adaptados al juego o la generación filtrados",
+            "Los iconos informativos (DLC, Shiny Lock, evento, incursión…) también aparecen en las tarjetas móviles (3 como máximo)",
+            "Forma favorita disponible en móvil, igual que en ordenador",
+            "Búsqueda: un botón permite borrar el texto escrito",
+            "Página no encontrada: una verdadera página 404 con enlace a la colección, en lugar de la redirección silenciosa",
+            "Feed de la comunidad: límite de 3 entradas por jugador aplicado, quitar un shiny también lo quita del feed, ID de cuenta oculto a los visitantes",
+            "Móvil: 4 tarjetas por fila, texto más grande y botón \"+\" más fácil de pulsar",
+        ],
+        security: "Seguridad y privacidad",
+        securityList: [
+            "\"Eliminar mis datos\" también borra tus formas de Pokémon y tus entradas del feed de la comunidad",
+            "Se rechazan ID, nombres de usuario y listas de juegos no válidos; dependencias vulnerables actualizadas",
+        ],
+        technical: "Correcciones y mejoras",
+        technicalList: [
+            "El banner de cookies ya no bloquea la página",
+            "Contraste reforzado (botón \"+\", botones rojo e índigo, filtros de juego) y ningún texto por debajo de 12 px",
+            "Errores visibles: mensajes en pantalla sustituyen a los cuadros del navegador (exportación, sesión caducada, guardado del perfil); la ventana de sincronización de datos locales mostraba un nombre de clave en vez de un texto",
+            "Ventana de formas: se cierra con Esc, textos traducidos en los cuatro idiomas",
+            "Perfil: ya no vuelve automáticamente al inicio tras guardar; perfil público: nombre de los Pokémon visible y la tarjeta se conserva si falta una imagen",
+            "Animaciones reducidas si tu sistema lo solicita",
+            "Actualizaciones técnicas: Tailwind 4, Vite 8, Clerk 6, iconos lucide 1.61, funciones de servidor Node 24",
+        ],
+        close: "Cerrar"
+    },
+    changelogES_juin2026,
+];

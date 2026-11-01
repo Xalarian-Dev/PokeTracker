@@ -17,7 +17,9 @@ export const ChangeLog: React.FC = () => {
         es: changelogES
     };
 
-    const t = content[language as keyof typeof content] || content.en;
+    const entries = content[language as keyof typeof content] || content.en;
+    // Titre et libellés communs : repris de l'entrée la plus récente
+    const t = entries[0];
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4">
@@ -40,19 +42,19 @@ export const ChangeLog: React.FC = () => {
 
                 {/* Content */}
                 <div className="p-6 space-y-6">
-                    {/* Latest Update */}
-                    <div className="bg-gray-900 rounded-lg p-5 border border-purple-500/30">
+                    {entries.map((entry, i) => (
+                    <div key={entry.date} className={`bg-gray-900 rounded-lg p-5 border ${i === 0 ? 'border-purple-500/30' : 'border-gray-700'}`}>
                         <div className="flex items-center gap-2 mb-3">
                             <span className="text-2xl">🔒</span>
-                            <h3 className="text-xl font-bold text-white">{t.sectionTitle}</h3>
+                            <h3 className="text-xl font-bold text-white">{entry.sectionTitle}</h3>
                         </div>
-                        <p className="text-gray-400 text-sm mb-4">{t.date}</p>
+                        <p className="text-gray-400 text-sm mb-4">{entry.date}</p>
 
                         {/* Features */}
                         <div className="mb-4">
-                            <h4 className="text-purple-400 font-semibold mb-2">{t.features}</h4>
+                            <h4 className="text-purple-400 font-semibold mb-2">{entry.features}</h4>
                             <ul className="space-y-2">
-                                {t.featuresList.map((feature, index) => (
+                                {entry.featuresList.map((feature, index) => (
                                     <li key={index} className="text-gray-300 text-sm flex items-start gap-2">
                                         <span className="text-green-400 mt-1">✓</span>
                                         <span>{feature}</span>
@@ -62,11 +64,11 @@ export const ChangeLog: React.FC = () => {
                         </div>
 
                         {/* Security */}
-                        {t.security && t.securityList && (
+                        {entry.security && entry.securityList && (
                             <div className="mb-4">
-                                <h4 className="text-purple-400 font-semibold mb-2">{t.security}</h4>
+                                <h4 className="text-purple-400 font-semibold mb-2">{entry.security}</h4>
                                 <ul className="space-y-2">
-                                    {t.securityList.map((item, index) => (
+                                    {entry.securityList.map((item, index) => (
                                         <li key={index} className="text-gray-300 text-sm flex items-start gap-2">
                                             <span className="text-blue-400 mt-1">✓</span>
                                             <span>{item}</span>
@@ -77,11 +79,11 @@ export const ChangeLog: React.FC = () => {
                         )}
 
                         {/* Technical Details */}
-                        {t.technical && t.technicalList && (
+                        {entry.technical && entry.technicalList && (
                             <div>
-                                <h4 className="text-purple-400 font-semibold mb-2">{t.technical}</h4>
+                                <h4 className="text-purple-400 font-semibold mb-2">{entry.technical}</h4>
                                 <ul className="space-y-2">
-                                    {t.technicalList.map((detail, index) => (
+                                    {entry.technicalList.map((detail, index) => (
                                         <li key={index} className="text-gray-300 text-sm flex items-start gap-2">
                                             <span className="text-yellow-400 mt-1">•</span>
                                             <span>{detail}</span>
@@ -91,6 +93,7 @@ export const ChangeLog: React.FC = () => {
                             </div>
                         )}
                     </div>
+                    ))}
                 </div>
 
                 {/* Footer */}

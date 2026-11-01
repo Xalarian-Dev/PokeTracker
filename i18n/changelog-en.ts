@@ -11,7 +11,8 @@ export interface ChangeLogEntry {
     close: string;
 }
 
-export const changelogEN: ChangeLogEntry = {
+/** Entrée de juin 2026 (conservée telle quelle) */
+const changelogEN_juin2026: ChangeLogEntry = {
     title: "What's New",
     date: "June 16, 2026",
     sectionTitle: "Community Features, Public Profiles & DLC Filter",
@@ -44,3 +45,40 @@ export const changelogEN: ChangeLogEntry = {
     ],
     close: "Close"
 };
+
+/** Entrées du journal « Nouveautés », de la plus récente à la plus ancienne */
+export const changelogEN: ChangeLogEntry[] = [
+    {
+        title: "What's New",
+        date: "November 1, 2026",
+        sectionTitle: "Statistics, Icon Legend & Interface Fixes",
+        features: "New Features",
+        featuresList: [
+            "Statistics: new progress blocks by generation, by game, \"Special\" (starters, legendaries, mythicals) and regional forms",
+            "Icon legend: a \"Legend\" button explains the icons on the cards, grouped by generation and adapted to the selected game or generation",
+            "Info icons (DLC, Shiny Lock, event, raid…) now also appear on mobile cards (3 at most)",
+            "Favorite form is now available on mobile, like on desktop",
+            "Search: a button clears the typed text",
+            "Page not found: a real 404 page with a link back to the collection, instead of the silent redirect",
+            "Community feed: limit of 3 entries per player enforced, removing a shiny also removes it from the feed, account ID hidden from visitors",
+            "Mobile: 4 cards per row, larger text and an easier-to-tap \"+\" button",
+        ],
+        security: "Security & Privacy",
+        securityList: [
+            "\"Delete my data\" now also erases your Pokémon forms and your community feed entries",
+            "Invalid IDs, usernames and game lists are rejected; vulnerable dependencies updated",
+        ],
+        technical: "Fixes & Improvements",
+        technicalList: [
+            "The cookie banner no longer blocks the page",
+            "Stronger contrast (\"+\" button, red and indigo buttons, game filters) and no text below 12 px anymore",
+            "Visible errors: on-screen messages replace browser dialogs (export, expired session, profile saving); the local data sync prompt used to show a key name instead of text",
+            "Forms window: closes with Esc, texts translated in all four languages",
+            "Profile: no more automatic return to the home page after saving; public profile: Pokémon names visible and the card is kept when an image is missing",
+            "Reduced animations when your system asks for it",
+            "Technical updates: Tailwind 4, Vite 8, Clerk 6, lucide icons 1.61, Node 24 server functions",
+        ],
+        close: "Close"
+    },
+    changelogEN_juin2026,
+];
