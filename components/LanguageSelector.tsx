@@ -1,40 +1,43 @@
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { FranceFlag, UKFlag, JapanFlag, SpainFlag } from './Icons';
 import { cn } from '../utils/cn';
 
+type Lang = 'fr' | 'en' | 'es' | 'jp';
+
+const LANGS: { code: Lang; name: string; htmlLang: string; Flag: React.FC<{ className?: string }> }[] = [
+    { code: 'en', name: 'English', htmlLang: 'en', Flag: UKFlag },
+    { code: 'fr', name: 'Français', htmlLang: 'fr', Flag: FranceFlag },
+    { code: 'es', name: 'Español', htmlLang: 'es', Flag: SpainFlag },
+    { code: 'jp', name: '日本語', htmlLang: 'ja', Flag: JapanFlag },
+];
+
 /**
- * Composant LanguageSelector réutilisable
- * Permet de changer la langue de l'application
+ * Sélecteur de langue : un drapeau par langue.
+ * Chaque bouton garde un nom accessible (la langue écrite dans sa propre langue) et expose son état.
  */
 export const LanguageSelector: React.FC = () => {
     const { language, setLanguage } = useLanguage();
 
-    const LANGS: { code: 'fr' | 'en' | 'es' | 'jp'; short: string; name: string; htmlLang: string }[] = [
-        { code: 'fr', short: 'FR', name: 'Français', htmlLang: 'fr' },
-        { code: 'en', short: 'EN', name: 'English', htmlLang: 'en' },
-        { code: 'es', short: 'ES', name: 'Español', htmlLang: 'es' },
-        { code: 'jp', short: '日本語', name: '日本語', htmlLang: 'ja' },
-    ];
-
     return (
-        <div role="group" aria-label="Language" className="flex items-center gap-1 bg-gray-900/50 p-1 rounded-lg">
-            {LANGS.map(l => (
+        <div role="group" aria-label="Language" className="flex items-center space-x-1 sm:space-x-2 bg-gray-900/50 p-1 rounded-lg">
+            {LANGS.map(({ code, name, htmlLang, Flag }) => (
                 <button
-                    key={l.code}
+                    key={code}
                     type="button"
-                    onClick={() => setLanguage(l.code)}
-                    lang={l.htmlLang}
-                    title={l.name}
-                    aria-label={l.name}
-                    aria-pressed={language === l.code}
+                    onClick={() => setLanguage(code)}
+                    lang={htmlLang}
+                    title={name}
+                    aria-label={name}
+                    aria-pressed={language === code}
                     className={cn(
-                        "min-h-8 min-w-8 px-2 text-xs font-semibold rounded-md transition-colors",
-                        language === l.code
-                            ? "bg-poke-yellow text-gray-900"
+                        "px-2 py-1 flex items-center justify-center rounded-md transition-colors",
+                        language === code
+                            ? "bg-poke-yellow text-gray-900 border border-poke-yellow-dark"
                             : "bg-dark-700 hover:bg-dark-600 text-white"
                     )}
                 >
-                    {l.short}
+                    <Flag className="w-5 h-3 sm:w-6 sm:h-4 shadow-xs" />
                 </button>
             ))}
         </div>
