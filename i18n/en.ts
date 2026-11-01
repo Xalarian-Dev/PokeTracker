@@ -201,6 +201,7 @@ export const ui = {
     game_all: "All games",
     no_results_reset: "Reset filters",
     report_problem: "Report a problem",
+    legend_multi: "Several generations",
     legend_colors: "When a game with two versions is selected, a card's background color shows which version the Pokémon is available in.",
     save_error: "Couldn't save your preferences. Please try again.",
     delete_account_error: "Account deletion failed. Try again or contact us.",

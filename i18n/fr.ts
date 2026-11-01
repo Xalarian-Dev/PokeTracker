@@ -198,6 +198,7 @@ export const ui = {
     game_all: "Tous les jeux",
     no_results_reset: "Réinitialiser les filtres",
     report_problem: "Signaler un problème",
+    legend_multi: "Plusieurs générations",
     legend_colors: "Quand un jeu à deux versions est sélectionné, la couleur de fond d'une carte indique la version dans laquelle le Pokémon est disponible.",
     save_error: "Impossible d'enregistrer vos préférences. Réessayez.",
     delete_account_error: "La suppression du compte a échoué. Réessayez ou contactez-nous.",
