@@ -48,7 +48,7 @@ export const PublicProfilePage: React.FC = () => {
                 <MasterBallIcon className="w-16 h-16 opacity-40" />
                 <h1 className="text-2xl font-bold">{t('public_profile_not_found')}</h1>
                 <p className="text-gray-400">{t('public_profile_not_found_desc')}</p>
-                <Link to="/" className="mt-4 px-6 py-3 bg-yellow-400 text-gray-900 font-bold rounded-lg hover:bg-yellow-300 transition-colors">
+                <Link to="/collection" className="mt-4 px-6 py-3 bg-yellow-400 text-gray-900 font-bold rounded-lg hover:bg-yellow-300 transition-colors">
                     {t('public_profile_open_tracker')}
                 </Link>
             </div>
@@ -98,7 +98,7 @@ export const PublicProfilePage: React.FC = () => {
                                 {copied ? t('public_profile_link_copied') : t('public_profile_copy_link')}
                             </button>
                             <Link
-                                to="/"
+                                to="/collection"
                                 className="flex items-center gap-2 px-4 py-2 bg-yellow-400/20 hover:bg-yellow-400/30 border border-yellow-400/40 text-yellow-400 rounded-lg text-sm transition-colors"
                             >
                                 {t('public_profile_open_tracker')}

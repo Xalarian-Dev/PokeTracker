@@ -54,6 +54,7 @@ export const changelogEN: ChangeLogEntry[] = [
         sectionTitle: "Statistics, Icon Legend & Interface Fixes",
         features: "New Features",
         featuresList: [
+            "Home page: when you arrive on the site, an introduction (3-step overview, features, live community activity) with sign-up and log-in buttons. The collection now lives at /collection; once logged in, you land straight on it",
             "Community: the page now uses the full width on desktop, with large cards that also show the game used and the number of encounters for catches made from the Hunt page",
             "\"Hunt\" page: search is keyboard-navigable (↑ ↓ Enter) and also lists already-caught Pokémon (\"Already caught\"); picking one shows its saved game and encounters, which you can edit. The star animation replays each time you pick a target",
             "\"Hunt\" page: roll a random target or pick one yourself, choose the game used, count your encounters (+ / − buttons, direct input or keyboard: +, −, arrows, Space), then \"Caught!\" saves the shiny with its game and number of encounters. Your current hunt is kept if you reload the page",

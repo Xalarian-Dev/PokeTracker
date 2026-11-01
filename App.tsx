@@ -2,6 +2,7 @@ import React, { useMemo, lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ClerkProvider, Show, useUser, useClerk } from '@clerk/react';
 import AppLayout from './components/AppLayout';
+import HomePage from './pages/HomePage';
 import CollectionPage from './pages/CollectionPage';
 import StatsPage from './pages/StatsPage';
 import CommunityPage from './pages/CommunityPage';
@@ -86,7 +87,8 @@ const AppShell = () => {
       <div className="flex-1">
         <Routes>
           <Route element={<AppLayout key={user?.username ?? 'guest'} user={user} pokemonList={pokemonList} />}>
-            <Route index element={<CollectionPage />} />
+            <Route index element={<HomePage />} />
+            <Route path="collection" element={<CollectionPage />} />
             <Route path="stats" element={<StatsPage />} />
             <Route path="communaute" element={<CommunityPage />} />
             <Route path="chasse" element={<RandomHuntPage />} />
