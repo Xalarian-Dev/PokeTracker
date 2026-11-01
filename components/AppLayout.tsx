@@ -33,6 +33,9 @@ const AppLayout: React.FC<AppLayoutProps> = ({ user, pokemonList }) => {
         shinyForms: data.shinyForms,
         favoriteForms: data.favoriteForms,
         toggleShiny: data.toggleShiny,
+        captureShiny: data.captureShiny,
+        shinyDetails: data.shinyDetails,
+        editShinyDetails: data.editShinyDetails,
         toggleForm: data.toggleForm,
         setFavoriteForm: data.setFavoriteForm,
     };

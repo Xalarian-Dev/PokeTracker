@@ -1,6 +1,7 @@
 import { useOutletContext } from 'react-router-dom';
 import type { Dispatch, SetStateAction } from 'react';
 import type { Pokemon } from '../types';
+import type { ShinyDetails } from '../services/supabase';
 
 /** Données de la collection, partagées par toutes les pages de l'application (via <Outlet context>) */
 export interface CollectionContext {
@@ -14,6 +15,12 @@ export interface CollectionContext {
     shinyForms: Map<string, Set<string>>;
     favoriteForms: Map<string, string>;
     toggleShiny: (pokemonId: string) => void;
+    /** Capture depuis la page Chasse : jeu utilisé et nombre de rencontres enregistrés avec le shiny */
+    captureShiny: (pokemonId: string, details: { game: string | null; encounters: number }) => Promise<void>;
+    /** Jeu et rencontres enregistrés avec les shiny capturés depuis la page Chasse */
+    shinyDetails: Map<string, ShinyDetails>;
+    /** Modifie le jeu et les rencontres d'un shiny déjà capturé (compte connecté) */
+    editShinyDetails: (pokemonId: string, details: ShinyDetails) => Promise<void>;
     toggleForm: (pokemonId: string, formId: string, shouldBeShiny: boolean) => void;
     setFavoriteForm: (pokemonId: string, formId: string) => void;
 }
