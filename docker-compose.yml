@@ -1,46 +1,55 @@
-# PokeTracker : deux services, « app » (site + API) et « db » (Postgres).
+# PokeTracker : deux services, « app » (site + API) et « db » (Postgres), selon le gabarit du serveur.
 #
 #   cp .env.docker.example .env      # puis remplir les valeurs
 #   docker compose up -d --build
 #
-# Voir docker/README.md (démarrage, sauvegardes, migration depuis Supabase, HTTPS).
+# Voir docker/README.md (démarrage, sauvegardes, reprise depuis Supabase).
 
 services:
-  db:
-    image: postgres:16-alpine
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-poketracker}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Définissez POSTGRES_PASSWORD dans le fichier .env}
-      POSTGRES_DB: ${POSTGRES_DB:-poketracker}
-    volumes:
-      # données : persistent entre les redémarrages (ne PAS supprimer ce volume sans sauvegarde)
-      - db_data:/var/lib/postgresql/data
-      # schéma créé au tout premier démarrage seulement
-      - ./docker/db/init:/docker-entrypoint-initdb.d:ro
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-    # Aucun port publié : la base n'est joignable que par le service « app », sur le réseau interne.
-
   app:
-    build:
+    build:                         # image construite depuis le Dockerfile du dépôt
       context: .
       args:
+        # clé PUBLIQUE de Clerk, intégrée au site à la construction (elle est visible dans le navigateur)
         VITE_CLERK_PUBLISHABLE_KEY: ${VITE_CLERK_PUBLISHABLE_KEY:?Définissez VITE_CLERK_PUBLISHABLE_KEY dans le fichier .env}
     restart: unless-stopped
+    mem_limit: 512m                # le serveur a 8 Go partagés entre tous les projets
+    expose:
+      - '3000'                     # port INTERNE de l'application (le proxy du serveur s'y raccorde)
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+      - CLERK_SECRET_KEY=${CLERK_SECRET_KEY:?Définissez CLERK_SECRET_KEY dans le fichier .env}
     depends_on:
       db:
         condition: service_healthy
+    logging:
+      driver: json-file
+      options: { max-size: '10m', max-file: '3' }
+    # Le contrôle de santé (GET /healthz, qui interroge aussi la base) est défini dans le Dockerfile.
+    # Si le proxy du serveur utilise un réseau Docker partagé, y raccorder « app » ici
+    # (section « networks » de ce service et du fichier), comme pour les autres projets.
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    mem_limit: 512m
     environment:
-      DATABASE_URL: postgres://${POSTGRES_USER:-poketracker}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-poketracker}
-      CLERK_SECRET_KEY: ${CLERK_SECRET_KEY:?Définissez CLERK_SECRET_KEY dans le fichier .env}
-    ports:
-      # À placer derrière un proxy HTTPS (Caddy, Traefik, Nginx…). Pour n'accepter que la machine
-      # elle-même : "127.0.0.1:${APP_PORT:-3000}:3000"
-      - "${APP_PORT:-3000}:3000"
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      # schéma créé au tout premier démarrage seulement (volume vide)
+      - ./docker/db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${DB_USER} -d ${DB_NAME}']
+      interval: 10s
+      retries: 5
+    logging:
+      driver: json-file
+      options: { max-size: '10m', max-file: '3' }
+    # Aucun port publié : la base n'est joignable que par « app », sur le réseau interne.
 
 volumes:
-  db_data:
+  db-data:

@@ -13,27 +13,26 @@ Le déploiement Vercel + Supabase actuel n'est pas modifié ; ce dossier est une
 ## 1. Démarrage
 
 ```bash
-cp .env.docker.example .env      # remplir POSTGRES_PASSWORD, VITE_CLERK_PUBLISHABLE_KEY, CLERK_SECRET_KEY
+cp .env.docker.example .env      # remplir DB_PASSWORD, VITE_CLERK_PUBLISHABLE_KEY, CLERK_SECRET_KEY
 docker compose up -d --build
 docker compose ps                 # les deux services doivent être « healthy »
 ```
 
 - Au **premier** démarrage, la base est créée vide avec le schéma (`docker/db/init/01-schema.sql`).
-- Le site répond sur `http://<machine>:3000` (`APP_PORT` pour changer le port). Test : `curl http://localhost:3000/healthz` → `{"status":"ok"}`.
+- Le fichier suit le **gabarit du serveur** : `expose` (port interne 3000, aucun port publié), limite mémoire de 512 Mo par service, journaux limités à 3 fichiers de 10 Mo, variables `DB_USER` / `DB_PASSWORD` / `DB_NAME`. Le proxy du serveur se raccorde au port interne 3000 de `app`.
+- **Test sur sa machine** : `docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build` publie l'application sur `http://localhost:3000` ; puis `curl http://localhost:3000/healthz` → `{"status":"ok"}`.
 - Mot de passe de la base : lettres et chiffres (`openssl rand -hex 24`).
 
 ## 2. HTTPS et domaine (obligatoire en production)
 
-`app` parle en HTTP : placez devant lui un proxy HTTPS (Caddy, Traefik, Nginx Proxy Manager…).
-Exemple Caddy (`Caddyfile`), si le proxy tourne sur la même machine :
+`app` parle en HTTP sur son port interne 3000 : le proxy HTTPS du serveur doit s'y raccorder (même réseau Docker que le proxy,
+puis cible `app:3000`). Exemple Caddy si le proxy partage le réseau de `app` :
 
 ```
 poketracker.exemple.fr {
-    reverse_proxy 127.0.0.1:3000
+    reverse_proxy app:3000
 }
 ```
-
-Pensez à publier `app` seulement en local (`"127.0.0.1:${APP_PORT:-3000}:3000"` dans `docker-compose.yml`).
 
 **Clerk** : dans le tableau de bord Clerk, ajoutez votre domaine aux domaines autorisés du projet
 (avec des clés de production, Clerk est lié à un domaine précis ; avec des clés de développement, `localhost` suffit).
@@ -51,13 +50,15 @@ pg_dump "$SUPABASE_DB_URL" --data-only --no-owner --no-privileges \
   -t public.community_feed -t public.community_feed_seq_seq \
   -Fc -f supabase-donnees.dump
 
+# (les commandes docker compose ci-dessous utilisent DB_USER et DB_NAME du fichier .env : `set -a; . ./.env; set +a`)
+
 # 2. Restauration dans le conteneur (les déclencheurs du fil sont suspendus pendant la restauration,
 #    pour ne rien modifier : --disable-triggers)
-docker compose exec -T db pg_restore -U poketracker -d poketracker \
+docker compose exec -T db pg_restore -U $DB_USER -d $DB_NAME \
   --data-only --disable-triggers < supabase-donnees.dump
 
 # 3. Contrôle : mêmes nombres de lignes qu'avant
-docker compose exec db psql -U poketracker -d poketracker -c \
+docker compose exec db psql -U $DB_USER -d $DB_NAME -c \
   "select 'shiny_pokemon', count(*) from shiny_pokemon union all select 'user_preferences', count(*) from user_preferences \
    union all select 'pokemon_forms', count(*) from pokemon_forms union all select 'community_feed', count(*) from community_feed;"
 ```
@@ -70,13 +71,13 @@ Avec un **nouveau** projet Clerk, les anciens identifiants ne correspondront plu
 Le volume `db_data` est la seule copie des données. Sauvegarde manuelle :
 
 ```bash
-docker compose exec -T db pg_dump -U poketracker -Fc poketracker > sauvegarde-$(date +%F).dump
+docker compose exec -T db pg_dump -U $DB_USER -Fc $DB_NAME > sauvegarde-$(date +%F).dump
 ```
 
 Planifiez-la (cron, tous les jours) et **copiez le fichier hors du serveur**. Restauration sur une base vide :
 
 ```bash
-docker compose exec -T db pg_restore -U poketracker -d poketracker --clean --if-exists < sauvegarde-AAAA-MM-JJ.dump
+docker compose exec -T db pg_restore -U $DB_USER -d $DB_NAME --clean --if-exists < sauvegarde-AAAA-MM-JJ.dump
 ```
 
 Testez une restauration au moins une fois.
@@ -89,7 +90,7 @@ docker compose up -d --build        # reconstruit l'image « app » ; la base et
 ```
 
 Un changement de schéma arrive sous forme d'un nouveau fichier dans `supabase/migrations/` : appliquez-le à la main avec
-`docker compose exec -T db psql -U poketracker -d poketracker < supabase/migrations/<fichier>.sql`
+`docker compose exec -T db psql -U $DB_USER -d $DB_NAME < supabase/migrations/<fichier>.sql`
 (retirez les lignes propres à Supabase : `grant … to anon, authenticated`, règles RLS, publication Realtime).
 
 ## Ce qui diffère de Vercel + Supabase
