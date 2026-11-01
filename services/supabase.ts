@@ -21,10 +21,14 @@ export async function fetchShinyPokemon(userId: string): Promise<Set<string>> {
 /**
  * Add a shiny Pokemon
  */
-export async function addShinyPokemon(userId: string, pokemonId: string): Promise<void> {
+export async function addShinyPokemon(
+    userId: string,
+    pokemonId: string,
+    details?: { game?: string | null; encounters?: number | null }
+): Promise<void> {
     await apiRequest('shinies', {
         method: 'POST',
-        body: JSON.stringify({ pokemonId }),
+        body: JSON.stringify({ pokemonId, game: details?.game ?? undefined, encounters: details?.encounters ?? undefined }),
     });
 }
 

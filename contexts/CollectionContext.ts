@@ -14,6 +14,8 @@ export interface CollectionContext {
     shinyForms: Map<string, Set<string>>;
     favoriteForms: Map<string, string>;
     toggleShiny: (pokemonId: string) => void;
+    /** Capture depuis la page Chasse : jeu utilisé et nombre de rencontres enregistrés avec le shiny */
+    captureShiny: (pokemonId: string, details: { game: string | null; encounters: number }) => Promise<void>;
     toggleForm: (pokemonId: string, formId: string, shouldBeShiny: boolean) => void;
     setFavoriteForm: (pokemonId: string, formId: string) => void;
 }

@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { authenticateRequest, setCorsHeaders, handleOptions } from './_lib/auth.js';
 import { supabaseAdmin } from './_lib/supabase.js';
-import { isValidPokemonId } from './_lib/validate.js';
+import { isValidPokemonId, isValidGame, isValidEncounters } from './_lib/validate.js';
 
 /**
  * API endpoint for managing user's shiny Pokemon
@@ -58,18 +58,26 @@ async function handleGet(userId: string, res: VercelResponse) {
 /**
  * POST /api/shinies
  * Add a shiny Pokemon for the authenticated user
- * Body: { pokemonId: string }
+ * Body: { pokemonId: string, game?: string, encounters?: number }
+ * (game et encounters : page « Chasse », bouton « Capturé ! »)
  */
 async function handlePost(userId: string, req: VercelRequest, res: VercelResponse) {
-    const { pokemonId } = req.body;
+    const { pokemonId, game, encounters } = req.body;
 
     if (!isValidPokemonId(pokemonId)) {
         return res.status(400).json({ error: 'Missing or invalid pokemonId' });
     }
+    if (game !== undefined && game !== null && !isValidGame(game)) {
+        return res.status(400).json({ error: 'Invalid game' });
+    }
+    if (encounters !== undefined && encounters !== null && !isValidEncounters(encounters)) {
+        return res.status(400).json({ error: 'Invalid encounters' });
+    }
+    const details = { game: game ?? null, encounters: encounters ?? null };
 
     const { error } = await supabaseAdmin
         .from('shiny_pokemon')
-        .insert({ user_id: userId, pokemon_id: pokemonId });
+        .insert({ user_id: userId, pokemon_id: pokemonId, ...details });
 
     if (error) {
         if (error.code === '23505') {
@@ -91,7 +99,7 @@ async function handlePost(userId: string, req: VercelRequest, res: VercelRespons
             // Cap enforcement (max 2 per user) is handled atomically by a DB trigger
             await supabaseAdmin
                 .from('community_feed')
-                .insert({ user_id: userId, trainer_id: prefs.trainer_id, pokemon_id: pokemonId });
+                .insert({ user_id: userId, trainer_id: prefs.trainer_id, pokemon_id: pokemonId, ...details });
         }
     } catch (feedErr) {
         // Non-fatal: shiny was saved, feed update failed

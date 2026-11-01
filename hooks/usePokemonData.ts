@@ -169,6 +169,19 @@ export function usePokemonData({ username }: UsePokemonDataParams) {
         }
     }, [userId, shinyPokemons, shinyForms]);
 
+    /** Page « Chasse » : marque le Pokémon comme capturé en shiny, avec le jeu et le nombre de rencontres du compteur */
+    const captureShiny = useCallback(async (pokemonId: string, details: { game: string | null; encounters: number }) => {
+        setShinyPokemons(prev => new Set(prev).add(pokemonId));
+        if (!userId) return; // visiteur : pas de compte, le détail n'est pas enregistré
+        try {
+            await addShinyPokemon(userId, pokemonId, details);
+        } catch (error) {
+            const shinies = await fetchShinyPokemon(userId);
+            setShinyPokemons(shinies);
+            throw error;
+        }
+    }, [userId]);
+
     const toggleForm = useCallback(async (pokemonId: string, formId: string, _shouldBeShiny: boolean) => {
         const isCurrentlyShiny = shinyForms.get(pokemonId)?.has(formId) || false;
         const newShinyState = !isCurrentlyShiny;
@@ -263,6 +276,7 @@ export function usePokemonData({ username }: UsePokemonDataParams) {
         favoriteForms,
         userId,
         toggleShiny,
+        captureShiny,
         toggleForm,
         setFavoriteForm,
     };
