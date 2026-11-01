@@ -495,3 +495,20 @@
     animation: sheen-pass 0.9s ease-out 1;
   }
 }
+
+/* Carte de la grille : halo qui suit la souris (souris uniquement). Pas de « overflow: hidden » :
+   les infobulles et pastilles de la carte dépassent. Le halo est un calque au-dessus du fond de la
+   carte : la couleur de version du jeu reste celle d'origine. */
+@media (hover: hover) {
+  .card-glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(9rem circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.10), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+    pointer-events: none;
+  }
+  .card-glow:hover::before { opacity: 1; }
+}

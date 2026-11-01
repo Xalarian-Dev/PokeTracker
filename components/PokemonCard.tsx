@@ -50,13 +50,13 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
   const cardClasses = `
     relative group ${cardBgColor} rounded-lg p-3 flex flex-col items-center justify-center 
     cursor-pointer transition-all duration-300 transform select-none ${isShiny ? 'shiny-card' : ''}
-    hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/20
+    card-glow hover:-translate-y-1 hover:shadow-xl hover:shadow-black/40
     ${isShiny ? 'border-2 border-amber-400' : cardBgColor === 'bg-black' ? 'border-2 border-gray-700' : 'border-2 border-transparent'}
     overflow-visible
   `;
 
   const shinyGlowStyle = isShiny ? {
-    boxShadow: '0 0 15px 3px rgba(251, 191, 36, 0.35)'
+    boxShadow: '0 0 0 1px rgba(251, 191, 36, 0.35), 0 0 18px 3px rgba(251, 191, 36, 0.32)'
   } : {};
 
   const badges = useCardBadges(pokemon.id, selectedGame);
@@ -100,6 +100,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
   return (
     <>
     <div
+      data-card-glow
       className={`${cardClasses} ${isGrayedOut ? 'opacity-40 grayscale' : ''}`}
       style={shinyGlowStyle}
       onClick={() => onToggleShiny(pokemon.id)}

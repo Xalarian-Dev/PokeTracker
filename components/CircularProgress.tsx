@@ -80,6 +80,7 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
                         strokeDashoffset={strokeDashoffset}
                         className="text-poke-yellow transition-all duration-500"
                         strokeLinecap="round"
+                        style={progress > 0 ? { filter: 'drop-shadow(0 0 3px rgba(250, 204, 21, 0.55))' } : undefined}
                     />
                 </svg>
 
