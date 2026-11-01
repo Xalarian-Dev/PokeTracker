@@ -38,6 +38,8 @@ export async function authenticateRequest(
 }
 
 const ALLOWED_ORIGINS = [
+    'https://www.pokemonshinytracker.com',
+    'https://pokemonshinytracker.com',
     'https://pokemonshinytracker.vercel.app',
     'http://localhost:5173',
     'http://localhost:3000',

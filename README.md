@@ -2,7 +2,7 @@
 
 A modern, cloud-based Pokémon Shiny Tracker built with React, Clerk, and Supabase.
 
-**Live Demo:** https://pokemonshinytracker.vercel.app/
+**Live Demo:** https://www.pokemonshinytracker.com/
 
 ---
 
@@ -114,7 +114,7 @@ CLERK_SECRET_KEY=your_clerk_secret_key
 
 Deployed on Vercel with automatic CI/CD from GitHub.
 
-**Production URL:** https://pokemonshinytracker.vercel.app/
+**Production URL:** https://www.pokemonshinytracker.com/
 
 ### Deploy Your Own
 

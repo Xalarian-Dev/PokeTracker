@@ -1,4 +1,17 @@
 {
+    "redirects": [
+        {
+            "source": "/:path*",
+            "has": [
+                {
+                    "type": "host",
+                    "value": "pokemonshinytracker.vercel.app"
+                }
+            ],
+            "destination": "https://www.pokemonshinytracker.com/:path*",
+            "permanent": true
+        }
+    ],
     "rewrites": [
         {
             "source": "/api/:path*",
