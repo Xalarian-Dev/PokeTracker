@@ -44,6 +44,17 @@ const MOCK_FEED: FeedEntry[] = [
 
 async function fetchFeed(): Promise<FeedEntry[]> {
     if (import.meta.env.DEV) return MOCK_FEED;
+    // Sans client Supabase (déploiement Docker) : le fil vient de l'API du serveur
+    if (!supabase) {
+        try {
+            const response = await fetch('/api/public/feed', { cache: 'no-store' });
+            if (!response.ok) return [];
+            const json = await response.json();
+            return (json.feed ?? []) as FeedEntry[];
+        } catch {
+            return [];
+        }
+    }
     const { data, error } = await supabase
         .from('community_feed')
         .select('id, pokemon_id, caught_at, trainer_id, game, encounters')
@@ -130,8 +141,9 @@ export const CommunityFeed: React.FC<CommunityFeedProps> = ({ variant = 'compact
 
     // Real-time subscription — instant updates when it works
     useEffect(() => {
-        if (import.meta.env.DEV) return;
-        const channel = supabase
+        if (import.meta.env.DEV || !supabase) return;
+        const client = supabase;
+        const channel = client
             .channel('community-feed-rt')
             .on(
                 'postgres_changes',
@@ -152,7 +164,7 @@ export const CommunityFeed: React.FC<CommunityFeedProps> = ({ variant = 'compact
             .subscribe();
 
         return () => {
-            supabase.removeChannel(channel);
+            client.removeChannel(channel);
             newIdTimeouts.current.forEach(t => clearTimeout(t));
         };
     }, [mergeEntries]);

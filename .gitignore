@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Docker Compose : valeurs locales du serveur
+.env
+
+# Serveur Docker construit
+dist-server

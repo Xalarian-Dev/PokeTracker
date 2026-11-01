@@ -1,0 +1,12 @@
+node_modules
+dist
+dist-server
+.git
+.github
+.env
+.env.*
+!.env.docker.example
+*.log
+supabase
+README.md
+DEPLOYMENT_GUIDE.md
