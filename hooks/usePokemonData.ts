@@ -190,6 +190,12 @@ export function usePokemonData({ username }: UsePokemonDataParams) {
         try {
             await addShinyPokemon(userId, pokemonId, details);
         } catch (error) {
+            // l'enregistrement a échoué : ni le shiny ni son détail ne doivent rester affichés
+            setShinyDetails(prev => {
+                const next = new Map(prev);
+                next.delete(pokemonId);
+                return next;
+            });
             const shinies = await fetchShinyPokemon(userId);
             setShinyPokemons(shinies);
             throw error;
