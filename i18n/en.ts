@@ -207,6 +207,7 @@ export const ui = {
     hunt_encounters_total: "{n} encounter(s) recorded for this hunt",
     hunt_minus: "Remove one encounter",
     hunt_plus: "Add one encounter",
+    hunt_keyboard_hint: "Keyboard: + , ↑ , → or Space add an encounter; − , ↓ or ← remove one",
     hunt_change_target: "Change target",
     hunt_caught: "Caught!",
     hunt_caught_toast: "{name} added to your collection!",

@@ -204,6 +204,7 @@ export const ui = {
     hunt_encounters_total: "この厳選で記録された遭遇回数：{n}",
     hunt_minus: "遭遇回数を1減らす",
     hunt_plus: "遭遇回数を1増やす",
+    hunt_keyboard_hint: "キーボード：＋、↑、→、スペースで1回増加、－、↓、←で1回減少",
     hunt_change_target: "ターゲットを変更",
     hunt_caught: "捕まえた！",
     hunt_caught_toast: "{name}をコレクションに追加しました！",

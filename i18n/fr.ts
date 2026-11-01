@@ -204,6 +204,7 @@ export const ui = {
     hunt_encounters_total: "{n} rencontre(s) enregistrée(s) pour cette chasse",
     hunt_minus: "Retirer une rencontre",
     hunt_plus: "Ajouter une rencontre",
+    hunt_keyboard_hint: "Clavier : + , ↑ , → ou Espace ajoutent une rencontre ; − , ↓ ou ← en retirent une",
     hunt_change_target: "Changer de cible",
     hunt_caught: "Capturé !",
     hunt_caught_toast: "{name} ajouté à votre collection !",

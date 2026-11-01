@@ -170,6 +170,26 @@ const RandomHuntPage: React.FC = () => {
     /** Variation de ±1 calculée sur la valeur la plus récente (clics rapides successifs) */
     const addEncounters = (delta: number) => setHunt(h => ({ ...h, encounters: clampEncounters(h.encounters + delta) }));
 
+    // Clavier du compteur : + / ↑ / → / Espace ajoutent une rencontre, - / ↓ / ← en retirent une.
+    // Actif quand le focus est sur la page, le champ du compteur ou ses boutons (jamais dans une
+    // autre zone de saisie, une liste ouverte, un dialogue ni sur un autre bouton).
+    useEffect(() => {
+        if (!target) return;
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.ctrlKey || e.altKey || e.metaKey) return;
+            const delta = ['+', 'ArrowUp', 'ArrowRight', ' '].includes(e.key) ? 1
+                : ['-', 'ArrowDown', 'ArrowLeft'].includes(e.key) ? -1 : 0;
+            if (delta === 0) return;
+            const el = e.target as HTMLElement;
+            const onCounter = el === document.body || el.id === 'hunt-encounters' || !!el.closest('[data-counter-button]');
+            if (!onCounter) return;
+            e.preventDefault(); // pas de défilement de la page, pas de double action sur les boutons +/−
+            if (!e.repeat) addEncounters(delta);
+        };
+        window.addEventListener('keydown', onKeyDown);
+        return () => window.removeEventListener('keydown', onKeyDown);
+    }, [target]);
+
     const handleCaptured = async () => {
         if (!target || isSaving) return;
         setIsSaving(true);
@@ -316,6 +336,7 @@ const RandomHuntPage: React.FC = () => {
                                     type="button"
                                     variant="secondary"
                                     className="h-11 w-11 p-0 shrink-0"
+                                    data-counter-button
                                     onClick={() => addEncounters(-1)}
                                     disabled={hunt.encounters <= 0}
                                     aria-label={t('hunt_minus')}
@@ -338,6 +359,7 @@ const RandomHuntPage: React.FC = () => {
                                     type="button"
                                     variant="secondary"
                                     className="h-11 w-11 p-0 shrink-0"
+                                    data-counter-button
                                     onClick={() => addEncounters(1)}
                                     disabled={hunt.encounters >= MAX_ENCOUNTERS}
                                     aria-label={t('hunt_plus')}
@@ -348,6 +370,7 @@ const RandomHuntPage: React.FC = () => {
                             <p className="mt-1 text-xs text-gray-400" aria-live="polite">
                                 {t('hunt_encounters_total', { n: numberFormat.format(hunt.encounters) })}
                             </p>
+                            <p className="mt-1 text-xs text-gray-400">{t('hunt_keyboard_hint')}</p>
                         </div>
                     </div>
 
