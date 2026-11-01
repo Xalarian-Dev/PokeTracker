@@ -5,6 +5,7 @@ import { fetchPublicProfile, type PublicProfile } from '../services/supabase';
 import { POKEMON_LIST, POKEMON_WITH_MULTIPLE_FORMS } from '../data/pokemon';
 import { MasterBallIcon } from './Icons';
 import LanguageSelector from './LanguageSelector';
+import { useMetadata } from '../hooks/useMetadata';
 
 const HOME_SPRITE = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/';
 const getSpriteUrl = (id: string, shiny = false) =>
@@ -25,6 +26,19 @@ export const PublicProfilePage: React.FC = () => {
             .then(data => setProfile(data ?? 'not_found'))
             .catch(() => setProfile('not_found'));
     }, [trainerId]);
+
+    // Balises SEO propres à chaque profil ; « noindex » si le dresseur n'existe pas
+    const loaded = typeof profile === 'object' && profile !== null;
+    useMetadata(
+        profile === 'not_found'
+            ? { noindex: true }
+            : loaded
+                ? {
+                    title: t('seo_profile_title', { id: trainerId ?? '' }),
+                    description: t('seo_profile_description', { id: trainerId ?? '', n: profile.shiny_count, total: TOTAL }),
+                }
+                : {}
+    );
 
     const copyLink = useCallback(() => {
         navigator.clipboard.writeText(window.location.href);

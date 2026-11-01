@@ -145,6 +145,16 @@ export const ui = {
     seo_og_description: "すべての世代で捕獲した色違いポケモンを追跡。ゲーム、世代、地方でフィルタリング。自動進行状況保存。",
     seo_twitter_description: "無料の色違いポケモンコレクション追跡アプリ。第1世代から第9世代までのすべてのポケモンゲームに対応！",
     seo_app_name: "PokeTracker",
+    seo_collection_title: "色違いポケモンのコレクション - PokeTracker",
+    seo_collection_description: "色違いポケモンをマークして、世代・ゲーム・リージョンフォームで絞り込み、図鑑の完成まであと何が必要かを確認できます。",
+    seo_stats_title: "色違いの統計 - PokeTracker",
+    seo_stats_description: "世代別・ゲーム別、伝説・幻・リージョンフォームの色違い進捗を確認できます。",
+    seo_community_title: "色違いコミュニティ - PokeTracker",
+    seo_community_description: "トレーナーたちの最新の色違い捕獲を、使用ゲームと遭遇回数つきでチェックできます。",
+    seo_hunt_title: "色違いハント：遭遇カウンター - PokeTracker",
+    seo_hunt_description: "ターゲットをランダムに決めるか自分で選び、遭遇回数を数えて、使用ゲームとともに捕獲を記録できます。",
+    seo_profile_title: "{id}の色違いポケモンコレクション - PokeTracker",
+    seo_profile_description: "トレーナー{id}の色違いポケモンコレクション：{total}匹中{n}匹。",
     // Session Timeout
     sessionTimeout: {
         title: "セッションの有効期限が近づいています",
