@@ -18,6 +18,30 @@ export async function fetchShinyPokemon(userId: string): Promise<Set<string>> {
     return new Set(data.shinies);
 }
 
+/** Jeu et nombre de rencontres enregistrés avec un shiny (page « Chasse ») */
+export interface ShinyDetails {
+    game: string | null;
+    encounters: number | null;
+}
+
+/**
+ * Fetch all shiny Pokemon for a user, with the game / encounters recorded for some of them
+ */
+export async function fetchShinyCollection(): Promise<{ shinies: Set<string>; details: Map<string, ShinyDetails> }> {
+    const data = await apiRequest<{ shinies: string[]; details?: Record<string, ShinyDetails> }>('shinies');
+    return { shinies: new Set(data.shinies), details: new Map(Object.entries(data.details ?? {})) };
+}
+
+/**
+ * Modifier le jeu et les rencontres d'un shiny déjà capturé
+ */
+export async function updateShinyDetails(pokemonId: string, details: ShinyDetails): Promise<void> {
+    await apiRequest('shinies', {
+        method: 'PUT',
+        body: JSON.stringify({ pokemonId, game: details.game, encounters: details.encounters }),
+    });
+}
+
 /**
  * Add a shiny Pokemon
  */

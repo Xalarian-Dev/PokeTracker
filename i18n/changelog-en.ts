@@ -54,6 +54,7 @@ export const changelogEN: ChangeLogEntry[] = [
         sectionTitle: "Statistics, Icon Legend & Interface Fixes",
         features: "New Features",
         featuresList: [
+            "\"Hunt\" page: search is keyboard-navigable (↑ ↓ Enter) and also lists already-caught Pokémon (\"Already caught\"); picking one shows its saved game and encounters, which you can edit. The star animation replays each time you pick a target",
             "\"Hunt\" page: roll a random target or pick one yourself, choose the game used, count your encounters (+ / − buttons, direct input or keyboard: +, −, arrows, Space), then \"Caught!\" saves the shiny with its game and number of encounters. Your current hunt is kept if you reload the page",
             "Statistics: the page now uses the full width on desktop, with larger blocks; compact header (icons only) on medium screens so it no longer overlaps the trainer name; \"Random Hunt\" becomes \"Hunt\" in the menu",
             "New navigation: the side tabs are replaced by a menu in the header (Collection, Statistics, Community, Random Hunt) and by a bottom navigation bar on mobile; each page has its own address (/stats, /communaute, /chasse)",

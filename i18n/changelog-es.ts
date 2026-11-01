@@ -43,6 +43,7 @@ export const changelogES: ChangeLogEntry[] = [
         sectionTitle: "Estadísticas, leyenda de iconos y correcciones de interfaz",
         features: "Nuevas funcionalidades",
         featuresList: [
+            "Página \"Caza\": la búsqueda se recorre con el teclado (↑ ↓ Intro) y muestra también los Pokémon ya capturados (\"Ya capturado\"); al elegir uno se ven el juego y los encuentros guardados, que se pueden editar. La animación de estrellas se repite al elegir cada objetivo",
             "Página \"Caza\": sortea un objetivo o elígelo tú, indica el juego utilizado, cuenta tus encuentros (botones + / −, entrada directa o teclado: +, −, flechas, Espacio) y \"¡Capturado!\" guarda el shiny con su juego y número de encuentros. La caza en curso se conserva si recargas la página",
             "Estadísticas: la página usa todo el ancho en ordenador, con bloques más grandes; cabecera compacta (solo iconos) en pantallas medianas para que ya no se solape con el nombre de entrenador; \"Caza aleatoria\" pasa a ser \"Caza\" en el menú",
             "Nueva navegación: las pestañas laterales se sustituyen por un menú en la cabecera (Colección, Estadísticas, Comunidad, Caza aleatoria) y por una barra de navegación inferior en móvil; cada página tiene su propia dirección (/stats, /communaute, /chasse)",

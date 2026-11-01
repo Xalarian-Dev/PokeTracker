@@ -4,6 +4,9 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { loadPokemonForms, toggleFormShiny, setFavoriteForm as setFavoriteFormAPI } from '../services/pokemonFormsService';
 import {
     fetchShinyPokemon,
+    fetchShinyCollection,
+    updateShinyDetails,
+    type ShinyDetails,
     addShinyPokemon,
     removeShinyPokemon,
     migrateLocalStorageToSupabase,
@@ -19,6 +22,8 @@ export function usePokemonData({ username }: UsePokemonDataParams) {
     const { getToken, isSignedIn } = useAuth();
 
     const [shinyPokemons, setShinyPokemons] = useState<Set<string>>(new Set());
+    // Jeu et rencontres enregistrés avec certains shiny (page « Chasse »)
+    const [shinyDetails, setShinyDetails] = useState<Map<string, ShinyDetails>>(new Map());
     const [loading, setLoading] = useState(true);
     const [ownedGames, setOwnedGames] = useState<string[]>([]);
     const [displayName, setDisplayName] = useState<string | null>(null);
@@ -60,8 +65,9 @@ export function usePokemonData({ username }: UsePokemonDataParams) {
                     return;
                 }
 
-                const shinies = await fetchShinyPokemon(userId);
+                const { shinies, details } = await fetchShinyCollection();
                 setShinyPokemons(shinies);
+                setShinyDetails(details);
 
                 const prefs = await getUserPreferences(userId);
                 if (prefs?.owned_games) setOwnedGames(prefs.owned_games);
@@ -136,6 +142,13 @@ export function usePokemonData({ username }: UsePokemonDataParams) {
 
         try {
             const isCurrentlyShiny = shinyPokemons.has(pokemonId);
+            // Retirer ou (re)marquer un shiny par la grille repart sans jeu ni rencontres
+            setShinyDetails(prev => {
+                if (!prev.has(pokemonId)) return prev;
+                const next = new Map(prev);
+                next.delete(pokemonId);
+                return next;
+            });
 
             if (isCurrentlyShiny) {
                 setShinyPokemons(prev => {
@@ -173,6 +186,7 @@ export function usePokemonData({ username }: UsePokemonDataParams) {
     const captureShiny = useCallback(async (pokemonId: string, details: { game: string | null; encounters: number }) => {
         setShinyPokemons(prev => new Set(prev).add(pokemonId));
         if (!userId) return; // visiteur : pas de compte, le détail n'est pas enregistré
+        setShinyDetails(prev => new Map(prev).set(pokemonId, details));
         try {
             await addShinyPokemon(userId, pokemonId, details);
         } catch (error) {
@@ -181,6 +195,23 @@ export function usePokemonData({ username }: UsePokemonDataParams) {
             throw error;
         }
     }, [userId]);
+
+    /** Page « Chasse » : modifie le jeu et les rencontres d'un shiny déjà capturé */
+    const editShinyDetails = useCallback(async (pokemonId: string, details: ShinyDetails) => {
+        if (!userId) throw new Error('Not signed in');
+        const previous = shinyDetails.get(pokemonId);
+        setShinyDetails(prev => new Map(prev).set(pokemonId, details));
+        try {
+            await updateShinyDetails(pokemonId, details);
+        } catch (error) {
+            setShinyDetails(prev => {
+                const next = new Map(prev);
+                if (previous) next.set(pokemonId, previous); else next.delete(pokemonId);
+                return next;
+            });
+            throw error;
+        }
+    }, [userId, shinyDetails]);
 
     const toggleForm = useCallback(async (pokemonId: string, formId: string, _shouldBeShiny: boolean) => {
         const isCurrentlyShiny = shinyForms.get(pokemonId)?.has(formId) || false;
@@ -277,6 +308,8 @@ export function usePokemonData({ username }: UsePokemonDataParams) {
         userId,
         toggleShiny,
         captureShiny,
+        shinyDetails,
+        editShinyDetails,
         toggleForm,
         setFavoriteForm,
     };
