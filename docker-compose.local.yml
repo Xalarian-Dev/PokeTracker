@@ -1,0 +1,7 @@
+# Pour tester sur sa propre machine : publie l'application sur http://localhost:3000.
+#   docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build
+# (Sur le serveur, ne pas l'utiliser : l'application n'y est joignable que par le proxy.)
+services:
+  app:
+    ports:
+      - '127.0.0.1:3000:3000'

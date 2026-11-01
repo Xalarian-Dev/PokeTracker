@@ -4,7 +4,7 @@ import { supabaseAdmin } from '../_lib/supabase.js';
 
 /**
  * GET /api/public/feed
- * Returns the 20 most recent entries from community_feed.
+ * Returns the 40 most recent entries from community_feed.
  * No auth required.
  */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -18,9 +18,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     try {
         const { data, error } = await supabaseAdmin
             .from('community_feed')
-            .select('id, pokemon_id, caught_at, trainer_id')
+            .select('id, pokemon_id, caught_at, trainer_id, game, encounters')
             .order('caught_at', { ascending: false })
-            .limit(20);
+            .order('seq', { ascending: false })
+            .limit(40);
 
         if (error) {
             console.error('Feed error:', error);
@@ -33,6 +34,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             caught_at: row.caught_at,
             trainer_id: row.trainer_id,
             display_name: row.trainer_id,
+            game: row.game ?? null,
+            encounters: row.encounters ?? null,
         }));
 
         res.setHeader('Cache-Control', 'no-store');
