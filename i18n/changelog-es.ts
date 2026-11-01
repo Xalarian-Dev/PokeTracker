@@ -43,7 +43,7 @@ export const changelogES: ChangeLogEntry[] = [
         sectionTitle: "Estadísticas, leyenda de iconos y correcciones de interfaz",
         features: "Nuevas funcionalidades",
         featuresList: [
-            "El botón «Shiny Tracker» del encabezado lleva a la página de inicio, incluso con la sesión iniciada (donde aparece un botón «Colección»); iniciar sesión desde la página de inicio sigue abriendo la colección",
+            "El botón «Shiny Tracker» del encabezado lleva a la página de inicio, incluso con la sesión iniciada (que muestra entonces un botón «Colección»); iniciar sesión desde el inicio sigue abriendo la colección",
             "Estadísticas: fondos de color con la letra A / G / H / P para las formas regionales, corona dorada para los legendarios y estrellas para los singulares. Perfil: nuevo diseño con tu progreso global y todas tus estadísticas (generación, juego, especiales, regiones). Colección: el juego y el número de encuentros aparecen en las tarjetas shiny cuando existen (como información emergente en móvil). Nueva tipografía para títulos y cifras",
             "Nuevo aspecto: fondo nocturno con destellos suaves, cabecera y barra de filtros de cristal esmerilado, inicio animado (título en degradado, contador, aparición al desplazarse, halo y levitación de los sprites), reflejo en el botón principal y destello al pasar sobre las tarjetas shiny. Las animaciones respetan el ajuste \"reducir movimiento\"",
             "Nueva dirección: PokeTracker ahora está en pokemonshinytracker.com. La dirección anterior (pokemonshinytracker.vercel.app) redirige automáticamente a la nueva; recuerda actualizar tus favoritos. Tu cuenta y tus datos se mantienen",
