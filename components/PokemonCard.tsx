@@ -39,6 +39,8 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
 }) => {
   const { t, getGameName } = useLanguage();
   const [isFormsModalOpen, setIsFormsModalOpen] = useState(false);
+  // Éclat sur la carte quand on la marque shiny : lancé au clic, retiré à la fin de l'animation
+  const [sheen, setSheen] = useState(false);
 
   let formattedId: string;
   if (pokemon.id.includes('-')) {
@@ -53,7 +55,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
 
   const cardClasses = `
     relative group ${cardBgColor} rounded-lg p-3 flex flex-col items-center justify-center 
-    cursor-pointer transition-all duration-300 transform select-none ${isShiny ? 'shiny-card' : ''}
+    cursor-pointer transition-all duration-300 transform select-none ${isShiny ? 'shiny-card' : ''} ${isShiny && sheen ? 'sheen-play' : ''}
     card-glow hover:-translate-y-1 hover:shadow-xl hover:shadow-black/40
     ${isShiny ? 'border-2 border-amber-400' : cardBgColor === 'bg-black' ? 'border-2 border-gray-700' : 'border-2 border-transparent'}
     overflow-visible
@@ -113,7 +115,8 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
       data-card-glow
       className={`${cardClasses} ${isGrayedOut ? 'opacity-40 grayscale' : ''}`}
       style={shinyGlowStyle}
-      onClick={() => onToggleShiny(pokemon.id)}
+      onClick={() => { if (!isShiny) setSheen(true); onToggleShiny(pokemon.id); }}
+      onAnimationEnd={(e) => { if (e.target === e.currentTarget) setSheen(false); }}
     >
       {isShiny && (
         <div className="absolute top-2 right-2 text-amber-400 drop-shadow-[0_2px_4px_rgba(251,191,36,0.5)]">

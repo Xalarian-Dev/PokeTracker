@@ -479,27 +479,29 @@
   .spotlight-card:hover::before { opacity: 1; }
 }
 
-/* Carte shiny marquée : un éclat la traverse au survol (souris uniquement, jamais en continu) */
+/* Carte marquée shiny : un éclat la traverse au clic (classe .sheen-play ajoutée par la carte, retirée
+   à la fin de l'animation). Il va jusqu'au bout, quelle que soit la position de la souris. */
 @keyframes sheen-pass {
   from { background-position: 160% 0; }
   to { background-position: -60% 0; }
 }
-@media (hover: hover) {
-  .shiny-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: linear-gradient(115deg, transparent 38%, rgba(255, 255, 255, 0.22) 50%, transparent 62%);
-    background-size: 250% 100%;
-    background-position: 160% 0;
-    opacity: 0;
-    pointer-events: none;
-  }
-  .shiny-card:hover::after {
-    opacity: 1;
-    animation: sheen-pass 0.9s ease-out 1;
-  }
+.shiny-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(115deg, transparent 38%, rgba(255, 255, 255, 0.22) 50%, transparent 62%);
+  background-size: 250% 100%;
+  background-position: 160% 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.shiny-card.sheen-play::after {
+  opacity: 1;
+  animation: sheen-pass 0.9s ease-out 1 both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .shiny-card.sheen-play::after { animation: none; opacity: 0; }
 }
 
 /* Carte de la grille : halo qui suit la souris (souris uniquement). Pas de « overflow: hidden » :
