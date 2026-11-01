@@ -28,11 +28,11 @@ const PokemonToolbar: React.FC<PokemonToolbarProps> = ({
             {/* Action Buttons with Counter */}
             {!loading && activeCount > 0 && (
                 <div className="mb-4 w-full md:max-w-[1160px] md:mx-auto px-1 md:px-0">
-                    <div className="flex flex-row justify-between items-center gap-2 md:gap-4">
+                    <div className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:items-center md:gap-4">
                         <div className="text-gray-400 text-xs md:text-sm">
                             {t('pokemon_shown', { count: activeCount })}
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex flex-wrap gap-2">
                             <LegendDialog selectedGame={selectedGame} generation={generation} />
                             <Button onClick={onMarkAll} variant="secondary" size="sm">
                                 {t('mark_all')}

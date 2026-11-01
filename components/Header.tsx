@@ -31,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({ trainerId }) => {
               <span className="shrink-0 h-6 w-6 sm:h-8 sm:w-8">
                 <MasterBallIcon className="w-full h-full" />
               </span>
-              <span className="text-base sm:text-xl font-bold text-yellow-400 truncate md:hidden lg:inline">{t('shiny_tracker_title')}</span>
+              <span className="text-base sm:text-xl font-bold text-yellow-400 truncate hidden sm:inline md:hidden lg:inline">{t('shiny_tracker_title')}</span>
             </Link>
 
             <nav aria-label={t('nav_main')} className="hidden md:block shrink-0">

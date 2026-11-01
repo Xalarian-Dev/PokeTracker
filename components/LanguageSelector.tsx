@@ -31,7 +31,7 @@ export const LanguageSelector: React.FC = () => {
                     aria-label={name}
                     aria-pressed={language === code}
                     className={cn(
-                        "px-2 py-1 flex items-center justify-center rounded-md transition-colors",
+                        "px-1.5 sm:px-2 py-1 flex items-center justify-center rounded-md transition-colors",
                         language === code
                             ? "bg-poke-yellow text-gray-900 border border-poke-yellow-dark"
                             : "bg-dark-700 hover:bg-dark-600 text-white"
