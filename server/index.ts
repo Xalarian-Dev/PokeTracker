@@ -54,6 +54,21 @@ const MIME: Record<string, string> = {
     '.webmanifest': 'application/manifest+json',
 };
 
+/** Adresse officielle du site (sans www). « www.<domaine> » est redirigé vers elle. */
+const CANONICAL_HOST = (process.env.CANONICAL_HOST || 'pokemonshinytracker.com').toLowerCase();
+
+/** Redirection permanente de www.<domaine> vers <domaine>, chemin et paramètres conservés */
+function redirectWww(req: http.IncomingMessage, res: http.ServerResponse): boolean {
+    const forwarded = String(req.headers['x-forwarded-host'] || req.headers.host || '');
+    const host = forwarded.split(',')[0].trim().toLowerCase().replace(/:\d+$/, '');
+    if (host !== `www.${CANONICAL_HOST}`) return false;
+    res.statusCode = 308;
+    res.setHeader('Location', `https://${CANONICAL_HOST}${req.url || '/'}`);
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.end();
+    return true;
+}
+
 /** Donne à la réponse Node les méthodes de VercelResponse utilisées par les fonctions */
 function decorate(res: http.ServerResponse): any {
     const r = res as any;
@@ -152,6 +167,7 @@ function securityHeaders(res: http.ServerResponse) {
 
 const server = http.createServer(async (req, res) => {
     try {
+        if (redirectWww(req, res)) return;
         const url = new URL(req.url || '/', 'http://localhost');
         securityHeaders(res);
         if (url.pathname === '/healthz') {
