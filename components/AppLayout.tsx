@@ -41,7 +41,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ user, pokemonList }) => {
     };
 
     return (
-        <div className="bg-gray-900 text-white">
+        <div className="app-bg text-white min-h-screen">
             <Header trainerId={data.trainerId} />
 
             {user && !data.loading && data.trainerId === null && (

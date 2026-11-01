@@ -49,7 +49,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
 
   const cardClasses = `
     relative group ${cardBgColor} rounded-lg p-3 flex flex-col items-center justify-center 
-    cursor-pointer transition-all duration-300 transform select-none
+    cursor-pointer transition-all duration-300 transform select-none ${isShiny ? 'shiny-card' : ''}
     hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/20
     ${isShiny ? 'border-2 border-amber-400' : cardBgColor === 'bg-black' ? 'border-2 border-gray-700' : 'border-2 border-transparent'}
     overflow-visible

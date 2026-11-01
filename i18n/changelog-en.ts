@@ -54,6 +54,7 @@ export const changelogEN: ChangeLogEntry[] = [
         sectionTitle: "Statistics, Icon Legend & Interface Fixes",
         features: "New Features",
         featuresList: [
+            "New look: night background with soft glows, frosted-glass header and filter bar, animated home page (gradient title, counter, reveal on scroll, glowing floating sprites), shine on the main button and a sheen when hovering shiny cards. Animations respect the \"reduce motion\" setting",
             "\"Hunt\" page: searching for a Pokémon now comes first, followed by the \"Random Hunt\" button",
             "Home page: when you arrive on the site, an introduction (3-step overview, features, live community activity) with sign-up and log-in buttons. The collection now lives at /collection; once logged in, you land straight on it",
             "Community: the page now uses the full width on desktop, with large cards that also show the game used and the number of encounters for catches made from the Hunt page",

@@ -43,6 +43,7 @@ export const changelogES: ChangeLogEntry[] = [
         sectionTitle: "Estadísticas, leyenda de iconos y correcciones de interfaz",
         features: "Nuevas funcionalidades",
         featuresList: [
+            "Nuevo aspecto: fondo nocturno con destellos suaves, cabecera y barra de filtros de cristal esmerilado, inicio animado (título en degradado, contador, aparición al desplazarse, halo y levitación de los sprites), reflejo en el botón principal y destello al pasar sobre las tarjetas shiny. Las animaciones respetan el ajuste \"reducir movimiento\"",
             "Página \"Caza\": la búsqueda de un Pokémon va ahora en primer lugar, seguida del botón \"Caza Aleatoria\"",
             "Página de inicio: al llegar al sitio, una presentación (principio en 3 pasos, funciones, actividad de la comunidad en directo) con los botones de registro e inicio de sesión. La colección está ahora en /collection; una vez conectado, llegas directamente a ella",
             "Comunidad: la página usa todo el ancho en ordenador, con tarjetas grandes que muestran también el juego utilizado y el número de encuentros de las capturas hechas desde la página Caza",
