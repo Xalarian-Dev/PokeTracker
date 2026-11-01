@@ -509,7 +509,7 @@ const RandomHuntPage: React.FC = () => {
                                     value={view.encounters}
                                     onChange={e => setViewEncounters(e.target.value === '' ? 0 : Number(e.target.value))}
                                     onFocus={e => e.currentTarget.select()}
-                                    className="h-11 text-center text-lg font-semibold bg-gray-700 border-gray-600 text-white"
+                                    className="h-11 text-center text-lg font-semibold bg-gray-700 border-gray-600 text-white [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                                 />
                                 <Button
                                     type="button"
