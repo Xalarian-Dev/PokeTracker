@@ -5,8 +5,9 @@ import { fetchPublicProfile, type PublicProfile } from '../services/supabase';
 import { POKEMON_LIST, POKEMON_WITH_MULTIPLE_FORMS } from '../data/pokemon';
 import { MasterBallIcon } from './Icons';
 import LanguageSelector from './LanguageSelector';
+import { SPRITE_BASE } from '../data/spriteBase';
 
-const HOME_SPRITE = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/';
+const HOME_SPRITE = SPRITE_BASE;
 const getSpriteUrl = (id: string, shiny = false) =>
     `${HOME_SPRITE}${shiny ? 'shiny/' : ''}${id}.png`;
 

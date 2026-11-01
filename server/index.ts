@@ -4,6 +4,8 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { pool } from './pg-shim';
+import { sendCompressed } from './compress';
+import { serveSprite } from './sprites';
 
 import shinies from '../api/shinies';
 import preferences from '../api/preferences';
@@ -107,7 +109,7 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse, ur
     }
 }
 
-function serveStatic(req: http.IncomingMessage, res: http.ServerResponse, url: URL) {
+async function serveStatic(req: http.IncomingMessage, res: http.ServerResponse, url: URL) {
     let file = path.join(STATIC_DIR, path.normalize(decodeURIComponent(url.pathname)));
     // pas de sortie du dossier statique
     if (!file.startsWith(STATIC_DIR)) { res.statusCode = 403; return res.end('Forbidden'); }
@@ -122,13 +124,25 @@ function serveStatic(req: http.IncomingMessage, res: http.ServerResponse, url: U
     // fichiers de /assets : nom avec empreinte, cache longue durée ; le reste (index.html) toujours revalidé
     res.setHeader('Cache-Control', file.includes(`${path.sep}assets${path.sep}`) ? 'public, max-age=31536000, immutable' : 'no-cache');
     res.setHeader('X-Content-Type-Options', 'nosniff');
+    // texte (HTML, JS, CSS…) : compressé en brotli ou gzip quand le navigateur l'accepte
+    if (await sendCompressed(req, res, file, stat.mtimeMs, stat.size, res.getHeader('Content-Type') as string)) return;
     if (req.method === 'HEAD') return res.end();
     fs.createReadStream(file).pipe(res);
+}
+
+/** En-têtes de sécurité envoyés avec toutes les réponses */
+function securityHeaders(res: http.ServerResponse) {
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000'); // sans effet en HTTP, appliqué en HTTPS (proxy)
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
 }
 
 const server = http.createServer(async (req, res) => {
     try {
         const url = new URL(req.url || '/', 'http://localhost');
+        securityHeaders(res);
         if (url.pathname === '/healthz') {
             try {
                 await pool.query('select 1');
@@ -140,7 +154,8 @@ const server = http.createServer(async (req, res) => {
             }
         }
         if (url.pathname.startsWith('/api/')) return await handleApi(req, res, url);
-        return serveStatic(req, res, url);
+        if (await serveSprite(req, res, url.pathname)) return;
+        return await serveStatic(req, res, url);
     } catch (error) {
         console.error('Server error:', error);
         if (!res.headersSent) res.statusCode = 500;

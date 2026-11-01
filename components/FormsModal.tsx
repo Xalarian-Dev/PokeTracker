@@ -8,8 +8,9 @@ import { ui as uiEN } from '../i18n/en';
 import { ui as uiFR } from '../i18n/fr';
 import { ui as uiJP } from '../i18n/jp';
 import { ui as uiES } from '../i18n/es';
+import { SPRITE_BASE } from '../data/spriteBase';
 
-const HOME_SPRITE_BASE_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/';
+const HOME_SPRITE_BASE_URL = SPRITE_BASE;
 
 const formTranslations = {
     en: pokemonFormsEN,
