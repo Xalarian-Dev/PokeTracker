@@ -91,6 +91,17 @@ export function useFilters({ pokemonList, shinyPokemons }: UseFiltersParams) {
         });
     }, []);
 
+    // Remet tous les filtres à zéro (recherche comprise)
+    const resetFilters = useCallback(() => {
+        setSearchTerm('');
+        setShowOnlyShiny(false);
+        setShowMissingShiny(false);
+        setHideGrayedPokemon(false);
+        setHideShinyLocked(false);
+        setActiveFilter(null);
+        setSelectedGame(null);
+    }, []);
+
     // Reset DLC filter when game changes
     useEffect(() => {
         setDisabledDlcs(new Set());
@@ -144,5 +155,6 @@ export function useFilters({ pokemonList, shinyPokemons }: UseFiltersParams) {
         activeCount,
         regionRefs,
         genRefs,
+        resetFilters,
     };
 }

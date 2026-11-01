@@ -2,6 +2,7 @@ import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getGdprTranslations } from '../i18n/gdpr-index';
 import { useLegalModal } from '../contexts/LegalModalContext';
+import FeedbackDialog from './FeedbackDialog';
 
 export const Footer: React.FC = () => {
     const { language, t: uiT } = useLanguage();
@@ -95,6 +96,16 @@ export const Footer: React.FC = () => {
                                     </svg>
                                     {uiT('changelog')}
                                 </button>
+                            </li>
+                            <li>
+                                <FeedbackDialog>
+                                    <button
+                                        type="button"
+                                        className="text-gray-400 hover:text-purple-400 transition-colors duration-200 text-sm py-1.5"
+                                    >
+                                        {uiT('report_problem')}
+                                    </button>
+                                </FeedbackDialog>
                             </li>
                         </ul>
                     </div>
