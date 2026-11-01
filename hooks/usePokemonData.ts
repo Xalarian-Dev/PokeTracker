@@ -26,6 +26,8 @@ export function usePokemonData({ username }: UsePokemonDataParams) {
     const [validatedForms, setValidatedForms] = useState<Map<string, Set<string>>>(new Map());
     const [shinyForms, setShinyForms] = useState<Map<string, Set<string>>>(new Map());
     const [favoriteForms, setFavoriteForms] = useState<Map<string, string>>(new Map());
+    // Données locales à proposer de synchroniser (affichées dans une fenêtre, plus de window.confirm)
+    const [pendingMigration, setPendingMigration] = useState<string[] | null>(null);
 
     const { t } = useLanguage();
     const storageKey = username ? `shinyTrackerData_${username}` : null;
@@ -88,15 +90,7 @@ export function usePokemonData({ username }: UsePokemonDataParams) {
                     if (localData) {
                         const localShinyIds = JSON.parse(localData);
                         if (localShinyIds.length > 0 && shinies.size === 0) {
-                            const shouldMigrate = window.confirm(
-                                t('migrate_local_data') || "You have local data. Would you like to sync it to the cloud?"
-                            );
-                            if (shouldMigrate) {
-                                await migrateLocalStorageToSupabase(userId, localShinyIds);
-                                const updatedShinies = await fetchShinyPokemon(userId);
-                                setShinyPokemons(updatedShinies);
-                                localStorage.removeItem(storageKey);
-                            }
+                            setPendingMigration(localShinyIds);
                         }
                     }
                 }
@@ -237,7 +231,26 @@ export function usePokemonData({ username }: UsePokemonDataParams) {
         await setFavoriteFormAPI(pokemonId, formId);
     }, []);
 
+    const confirmMigration = useCallback(async () => {
+        const ids = pendingMigration;
+        setPendingMigration(null);
+        if (!ids || !userId || !storageKey) return;
+        try {
+            await migrateLocalStorageToSupabase(userId, ids);
+            const updatedShinies = await fetchShinyPokemon(userId);
+            setShinyPokemons(updatedShinies);
+            localStorage.removeItem(storageKey);
+        } catch (e) {
+            console.error('Migration error:', e);
+        }
+    }, [pendingMigration, userId, storageKey]);
+
+    const dismissMigration = useCallback(() => setPendingMigration(null), []);
+
     return {
+        pendingMigration,
+        confirmMigration,
+        dismissMigration,
         shinyPokemons,
         setShinyPokemons,
         loading,

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { FranceFlag, UKFlag, JapanFlag, SpainFlag } from './Icons';
 import { cn } from '../utils/cn';
 
 /**
@@ -10,44 +9,34 @@ import { cn } from '../utils/cn';
 export const LanguageSelector: React.FC = () => {
     const { language, setLanguage } = useLanguage();
 
-    const langButtonClasses = (lang: 'fr' | 'en' | 'jp' | 'es') =>
-        cn(
-            "px-2 py-1 flex items-center justify-center rounded-md transition-colors",
-            language === lang
-                ? "bg-poke-yellow text-gray-900 border border-poke-yellow-dark"
-                : "bg-dark-700 hover:bg-dark-600 text-white"
-        );
+    const LANGS: { code: 'fr' | 'en' | 'es' | 'jp'; short: string; name: string; htmlLang: string }[] = [
+        { code: 'fr', short: 'FR', name: 'Français', htmlLang: 'fr' },
+        { code: 'en', short: 'EN', name: 'English', htmlLang: 'en' },
+        { code: 'es', short: 'ES', name: 'Español', htmlLang: 'es' },
+        { code: 'jp', short: '日本語', name: '日本語', htmlLang: 'ja' },
+    ];
 
     return (
-        <div className="flex items-center space-x-1 sm:space-x-2 bg-gray-900/50 p-1 rounded-lg">
-            <button
-                onClick={() => setLanguage('en')}
-                className={langButtonClasses('en')}
-                title="English"
-            >
-                <UKFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-xs" />
-            </button>
-            <button
-                onClick={() => setLanguage('fr')}
-                className={langButtonClasses('fr')}
-                title="Français"
-            >
-                <FranceFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-xs" />
-            </button>
-            <button
-                onClick={() => setLanguage('es')}
-                className={langButtonClasses('es')}
-                title="Español"
-            >
-                <SpainFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-xs" />
-            </button>
-            <button
-                onClick={() => setLanguage('jp')}
-                className={langButtonClasses('jp')}
-                title="日本語"
-            >
-                <JapanFlag className="w-5 h-3 sm:w-6 sm:h-4 shadow-xs" />
-            </button>
+        <div role="group" aria-label="Language" className="flex items-center gap-1 bg-gray-900/50 p-1 rounded-lg">
+            {LANGS.map(l => (
+                <button
+                    key={l.code}
+                    type="button"
+                    onClick={() => setLanguage(l.code)}
+                    lang={l.htmlLang}
+                    title={l.name}
+                    aria-label={l.name}
+                    aria-pressed={language === l.code}
+                    className={cn(
+                        "min-h-8 min-w-8 px-2 text-xs font-semibold rounded-md transition-colors",
+                        language === l.code
+                            ? "bg-poke-yellow text-gray-900"
+                            : "bg-dark-700 hover:bg-dark-600 text-white"
+                    )}
+                >
+                    {l.short}
+                </button>
+            ))}
         </div>
     );
 };

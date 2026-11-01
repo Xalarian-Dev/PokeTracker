@@ -131,9 +131,9 @@ export const PublicProfilePage: React.FC = () => {
                         ✨ {t('public_profile_shinies')} ({profile.shiny_count})
                     </h2>
                     {profile.shiny_count === 0 ? (
-                        <p className="text-gray-500 text-center py-12">{t('public_profile_empty')}</p>
+                        <p className="text-gray-400 text-center py-12">{t('public_profile_empty')}</p>
                     ) : (
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(56px, 1fr))', gap: '4px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(76px, 1fr))', gap: '8px' }}>
                             {POKEMON_LIST
                                 .filter(p => shinySet.has(p.id))
                                 .map(pokemon => {
@@ -147,21 +147,24 @@ export const PublicProfilePage: React.FC = () => {
                                     return (
                                         <div
                                             key={pokemon.id}
-                                            className="bg-gray-800 rounded border border-amber-400/40 aspect-square flex items-center justify-center"
-                                            title={getPokemonName(pokemon.id) || pokemon.name}
+                                            className="bg-gray-800 rounded border border-amber-400/40 flex flex-col items-center justify-center p-1"
                                             style={{ boxShadow: '0 0 6px 1px rgba(251,191,36,0.2)' }}
                                         >
                                             <img
                                                 src={spriteUrl}
-                                                alt={pokemon.name}
-                                                className="w-full h-full object-contain p-0.5"
+                                                alt={getPokemonName(pokemon.id) || pokemon.name}
+                                                className="w-14 h-14 object-contain"
                                                 loading="lazy"
                                                 decoding="async"
                                                 onError={(e) => {
-                                                    const card = e.currentTarget.parentElement;
-                                                    if (card) card.style.display = 'none';
+                                                    // Sprite de forme introuvable : on retombe sur le sprite d'origine (la carte reste visible)
+                                                    const img = e.currentTarget;
+                                                    if (img.src !== pokemon.shinySprite) img.src = pokemon.shinySprite;
                                                 }}
                                             />
+                                            <p className="w-full text-center text-xs text-gray-300 truncate">
+                                                {getPokemonName(pokemon.id) || pokemon.name}
+                                            </p>
                                         </div>
                                     );
                                 })}

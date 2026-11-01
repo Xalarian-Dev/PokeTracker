@@ -18,13 +18,10 @@ export const CookieConsent: React.FC = () => {
 
     return (
         <>
-            {/* Backdrop */}
-            <div className="fixed inset-0 bg-black/20 backdrop-blur-xs z-9998" />
-
-            {/* Banner */}
-            <div className="fixed bottom-0 left-0 right-0 z-9999 animate-slide-up" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
+            {/* Bandeau d'information non bloquant : pas de voile, la page reste utilisable */}
+            <div role="region" aria-label={t.cookie_banner_title} className="fixed bottom-0 left-0 right-0 z-9999 animate-slide-up" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
                 <div className="bg-gray-800 border-t-2 border-purple-500 shadow-2xl">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                             {/* Content */}
                             <div className="flex-1">
@@ -48,7 +45,7 @@ export const CookieConsent: React.FC = () => {
                         </div>
 
                         {/* Learn More Link */}
-                        <div className="mt-4 pt-4 border-t border-gray-700">
+                        <div className="mt-3 pt-3 border-t border-gray-700">
                             <button
                                 onClick={openPrivacy}
                                 className="text-sm text-purple-400 hover:text-purple-300 transition-colors duration-200 flex items-center gap-1"

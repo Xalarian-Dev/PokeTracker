@@ -95,7 +95,7 @@ export const TrainerIdSetup: React.FC<TrainerIdSetupProps> = ({ onComplete }) =>
                             className="bg-gray-700 border-gray-600 text-white placeholder-gray-500 text-center text-lg font-bold tracking-wide"
                         />
                         <div className="mt-1.5 min-h-[20px] flex items-center justify-between px-1">
-                            <p className="text-xs text-gray-500">{t('trainer_id_rules')}</p>
+                            <p className="text-xs text-gray-400">{t('trainer_id_rules')}</p>
                             {value && (
                                 <p className={`text-xs font-medium ${statusColor[checkState]}`}>
                                     {statusText[checkState]}

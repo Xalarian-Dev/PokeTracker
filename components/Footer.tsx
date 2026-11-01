@@ -72,7 +72,7 @@ export const Footer: React.FC = () => {
                             <li>
                                 <button
                                     onClick={openPrivacy}
-                                    className="text-gray-400 hover:text-purple-400 transition-colors duration-200 text-sm"
+                                    className="text-gray-400 hover:text-purple-400 transition-colors duration-200 text-sm py-1.5 inline-block"
                                 >
                                     {t.footer_privacy}
                                 </button>
@@ -80,7 +80,7 @@ export const Footer: React.FC = () => {
                             <li>
                                 <button
                                     onClick={openTerms}
-                                    className="text-gray-400 hover:text-purple-400 transition-colors duration-200 text-sm"
+                                    className="text-gray-400 hover:text-purple-400 transition-colors duration-200 text-sm py-1.5 inline-block"
                                 >
                                     {t.footer_terms}
                                 </button>
@@ -88,7 +88,7 @@ export const Footer: React.FC = () => {
                             <li>
                                 <button
                                     onClick={openChangelog}
-                                    className="text-gray-400 hover:text-purple-400 transition-colors duration-200 text-sm flex items-center gap-1"
+                                    className="text-gray-400 hover:text-purple-400 transition-colors duration-200 text-sm flex items-center gap-1 py-1.5"
                                 >
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -106,7 +106,7 @@ export const Footer: React.FC = () => {
                             <a
                                 href="#"
                                 onClick={handleEmailClick}
-                                className="text-gray-400 hover:text-purple-400 transition-colors duration-200 text-sm flex items-center gap-2"
+                                className="text-gray-400 hover:text-purple-400 transition-colors duration-200 text-sm flex items-center gap-2 py-1.5"
                                 // Anti-copy protection
                                 onCopy={(e) => e.preventDefault()}
                                 style={{ userSelect: 'none' }}
@@ -119,7 +119,7 @@ export const Footer: React.FC = () => {
                                 {language === 'jp' && 'メールでお問い合わせ'}
                                 {language === 'es' && 'Contáctenos por email'}
                             </a>
-                            <p className="text-gray-500 text-xs">
+                            <p className="text-gray-400 text-xs">
                                 {t.footer_made_by} <span className="text-purple-400 font-medium">Xalarian</span>
                             </p>
                         </div>
@@ -130,7 +130,7 @@ export const Footer: React.FC = () => {
                 <div className="border-t border-gray-800 pt-6">
                     {/* Copyright and Disclaimer */}
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="text-gray-500 text-xs text-center md:text-left">
+                        <p className="text-gray-400 text-xs text-center md:text-left">
                             {t.footer_copyright}
                         </p>
                         <div className="flex items-center gap-4">
@@ -138,7 +138,7 @@ export const Footer: React.FC = () => {
                                 href="https://ko-fi.com/xalarian"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-gray-500 hover:text-yellow-400 transition-colors duration-200"
+                                className="text-gray-400 hover:text-yellow-400 transition-colors duration-200 p-2 -m-2"
                                 aria-label="Support on Ko-fi"
                             >
                                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -149,7 +149,7 @@ export const Footer: React.FC = () => {
                                 href="https://github.com/Xalarian-Dev"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-gray-500 hover:text-purple-400 transition-colors duration-200"
+                                className="text-gray-400 hover:text-purple-400 transition-colors duration-200 p-2 -m-2"
                                 aria-label="GitHub"
                             >
                                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -160,7 +160,7 @@ export const Footer: React.FC = () => {
                     </div>
 
                     {/* Pokemon Disclaimer */}
-                    <p className="text-gray-600 text-xs text-center mt-4 leading-relaxed max-w-3xl mx-auto">
+                    <p className="text-gray-400 text-xs text-center mt-4 leading-relaxed max-w-3xl mx-auto">
                         {t.footer_disclaimer}
                     </p>
                 </div>

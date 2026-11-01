@@ -198,14 +198,14 @@ export const CommunityFeed: React.FC = () => {
                                     </>;
                                 })()}
                             </p>
-                            <p className="text-[10px] text-gray-500 mt-0.5 leading-tight">
+                            <p className="text-xs text-gray-400 mt-0.5 leading-tight">
                                 {formatDate(entry.caught_at, language)}
                             </p>
                         </div>
 
                         {/* New badge */}
                         {entry.isNew && (
-                            <span className="shrink-0 text-[9px] font-bold bg-yellow-400 text-gray-900 px-1 py-0.5 rounded">
+                            <span className="shrink-0 text-xs font-bold bg-yellow-400 text-gray-900 px-1 py-0.5 rounded">
                                 {t('community_feed_new')}
                             </span>
                         )}

@@ -3,12 +3,14 @@ import { useUser } from '@clerk/react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getGdprTranslations } from '../i18n/gdpr-index';
 import { getUserPreferences, fetchShinyPokemon } from '../services/supabase';
+import { useToast } from '../hooks/use-toast';
 
 export const DataExport: React.FC = () => {
     const { user } = useUser();
     const { language } = useLanguage();
     const t = getGdprTranslations(language as 'fr' | 'en' | 'jp' | 'es');
     const [isExporting, setIsExporting] = useState(false);
+    const { toast } = useToast();
 
     const handleExport = async () => {
         setIsExporting(true);
@@ -85,13 +87,11 @@ export const DataExport: React.FC = () => {
             URL.revokeObjectURL(url);
 
             // Success feedback
-            setTimeout(() => {
-                alert(t.export_data_success);
-                setIsExporting(false);
-            }, 500);
+            toast({ title: t.export_data_success });
+            setIsExporting(false);
         } catch (error) {
             console.error('Export error:', error);
-            alert(t.export_data_error);
+            toast({ title: t.export_data_error, variant: 'destructive' });
             setIsExporting(false);
         }
     };

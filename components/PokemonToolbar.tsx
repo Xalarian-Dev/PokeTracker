@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from './ui';
 import { useLanguage } from '../contexts/LanguageContext';
+import LegendDialog from './LegendDialog';
 
 interface PokemonToolbarProps {
     activeCount: number;
@@ -27,6 +28,7 @@ const PokemonToolbar: React.FC<PokemonToolbarProps> = ({
                             {t('pokemon_shown', { count: activeCount })}
                         </div>
                         <div className="flex gap-2">
+                            <LegendDialog />
                             <Button onClick={onMarkAll} variant="secondary" size="sm">
                                 {t('mark_all')}
                             </Button>

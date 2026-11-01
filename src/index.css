@@ -109,7 +109,7 @@
     /* poke-yellow */
     --primary-foreground: 222 47% 11%;
 
-    --secondary: 239 84% 67%;
+    --secondary: 243 75% 59%;
     /* poke-indigo */
     --secondary-foreground: 210 40% 98%;
 
@@ -122,7 +122,7 @@
     /* gray-800 */
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 51%;
     /* red-500 */
     --destructive-foreground: 210 40% 98%;
 
@@ -336,5 +336,17 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Respect de la préférence « réduire les animations » */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
