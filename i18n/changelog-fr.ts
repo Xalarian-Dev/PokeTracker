@@ -43,6 +43,7 @@ export const changelogFR: ChangeLogEntry[] = [
         sectionTitle: "Statistiques, légende des icônes et corrections d'interface",
         features: "Nouvelles fonctionnalités",
         featuresList: [
+            "Nouvelle adresse : PokeTracker est maintenant sur pokemonshinytracker.com. L'ancienne adresse (pokemonshinytracker.vercel.app) redirige automatiquement vers la nouvelle ; pensez à mettre à jour vos favoris. Votre compte et vos données sont conservés",
             "Page « Chasse » : la recherche d'un Pokémon est maintenant en premier, suivie du bouton « Chasse Aléatoire »",
             "Page d'accueil : à l'arrivée sur le site, une présentation (principe en 3 étapes, fonctionnalités, activité de la communauté en direct) avec les boutons de création de compte et de connexion. La collection est maintenant sur /collection ; une fois connecté, vous arrivez directement dessus",
             "Communauté : la page occupe toute la largeur sur ordinateur, avec de grandes cartes qui affichent aussi le jeu utilisé et le nombre de rencontres des captures faites depuis la page Chasse",
