@@ -195,6 +195,8 @@ export const ui = {
     nav_main: "Main navigation",
     nav_collection: "Collection",
     nav_hunt: "Hunt",
+    profile_stats_title: "Your collection in numbers",
+    profile_collection_total: "shinies out of {n} Pokémon",
     home_hero_title: "Track all your shiny Pokémon in one place",
     home_hero_subtitle: "Mark your shinies, run your hunts with an encounter counter and share your catches with the community.",
     home_signup: "Create an account",

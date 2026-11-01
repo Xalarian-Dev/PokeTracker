@@ -61,7 +61,7 @@ const FilterBar: React.FC<FilterBarProps> = (props) => {
 
     return (
         <>
-            <div className="sticky top-16 z-30 bg-gray-900/95 backdrop-blur-xs border-b border-gray-800">
+            <div className="sticky top-16 z-30 bg-gray-900/85 backdrop-blur-md border-b border-white/10">
                 <div className="w-full md:max-w-[1160px] md:mx-auto px-2 md:px-0 py-2 flex flex-col gap-2">
                     <SearchBarWithProgress
                         searchTerm={props.searchTerm}

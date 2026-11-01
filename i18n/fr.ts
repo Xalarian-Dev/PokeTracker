@@ -192,6 +192,8 @@ export const ui = {
     nav_main: "Navigation principale",
     nav_collection: "Collection",
     nav_hunt: "Chasse",
+    profile_stats_title: "Votre collection en chiffres",
+    profile_collection_total: "shiny sur {n} Pokémon",
     home_hero_title: "Suivez tous vos Pokémon shiny, en un seul endroit",
     home_hero_subtitle: "Marquez vos chromatiques, lancez vos chasses avec un compteur de rencontres et partagez vos captures avec la communauté.",
     home_signup: "Créer un compte",

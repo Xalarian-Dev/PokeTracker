@@ -1,3 +1,4 @@
+import type { ShinyDetails } from '../services/supabase';
 import React from 'react';
 import type { Pokemon } from '../types';
 import PokemonCard from './PokemonCard';
@@ -17,6 +18,8 @@ interface PokemonGridProps {
         regional: Record<'Alola' | 'Galar' | 'Hisui' | 'Paldea', DisplayedPokemon[]>;
     };
     shinyPokemons: Set<string>;
+    /** Jeu et rencontres enregistrés avec certains shiny (page Chasse) */
+    shinyDetails?: Map<string, ShinyDetails>;
     validatedForms: Map<string, Set<string>>;
     shinyForms: Map<string, Set<string>>;
     favoriteForms: Map<string, string>;
@@ -33,6 +36,7 @@ interface PokemonGridProps {
 }
 
 const PokemonGrid: React.FC<PokemonGridProps> = ({
+    shinyDetails,
     displayedPokemon,
     shinyPokemons,
     validatedForms,
@@ -61,8 +65,19 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
         );
     }
 
+    // Halo qui suit la souris sur la carte survolée : un seul gestionnaire pour toute la grille
+    // (pas un par carte), seulement à la souris
+    const handleGlow = (e: React.PointerEvent<HTMLElement>) => {
+        if (e.pointerType !== 'mouse') return;
+        const card = (e.target as HTMLElement).closest<HTMLElement>('[data-card-glow]');
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--my', `${e.clientY - rect.top}px`);
+    };
+
     return (
-        <>
+        <div className="contents" onPointerMove={handleGlow}>
             {/* Normal Pokemon */}
             <div className="mobile-grid-6 grid grid-cols-6 gap-2 md:gap-4 md:max-w-[1160px] md:mx-auto w-full">
                 {displayedPokemon.normal.map((pokemon) => {
@@ -81,6 +96,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
                                 <MobilePokemonCard
                                     pokemon={pokemon}
                                     isShiny={shinyPokemons.has(pokemon.id)}
+                                    details={shinyDetails?.get(pokemon.id)}
                                     onToggleShiny={onToggleShiny}
                                     selectedGame={selectedGame}
                                     isGrayedOut={pokemon.isGrayedOut}
@@ -93,6 +109,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
                                 <PokemonCard
                                     pokemon={pokemon}
                                     isShiny={shinyPokemons.has(pokemon.id)}
+                                    details={shinyDetails?.get(pokemon.id)}
                                     onToggleShiny={onToggleShiny}
                                     selectedGame={selectedGame}
                                     isGrayedOut={pokemon.isGrayedOut}
@@ -138,6 +155,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
                                         <MobilePokemonCard
                                             pokemon={pokemon}
                                             isShiny={shinyPokemons.has(pokemon.id)}
+                                    details={shinyDetails?.get(pokemon.id)}
                                             onToggleShiny={onToggleShiny}
                                             selectedGame={selectedGame}
                                             isGrayedOut={pokemon.isGrayedOut}
@@ -150,6 +168,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
                                         <PokemonCard
                                             pokemon={pokemon}
                                             isShiny={shinyPokemons.has(pokemon.id)}
+                                    details={shinyDetails?.get(pokemon.id)}
                                             onToggleShiny={onToggleShiny}
                                             selectedGame={selectedGame}
                                             isGrayedOut={pokemon.isGrayedOut}
@@ -174,7 +193,7 @@ const PokemonGrid: React.FC<PokemonGridProps> = ({
                     <Button onClick={onResetFilters}>{t('no_results_reset')}</Button>
                 </div>
             )}
-        </>
+        </div>
     );
 };
 

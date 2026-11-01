@@ -12,6 +12,8 @@ interface CircularProgressProps {
     watermark?: string;
     /** Léger contour sur le pourcentage, pour les fonds clairs */
     textOutline?: boolean;
+    /** Décor (SVG) derrière le pourcentage, très discret (ex. couronne, étoiles) */
+    decoration?: React.ReactNode;
 }
 
 /**
@@ -32,7 +34,8 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
     size = 120,
     background,
     watermark,
-    textOutline = false
+    textOutline = false,
+    decoration
 }) => {
     const { t } = useLanguage();
 
@@ -80,6 +83,7 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
                         strokeDashoffset={strokeDashoffset}
                         className="text-poke-yellow transition-all duration-500"
                         strokeLinecap="round"
+                        style={progress > 0 ? { filter: 'drop-shadow(0 0 3px rgba(250, 204, 21, 0.55))' } : undefined}
                     />
                 </svg>
 
@@ -94,10 +98,20 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
                 {showText && watermark && (
                     <div
                         aria-hidden="true"
-                        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none font-bold text-white"
+                        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none font-display font-bold text-white"
                         style={{ opacity: 0.2, fontSize: size * 0.5, lineHeight: 1 }}
                     >
                         {watermark}
+                    </div>
+                )}
+
+                {showText && decoration && (
+                    <div
+                        aria-hidden="true"
+                        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
+                        style={{ opacity: 0.5 }}
+                    >
+                        {decoration}
                     </div>
                 )}
 
@@ -105,7 +119,7 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
                 {showText && (
                     <div className="absolute inset-0 flex items-center justify-center">
                         <span
-                            className={`font-bold text-white ${size < 100 ? 'text-sm' : 'text-3xl'}`}
+                            className={`font-display font-bold text-white ${size < 100 ? 'text-sm' : 'text-3xl'}`}
                             style={textOutline ? { textShadow: '0 0 3px #000, 0 0 3px #000, 0 0 2px #000' } : undefined}
                         >
                             {Math.round(progress)}%

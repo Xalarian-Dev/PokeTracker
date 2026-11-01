@@ -329,7 +329,7 @@ const RandomHuntPage: React.FC = () => {
             )}
 
             {/* Choix de la cible : tirage au sort ou recherche */}
-            <section aria-label={t('hunt_choose_target')} className="bg-gray-800 border border-gray-700 rounded-xl p-5 mb-6">
+            <section aria-label={t('hunt_choose_target')} className="bg-white/[0.04] border border-white/10 rounded-2xl p-5 mb-6">
                 <Label htmlFor="hunt-search" className="text-gray-300">{t('hunt_search_label')}</Label>
                 <div className="relative mt-1">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" aria-hidden="true" />
@@ -413,7 +413,7 @@ const RandomHuntPage: React.FC = () => {
             {view ? (
                 <section
                     aria-label={view.mode === 'edit' ? t('hunt_edit_title', { name: getPokemonName(view.pokemon.id.toString()) }) : t('hunt_current')}
-                    className="bg-gray-800 border border-gray-700 rounded-xl p-5"
+                    className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-2xl p-5"
                 >
                     <div className="text-center mb-4">
                         {view.mode === 'edit' && (
@@ -423,6 +423,7 @@ const RandomHuntPage: React.FC = () => {
                             </p>
                         )}
                         <div className="relative block w-fit mx-auto">
+                            <div className="sprite-halo absolute -inset-10 pointer-events-none" aria-hidden="true" />
                             <div key={animKey} className="absolute -inset-4 pointer-events-none z-20" aria-hidden="true">
                                 {SPARKLES.map((sparkle, i) => (
                                     <div
@@ -509,7 +510,7 @@ const RandomHuntPage: React.FC = () => {
                                     value={view.encounters}
                                     onChange={e => setViewEncounters(e.target.value === '' ? 0 : Number(e.target.value))}
                                     onFocus={e => e.currentTarget.select()}
-                                    className="h-11 text-center text-lg font-semibold bg-gray-700 border-gray-600 text-white [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                                    className="h-11 text-center text-xl font-display font-bold tabular-nums bg-gray-700 border-gray-600 text-white [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                                 />
                                 <Button
                                     type="button"

@@ -5,6 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  --font-display: 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
@@ -337,6 +338,11 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Titres et chiffres en police d'affichage (les autres textes restent en police système) */
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+  }
 }
 
 /* Respect de la préférence « réduire les animations » */
@@ -349,4 +355,166 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ------------------------------------------------------------------
+   Identité visuelle : atmosphère, verre dépoli, éclats, apparitions.
+   Effets en CSS pur (transform / opacity), sans bibliothèque, et
+   désactivés par la règle « réduire les animations » ci-dessus.
+   ------------------------------------------------------------------ */
+
+/* Fond du site : nuit indigo avec deux lueurs lointaines (violet en haut à gauche, or en haut à droite).
+   Les lueurs sont sur un calque fixe à part (composité par le GPU) : un fond en
+   « background-attachment: fixed » est repeint à chaque image pendant le défilement. */
+.app-bg {
+  position: relative;
+  isolation: isolate;
+  background: #0b1120;
+}
+.app-bg::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 38rem at 8% -8%, rgba(99, 102, 241, 0.2), transparent 62%),
+    radial-gradient(46rem 30rem at 100% 0%, rgba(250, 204, 21, 0.07), transparent 58%);
+  transform: translateZ(0);
+}
+
+/* Dégradé de texte (titres de l'accueil) */
+.text-gradient {
+  background: linear-gradient(100deg, #fde047 0%, #facc15 35%, #fb923c 70%, #f472b6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Apparition au défilement (voir components/Reveal.tsx) */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Taches de lumière flottantes derrière l'accroche.
+   Dégradé radial plutôt que « filter: blur » : un flou de 70 px sur un grand élément animé
+   est recalculé à chaque image et fait saccader la page. Calque dédié (will-change). */
+@keyframes blob-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(2.5rem, -1.5rem, 0) scale(1.08); }
+}
+.hero-blob {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  background: radial-gradient(closest-side, var(--blob-color, rgba(99, 102, 241, 0.3)), transparent 100%);
+  will-change: transform;
+  animation: blob-drift 16s ease-in-out infinite;
+}
+
+/* Lévitation douce des sprites.
+   Appliquée à un conteneur (pas à l'image elle-même) : translate3d + très légère rotation, qui
+   varie en continu, pour que le mouvement reste fluide même à faible vitesse (un déplacement
+   de moins d'un pixel par image paraît saccadé sur un simple décalage vertical). */
+@keyframes floaty {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-1.2deg); }
+  50% { transform: translate3d(0, -14px, 0) rotate(1.2deg); }
+}
+.floaty {
+  will-change: transform;
+  backface-visibility: hidden;
+  animation: floaty 6s ease-in-out infinite;
+}
+
+/* Halo derrière un sprite */
+.sprite-halo {
+  background: radial-gradient(closest-side, rgba(250, 204, 21, 0.28), rgba(99, 102, 241, 0.12) 60%, transparent 100%);
+}
+
+/* Bouton principal : reflet qui balaie le bouton au repos, puis au survol */
+@keyframes shimmer-sweep {
+  0% { transform: translateX(-120%) skewX(-20deg); }
+  60%, 100% { transform: translateX(220%) skewX(-20deg); }
+}
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: translateX(-120%) skewX(-20deg);
+  animation: shimmer-sweep 4.5s ease-in-out 1.5s infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Carte avec halo qui suit le pointeur (écrans à souris uniquement) */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+}
+@media (hover: hover) {
+  .spotlight-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(16rem circle at var(--mx, 50%) var(--my, 50%), rgba(250, 204, 21, 0.13), transparent 65%);
+    opacity: 0;
+    transition: opacity 0.25s ease-out;
+    pointer-events: none;
+  }
+  .spotlight-card:hover::before { opacity: 1; }
+}
+
+/* Carte shiny marquée : un éclat la traverse au survol (souris uniquement, jamais en continu) */
+@keyframes sheen-pass {
+  from { background-position: 160% 0; }
+  to { background-position: -60% 0; }
+}
+@media (hover: hover) {
+  .shiny-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(115deg, transparent 38%, rgba(255, 255, 255, 0.22) 50%, transparent 62%);
+    background-size: 250% 100%;
+    background-position: 160% 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .shiny-card:hover::after {
+    opacity: 1;
+    animation: sheen-pass 0.9s ease-out 1;
+  }
+}
+
+/* Carte de la grille : halo qui suit la souris (souris uniquement). Pas de « overflow: hidden » :
+   les infobulles et pastilles de la carte dépassent. Le halo est un calque au-dessus du fond de la
+   carte : la couleur de version du jeu reste celle d'origine. */
+@media (hover: hover) {
+  .card-glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(9rem circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.10), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+    pointer-events: none;
+  }
+  .card-glow:hover::before { opacity: 1; }
 }

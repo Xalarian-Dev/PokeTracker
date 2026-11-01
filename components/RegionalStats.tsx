@@ -10,6 +10,14 @@ interface RegionalStatsProps {
 
 const REGIONS = ['Alola', 'Galar', 'Hisui', 'Paldea'];
 
+/** Fond diffus de chaque région et initiale en filigrane (A / G / H / P) */
+const REGION_STYLE: Record<string, { background: string; letter: string }> = {
+    Alola: { background: 'radial-gradient(circle at 35% 30%, #fb923c, transparent 95%)', letter: 'A' },
+    Galar: { background: 'radial-gradient(circle at 35% 30%, #d946ef, transparent 95%)', letter: 'G' },
+    Hisui: { background: 'radial-gradient(circle at 35% 30%, #2dd4bf, transparent 95%)', letter: 'H' },
+    Paldea: { background: 'linear-gradient(135deg, #ef4444 15%, #7c3aed 85%)', letter: 'P' },
+};
+
 export const RegionalStats: React.FC<RegionalStatsProps> = ({ pokemonList, shinyPokemons }) => {
     const { t, getRegionName } = useLanguage();
 
@@ -37,6 +45,8 @@ export const RegionalStats: React.FC<RegionalStatsProps> = ({ pokemonList, shiny
                             shinyCount={shiny}
                             totalPokemon={total}
                             size={96}
+                            background={REGION_STYLE[region]?.background}
+                            watermark={REGION_STYLE[region]?.letter}
                         />
                         <p className="mt-1 text-sm font-semibold text-white">{getRegionName(region)}</p>
                         <p className="text-xs text-gray-400">{shiny} / {total}</p>

@@ -54,6 +54,8 @@ export const changelogEN: ChangeLogEntry[] = [
         sectionTitle: "Statistics, Icon Legend & Interface Fixes",
         features: "New Features",
         featuresList: [
+            "Statistics: colored backgrounds with an A / G / H / P letter for regional forms, a golden crown for legendaries, stars for mythicals. Profile: new layout with your overall progress and all your statistics (generation, game, special, regions). Collection: the game and number of encounters show on shiny cards when available (as a tooltip on mobile). New font for titles and numbers",
+            "New look: night background with soft glows, frosted-glass header and filter bar, animated home page (gradient title, counter, reveal on scroll, glowing floating sprites), shine on the main button and a sheen when hovering shiny cards. Animations respect the \"reduce motion\" setting",
             "New address: PokeTracker now lives at pokemonshinytracker.com. The old address (pokemonshinytracker.vercel.app) redirects automatically to the new one; remember to update your bookmarks. Your account and data are unchanged",
             "\"Hunt\" page: searching for a Pokémon now comes first, followed by the \"Random Hunt\" button",
             "Home page: when you arrive on the site, an introduction (3-step overview, features, live community activity) with sign-up and log-in buttons. The collection now lives at /collection; once logged in, you land straight on it",
