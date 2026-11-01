@@ -330,20 +330,6 @@ const RandomHuntPage: React.FC = () => {
 
             {/* Choix de la cible : tirage au sort ou recherche */}
             <section aria-label={t('hunt_choose_target')} className="bg-gray-800 border border-gray-700 rounded-xl p-5 mb-6">
-                <Button
-                    onClick={handleRoll}
-                    disabled={isRolling}
-                    className="w-full bg-poke-yellow hover:bg-yellow-500 text-gray-900 font-bold"
-                    size="lg"
-                >
-                    <span className="flex items-center justify-center gap-2">
-                        <DiceIcon className={`w-6 h-6 ${isRolling ? 'animate-spin' : ''}`} />
-                        <span>{isRolling ? t('rolling') : t('random_hunt')}</span>
-                    </span>
-                </Button>
-
-                <p className="text-center text-sm text-gray-400 my-3">{t('hunt_or_choose')}</p>
-
                 <Label htmlFor="hunt-search" className="text-gray-300">{t('hunt_search_label')}</Label>
                 <div className="relative mt-1">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" aria-hidden="true" />
@@ -407,6 +393,20 @@ const RandomHuntPage: React.FC = () => {
                 {search.trim() && !listOpen && (
                     <p className="mt-2 text-sm text-gray-300">{t('hunt_no_result')}</p>
                 )}
+
+                <p className="text-center text-sm text-gray-400 my-3">{t('hunt_or_random')}</p>
+
+                <Button
+                    onClick={handleRoll}
+                    disabled={isRolling}
+                    className="w-full bg-poke-yellow hover:bg-yellow-500 text-gray-900 font-bold"
+                    size="lg"
+                >
+                    <span className="flex items-center justify-center gap-2">
+                        <DiceIcon className={`w-6 h-6 ${isRolling ? 'animate-spin' : ''}`} />
+                        <span>{isRolling ? t('rolling') : t('random_hunt')}</span>
+                    </span>
+                </Button>
             </section>
 
             {/* Chasse en cours, ou données enregistrées d'un shiny déjà capturé */}
@@ -509,7 +509,7 @@ const RandomHuntPage: React.FC = () => {
                                     value={view.encounters}
                                     onChange={e => setViewEncounters(e.target.value === '' ? 0 : Number(e.target.value))}
                                     onFocus={e => e.currentTarget.select()}
-                                    className="h-11 text-center text-lg font-semibold bg-gray-700 border-gray-600 text-white"
+                                    className="h-11 text-center text-lg font-semibold bg-gray-700 border-gray-600 text-white [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                                 />
                                 <Button
                                     type="button"
