@@ -44,6 +44,7 @@ export const changelogES: ChangeLogEntry[] = [
         features: "Nuevas funcionalidades",
         featuresList: [
             "Nueva dirección: PokeTracker ahora está en pokemonshinytracker.com. Recuerda actualizar tus favoritos: la dirección anterior dejará de redirigir dentro de unos meses. Tu cuenta y tus datos se mantienen",
+            "Una dirección por idioma: el sitio se abre en /fr/, /en/, /es/ o /jp/. Al cambiar de idioma cambia la dirección, y un enlace compartido se abre directamente en el idioma correcto",
             "Nuevo aspecto: un tema nocturno con toques dorados, una página de inicio animada y tarjetas shiny que brillan al marcarlas",
             "Página de inicio: una presentación del sitio para los nuevos visitantes. El botón «Shiny Tracker» siempre te lleva a ella; al iniciar sesión desde el inicio, llegas directamente a tu colección",
             "Página «Caza»: sortea un objetivo o elígelo, cuenta tus encuentros y guarda tu captura con el juego utilizado y el número de encuentros",

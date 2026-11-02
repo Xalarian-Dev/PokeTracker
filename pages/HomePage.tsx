@@ -24,7 +24,7 @@ const FEATURES: { key: string; icon: LucideIcon }[] = [
 
 /** Boutons d'inscription et de connexion (modales Clerk) + accès sans compte */
 const HomeActions: React.FC<{ className?: string }> = ({ className = '' }) => {
-    const { t } = useLanguage();
+    const { t, lp } = useLanguage();
     const { isSignedIn } = useUser();
     if (isSignedIn) {
         return (
@@ -34,7 +34,7 @@ const HomeActions: React.FC<{ className?: string }> = ({ className = '' }) => {
                     size="lg"
                     className="btn-shimmer bg-gradient-to-b from-yellow-300 to-yellow-500 hover:from-yellow-200 hover:to-yellow-400 text-gray-900 font-bold shadow-lg shadow-yellow-500/25 hover:shadow-yellow-400/40"
                 >
-                    <Link to="/collection">{t('nav_collection')}</Link>
+                    <Link to={lp('collection')}>{t('nav_collection')}</Link>
                 </Button>
             </div>
         );
@@ -55,7 +55,7 @@ const HomeActions: React.FC<{ className?: string }> = ({ className = '' }) => {
                 </Button>
             </SignInButton>
             <Button asChild size="lg" variant="ghost" className="text-gray-200 hover:bg-white/10 hover:text-white">
-                <Link to="/collection">{t('home_try')}</Link>
+                <Link to={lp('collection')}>{t('home_try')}</Link>
             </Button>
         </div>
     );
@@ -63,7 +63,7 @@ const HomeActions: React.FC<{ className?: string }> = ({ className = '' }) => {
 
 /** Page d'accueil : présentation du site pour les visiteurs. Reste visible une fois connecté (bouton du header) ; à la connexion depuis cette page, on est envoyé sur la collection. */
 const HomePage: React.FC = () => {
-    const { t } = useLanguage();
+    const { t, lp } = useLanguage();
     const { isSignedIn } = useUser();
     const { pokemonList } = useCollection();
     const navigate = useNavigate();
@@ -71,9 +71,9 @@ const HomePage: React.FC = () => {
     // Connexion faite depuis l'accueil : direction la collection. Déjà connecté à l'arrivée : on reste.
     const wasSignedIn = useRef(isSignedIn);
     useEffect(() => {
-        if (isSignedIn && !wasSignedIn.current) navigate('/collection', { replace: true });
+        if (isSignedIn && !wasSignedIn.current) navigate(lp('collection'), { replace: true });
         wasSignedIn.current = isSignedIn;
-    }, [isSignedIn, navigate]);
+    }, [isSignedIn, navigate, lp]);
 
     const heroPokemon = HERO_POKEMON
         .map(id => pokemonList.find(p => p.id === id))
@@ -193,7 +193,7 @@ const HomePage: React.FC = () => {
                             <h2 id="home-community" className="text-2xl md:text-4xl font-bold tracking-tight">{t('home_community_title')}</h2>
                             <p className="mt-1 text-gray-300">{t('home_community_text')}</p>
                         </div>
-                        <Link to="/communaute" className="text-yellow-300 hover:text-yellow-200 hover:underline font-medium">
+                        <Link to={lp('communaute')} className="text-yellow-300 hover:text-yellow-200 hover:underline font-medium">
                             {t('home_community_more')} →
                         </Link>
                     </div>

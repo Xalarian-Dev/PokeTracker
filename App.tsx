@@ -1,5 +1,5 @@
 import React, { useMemo, lazy, Suspense, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useParams, useLocation } from 'react-router-dom';
 import { ClerkProvider, Show, useUser, useClerk } from '@clerk/react';
 import AppLayout from './components/AppLayout';
 import HomePage from './pages/HomePage';
@@ -12,7 +12,8 @@ const ProfilePage = lazy(() => import('./components/ProfilePage'));
 const PublicProfilePage = lazy(() => import('./components/PublicProfilePage'));
 import { POKEMON_LIST as BASE_POKEMON_LIST } from './data/pokemon';
 import type { Pokemon, User } from './types';
-import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
+import { LanguageProvider, useLanguage, detectLanguage } from './contexts/LanguageContext';
+import { isLanguage, localePath, trimSlashes } from './utils/langRoutes';
 import { clerkPublishableKey, clerkAppearance } from './clerk-config';
 import { useMetadata } from './hooks/useMetadata';
 import { useClerkToken } from './hooks/useClerkToken';
@@ -25,8 +26,7 @@ import { CookieConsent } from './components/CookieConsent';
 import { DomainMoveBanner } from './components/DomainMoveBanner';
 import { Footer } from './components/Footer';
 import { LegalModalProvider, useLegalModal } from './contexts/LegalModalContext';
-const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'));
-const TermsOfService = lazy(() => import('./components/TermsOfService'));
+const LegalPage = lazy(() => import('./pages/LegalPage'));
 const ChangeLog = lazy(() => import('./components/ChangeLog'));
 
 const Spinner = () => (
@@ -94,9 +94,11 @@ const AppShell = () => {
             <Route path="stats" element={<StatsPage />} />
             <Route path="communaute" element={<CommunityPage />} />
             <Route path="chasse" element={<RandomHuntPage />} />
+            <Route path="privacy" element={<Suspense fallback={<Spinner />}><LegalPage kind="privacy" /></Suspense>} />
+            <Route path="terms" element={<Suspense fallback={<Spinner />}><LegalPage kind="terms" /></Suspense>} />
           </Route>
 
-          <Route path="/profile" element={
+          <Route path="profile" element={
             <Show when="signed-in">
               <Suspense fallback={<Spinner />}>
                 <ProfilePage />
@@ -117,12 +119,23 @@ const AppShell = () => {
       )}
 
       <Suspense fallback={null}>
-        {legalPage === 'privacy' && <PrivacyPolicy />}
-        {legalPage === 'terms' && <TermsOfService />}
         {legalPage === 'changelog' && <ChangeLog />}
       </Suspense>
     </div>
   );
+};
+
+/** Ancienne adresse sans préfixe de langue (/, /collection, /u/…) : on ajoute celui de la langue détectée */
+const LegacyRedirect = () => {
+  const { pathname, search, hash } = useLocation();
+  const rest = trimSlashes(pathname).replace(/^\/+/, '');
+  return <Navigate to={`${localePath(detectLanguage(), rest)}${search}${hash}`} replace />;
+};
+
+/** N'affiche la page que si le premier segment de l'adresse est une langue (fr, en, es, jp) */
+const RequireLang = ({ children }: React.PropsWithChildren) => {
+  const { lang } = useParams();
+  return isLanguage(lang) ? <>{children}</> : <LegacyRedirect />;
 };
 
 const App = () => (
@@ -130,22 +143,29 @@ const App = () => (
     <LanguageProvider>
       <Routes>
         {/* Public profile — no Clerk needed */}
-        <Route path="/u/:trainerId" element={
-          <Suspense fallback={<Spinner />}>
-            <PublicProfilePage />
-          </Suspense>
+        <Route path="/:lang/u/:trainerId" element={
+          <RequireLang>
+            <Suspense fallback={<Spinner />}>
+              <PublicProfilePage />
+            </Suspense>
+          </RequireLang>
         } />
 
-        {/* Main app */}
-        <Route path="/*" element={
-          <ClerkProvider publishableKey={clerkPublishableKey} appearance={clerkAppearance}>
-            <LegalModalProvider>
-              <ErrorBoundary>
-                <AppShell />
-              </ErrorBoundary>
-            </LegalModalProvider>
-          </ClerkProvider>
+        {/* Main app : toutes les pages sont sous /<langue>/ */}
+        <Route path="/:lang/*" element={
+          <RequireLang>
+            <ClerkProvider publishableKey={clerkPublishableKey} appearance={clerkAppearance}>
+              <LegalModalProvider>
+                <ErrorBoundary>
+                  <AppShell />
+                </ErrorBoundary>
+              </LegalModalProvider>
+            </ClerkProvider>
+          </RequireLang>
         } />
+
+        {/* « / » et les anciennes adresses sans langue */}
+        <Route path="*" element={<LegacyRedirect />} />
       </Routes>
     </LanguageProvider>
   </BrowserRouter>

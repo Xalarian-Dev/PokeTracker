@@ -1,13 +1,14 @@
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getGdprTranslations } from '../i18n/gdpr-index';
+import { Link } from 'react-router-dom';
 import { useLegalModal } from '../contexts/LegalModalContext';
 import FeedbackDialog from './FeedbackDialog';
 
 export const Footer: React.FC = () => {
-    const { language, t: uiT } = useLanguage();
+    const { language, t: uiT, lp } = useLanguage();
     const t = getGdprTranslations(language as 'fr' | 'en' | 'jp' | 'es');
-    const { openPrivacy, openTerms, openChangelog } = useLegalModal();
+    const { openChangelog } = useLegalModal();
 
     // Multi-layer obfuscation to prevent spam bots
     const handleEmailClick = (e: React.MouseEvent) => {
@@ -71,20 +72,20 @@ export const Footer: React.FC = () => {
                         </h3>
                         <ul className="space-y-2">
                             <li>
-                                <button
-                                    onClick={openPrivacy}
+                                <Link
+                                    to={lp('privacy')}
                                     className="text-gray-400 hover:text-purple-400 transition-colors duration-200 text-sm py-1.5 inline-block"
                                 >
                                     {t.footer_privacy}
-                                </button>
+                                </Link>
                             </li>
                             <li>
-                                <button
-                                    onClick={openTerms}
+                                <Link
+                                    to={lp('terms')}
                                     className="text-gray-400 hover:text-purple-400 transition-colors duration-200 text-sm py-1.5 inline-block"
                                 >
                                     {t.footer_terms}
-                                </button>
+                                </Link>
                             </li>
                             <li>
                                 <button

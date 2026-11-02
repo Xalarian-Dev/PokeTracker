@@ -82,7 +82,7 @@ interface CommunityFeedProps {
 }
 
 export const CommunityFeed: React.FC<CommunityFeedProps> = ({ variant = 'compact', limit }) => {
-    const { t, language, getPokemonName, gameVersions } = useLanguage();
+    const { t, language, getPokemonName, gameVersions, lp } = useLanguage();
     const [entries, setEntries] = useState<FeedEntry[]>([]);
     const [loading, setLoading] = useState(true);
     const newIdTimeouts = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
@@ -197,7 +197,7 @@ export const CommunityFeed: React.FC<CommunityFeedProps> = ({ variant = 'compact
                     return (
                         <li key={entry.id}>
                             <Link
-                                to={`/u/${entry.trainer_id}`}
+                                to={lp(`u/${entry.trainer_id}`)}
                                 className={`flex h-full items-center gap-4 rounded-xl border p-4 transition-colors hover:bg-gray-700/60 ${
                                     entry.isNew ? 'bg-yellow-400/10 border-yellow-400/40' : 'bg-gray-800 border-gray-700'
                                 }`}
@@ -255,7 +255,7 @@ export const CommunityFeed: React.FC<CommunityFeedProps> = ({ variant = 'compact
                 return (
                     <Link
                         key={entry.id}
-                        to={`/u/${entry.trainer_id}`}
+                        to={lp(`u/${entry.trainer_id}`)}
                         className={`
                             flex items-center gap-2 p-2 rounded-lg transition-all duration-300 group
                             hover:bg-gray-700/60 cursor-pointer

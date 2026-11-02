@@ -54,3 +54,35 @@ export async function sendCompressed(
     if (req.method === 'HEAD') res.end(); else res.end(body);
     return true;
 }
+
+/**
+ * Envoie un texte déjà en mémoire (page HTML générée), compressé si le navigateur l'accepte.
+ * `cacheKey` identifie le contenu (à changer quand le texte change) ; null = pas de mise en cache.
+ */
+export async function sendCompressedText(
+    req: http.IncomingMessage,
+    res: http.ServerResponse,
+    body: string,
+    cacheKey: string | null,
+): Promise<void> {
+    res.setHeader('Vary', [res.getHeader('Vary'), 'Accept-Encoding'].filter(Boolean).join(', '));
+    const encoding = pickEncoding(req);
+    if (!encoding) {
+        const raw = Buffer.from(body, 'utf8');
+        res.setHeader('Content-Length', raw.length);
+        if (req.method === 'HEAD') res.end(); else res.end(raw);
+        return;
+    }
+    const key = `${encoding}:text:${cacheKey}`;
+    let packed = cacheKey ? cache.get(key) : undefined;
+    if (!packed) {
+        const raw = Buffer.from(body, 'utf8');
+        packed = encoding === 'br'
+            ? await brotli(raw, { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 5 } })
+            : await gzip(raw, { level: 9 });
+        if (cacheKey) cache.set(key, packed);
+    }
+    res.setHeader('Content-Encoding', encoding);
+    res.setHeader('Content-Length', packed.length);
+    if (req.method === 'HEAD') res.end(); else res.end(packed);
+}

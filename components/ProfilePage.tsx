@@ -29,10 +29,10 @@ const Section: React.FC<{ title: string; children: React.ReactNode; className?: 
 
 const ProfilePage: React.FC = () => {
     const navigate = useNavigate();
-    const onBack = () => navigate('/collection');
+    const onBack = () => navigate(lp('collection'));
     const { user } = useUser();
     const { signOut } = useClerk();
-    const { language, setLanguage, t, getGameName } = useLanguage();
+    const { language, setLanguage, t, getGameName, lp } = useLanguage();
     const { toast } = useToast();
     const [selectedLanguage, setSelectedLanguage] = useState<'fr' | 'en' | 'jp' | 'es'>(language);
     const [ownedGames, setOwnedGames] = useState<string[]>([]);
@@ -169,7 +169,7 @@ const ProfilePage: React.FC = () => {
                                     <p className="font-mono font-bold text-yellow-400 text-sm">{trainerId}</p>
                                     <button
                                         onClick={() => {
-                                            navigator.clipboard.writeText(`${window.location.origin}/u/${trainerId}`);
+                                            navigator.clipboard.writeText(`${window.location.origin}${lp(`u/${trainerId}`)}`);
                                             setProfileLinkCopied(true);
                                             setTimeout(() => setProfileLinkCopied(false), 2000);
                                         }}
