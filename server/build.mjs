@@ -15,6 +15,8 @@ await build({
     target: 'node22',
     minify: false,
     sourcemap: false,
+    // les fichiers de traduction partagés avec le site lisent import.meta.env (variable de Vite)
+    define: { 'import.meta.env.PROD': 'true', 'import.meta.env.DEV': 'false' },
     // pg-native est une option facultative de pg (non installée)
     external: ['pg-native'],
     banner: { js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);" },

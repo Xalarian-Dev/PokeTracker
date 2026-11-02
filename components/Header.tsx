@@ -20,14 +20,14 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
 /** En-tête : logo, navigation principale (ordinateur), langue, compte. Sur mobile la navigation est dans la barre du bas. */
 const Header: React.FC<HeaderProps> = ({ trainerId }) => {
   const { user: clerkUser } = useUser();
-  const { t } = useLanguage();
+  const { t, lp } = useLanguage();
 
   return (
     <header className="bg-gray-900/70 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/20 sticky top-0 z-40">
       <div className="w-full mx-auto px-2 md:px-4 lg:px-8 max-w-7xl 2xl:max-w-[1600px]">
         <div className="flex items-center justify-between h-16 gap-2">
           <div className="flex items-center gap-4 min-w-0">
-            <Link to="/" className="flex items-center gap-2 sm:gap-3 shrink-0" aria-label={t('shiny_tracker_title')}>
+            <Link to={lp()} className="flex items-center gap-2 sm:gap-3 shrink-0" aria-label={t('shiny_tracker_title')}>
               <span className="shrink-0 h-6 w-6 sm:h-8 sm:w-8">
                 <MasterBallIcon className="w-full h-full" />
               </span>
@@ -38,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ trainerId }) => {
               <ul className="flex items-center gap-1">
                 {NAV_ITEMS.map(({ to, labelKey, icon: Icon, end }) => (
                   <li key={to}>
-                    <NavLink to={to} end={end} className={navLinkClass} title={t(labelKey)} aria-label={t(labelKey)}>
+                    <NavLink to={lp(to)} end={end} className={navLinkClass} title={t(labelKey)} aria-label={t(labelKey)}>
                       <Icon className="w-4 h-4" aria-hidden="true" />
                       <span className="hidden 2xl:inline">{t(labelKey)}</span>
                     </NavLink>
@@ -72,7 +72,7 @@ const Header: React.FC<HeaderProps> = ({ trainerId }) => {
 
             {clerkUser && (
               <Button asChild variant="secondary" className="hidden md:inline-flex gap-2">
-                <Link to="/profile" title={trainerId ? `${t('profile')} (${t('trainer')}: ${trainerId})` : t('profile')} aria-label={trainerId ? `${t('profile')} (${t('trainer')}: ${trainerId})` : t('profile')}>
+                <Link to={lp('profile')} title={trainerId ? `${t('profile')} (${t('trainer')}: ${trainerId})` : t('profile')} aria-label={trainerId ? `${t('profile')} (${t('trainer')}: ${trainerId})` : t('profile')}>
                   <UserIcon className="w-4 h-4" aria-hidden="true" />
                   <span className="hidden 2xl:inline">{t('profile')}</span>
                 </Link>

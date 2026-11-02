@@ -16,7 +16,7 @@ const TOTAL = POKEMON_LIST.length;
 
 export const PublicProfilePage: React.FC = () => {
     const { trainerId } = useParams<{ trainerId: string }>();
-    const { t, getPokemonName } = useLanguage();
+    const { t, getPokemonName, lp } = useLanguage();
 
     const [profile, setProfile] = useState<PublicProfile | null | 'loading' | 'not_found'>('loading');
     const [copied, setCopied] = useState(false);
@@ -63,7 +63,7 @@ export const PublicProfilePage: React.FC = () => {
                 <MasterBallIcon className="w-16 h-16 opacity-40" />
                 <h1 className="text-2xl font-bold">{t('public_profile_not_found')}</h1>
                 <p className="text-gray-400">{t('public_profile_not_found_desc')}</p>
-                <Link to="/collection" className="mt-4 px-6 py-3 bg-yellow-400 text-gray-900 font-bold rounded-lg hover:bg-yellow-300 transition-colors">
+                <Link to={lp('collection')} className="mt-4 px-6 py-3 bg-yellow-400 text-gray-900 font-bold rounded-lg hover:bg-yellow-300 transition-colors">
                     {t('public_profile_open_tracker')}
                 </Link>
             </div>
@@ -78,7 +78,7 @@ export const PublicProfilePage: React.FC = () => {
             {/* Header */}
             <header className="bg-gray-800/80 backdrop-blur-xs shadow-lg sticky top-0 z-50">
                 <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-                    <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                    <Link to={lp()} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
                         <MasterBallIcon className="w-7 h-7" />
                         <span className="font-bold text-yellow-400 hidden sm:block">{t('shiny_tracker_title')}</span>
                     </Link>
@@ -113,7 +113,7 @@ export const PublicProfilePage: React.FC = () => {
                                 {copied ? t('public_profile_link_copied') : t('public_profile_copy_link')}
                             </button>
                             <Link
-                                to="/collection"
+                                to={lp('collection')}
                                 className="flex items-center gap-2 px-4 py-2 bg-yellow-400/20 hover:bg-yellow-400/30 border border-yellow-400/40 text-yellow-400 rounded-lg text-sm transition-colors"
                             >
                                 {t('public_profile_open_tracker')}

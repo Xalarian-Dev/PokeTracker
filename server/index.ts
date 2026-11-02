@@ -4,7 +4,9 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { pool } from './pg-shim';
-import { sendCompressed } from './compress';
+import { sendCompressed, sendCompressedText } from './compress';
+import { renderPage } from './pages';
+import { isKnownPage, languageFromAcceptHeader, languageFromCookie, localePath, splitLangPath, trimSlashes } from '../utils/langRoutes';
 import { serveSprite } from './sprites';
 
 import shinies from '../api/shinies';
@@ -28,13 +30,6 @@ const ROUTES: Record<string, Handler> = {
     '/api/trainer-id': trainerId,
     '/api/user-data': userData,
     '/api/public/feed': publicFeed,
-};
-
-/** Pages de l'application (React Router) : toute autre adresse sans extension répond 404 */
-const APP_ROUTES = new Set(['/', '/collection', '/stats', '/communaute', '/chasse', '/profile']);
-const isAppRoute = (pathname: string) => {
-    const p = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname;
-    return APP_ROUTES.has(p) || /^\/u\/[^/]+$/.test(p); // /u/<identifiant de dresseur>
 };
 
 const MIME: Record<string, string> = {
@@ -131,18 +126,57 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse, ur
     }
 }
 
+/**
+ * Pages du site (adresses sans extension) : /fr/…, /en/…, /es/…, /jp/…
+ * - « / » et les anciennes adresses sans langue (/collection…) : redirection vers la langue du visiteur
+ *   (cookie de son dernier choix, sinon langue du navigateur, sinon anglais) ;
+ * - une page connue dans une langue : HTML complet (balises, contenu) généré pour cette langue ;
+ * - toute autre adresse : page « introuvable » avec le statut 404.
+ * Renvoie false quand l'adresse n'est pas une page (fichier statique à servir).
+ */
+async function servePage(req: http.IncomingMessage, res: http.ServerResponse, url: URL): Promise<boolean> {
+    if (path.extname(url.pathname)) return false;
+
+    const { lang, rest } = splitLangPath(url.pathname);
+    const preferred = () => languageFromCookie(req.headers.cookie) ?? languageFromAcceptHeader(String(req.headers['accept-language'] || ''));
+    const redirect = (status: number, target: string) => {
+        res.statusCode = status;
+        res.setHeader('Location', `${target}${url.search}`);
+        res.setHeader('Vary', 'Accept-Language, Cookie');
+        res.setHeader('Cache-Control', status === 301 ? 'public, max-age=3600' : 'private, no-cache');
+        res.end();
+        return true;
+    };
+
+    // adresse normalisée : /fr/collection/ → /fr/collection, /fr → /fr/
+    const normalized = lang ? localePath(lang, rest) : trimSlashes(url.pathname);
+    if (lang && url.pathname !== normalized) return redirect(301, normalized);
+
+    // sans langue : on redirige les pages connues ; le reste est une page introuvable
+    if (!lang) {
+        if (isKnownPage(rest)) return redirect(302, localePath(preferred(), rest));
+    }
+
+    const pageLang = lang ?? preferred();
+    const known = Boolean(lang) && isKnownPage(rest);
+    const page = renderPage(STATIC_DIR, pageLang, known ? rest : '', !known);
+    if (!page) { res.statusCode = 404; res.end('Not found'); return true; }
+
+    res.statusCode = known ? 200 : 404;
+    res.setHeader('Content-Type', MIME['.html']);
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    if (!lang) res.setHeader('Vary', 'Accept-Language, Cookie');
+    await sendCompressedText(req, res, page.html, page.cacheKey);
+    return true;
+}
+
 async function serveStatic(req: http.IncomingMessage, res: http.ServerResponse, url: URL) {
     let file = path.join(STATIC_DIR, path.normalize(decodeURIComponent(url.pathname)));
     // pas de sortie du dossier statique
     if (!file.startsWith(STATIC_DIR)) { res.statusCode = 403; return res.end('Forbidden'); }
     let stat = fs.existsSync(file) ? fs.statSync(file) : null;
     if (stat?.isDirectory()) { file = path.join(file, 'index.html'); stat = fs.existsSync(file) ? fs.statSync(file) : null; }
-    // adresse du site (React Router) : on renvoie l'application ; pour une adresse qui n'existe pas,
-    // le statut est 404 (l'application affiche sa page « introuvable ») et non un faux 200
-    if (!stat && !path.extname(url.pathname)) {
-        file = path.join(STATIC_DIR, 'index.html'); stat = fs.existsSync(file) ? fs.statSync(file) : null;
-        if (!isAppRoute(url.pathname)) res.statusCode = 404;
-    }
     if (!stat) { res.statusCode = 404; return res.end('Not found'); }
 
     const ext = path.extname(file).toLowerCase();
@@ -182,6 +216,7 @@ const server = http.createServer(async (req, res) => {
         }
         if (url.pathname.startsWith('/api/')) return await handleApi(req, res, url);
         if (await serveSprite(req, res, url.pathname)) return;
+        if (await servePage(req, res, url)) return;
         return await serveStatic(req, res, url);
     } catch (error) {
         console.error('Server error:', error);

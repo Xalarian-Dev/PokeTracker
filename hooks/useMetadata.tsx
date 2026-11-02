@@ -1,31 +1,11 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
+import { HTML_LANG, LANGS, OG_LOCALE, SITE_URL, localePath, splitLangPath } from '../utils/langRoutes';
+import { SEO_PAGES, isLegalPage, legalSeo } from '../utils/seoPages';
+import { getGdprTranslations } from '../i18n/gdpr-index';
 
-/** Adresse officielle du site (domaine sans www) : base des adresses canoniques et de l'image de partage */
-export const SITE_URL = 'https://pokemonshinytracker.com';
 const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
-
-interface PageKeys {
-    title: string;
-    description: string;
-    /** Textes dédiés aux aperçus de partage (sinon : titre et description de la page) */
-    ogTitle?: string;
-    ogDescription?: string;
-    twitterDescription?: string;
-    /** Page privée ou sans intérêt pour la recherche */
-    noindex?: boolean;
-}
-
-/** Textes (clés de traduction) de chaque page de l'application */
-const PAGES: Record<string, PageKeys> = {
-    '/': { title: 'seo_title', description: 'seo_description', ogTitle: 'seo_og_title', ogDescription: 'seo_og_description', twitterDescription: 'seo_twitter_description' },
-    '/collection': { title: 'seo_collection_title', description: 'seo_collection_description' },
-    '/stats': { title: 'seo_stats_title', description: 'seo_stats_description' },
-    '/communaute': { title: 'seo_community_title', description: 'seo_community_description' },
-    '/chasse': { title: 'seo_hunt_title', description: 'seo_hunt_description' },
-    '/profile': { title: 'seo_title', description: 'seo_description', noindex: true },
-};
 
 interface MetadataConfig {
     /** Remplace le titre et la description de la page (ex. profil public) */
@@ -34,9 +14,6 @@ interface MetadataConfig {
     /** Force « noindex » (ex. dresseur introuvable) */
     noindex?: boolean;
 }
-
-const LANG_MAP: Record<string, string> = { fr: 'fr', en: 'en', jp: 'ja', es: 'es' };
-const LOCALE_MAP: Record<string, string> = { ja: 'ja_JP', fr: 'fr_FR', es: 'es_ES', en: 'en_US' };
 
 function setMeta(attribute: 'name' | 'property', key: string, content: string) {
     let meta = document.querySelector(`meta[${attribute}="${key}"]`);
@@ -56,19 +33,20 @@ export const useMetadata = (config: MetadataConfig = {}) => {
     const { t, language } = useLanguage();
     const { pathname } = useLocation();
 
-    // /collection/ et /collection sont la même page
-    const path = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname;
-    const isProfile = path.startsWith('/u/');
-    const page = PAGES[path] ?? (isProfile ? PAGES['/'] : undefined);
+    // /fr/collection/ et /fr/collection sont la même page ; « rest » = la page sans le préfixe de langue
+    const { rest } = splitLangPath(pathname);
+    const isProfile = rest.startsWith('u/');
+    const page = SEO_PAGES[rest] ?? (isProfile ? SEO_PAGES[''] : undefined);
     const unknown = !page;
-    const key = page ?? PAGES['/'];
+    const key = page ?? SEO_PAGES[''];
     const noindex = Boolean(config.noindex) || Boolean(key.noindex) || unknown;
 
     useEffect(() => {
-        const title = config.title ?? t(unknown ? 'not_found_title' : key.title);
-        const description = config.description ?? t(key.description);
-        const canonicalUrl = `${SITE_URL}${path}`;
-        const htmlLang = LANG_MAP[language] || 'en';
+        const legal = isLegalPage(rest) ? legalSeo(rest, getGdprTranslations(language) as unknown as Record<string, string>) : null;
+        const title = config.title ?? legal?.title ?? t(unknown ? 'not_found_title' : key.title);
+        const description = config.description ?? legal?.description ?? t(key.description);
+        const canonicalUrl = `${SITE_URL}${localePath(language, rest)}`;
+        const htmlLang = HTML_LANG[language] || 'en';
 
         document.title = title;
         document.documentElement.setAttribute('lang', htmlLang);
@@ -79,18 +57,18 @@ export const useMetadata = (config: MetadataConfig = {}) => {
         // Aperçus de partage
         setMeta('property', 'og:type', 'website');
         setMeta('property', 'og:url', canonicalUrl);
-        setMeta('property', 'og:title', config.title ?? t(key.ogTitle ?? key.title));
-        setMeta('property', 'og:description', config.description ?? t(key.ogDescription ?? key.description));
+        setMeta('property', 'og:title', config.title ?? legal?.title ?? t(key.ogTitle ?? key.title));
+        setMeta('property', 'og:description', config.description ?? legal?.description ?? t(key.ogDescription ?? key.description));
         setMeta('property', 'og:image', OG_IMAGE);
         setMeta('property', 'og:site_name', t('seo_app_name'));
-        setMeta('property', 'og:locale', LOCALE_MAP[htmlLang] || 'en_US');
+        setMeta('property', 'og:locale', OG_LOCALE[language] || 'en_US');
         setMeta('name', 'twitter:card', 'summary_large_image');
         setMeta('name', 'twitter:url', canonicalUrl);
-        setMeta('name', 'twitter:title', config.title ?? t(key.ogTitle ?? key.title));
-        setMeta('name', 'twitter:description', config.description ?? t(key.twitterDescription ?? key.description));
+        setMeta('name', 'twitter:title', config.title ?? legal?.title ?? t(key.ogTitle ?? key.title));
+        setMeta('name', 'twitter:description', config.description ?? legal?.description ?? t(key.twitterDescription ?? key.description));
         setMeta('name', 'twitter:image', OG_IMAGE);
 
-        // Adresse canonique : celle de la page elle-même
+        // Adresse canonique : celle de la page elle-même, dans la langue courante
         let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
         if (!canonical) {
             canonical = document.createElement('link');
@@ -99,10 +77,24 @@ export const useMetadata = (config: MetadataConfig = {}) => {
         }
         canonical.setAttribute('href', canonicalUrl);
 
+        // Versions de la page dans les autres langues (hreflang), pour les pages indexables
+        document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(node => node.remove());
+        if (!noindex) {
+            const addAlternate = (hreflang: string, href: string) => {
+                const link = document.createElement('link');
+                link.setAttribute('rel', 'alternate');
+                link.setAttribute('hreflang', hreflang);
+                link.setAttribute('href', href);
+                document.head.appendChild(link);
+            };
+            for (const lang of LANGS) addAlternate(HTML_LANG[lang], `${SITE_URL}${localePath(lang, rest)}`);
+            addAlternate('x-default', `${SITE_URL}${localePath('en', rest)}`);
+        }
+
         // Données structurées de l'application : page d'accueil uniquement. Le bloc « WebSite » du
         // HTML d'origine n'est jamais modifié.
         let app = document.getElementById('ld-webapp');
-        if (path === '/') {
+        if (rest === '') {
             if (!app) {
                 app = document.createElement('script');
                 app.id = 'ld-webapp';
@@ -114,15 +106,15 @@ export const useMetadata = (config: MetadataConfig = {}) => {
                 '@type': 'WebApplication',
                 name: t('seo_app_name'),
                 description,
-                url: `${SITE_URL}/`,
+                url: canonicalUrl,
                 applicationCategory: 'GameApplication',
                 operatingSystem: 'Web Browser',
                 browserRequirements: 'Requires JavaScript. Requires HTML5.',
                 offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
-                inLanguage: ['fr', 'en', 'ja', 'es'],
+                inLanguage: LANGS.map(lang => HTML_LANG[lang]),
             });
         } else if (app) {
             app.remove();
         }
-    }, [language, t, path, config.title, config.description, noindex, unknown, key]);
+    }, [language, t, rest, config.title, config.description, noindex, unknown, key]);
 };

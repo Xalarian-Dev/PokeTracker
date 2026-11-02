@@ -1,10 +1,10 @@
-import React, { createContext, useState, useContext, useEffect, useMemo } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useCallback } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { LANGS, LANG_COOKIE, localePath, splitLangPath, type Language } from '../utils/langRoutes';
 import * as frTranslations from '../i18n/fr';
 import * as enTranslations from '../i18n/en';
 import * as jpTranslations from '../i18n/jp';
 import * as esTranslations from '../i18n/es';
-
-type Language = 'fr' | 'en' | 'jp' | 'es';
 
 interface TranslationModule {
   ui: typeof frTranslations.ui;
@@ -28,39 +28,50 @@ interface LanguageContextType {
   getGameName: (id: string) => string;
   getGameList: () => Record<string, string>;
   getRegionName: (id: string) => string;
+  /** Adresse d'une page dans la langue courante : lp('collection') → /fr/collection */
+  lp: (rest?: string) => string;
   gameVersions: Record<string, string>;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+/** Langue mémorisée (choix précédent), sinon langue du navigateur, sinon anglais */
+export const detectLanguage = (): Language => {
+  try {
+    const stored = localStorage.getItem('shinyTrackerLang');
+    if ((LANGS as readonly string[]).includes(stored ?? '')) return stored as Language;
+  } catch { /* stockage indisponible */ }
+  const browserLang = (typeof navigator !== 'undefined' ? navigator.language : '').toLowerCase();
+  if (browserLang.startsWith('fr')) return 'fr';
+  if (browserLang.startsWith('ja')) return 'jp';
+  if (browserLang.startsWith('es')) return 'es';
+  return 'en';
+};
+
+/**
+ * La langue vient de l'adresse (/fr/…, /en/…, /es/…, /jp/…). Changer de langue change l'adresse
+ * sans recharger la page. Sans préfixe (ancienne adresse), on prend le choix mémorisé puis la langue
+ * du navigateur : le routeur redirige alors vers l'adresse avec préfixe.
+ */
 export const LanguageProvider = ({ children }: React.PropsWithChildren) => {
-  const [language, setLanguage] = useState<Language>(() => {
-    // 1. Check local storage
-    const storedLang = localStorage.getItem('shinyTrackerLang');
-    if (storedLang === 'fr' || storedLang === 'en' || storedLang === 'jp' || storedLang === 'es') {
-      return storedLang as Language;
-    }
+  const { pathname, search, hash } = useLocation();
+  const navigate = useNavigate();
+  const { lang: urlLang, rest } = splitLangPath(pathname);
+  const language: Language = urlLang ?? detectLanguage();
 
-    // 2. Check browser language
-    const browserLang = navigator.language.toLowerCase();
-    if (browserLang.startsWith('fr')) {
-      return 'fr';
-    }
-    if (browserLang.startsWith('ja')) {
-      return 'jp';
-    }
-    if (browserLang.startsWith('es')) {
-      return 'es';
-    }
+  // Mémorise la langue en cours : localStorage (appareil) et cookie (lu par le serveur sur « / »)
+  useEffect(() => {
+    if (!urlLang) return;
+    try { localStorage.setItem('shinyTrackerLang', urlLang); } catch { /* ignoré */ }
+    document.cookie = `${LANG_COOKIE}=${urlLang}; Path=/; Max-Age=31536000; SameSite=Lax${location.protocol === 'https:' ? '; Secure' : ''}`;
+  }, [urlLang]);
 
-    // 3. Default
-    return 'en';
-  });
+  const handleSetLanguage = useCallback((lang: Language) => {
+    if (lang === language && urlLang) return;
+    navigate(`${localePath(lang, rest)}${search}${hash}`);
+  }, [language, urlLang, rest, search, hash, navigate]);
 
-  const handleSetLanguage = (lang: Language) => {
-    setLanguage(lang);
-    localStorage.setItem('shinyTrackerLang', lang);
-  };
+  const lp = useCallback((page = '') => localePath(language, page), [language]);
 
   const t = (key: string, replacements?: Record<string, string | number>): string => {
     const resolve = (ui: Record<string, unknown>, path: string): string => {
@@ -120,8 +131,9 @@ export const LanguageProvider = ({ children }: React.PropsWithChildren) => {
     getGameName,
     getGameList,
     getRegionName,
+    lp,
     gameVersions,
-  }), [language, t, gameVersions]);
+  }), [language, t, gameVersions, lp, handleSetLanguage]);
 
   return (
     <LanguageContext.Provider value={contextValue}>

@@ -12,7 +12,7 @@ const itemClass = (active: boolean) =>
 
 /** Barre de navigation du bas, visible sur mobile uniquement (5 entrées) */
 const BottomNav: React.FC = () => {
-    const { t } = useLanguage();
+    const { t, lp } = useLanguage();
     const { user } = useUser();
 
     return (
@@ -24,7 +24,7 @@ const BottomNav: React.FC = () => {
             <ul className="grid grid-cols-5">
                 {NAV_ITEMS.map(({ to, labelKey, icon: Icon, end }) => (
                     <li key={to}>
-                        <NavLink to={to} end={end} className={({ isActive }) => itemClass(isActive)}>
+                        <NavLink to={lp(to)} end={end} className={({ isActive }) => itemClass(isActive)}>
                             <Icon className="w-5 h-5" aria-hidden="true" />
                             <span className="truncate max-w-full px-0.5">{t(labelKey)}</span>
                         </NavLink>
@@ -32,7 +32,7 @@ const BottomNav: React.FC = () => {
                 ))}
                 <li>
                     {user ? (
-                        <NavLink to="/profile" className={({ isActive }) => itemClass(isActive)}>
+                        <NavLink to={lp('profile')} className={({ isActive }) => itemClass(isActive)}>
                             <UserIcon className="w-5 h-5" aria-hidden="true" />
                             <span>{t('profile')}</span>
                         </NavLink>
