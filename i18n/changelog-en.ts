@@ -50,6 +50,16 @@ const changelogEN_juin2026: ChangeLogEntry = {
 export const changelogEN: ChangeLogEntry[] = [
     {
         title: "What's New",
+        date: "November 20, 2026",
+        sectionTitle: "Mobile Display",
+        features: "Fixes & Improvements",
+        featuresList: [
+            "Collection on mobile: for Pokémon with several forms, the “+” button and the form counter now sit at the top of the card. The name and number are no longer hidden",
+        ],
+        close: "Close"
+    },
+    {
+        title: "What's New",
         date: "November 1, 2026",
         sectionTitle: "New Address, New Look & Hunt Page",
         features: "New Features",

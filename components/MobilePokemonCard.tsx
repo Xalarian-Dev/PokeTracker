@@ -76,18 +76,29 @@ const MobilePokemonCard: React.FC<MobilePokemonCardProps> = ({
                 title={isShiny && captureTitle ? captureTitle : undefined}
                 onClick={() => onToggleShiny(pokemon.id)}
             >
+                {/* Étoile shiny : à gauche du « + » quand la carte a plusieurs formes, pour ne pas le chevaucher */}
                 {isShiny && (
-                    <div className="absolute top-0.5 right-0.5 text-amber-400">
+                    <div className={`absolute top-0.5 ${hasMultipleForms ? 'right-7' : 'right-0.5'} text-amber-400`}>
                         <SparklesIcon className="w-3 h-3" />
                     </div>
                 )}
 
                 {/* Icônes d'information (verrou shiny, DLC, événement…) — la légende détaille chacune */}
-                {shownBadges.length > 0 && (
-                    <div className="absolute top-0.5 left-0.5 flex gap-0.5">
-                        {shownBadges.map(b => (
-                            <BadgeIcon key={b.key} badge={b} label={badgeLabel(b)} className="w-3.5 h-3.5" />
-                        ))}
+                {/* Compteur de formes (« 0/2 ») : en haut à gauche, sous les icônes, pour ne pas cacher le nom */}
+                {(shownBadges.length > 0 || (hasMultipleForms && formCounter)) && (
+                    <div className="absolute top-0.5 left-0.5 flex flex-col items-start gap-0.5">
+                        {shownBadges.length > 0 && (
+                            <div className="flex gap-0.5">
+                                {shownBadges.map(b => (
+                                    <BadgeIcon key={b.key} badge={b} label={badgeLabel(b)} className="w-3.5 h-3.5" />
+                                ))}
+                            </div>
+                        )}
+                        {hasMultipleForms && formCounter && (
+                            <div className="bg-black/70 text-white px-0.5 rounded text-xs font-bold leading-tight">
+                                {formCounter}
+                            </div>
+                        )}
                     </div>
                 )}
 
@@ -108,22 +119,17 @@ const MobilePokemonCard: React.FC<MobilePokemonCardProps> = ({
                     <p className="text-xs text-gray-400 leading-tight">{formattedId}</p>
                 </div>
 
-                {/* Bouton « + » formes (zone de toucher de 40 px, pastille visible de 24 px) */}
+                {/* Bouton « + » formes, en haut à droite (zone de toucher de 40 px, pastille visible de 24 px) */}
                 {hasMultipleForms && (
                     <button
                         onClick={handlePlusClick}
-                        className="absolute bottom-0 right-0 w-10 h-10 flex items-center justify-center z-10"
+                        className="absolute top-0 right-0 w-10 h-10 flex items-start justify-end p-0.5 z-10"
                         aria-label={`${pokemon.name} forms`}
                     >
                         <span className="bg-amber-400 text-gray-900 w-6 h-6 rounded-full flex items-center justify-center font-bold text-sm shadow-sm leading-none">+</span>
                     </button>
                 )}
 
-                {hasMultipleForms && formCounter && (
-                    <div className="absolute bottom-0.5 left-0.5 bg-black/70 text-white px-0.5 rounded text-xs font-bold leading-tight">
-                        {formCounter}
-                    </div>
-                )}
             </div>
 
             {hasMultipleForms && multiFormData && (

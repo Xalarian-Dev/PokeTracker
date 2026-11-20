@@ -39,6 +39,16 @@ const changelogJP_juin2026: ChangeLogEntry = {
 export const changelogJP: ChangeLogEntry[] = [
     {
         title: "更新履歴",
+        date: "2026年11月20日",
+        sectionTitle: "モバイル表示",
+        features: "修正と改善",
+        featuresList: [
+            "モバイルのコレクション：複数のフォルムを持つポケモンで、「＋」ボタンとフォルム数のカウンターをカードの上部に移動しました。名前と番号が隠れなくなりました",
+        ],
+        close: "閉じる"
+    },
+    {
+        title: "更新履歴",
         date: "2026年11月1日",
         sectionTitle: "新アドレス・新デザイン・ハントページ",
         features: "新機能",
