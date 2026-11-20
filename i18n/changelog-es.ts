@@ -39,6 +39,16 @@ const changelogES_juin2026: ChangeLogEntry = {
 export const changelogES: ChangeLogEntry[] = [
     {
         title: "Novedades",
+        date: "20 de noviembre de 2026",
+        sectionTitle: "Visualización en móvil",
+        features: "Correcciones y mejoras",
+        featuresList: [
+            "Colección en móvil: en los Pokémon con varias formas, el botón «+» y el contador de formas están ahora en la parte superior de la tarjeta. El nombre y el número ya no quedan ocultos",
+        ],
+        close: "Cerrar"
+    },
+    {
+        title: "Novedades",
         date: "1 de noviembre de 2026",
         sectionTitle: "Nueva dirección, nuevo aspecto y página Caza",
         features: "Nuevas funcionalidades",
