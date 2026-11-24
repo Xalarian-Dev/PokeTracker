@@ -29,7 +29,6 @@
   "exclude": [
     "node_modules",
     "dist",
-    "dist-server",
-    "server"
+    "dist-server"
   ]
 }

@@ -15,9 +15,9 @@ ARG VITE_CLERK_PUBLISHABLE_KEY
 ENV VITE_CLERK_PUBLISHABLE_KEY=$VITE_CLERK_PUBLISHABLE_KEY
 RUN npm run build
 
-# Le serveur a besoin de « pg » et d'« esbuild » : ajoutés ici sans modifier package.json
-# (le déploiement Vercel + Supabase reste inchangé).
-RUN npm install --no-save esbuild pg && node server/build.mjs
+# Le serveur (server/) : « pg » et « esbuild » sont installés par « npm ci » ci-dessus,
+# à la version figée dans package-lock.json.
+RUN node server/build.mjs
 
 # --- Étape 2 : image finale, légère ----------------------------------------------------------
 FROM node:22-alpine AS runtime
