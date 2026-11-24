@@ -16,7 +16,9 @@ A modern, cloud-based Pokémon Shiny Tracker built with React, Clerk, and Supaba
 - ✅ **Trainer ID & Public Profile** - Each player can get a trainer ID and share a public profile page (`/u/<trainer-id>`)
 - ✅ **Community Feed** - Public feed of the latest shinies caught by players
 - ✅ **Advanced Filters** - By generation, region, game, and more
-- ✅ **Random Hunt** - Get random Pokémon suggestions for your next hunt
+- ✅ **Hunt page** (`/fr/chasse`, one path per language) - Pick a target (random draw or search by name/number), choose the game, count encounters (− / + buttons, direct input, keyboard shortcuts) and press "Captured!" to save the shiny with its game and encounter count
+- ✅ **Statistics** (`/fr/stats`) - Collection statistics
+- ✅ **What's new** - A changelog window shown in the app
 - ✅ **Dark Theme** - Easy on the eyes during long hunting sessions
 - ✅ **Responsive Design** - Works on desktop and mobile
 
@@ -27,8 +29,8 @@ A modern, cloud-based Pokémon Shiny Tracker built with React, Clerk, and Supaba
 - **Frontend:** React + TypeScript + Vite
 - **Styling:** Tailwind CSS
 - **Authentication:** Clerk
-- **Database:** Supabase (PostgreSQL)
-- **Deployment:** Vercel
+- **Database:** PostgreSQL 16 in Docker (production). Supabase (PostgreSQL) is the former database: it is no longer connected to the production site
+- **Deployment:** Docker Compose on a private server (production); Vercel only builds the previews of pull requests (see "Deployment")
 - **Real-time:** Supabase Realtime, used only for the community feed (the live sync of a player's own shinies is disabled)
 
 ---
@@ -75,6 +77,8 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 CLERK_SECRET_KEY=your_clerk_secret_key
 ```
 
+For the Docker install, the variables are different (names only, never commit values): see `.env.docker.example` and the "Deployment" section.
+
 ---
 
 ## Security Architecture
@@ -107,14 +111,31 @@ CLERK_SECRET_KEY=your_clerk_secret_key
 - The current structure of the Supabase database is in `supabase/migrations/20261017000000_baseline_schema.sql` (state of 2026-10-17, **already applied: do not re-run it**).
 - The old loose scripts are archived in `supabase/legacy/` (history only; they may not match the database).
 - To change the database, add one new numbered file in `supabase/migrations/` (e.g. `20261101000000_my_change.sql`), larger than the last one, wrapped in `begin;` / `commit;`.
+- **One migration = two files to keep up to date**: the new file in `supabase/migrations/` **and** the startup schema `docker/db/init/01-schema.sql` (Docker install). The Docker schema is only applied the very first time, on an empty database; forgetting it means a new install would start from an outdated schema. On the running production database, the new file is applied by hand (see [`docker/README.md`](docker/README.md)).
 
 ---
 
 ## Deployment
 
-Deployed on Vercel with automatic CI/CD from GitHub.
+**Production runs only on a private server, with Docker Compose** (`Dockerfile`, `docker-compose.yml`): an `app` service (the site, the same `api/*` code, plus `server/`) and a `db` service (PostgreSQL 16). How to install, start and update it: [`docker/README.md`](docker/README.md).
 
 **Production URL:** https://pokemonshinytracker.com/
+
+- **Vercel** is only used for the **previews of pull requests** (a test version of each PR). It does not serve the production site.
+- **Supabase** is the **former database**. It is no longer connected to the production site. The `api/_lib/supabase.ts` code is still used by the Vercel previews; in the Docker image, `server/pg-shim.ts` replaces it.
+
+### Docker install: environment variables
+
+Names only (values go in a `.env` file copied from `.env.docker.example`, never committed):
+
+| Variable | Use |
+|---|---|
+| `DB_USER`, `DB_PASSWORD`, `DB_NAME` | PostgreSQL user, password and database name (the password is letters and digits only) |
+| `VITE_CLERK_PUBLISHABLE_KEY` | Clerk public key, built into the site |
+| `CLERK_SECRET_KEY` | Clerk secret key, server only |
+| `DATABASE_URL` | Connection string to the database, built by `docker-compose.yml` from the `DB_*` variables |
+| `CANONICAL_HOST` | Official domain: `www.<domain>` is redirected to it (optional, see `server/index.ts`) |
+| `PG_POOL_MAX` | Maximum database connections of the server (optional, default 10) |
 
 ### Deploy Your Own
 
@@ -162,7 +183,7 @@ Tables:
 
 ### Phase 3 : Scaling (Si succès)
 
-- [ ] SEO optimisé
+- [x] SEO optimisé (balises par page, sitemap, pages par langue, voir les PR #69, #70 et #75)
 - [ ] Analytics avancées
 - [ ] Rate limiting
 - [ ] CDN pour sprites
@@ -204,8 +225,12 @@ PokeTracker/
 ├── i18n/          (traductions)
 ├── public/        (fichiers statiques: icônes, sitemap, assets)
 ├── scripts/       (scripts utilitaires de maintenance)
+├── server/        (serveur de l'image Docker : sert le site et les routes api/, remplace api/_lib/supabase.ts par pg-shim.ts)
+├── docker/        (guide Docker et schéma de démarrage de la base)
+├── supabase/      (migrations de la base Supabase)
 ├── services/      (API client layer)
 ├── supabase_*.sql (scripts de base de données, voir Database Schema)
+├── Dockerfile, docker-compose.yml (installation sur serveur privé)
 ├── App.tsx        (composant principal)
 ├── index.tsx      (point d'entrée)
 └── index.html     (HTML)
