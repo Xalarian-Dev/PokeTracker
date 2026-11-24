@@ -16,8 +16,8 @@ A modern, cloud-based Pokémon Shiny Tracker built with React, Clerk, and Supaba
 - ✅ **Trainer ID & Public Profile** - Each player can get a trainer ID and share a public profile page (`/u/<trainer-id>`)
 - ✅ **Community Feed** - Public feed of the latest shinies caught by players
 - ✅ **Advanced Filters** - By generation, region, game, and more
-- ✅ **Hunt page** (`/chasse`) - Pick a target (random draw or search by name/number), choose the game, count encounters (− / + buttons, direct input, keyboard shortcuts) and press "Captured!" to save the shiny with its game and encounter count
-- ✅ **Statistics** (`/stats`) - Collection statistics
+- ✅ **Hunt page** (`/fr/chasse`, one path per language) - Pick a target (random draw or search by name/number), choose the game, count encounters (− / + buttons, direct input, keyboard shortcuts) and press "Captured!" to save the shiny with its game and encounter count
+- ✅ **Statistics** (`/fr/stats`) - Collection statistics
 - ✅ **What's new** - A changelog window shown in the app
 - ✅ **Dark Theme** - Easy on the eyes during long hunting sessions
 - ✅ **Responsive Design** - Works on desktop and mobile
@@ -29,8 +29,8 @@ A modern, cloud-based Pokémon Shiny Tracker built with React, Clerk, and Supaba
 - **Frontend:** React + TypeScript + Vite
 - **Styling:** Tailwind CSS
 - **Authentication:** Clerk
-- **Database:** Supabase (PostgreSQL)
-- **Deployment:** Vercel + Supabase, or a Docker Compose install on a private server (see "Deployment")
+- **Database:** PostgreSQL 16 in Docker (production). Supabase (PostgreSQL) is the former database: it is no longer connected to the production site
+- **Deployment:** Docker Compose on a private server (production); Vercel only builds the previews of pull requests (see "Deployment")
 - **Real-time:** Supabase Realtime, used only for the community feed (the live sync of a player's own shinies is disabled)
 
 ---
@@ -111,20 +111,18 @@ For the Docker install, the variables are different (names only, never commit va
 - The current structure of the Supabase database is in `supabase/migrations/20261017000000_baseline_schema.sql` (state of 2026-10-17, **already applied: do not re-run it**).
 - The old loose scripts are archived in `supabase/legacy/` (history only; they may not match the database).
 - To change the database, add one new numbered file in `supabase/migrations/` (e.g. `20261101000000_my_change.sql`), larger than the last one, wrapped in `begin;` / `commit;`.
-- **One migration = two files to keep up to date**: the new file in `supabase/migrations/` (Supabase) **and** the startup schema `docker/db/init/01-schema.sql` (Docker install). The Docker schema is only applied the very first time, on an empty database; forgetting it makes the two databases diverge.
+- **One migration = two files to keep up to date**: the new file in `supabase/migrations/` **and** the startup schema `docker/db/init/01-schema.sql` (Docker install). The Docker schema is only applied the very first time, on an empty database; forgetting it means a new install would start from an outdated schema. On the running production database, the new file is applied by hand (see [`docker/README.md`](docker/README.md)).
 
 ---
 
 ## Deployment
 
-The repository contains **two ways to host the site**:
-
-1. **Vercel + Supabase** (serverless functions in `api/`, database on Supabase), with automatic CI/CD from GitHub.
-2. **Docker Compose on a private server** (`Dockerfile`, `docker-compose.yml`): an `app` service (the site, the same `api/*` code, plus `server/`) and a `db` service (PostgreSQL 16). Full guide: [`docker/README.md`](docker/README.md).
+**Production runs only on a private server, with Docker Compose** (`Dockerfile`, `docker-compose.yml`): an `app` service (the site, the same `api/*` code, plus `server/`) and a `db` service (PostgreSQL 16). How to install, start and update it: [`docker/README.md`](docker/README.md).
 
 **Production URL:** https://pokemonshinytracker.com/
 
-> **To be confirmed by the owner:** which of the two is the production today. The legal pages mention an OVH server, which fits the Docker install, but this README cannot tell for sure.
+- **Vercel** is only used for the **previews of pull requests** (a test version of each PR). It does not serve the production site.
+- **Supabase** is the **former database**. It is no longer connected to the production site. The `api/_lib/supabase.ts` code is still used by the Vercel previews; in the Docker image, `server/pg-shim.ts` replaces it.
 
 ### Docker install: environment variables
 
