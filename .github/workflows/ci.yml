@@ -18,3 +18,5 @@ jobs:
         run: npx tsc --noEmit
       - name: Build
         run: npm run build
+      - name: Build du serveur Docker
+        run: node server/build.mjs
